@@ -1,6 +1,6 @@
 package ua.com.company.entity;
 
-public class UserPublication  extends BaseEntity{
+public class CustomerPublication extends BaseEntity{
   private   int userId;
     private  int publicationId;
 

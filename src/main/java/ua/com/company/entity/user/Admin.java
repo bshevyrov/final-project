@@ -9,4 +9,10 @@ public class Admin extends UserEntity {
         setEnabled(true);
         setRoleType(RoleType.ROLE_ADMIN);
     }
+
+    @Override
+    public String toString() {
+        return "Admin{" + super.toString()+
+                '}';
+    }
 }

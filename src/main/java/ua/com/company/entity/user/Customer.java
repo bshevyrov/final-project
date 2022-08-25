@@ -2,12 +2,12 @@ package ua.com.company.entity.user;
 
 import ua.com.company.type.RoleType;
 
-public class User extends UserEntity {
+public class Customer extends UserEntity {
     private String firstName;
     private String lastName;
     private double funds;
 
-    public User() {
+    public Customer() {
         super();
         setEnabled(true);
         setRoleType(RoleType.ROLE_USER);

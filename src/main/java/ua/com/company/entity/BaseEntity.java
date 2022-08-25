@@ -33,4 +33,11 @@ public abstract class BaseEntity {
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
+
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate;
+    }
 }

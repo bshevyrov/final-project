@@ -44,4 +44,13 @@ public abstract class UserEntity extends BaseEntity {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "roleType=" + roleType +
+                ", Email='" + Email +
+                //", password='" + password +
+                ", enabled=" + enabled;
+    }
 }
