@@ -10,7 +10,7 @@ public class Customer extends UserEntity {
     public Customer() {
         super();
         setEnabled(true);
-        setRoleType(RoleType.ROLE_USER);
+        setRoleType(RoleType.ROLE_CUSTOMER);
     }
 
     public String getFirstName() {
