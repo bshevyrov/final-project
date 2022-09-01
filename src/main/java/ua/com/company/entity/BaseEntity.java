@@ -1,6 +1,7 @@
 package ua.com.company.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public abstract class BaseEntity {
     private int id;
@@ -18,19 +19,19 @@ public abstract class BaseEntity {
         this.id = id;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
-    public Date getUpdateDate() {
+    public Timestamp getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(Timestamp updateDate) {
         this.updateDate = updateDate;
     }
 
