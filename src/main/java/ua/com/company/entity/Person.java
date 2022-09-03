@@ -89,4 +89,18 @@ public class Person extends BaseEntity{
 
     public Person() {
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", status=" + status +
+                ", role=" + role +
+                ", funds=" + funds +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", publications=" + publications +
+                '}';
+    }
 }
