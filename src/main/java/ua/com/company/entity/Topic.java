@@ -1,8 +1,6 @@
 package ua.com.company.entity;
 
-import java.sql.Timestamp;
-
-public class Topic extends BaseEntity{
+public class Topic extends BaseEntity {
     private String title;
 
     public String getTitle() {
@@ -14,8 +12,13 @@ public class Topic extends BaseEntity{
     }
 
     public Topic() {
-        super();
-        this.setCreateDate(new Timestamp(System.currentTimeMillis()));
-        this.setUpdateDate(new Timestamp(System.currentTimeMillis()));
+    }
+
+    @Override
+    public String toString() {
+        return "Topic{" +
+                super.toString()+
+                "title='" + title + '\'' +
+                '}';
     }
 }

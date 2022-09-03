@@ -18,8 +18,7 @@ public class TopicDaoImpl implements TopicDao {
              PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC)) {
             int index = 0;
             stmt.setString(++index, topic.getTitle());
-            stmt.setTimestamp(++index, topic.getCreateDate());
-            stmt.setTimestamp(++index, topic.getUpdateDate());
+
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -31,9 +30,8 @@ public class TopicDaoImpl implements TopicDao {
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_TOPIC)) {
             int index = 0;
-            stmt.setInt(++index, topic.getId());
             stmt.setString(++index, topic.getTitle());
-            stmt.setTimestamp(++index, new Timestamp(System.currentTimeMillis()));
+            stmt.setInt(++index, topic.getId());
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,6 +43,7 @@ public class TopicDaoImpl implements TopicDao {
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_TOPIC)) {
             stmt.setInt(1, topic.getId());
+            stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,10 +85,10 @@ public class TopicDaoImpl implements TopicDao {
 
     private Topic mapTopic(ResultSet rs) throws SQLException {
         Topic topic = new Topic();
-        topic.setId(rs.getInt(DBConstants.T_ID));
-        topic.setTitle(rs.getString(DBConstants.T_TITLE));
-        topic.setCreateDate(rs.getTimestamp(DBConstants.T_CREATE_DATE));
-        topic.setUpdateDate(rs.getTimestamp(DBConstants.T_UPDATE_DATE));
+        topic.setId(rs.getInt(DBConstants.F_TOPIC_ID));
+        topic.setTitle(rs.getString(DBConstants.F_TOPIC_TITLE));
+//        topic.setCreateDate(rs.getTimestamp(DBConstants.F_TOPIC_CREATE_DATE));
+//        topic.setUpdateDate(rs.getTimestamp(DBConstants.F_TOPIC_UPDATE_DATE));
         return topic;
     }
 }
