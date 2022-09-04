@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface BaseDao<E extends BaseEntity> {
     void create(E e);
     void update(E e) throws DBException;
-    void delete(E e);
+    void delete(int id);
     Optional<E> findById(int id) throws DBException;
     List<E> findAll() throws DBException;
 
