@@ -15,7 +15,20 @@ public class Person extends BaseEntity{
     private double funds;
     private  String firstName;
     private  String lastName;
-    private List<Integer> publications;
+    private List<Publication> publications;
+    private PersonDetails personDetails;
+
+    public void setPublications(List<Publication> publications) {
+        this.publications = publications;
+    }
+
+    public PersonDetails getPersonDetails() {
+        return personDetails;
+    }
+
+    public void setPersonDetails(PersonDetails personDetails) {
+        this.personDetails = personDetails;
+    }
 
     public String getEmail() {
         return email;
@@ -49,37 +62,31 @@ public class Person extends BaseEntity{
         this.role = role;
     }
 
-    public double getFunds() {
-        return funds;
-    }
+//    public double getFunds() {
+//        return funds;
+//    }
+//
+//    public void setFunds(double funds) {
+//        this.funds = funds;
+//    }
 
-    public void setFunds(double funds) {
-        this.funds = funds;
-    }
+//    public String getFirstName() {
+//        return firstName;
+//    }
+//
+//    public void setFirstName(String firstName) {
+//        this.firstName = firstName;
+//    }
+//
+//    public String getLastName() {
+//        return lastName;
+//    }
+//
+//    public void setLastName(String lastName) {
+//        this.lastName = lastName;
+//    }
 
-    public String getFirstName() {
-        return firstName;
-    }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public List<Integer> getPublications() {
-        return publications;
-    }
-
-    public void setPublications(List<Integer> publications) {
-        this.publications = publications;
-    }
 
     public Person(String email, String password, RoleType role) {
         this.email = email;

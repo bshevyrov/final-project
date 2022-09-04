@@ -1,14 +1,22 @@
 package ua.com.company.entity;
 
 import java.util.List;
-import java.util.Map;
 
 public class Publication extends BaseEntity {
     private String title;
     private String sample;
     private double price;
 
+    private List<Image> images;
 
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 
     public String getTitle() {
         return title;
