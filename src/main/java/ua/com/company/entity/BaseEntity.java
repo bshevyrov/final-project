@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 
 public abstract class BaseEntity {
     private int id;
-    private Date createDate;
-    private Date updateDate;
+    private Timestamp createDate;
+    private Timestamp updateDate;
 
     public BaseEntity() {
     }
