@@ -3,6 +3,15 @@ package ua.com.company.entity;
 public class Image {
     private String imageName;
     private String imagePath;
+    private int publicationId;
+
+    public int getPublicationId() {
+        return publicationId;
+    }
+
+    public void setPublicationId(int publicationId) {
+        this.publicationId = publicationId;
+    }
 
     public String getImageName() {
         return imageName;
