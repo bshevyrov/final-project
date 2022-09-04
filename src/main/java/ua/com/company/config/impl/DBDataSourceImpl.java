@@ -23,7 +23,7 @@ public class DBDataSourceImpl implements DBDatasource {
     }
 
 
-    public DataSource getDataSource(){
+    public DataSource getDataSource() {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(PATH_TO_APP_PROPERTIES));
@@ -31,9 +31,9 @@ public class DBDataSourceImpl implements DBDatasource {
             e.printStackTrace();
         }
         MysqlDataSource mysqlDataSource = new MysqlDataSource();
-      mysqlDataSource.setURL(properties.getProperty("MYSQL_DB_URL"));
-      mysqlDataSource.setUser(properties.getProperty("MYSQL_DB_USERNAME"));
-      mysqlDataSource.setPassword(properties.getProperty("MYSQL_DB_PASSWORD"));
+        mysqlDataSource.setURL(properties.getProperty("MYSQL_DB_URL"));
+        mysqlDataSource.setUser(properties.getProperty("MYSQL_DB_USERNAME"));
+        mysqlDataSource.setPassword(properties.getProperty("MYSQL_DB_PASSWORD"));
 
 
         return mysqlDataSource;
