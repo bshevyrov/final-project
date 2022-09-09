@@ -25,7 +25,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             int index = 0;
             stmt.setString(++index, person.getEmail());
             stmt.setString(++index, encryptedPass);
-            stmt.setString(++index, person.getRole().toString());
+//            stmt.setString(++index, person.getRole().toString());
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();

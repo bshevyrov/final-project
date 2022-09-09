@@ -1,14 +1,15 @@
 package ua.com.company.service.impl;
 
-import ua.com.company.dao.PersonDao;
-import ua.com.company.dao.impl.PersonDaoImpl;
+import ua.com.company.dao.PersonDAO;
+import ua.com.company.dao.mysql.impl.MysqlPersonDAOImpl;
 import ua.com.company.entity.Person;
+import ua.com.company.exception.DBException;
 import ua.com.company.service.PersonService;
 
 import java.util.List;
 
 public class PersonServiceImpl implements PersonService {
-    PersonDao personDao = new PersonDaoImpl();
+    PersonDAO personDao = new MysqlPersonDAOImpl();
 
     @Override
     public void create(Person person) {
@@ -17,7 +18,11 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void update(Person person) {
-        personDao.update(person);
+        try {
+            personDao.update(person);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -28,11 +33,21 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findById(int id) {
 
-        return personDao.findById(id);
+        try {
+            return personDao.findById(id).get();
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public List<Person> findAll() {
-        return personDao.findAll();
+        try {
+            return personDao.findAll();
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
