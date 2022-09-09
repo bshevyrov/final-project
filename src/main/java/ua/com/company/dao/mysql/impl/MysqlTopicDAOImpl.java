@@ -1,8 +1,8 @@
-package ua.com.company.dao.impl;
+package ua.com.company.dao.mysql.impl;
 
 import ua.com.company.DBConstants;
 import ua.com.company.config.impl.DBDataSourceImpl;
-import ua.com.company.dao.TopicDao;
+import ua.com.company.dao.TopicDAO;
 import ua.com.company.entity.Topic;
 
 import java.sql.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TopicDaoImpl implements TopicDao {
+public class MysqlTopicDAOImpl implements TopicDAO {
 
     @Override
     public void create(Topic topic) {
@@ -39,10 +39,10 @@ public class TopicDaoImpl implements TopicDao {
     }
 
     @Override
-    public void delete(Topic topic) {
+    public void delete(int id) {
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_TOPIC)) {
-            stmt.setInt(1, topic.getId());
+            stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,7 +57,7 @@ public class TopicDaoImpl implements TopicDao {
             stmt.setInt(1, id);
             stmt.executeQuery();
             ResultSet rs = stmt.getResultSet();
-            while (rs.next()) {
+            if (rs.next()) {
                 topic = mapTopic(rs);
             }
         } catch (SQLException ex) {

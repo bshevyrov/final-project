@@ -1,9 +1,10 @@
-package ua.com.company.dao.impl;
+package ua.com.company.dao.mysql.impl;
 
 import ua.com.company.DBConstants;
 import ua.com.company.config.impl.DBDataSourceImpl;
-import ua.com.company.dao.PersonDao;
+import ua.com.company.dao.PersonDAO;
 import ua.com.company.entity.Person;
+import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.type.RoleType;
 import ua.com.company.type.StatusType;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PersonDaoImpl implements PersonDao {
+public class MysqlPersonDAOImpl implements PersonDAO {
 
     @Override
     public void create(Person person) {
@@ -60,10 +61,10 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public void delete(Person Person) {
+    public void delete(int id) {
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PERSON)) {
-            stmt.setInt(1, Person.getId());
+            stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -77,7 +78,7 @@ public class PersonDaoImpl implements PersonDao {
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_EMAIL)) {
             stmt.setString(1,email);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 Person = mapPerson(rs);
             }
         } catch (SQLException e) {
@@ -87,19 +88,33 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
+    public void addPublicationForPerson(Person person, Publication publication) {
+     try(   Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)){
+         int index=0;
+         stmt.setInt(++index,person.getId());
+         stmt.setInt(++index,publication.getId());
+         stmt.execute();
+     } catch (SQLException e) {
+         e.printStackTrace();
+     }
+
+    }
+
+    @Override
     public Optional<Person> findById(int id) {
-        Person Person = null;
+        Person person = null;
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_ID)) {
            stmt.setInt(1,id);
             ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                Person = mapPerson(rs);
+            if (rs.next()) {
+                person = mapPerson(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Optional.ofNullable(Person);
+        return Optional.ofNullable(person);
     }
 
     @Override
