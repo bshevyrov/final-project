@@ -32,33 +32,6 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 
-<%--    https://www.javatpoint.com/javascript-form-validation--%>
-    <script type="text/javascript">
-        function matchpass(){
-
-            var firstpassword=document.sign_up_form.password.value;
-            var secondpassword=document.sign_up_form.repeat_password.value;
-
-            if(firstpassword==secondpassword){
-                return true;
-            }
-            else{
-                alert("password must be same!");
-                return false;
-            }
-        }
-    </script>
-    <script>
-        function validateemail() {
-            var x = document.sign_up_form.email.value;
-            var atposition = x.indexOf("@");
-            var dotposition = x.lastIndexOf(".");
-            if (atposition < 1 || dotposition < atposition + 2 || dotposition + 2 >= x.length) {
-                alert("Please enter a valid e-mail address \n atpostion:" + atposition + "\n dotposition:" + dotposition);
-                return false;
-            }
-        }
-    </script>
 
 </head>
 
@@ -69,47 +42,7 @@
 </div>
 
 <!-- Header Section Begin -->
-<header class="header">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-2">
-                <div class="header__logo">
-                    <a href="./index.html">
-                        <img src="img/logo.png" alt="">
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="header__nav">
-                    <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li><a href="./index.html">Homepage</a></li>
-                            <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
-                                <ul class="dropdown">
-                                    <li><a href="./categories.html">Categories</a></li>
-                                    <li><a href="./anime-details.html">Anime Details</a></li>
-                                    <li><a href="./anime-watching.html">Anime Watching</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                    <li><a href="./signup">Sign Up</a></li>
-                                    <li><a href="./login.html">Login</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">Our Blog</a></li>
-                            <li><a href="#">Contacts</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="header__right">
-                    <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                    <a href="./login.html"><span class="icon_profile"></span></a>
-                </div>
-            </div>
-        </div>
-        <div id="mobile-menu-wrap"></div>
-    </div>
-</header>
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
 <!-- Header End -->
 
 <!-- Normal Breadcrumb Begin -->
@@ -134,91 +67,62 @@
             <div class="col-lg-6">
                 <div class="login__form">
                     <h3>Sign Up</h3>
-                    <form action="#" method="post" name="sign_up_form" onsubmit="return matchpass() && validateemail();" >
+                    <form class="form" <%--action="#"--%> <%--method="post" --%>id="signup" <%--onsubmit="return validateForm()--%>>
                         <div class="input__item">
-                            <input type="text" placeholder="Email address" name="email">
-                            <span class="icon_mail"></span>
-                        </div>
-                        <div class="input__item">
-                            <input type="text" placeholder="Your Name" name="login">
                             <span class="icon_profile"></span>
+                            <input type="text" placeholder="Username" name="username" id="username">
+                            <small></small>
+
                         </div>
                         <div class="input__item">
-                            <input type="password" placeholder="Password" name="password">
-                            <span class="icon_lock"></span>
+                            <span class="icon_mail"></span>
+                            <input type="text" placeholder="Email address" name="email" id="email">
+                            <small></small>
+
                         </div>
                         <div class="input__item">
-                            <input type="password" placeholder="Re-enter Password" name="repeat_password">
+                            <input type="password" placeholder="Password" name="password" id="password">
                             <span class="icon_lock"></span>
+                            <small></small>
+
                         </div>
-                        <button type="submit" class="site-btn">Login Now</button>
+                        <div class="input__item">
+                            <input type="password" placeholder="Confirm Password" name="confirm-password" id="confirm-password">
+                            <span class="icon_lock"></span>
+                            <small></small>
+
+                        </div>
+                        <button  type="submit" class="site-btn">Login Now</button>
+<%--                        https://www.javascripttutorial.net/javascript-dom/javascript-form-validation/--%>
                     </form>
                     <h5>Already have an account? <a href="#">Log In!</a></h5>
                 </div>
             </div>
-<%--
-            <div class="col-lg-6">
-                <div class="login__social__links">
-                    <h3>Login With:</h3>
-                    <ul>
-                        <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With Facebook</a>
-                        </li>
-                        <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
-                        <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a></li>
-                    </ul>
-                </div>
-            </div>
---%>
+            <%--
+                        <div class="col-lg-6">
+                            <div class="login__social__links">
+                                <h3>Login With:</h3>
+                                <ul>
+                                    <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With Facebook</a>
+                                    </li>
+                                    <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
+                                    <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a></li>
+                                </ul>
+                            </div>
+                        </div>
+            --%>
         </div>
     </div>
 </section>
 <!-- Signup Section End -->
 
 <!-- Footer Section Begin -->
-<footer class="footer">
-    <div class="page-up">
-        <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="footer__logo">
-                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="footer__nav">
-                    <ul>
-                        <li class="active"><a href="./index.html">Homepage</a></li>
-                        <li><a href="./categories.html">Categories</a></li>
-                        <li><a href="./blog.html">Our Blog</a></li>
-                        <li><a href="#">Contacts</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-
-            </div>
-        </div>
-    </div>
-</footer>
+<%@ include file="/WEB-INF/jspf/footer.jspf" %>
 <!-- Footer Section End -->
 
-<!-- Search model Begin -->
-<div class="search-model">
-    <div class="h-100 d-flex align-items-center justify-content-center">
-        <div class="search-close-switch"><i class="icon_close"></i></div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
-        </form>
-    </div>
-</div>
-<!-- Search model end -->
 
 <!-- Js Plugins -->
+<script src="js/signup-validator.js"></script>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/player.js"></script>
