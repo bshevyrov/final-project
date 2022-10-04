@@ -1,6 +1,8 @@
 package ua.com.company.entity;
 
-public class PersonDetails {
+import java.io.Serializable;
+
+public class PersonDetails  implements Serializable {
     private String firstName;
     private String lastName;
     private double funds;

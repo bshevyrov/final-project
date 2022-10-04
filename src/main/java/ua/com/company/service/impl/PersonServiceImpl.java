@@ -1,15 +1,18 @@
 package ua.com.company.service.impl;
 
 import ua.com.company.dao.PersonDAO;
-import ua.com.company.dao.mysql.impl.MysqlPersonDAOImpl;
 import ua.com.company.entity.Person;
 import ua.com.company.exception.DBException;
 import ua.com.company.service.PersonService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PersonServiceImpl implements PersonService {
-    PersonDAO personDao = new MysqlPersonDAOImpl();
+     private final PersonDAO personDao ;
+     public PersonServiceImpl(PersonDAO personDAO){
+         this.personDao = personDAO;
+     }
 
     @Override
     public void create(Person person) {
@@ -49,5 +52,17 @@ public class PersonServiceImpl implements PersonService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public Optional<Person> findByEmail(String email) {
+
+         Optional<Person> person = personDao.findPersonByEmail(email);
+         return Optional.of(person.get());
+    }
+
+    @Override
+    public Optional<Person> findByUsername(String username) {
+    return personDao.findPersonByUsername(username);
     }
 }

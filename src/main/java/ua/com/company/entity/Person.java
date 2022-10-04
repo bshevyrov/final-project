@@ -12,11 +12,21 @@ public class Person extends BaseEntity{
     private String password;
     private StatusType status;
     private RoleType role;
+    private String username;
     private double funds;
     private  String firstName;
     private  String lastName;
     private List<Publication> publications;
     private PersonDetails personDetails;
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public void setPublications(List<Publication> publications) {
         this.publications = publications;
@@ -101,6 +111,7 @@ public class Person extends BaseEntity{
     public String toString() {
         return "Person{" +
                 "email='" + email + '\'' +
+                "username= " + username +
                 ", password='" + password + '\'' +
                 ", status=" + status +
                 ", role=" + role +
