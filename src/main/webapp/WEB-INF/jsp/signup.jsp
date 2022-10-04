@@ -67,7 +67,8 @@
             <div class="col-lg-6">
                 <div class="login__form">
                     <h3>Sign Up</h3>
-                    <form class="form" <%--action="#"--%> <%--method="post" --%>id="signup" <%--onsubmit="return validateForm()--%>>
+                    <form class="form" <%--action="#"--%>
+                          <%--method="post" --%>id="signup" <%--onsubmit="return validateForm()--%>>
                         <div class="input__item">
                             <span class="icon_profile"></span>
                             <input type="text" placeholder="Username" name="username" id="username">
@@ -77,6 +78,7 @@
                         <div class="input__item">
                             <span class="icon_mail"></span>
                             <input type="text" placeholder="Email address" name="email" id="email">
+
                             <small></small>
 
                         </div>
@@ -87,13 +89,14 @@
 
                         </div>
                         <div class="input__item">
-                            <input type="password" placeholder="Confirm Password" name="confirm-password" id="confirm-password">
+                            <input type="password" placeholder="Confirm Password" name="confirm-password"
+                                   id="confirm-password">
                             <span class="icon_lock"></span>
                             <small></small>
 
                         </div>
-                        <button  type="submit" class="site-btn">Login Now</button>
-<%--                        https://www.javascripttutorial.net/javascript-dom/javascript-form-validation/--%>
+                        <button type="submit" class="site-btn">Login Now</button>
+                        <%--                        https://www.javascripttutorial.net/javascript-dom/javascript-form-validation/--%>
                     </form>
                     <h5>Already have an account? <a href="#">Log In!</a></h5>
                 </div>
