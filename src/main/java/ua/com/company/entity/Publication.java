@@ -4,11 +4,29 @@ import java.util.List;
 
 public class Publication extends BaseEntity {
     private String title;
-    private String sample;
+    private String description;
     private double price;
 
     private List<Image> images;
+    private Image cover;
 
+    private List<Topic> topics;
+
+    public List<Topic> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
+    }
+
+    public Image getCover() {
+        return cover;
+    }
+
+    public void setCover(Image cover) {
+        this.cover = cover;
+    }
 
     public List<Image> getImages() {
         return images;
@@ -26,12 +44,12 @@ public class Publication extends BaseEntity {
         this.title = title;
     }
 
-    public String getSample() {
-        return sample;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSample(String sample) {
-        this.sample = sample;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getPrice() {
@@ -46,8 +64,10 @@ public class Publication extends BaseEntity {
     public String toString() {
         return "Publication{" +
                 "title='" + title + '\'' +
-                ", sample='" + sample + '\'' +
+                ", sample='" + description + '\'' +
                 ", price=" + price +
                 '}';
     }
+
+
 }

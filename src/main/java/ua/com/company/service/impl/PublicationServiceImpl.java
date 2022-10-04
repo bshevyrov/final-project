@@ -1,14 +1,15 @@
 package ua.com.company.service.impl;
 
-import ua.com.company.dao.PublicationDao;
-import ua.com.company.dao.impl.PublicationDaoImpl;
+import ua.com.company.dao.PublicationDAO;
+import ua.com.company.dao.mysql.impl.MysqlPublicationDAOImpl;
 import ua.com.company.entity.Publication;
+import ua.com.company.exception.DBException;
 import ua.com.company.service.PublicationService;
 
 import java.util.List;
 
 public class PublicationServiceImpl implements PublicationService {
-    PublicationDao publicationDao = new PublicationDaoImpl();
+    PublicationDAO publicationDao = new MysqlPublicationDAOImpl();
 
     @Override
     public void create(Publication publication) {
@@ -16,7 +17,7 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public void update(Publication publication) {
+    public void update(Publication publication) throws DBException {
         publicationDao.update(publication);
     }
 
@@ -26,12 +27,12 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Publication findById(int id) {
-        return publicationDao.findById(id);
+    public Publication findById(int id) throws DBException {
+        return publicationDao.findById(id).get();
     }
 
     @Override
-    public List<Publication> findAll() {
+    public List<Publication> findAll() throws DBException {
         return publicationDao.findAll();
     }
 }
