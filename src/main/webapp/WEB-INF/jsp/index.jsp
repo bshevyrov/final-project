@@ -5,7 +5,10 @@
   Time: 22:37
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>--%>
+<%--https://betacode.net/10429/java-jsp-standard-tag-library--%>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -57,17 +60,17 @@
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li class="active"><a href="./index.html">Homepage</a></li>
-                            <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
+                            <li><a href="./categories.jsp">Categories <span class="arrow_carrot-down"></span></a>
                                 <ul class="dropdown">
-                                    <li><a href="./categories.html">Categories</a></li>
-                                    <li><a href="./anime-details.html">Anime Details</a></li>
-                                    <li><a href="./anime-watching.html">Anime Watching</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
+                                    <li><a href="./categories.jsp">Categories</a></li>
+                                    <li><a href="./publication-details.jsp">Anime Details</a></li>
+                                    <li><a href="./anime-watching.jsp">Anime Watching</a></li>
+                                    <li><a href="./blog-publication-details.jsp">Blog Details</a></li>
                                     <li><a href="./signup">Sign Up</a></li>
-                                    <li><a href="./login.html">Login</a></li>
+                                    <li><a href="./login.jsp">Login</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Our Blog</a></li>
+                            <li><a href="./blog.jsp">Our Blog</a></li>
                             <li><a href="#">Contacts</a></li>
                         </ul>
                     </nav>
@@ -76,7 +79,7 @@
             <div class="col-lg-2">
                 <div class="header__right">
                     <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                    <a href="./login.html"><span class="icon_profile"></span></a>
+                    <a href="./login.jsp"><span class="icon_profile"></span></a>
                 </div>
             </div>
         </div>
@@ -472,6 +475,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="live__product">
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
@@ -485,104 +489,32 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/live/live-1.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                </div>
-                                <div class="product__item__text">
-                                    <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
-                                    </ul>
-                                    <h5><a href="#">Shouwa Genroku Rakugo Shinjuu</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/live/live-2.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                </div>
-                                <div class="product__item__text">
-                                    <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
-                                    </ul>
-                                    <h5><a href="#">Mushishi Zoku Shou 2nd Season</a></h5>
+                        <%--https://www.codejava.net/java-ee/jstl/jstl-core-tag-foreach--%>
+                        <c:forEach var="publication" items="${publications}">
+                            <c:set var="cover_img" value="${publication.cover}"/>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                    <div class="product__item__pic set-bg" data-setbg="${cover_img.path}">
+                                        <div class="ep">18 / 18</div>
+                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <ul>
+                                            <c:forEach var="topic" items="${publication.topics}">
+                                                <li>${topic.title}</li>
+                                            </c:forEach>
+                                        </ul>
+                                        <h5><a href="/details?id=${publication.id}">${publication.title}</a></h5>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/live/live-3.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                </div>
-                                <div class="product__item__text">
-                                    <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
-                                    </ul>
-                                    <h5><a href="#">Mushishi Zoku Shou: Suzu no Shizuku</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/live/live-4.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                </div>
-                                <div class="product__item__text">
-                                    <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
-                                    </ul>
-                                    <h5><a href="#">The Seven Deadly Sins: Wrath of the Gods</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/live/live-5.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                </div>
-                                <div class="product__item__text">
-                                    <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
-                                    </ul>
-                                    <h5><a href="#">Fate/stay night Movie: Heaven's Feel - II. Lost</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/live/live-6.jpg">
-                                    <div class="ep">18 / 18</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                </div>
-                                <div class="product__item__text">
-                                    <ul>
-                                        <li>Active</li>
-                                        <li>Movie</li>
-                                    </ul>
-                                    <h5><a href="#">Kizumonogatari II: Nekketsu-hen</a></h5>
-                                </div>
-                            </div>
-                        </div>
+                        </c:forEach>
+
                     </div>
+
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
