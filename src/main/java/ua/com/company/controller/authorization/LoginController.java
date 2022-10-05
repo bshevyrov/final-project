@@ -45,7 +45,8 @@ public class LoginController extends HttpServlet {
         if (PasswordUtil.validatePassword(pass, person.getPassword())) {
 //            set session person
             HttpSession session = request.getSession(false);
-            session.setAttribute("person", person);
+
+            session.setAttribute("loggedPerson", person);
             response.sendRedirect("/");
             return;
         }
