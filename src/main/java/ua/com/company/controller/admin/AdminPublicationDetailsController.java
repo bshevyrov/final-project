@@ -14,7 +14,7 @@ import ua.com.company.service.PublicationService;
 
 import java.io.IOException;
 
-@WebServlet(name = "AdminPublicationServlet", value = "/admin/publication")
+@WebServlet(name = "AdminPublicationDetailsServlet", value = "/admin/publication")
 public class AdminPublicationDetailsController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
@@ -31,7 +31,7 @@ public class AdminPublicationDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        PublicationService publicationService = (PublicationService) request.getSession(false).getAttribute("publicationService");
+        PublicationService publicationService = (PublicationService) getServletContext().getAttribute("publicationService");
         Publication publication = null;
         try {
             publication = (publicationService.findById(Integer.parseInt(id)));

@@ -14,7 +14,7 @@ public class LogoutController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/index.jsp");
+                "/WEB-INF/jsp/authorization/index.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {

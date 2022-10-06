@@ -1,8 +1,10 @@
 package ua.com.company.entity;
 
-public class Image {
-    private String imageName;
-    private String imagePath;
+import java.io.Serializable;
+
+public class Image  implements Serializable {
+    private String name;
+    private String path;
     private int publicationId;
 
     public int getPublicationId() {
@@ -13,19 +15,28 @@ public class Image {
         this.publicationId = publicationId;
     }
 
-    public String getImageName() {
-        return imageName;
+    public String getName() {
+        return name;
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getPath() {
+        return path;
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                ", publicationId=" + publicationId +
+                '}';
     }
 }

@@ -21,7 +21,7 @@ public class SignUpController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/signup.jsp");
+                "/WEB-INF/jsp/authorization/signup.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {

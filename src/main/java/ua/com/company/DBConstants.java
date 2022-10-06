@@ -5,8 +5,8 @@ public abstract class DBConstants {
 
     public static final String CREATE_PERSON = "INSERT INTO person (username,email,password) VALUES (?,?,?)";
     public static final String CREATE_PERSON_ADMIN = "INSERT INTO person (email,password,role_id) VALUES (?,?,(SELECT id FROM role WHERE name = ?))";
-    public static final String FIND_PERSON_BY_ID = "SELECT * FROM person p INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id WHERE p.id=?";
-    public static final String FIND_ALL_PERSONS = "SELECT * FROM person p INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id";
+    public static final String FIND_PERSON_BY_ID = "SELECT p.*,r.name,ps.description, GROUP_CONCAT(p2.title SEPARATOR ',./')as publications FROM person p INNER JOIN person_has_publication php on p.id = php.person_id  INNER JOIN publication p2 on php.publication_id = p2.id INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id  WHERE p.id=? GROUP BY p.id";
+    public static final String FIND_ALL_PERSONS = "SELECT p.*,r.name,ps.description, GROUP_CONCAT(p2.title SEPARATOR ',./')as publications FROM person p INNER JOIN person_has_publication php on p.id = php.person_id  INNER JOIN publication p2 on php.publication_id = p2.id INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id  GROUP BY p.id";
     public static final String DELETE_PERSON = "DELETE FROM person WHERE id=?";
     public static final String COUNT_PERSON_BY_EMAIL = "SELECT COUNT(id) AS count FROM person WHERE email=?";
     public static final String COUNT_PERSON_BY_ID = "SELECT COUNT(id) AS count FROM person WHERE id=?";
@@ -40,6 +40,9 @@ public abstract class DBConstants {
     }
 
 
+
+
+    public static final String F_PERSON_HAS_PUBLICATION_PUBLICATION = "publications";
 
     public static final String F_PUBLICATION_HAS_TOPIC_TOPICS = "topics";
 

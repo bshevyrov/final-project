@@ -24,8 +24,8 @@ public class AdminPageFilter implements Filter {
         HttpSession session = req.getSession(false);
         String loginURL = req.getContextPath() + "/login";
         boolean loggedIn = (session != null)
-                && (session.getAttribute("person") != null)
-                &&"ROLE_ADMIN".equals(((Person)session.getAttribute("person")).getRole().name());
+                && (session.getAttribute("loggedPerson") != null)
+                &&"ROLE_ADMIN".equals(((Person)session.getAttribute("loggedPerson")).getRole().name());
         if (loggedIn) {//&&requestId==curentuserId)|| ROLE_ADMIN
             chain.doFilter(request, response);
         } else {

@@ -18,7 +18,7 @@ public class LoginController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/login.jsp");
+                "/WEB-INF/jsp/authorization/login.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {

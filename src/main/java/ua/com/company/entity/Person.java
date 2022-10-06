@@ -5,17 +5,18 @@ import ua.com.company.type.StatusType;
 
 import java.util.List;
 
-public class Person extends BaseEntity{
+public class Person extends BaseEntity {
 
 
     private String email;
     private String password;
     private StatusType status;
     private RoleType role;
+
     private String username;
     private double funds;
-    private  String firstName;
-    private  String lastName;
+    private String firstName;
+    private String lastName;
     private List<Publication> publications;
     private PersonDetails personDetails;
 
@@ -34,6 +35,10 @@ public class Person extends BaseEntity{
 
     public PersonDetails getPersonDetails() {
         return personDetails;
+    }
+
+    public List<Publication> getPublications() {
+        return publications;
     }
 
     public void setPersonDetails(PersonDetails personDetails) {
@@ -95,7 +100,6 @@ public class Person extends BaseEntity{
 //    public void setLastName(String lastName) {
 //        this.lastName = lastName;
 //    }
-
 
 
     public Person(String email, String password, RoleType role) {

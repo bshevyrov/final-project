@@ -69,5 +69,10 @@ public class Publication extends BaseEntity {
                 '}';
     }
 
+    public Publication() {
+    }
 
+    public Publication(String title) {
+        this.title = title;
+    }
 }

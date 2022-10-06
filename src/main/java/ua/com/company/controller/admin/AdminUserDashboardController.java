@@ -13,10 +13,9 @@ import ua.com.company.service.PersonService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AdminUserServlet", value = "/admin/user")
+//@WebServlet(name = "AdminUserDashboardServlet", value = "/admin/user/dashboard")
 public class AdminUserDashboardController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-
         RequestDispatcher dispatcher = request.getRequestDispatcher(
                 "/WEB-INF/jsp/admin/admin-user-dashboard.jsp");
         try {
@@ -30,14 +29,14 @@ public class AdminUserDashboardController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PersonService personService = (PersonService) request.getSession(false).getAttribute("personService");
-        List<Person> personList = null;
-        try {
-            personList = personService.findAll();
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
-        request.setAttribute("personList", personList);
+        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
+            List<Person> personList = null;
+            try {
+                personList = personService.findAll();
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("personList", personList);
         processRequest(request, response);
     }
 

@@ -10,7 +10,7 @@ import ua.com.company.service.PublicationService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "AdminPublicationServlet", value = "/admin/publication")
+@WebServlet(name = "AdminPublicationDashboardServlet", value = "/admin/publication/dashboard")
 public class AdminPublicationDashboardController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
@@ -26,14 +26,14 @@ public class AdminPublicationDashboardController extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PublicationService publicationService = (PublicationService) request.getSession(false).getAttribute("publicationService");
-        List<Publication> publicationList = null;
-        try {
-            publicationList = publicationService.findAll();
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
-        request.setAttribute("publicationList",publicationList);
+        PublicationService publicationService = (PublicationService) getServletContext().getAttribute("publicationService");
+            List<Publication> publicationList = null;
+            try {
+                publicationList = publicationService.findAll();
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("publicationList",publicationList);
         processRequest(request, response);
     }
     @Override

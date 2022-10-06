@@ -21,15 +21,17 @@ public class UserPageFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
-        String userDetailUrl = req.getContextPath() + "/user/user-details.jsp";
-        System.out.println("userDetailUrl = " + userDetailUrl);
-        String userSubscriptionsUrl = req.getContextPath() + "/user/user-subscriptions.jsp";
-        System.out.println("userSubscriptionsUrl = " + userSubscriptionsUrl);
+//        String userDetailUrl = req.getContextPath() + "/user/user-details.jsp";
+//        System.out.println("userDetailUrl = " + userDetailUrl);
+//        String userSubscriptionsUrl = req.getContextPath() + "/user/user-subscriptions.jsp";
+//        System.out.println("userSubscriptionsUrl = " + userSubscriptionsUrl);
         String loginURL = req.getContextPath() + "/login";
 //        int currentUserId = ((Person) session.getAttribute("person")).getId();
     //    System.out.println("currentUserId = " + currentUserId);
-        boolean loggedIn = (session != null) && (session.getAttribute("person") != null);
-        System.out.println("USER FILTER");
+        boolean loggedIn = (session != null)
+                && (session.getAttribute("person") != null)
+                        &&("ROLE_USER".equals(((Person)session.getAttribute("person")).getRole().name())||"ROLE_ADMIN".equals(((Person)session.getAttribute("person")).getRole().name()));
+
         if (loggedIn) {//&&requestId==curentuserId)|| ROLE_ADMIN
             chain.doFilter(request, response);
         } else {

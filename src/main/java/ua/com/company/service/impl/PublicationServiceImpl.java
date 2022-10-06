@@ -9,30 +9,35 @@ import ua.com.company.service.PublicationService;
 import java.util.List;
 
 public class PublicationServiceImpl implements PublicationService {
-    PublicationDAO publicationDao = new MysqlPublicationDAOImpl();
+   //PublicationDAO publicationDAO = new MysqlPublicationDAOImpl();
+
+    PublicationDAO publicationDAO;
+    public PublicationServiceImpl(PublicationDAO publicationDAO) {
+        this.publicationDAO = publicationDAO;
+    }
 
     @Override
     public void create(Publication publication) {
-        publicationDao.create(publication);
+        publicationDAO.create(publication);
     }
 
     @Override
     public void update(Publication publication) throws DBException {
-        publicationDao.update(publication);
+        publicationDAO.update(publication);
     }
 
     @Override
     public void delete(int id) {
-        publicationDao.delete(id);
+        publicationDAO.delete(id);
     }
 
     @Override
     public Publication findById(int id) throws DBException {
-        return publicationDao.findById(id).get();
+        return publicationDAO.findById(id).get();
     }
 
     @Override
     public List<Publication> findAll() throws DBException {
-        return publicationDao.findAll();
+        return publicationDAO.findAll();
     }
 }

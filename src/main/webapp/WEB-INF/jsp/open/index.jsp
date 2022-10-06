@@ -13,27 +13,10 @@
 <html lang="zxx">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Anime Template">
-    <meta name="keywords" content="Anime, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Anime | Template</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
+    <title>Anime | MAIN PAGE</title>
+    <%@include file="/WEB-INF/jspf/head.jspf"%>
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/plyr.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 
 <body>
@@ -568,7 +551,7 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="img/sidebar/comment-1.jpg" alt="">
+                                <img src="../../../img/sidebar/comment-1.jpg" alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -581,7 +564,7 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="img/sidebar/comment-2.jpg" alt="">
+                                <img src="../../../img/sidebar/comment-2.jpg" alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -594,7 +577,7 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="img/sidebar/comment-3.jpg" alt="">
+                                <img src="../../../img/sidebar/comment-3.jpg" alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -607,7 +590,7 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="img/sidebar/comment-4.jpg" alt="">
+                                <img src="../../../img/sidebar/comment-4.jpg" alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -634,15 +617,7 @@
 <!-- Search model end -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/player.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
-
+<%@include file="/WEB-INF/jspf/scripts.jspf"%>
 
 </body>
 

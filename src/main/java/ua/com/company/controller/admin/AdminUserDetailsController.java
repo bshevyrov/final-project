@@ -2,7 +2,6 @@ package ua.com.company.controller.admin;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,7 +11,7 @@ import ua.com.company.service.PersonService;
 
 import java.io.IOException;
 
-@WebServlet(name = "AdminUserServlet", value = "/admin/user")
+//@WebServlet(name = "AdminUserDetailsServlet", value = "/admin/user")
 public class AdminUserDetailsController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
@@ -26,17 +25,18 @@ public class AdminUserDetailsController extends HttpServlet {
             e.printStackTrace();
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        PersonService personService = (PersonService) request.getSession(false).getAttribute("personService");
+        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
         Person person = null;
         try {
-             person = (personService.findById(Integer.parseInt(id)));
+            person = (personService.findById(Integer.parseInt(id)));
         } catch (DBException e) {
             e.printStackTrace();
         }
-        request.setAttribute("person",person);
+        request.setAttribute("person", person);
         processRequest(request, response);
     }
 

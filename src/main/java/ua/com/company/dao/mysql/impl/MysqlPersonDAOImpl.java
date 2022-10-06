@@ -12,24 +12,36 @@ import ua.com.company.utils.PasswordUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class MysqlPersonDAOImpl implements PersonDAO {
 
     @Override
-    public void create(Person person) {
+    public int create(Person person) {
+        int id = -1;
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON)) {
+             PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON, Statement.RETURN_GENERATED_KEYS)) {
             String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
             int index = 0;
+            stmt.setString(++index, person.getUsername());
             stmt.setString(++index, person.getEmail());
             stmt.setString(++index, encryptedPass);
 //            stmt.setString(++index, person.getRole().toString());
-            stmt.execute();
+            int count = stmt.executeUpdate();
+            if (count > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        id = rs.getInt(1);
+                    }
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return id;
     }
 
     @Override
@@ -37,10 +49,10 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         if (isExist(person.getId())) {
             try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
                  PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PERSON)) {
-               // String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
+                // String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
                 int index = 0;
                 stmt.setString(++index, person.getEmail());
-               // stmt.setString(++index, encryptedPass);
+                // stmt.setString(++index, encryptedPass);
                 person.getRole().toString();
                 stmt.setString(++index, person.getRole().toString());
                 stmt.setString(++index, person.getStatus().toString());
@@ -76,7 +88,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         Person Person = null;
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_EMAIL)) {
-            stmt.setString(1,email);
+            stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 Person = mapPerson(rs);
@@ -89,16 +101,32 @@ public class MysqlPersonDAOImpl implements PersonDAO {
 
     @Override
     public void addPublicationForPerson(Person person, Publication publication) {
-     try(   Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
-        PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)){
-         int index=0;
-         stmt.setInt(++index,person.getId());
-         stmt.setInt(++index,publication.getId());
-         stmt.execute();
-     } catch (SQLException e) {
-         e.printStackTrace();
-     }
+        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+             PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
+            int index = 0;
+            stmt.setInt(++index, person.getId());
+            stmt.setInt(++index, publication.getId());
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    @Override
+    public Optional<Person> findPersonByUsername(String username) {
+        Person Person = null;
+        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_USERNAME)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Person = mapPerson(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.ofNullable(Person);
     }
 
     @Override
@@ -106,7 +134,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         Person person = null;
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_ID)) {
-           stmt.setInt(1,id);
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 person = mapPerson(rs);
@@ -119,17 +147,17 @@ public class MysqlPersonDAOImpl implements PersonDAO {
 
     @Override
     public List<Person> findAll() {
-        List<Person> Persons = new ArrayList<>();
+        List<Person> persons = new ArrayList<>();
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
              Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(DBConstants.FIND_ALL_PERSONS);
             while (rs.next()) {
-                Persons.add(mapPerson(rs));
+                persons.add(mapPerson(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Persons;
+        return persons;
     }
 
     public boolean isExist(String email) {
@@ -164,10 +192,23 @@ public class MysqlPersonDAOImpl implements PersonDAO {
 
     private Person mapPerson(ResultSet rs) throws SQLException {
         Person person = new Person();
+       // List<Publication> publications = new ArrayList<>();
         person.setId(rs.getInt(DBConstants.F_PERSON_ID));
         person.setEmail(rs.getString(DBConstants.F_PERSON_EMAIL));
         person.setRole(RoleType.valueOf(rs.getString(DBConstants.F_PERSON_ROLE)));
         person.setStatus(StatusType.valueOf(rs.getString(DBConstants.F_PERSON_STATUS)));
+        person.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
+        person.setPassword(rs.getString(DBConstants.F_PERSON_PASSWORD));
+        if ("ROLE_CUSTOMER".equals(person.getRole().name())) {
+            person.setPublications(getPublications(rs));
+        }
         return person;
+    }
+
+    private List<Publication> getPublications(ResultSet rs) throws SQLException {
+        String publications = rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION);
+        return Arrays.stream(publications.split(",\\./"))
+                .map(Publication::new)
+                .collect(Collectors.toList());
     }
 }

@@ -20,7 +20,6 @@ import java.io.IOException;
 
 @WebServlet(name = "PublicationDetailsServlet", value = "/details")
 public class PublicationDetailsController extends HttpServlet {
-    private PublicationService publicationService = new PublicationServiceImpl();
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 //        String studentID = request.getParameter("id");
