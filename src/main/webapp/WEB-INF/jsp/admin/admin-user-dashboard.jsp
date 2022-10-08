@@ -34,7 +34,8 @@
 <!-- Breadcrumb End -->--%>
 
 <!-- Product Section Begin -->
-<section class="user-dashboard">
+<section class="user__dashboard">
+    <div class="user__dashboard__table">
     <p>Users</p>
     <table>
         <tr>
@@ -50,16 +51,9 @@
                     ${user.username}
                 </td>
             </tr>
-
+        </div>
         </c:forEach>
-        <tr>
-            <td>John</td>
-            <td>Doe</td>
-        </tr>
-        <tr>
-            <td>Jane</td>
-            <td>Doe</td>
-        </tr>
+
     </table>
 
 

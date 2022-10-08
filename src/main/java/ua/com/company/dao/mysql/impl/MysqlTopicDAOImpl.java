@@ -13,16 +13,24 @@ import java.util.Optional;
 public class MysqlTopicDAOImpl implements TopicDAO {
 
     @Override
-    public void create(Topic topic) {
+    public int create(Topic topic) {
+        int id = -1;
         try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC)) {
+             PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC, Statement.RETURN_GENERATED_KEYS)) {
             int index = 0;
             stmt.setString(++index, topic.getTitle());
-
-            stmt.execute();
+            int count = stmt.executeUpdate();
+            if (count > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        id=rs.getInt(1);
+                    }
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return id;
     }
 
     @Override
@@ -90,5 +98,23 @@ public class MysqlTopicDAOImpl implements TopicDAO {
 //        topic.setCreateDate(rs.getTimestamp(DBConstants.F_TOPIC_CREATE_DATE));
 //        topic.setUpdateDate(rs.getTimestamp(DBConstants.F_TOPIC_UPDATE_DATE));
         return topic;
+    }
+
+    @Override
+    public Optional<Topic> findByTitle(String title) {
+        Topic topic = null;
+        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_TOPIC_BY_TITLE)) {
+            stmt.setString(1, title);
+            stmt.executeQuery();
+            ResultSet rs = stmt.getResultSet();
+            if (rs.next()) {
+                topic = mapTopic(rs);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return Optional.ofNullable(topic);
+
     }
 }

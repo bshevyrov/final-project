@@ -1,0 +1,15 @@
+<Context>
+    <Resource name="jdbc/mysql"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="user"
+              password="user"
+              driverClassName="com.mysql.jdbc.Driver"
+              defaultAutocommit="true"
+              defaultTransactionIsolation="READ_COMMIT"
+              url="jdbc:mysql://192.168.122.161:3306/final_project"
+              maxActive="15"
+              maxIdle="3"
+              maxWait="10000"/>
+
+</Context>

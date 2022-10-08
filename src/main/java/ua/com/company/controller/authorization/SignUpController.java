@@ -44,8 +44,7 @@ public class SignUpController extends HttpServlet {
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        PersonDAO personDAO = new MysqlPersonDAOImpl();
-        PersonService personService = new PersonServiceImpl(personDAO);
+        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
         if(
         isValid(request, email, username, personService)){
             Person person = new Person();

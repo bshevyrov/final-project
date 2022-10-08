@@ -192,7 +192,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
 
     private Person mapPerson(ResultSet rs) throws SQLException {
         Person person = new Person();
-       // List<Publication> publications = new ArrayList<>();
+        // List<Publication> publications = new ArrayList<>();
         person.setId(rs.getInt(DBConstants.F_PERSON_ID));
         person.setEmail(rs.getString(DBConstants.F_PERSON_EMAIL));
         person.setRole(RoleType.valueOf(rs.getString(DBConstants.F_PERSON_ROLE)));

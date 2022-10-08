@@ -25,7 +25,7 @@ public class CategoriesController extends HttpServlet {
 //            studentService.getStudent(id)
 //                    .ifPresent(s -> request.setAttribute("studentRecord", s));
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/categories.jsp");
+                "/WEB-INF/jsp/open/categories.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {

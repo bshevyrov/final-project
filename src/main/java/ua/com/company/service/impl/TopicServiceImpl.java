@@ -1,14 +1,15 @@
 package ua.com.company.service.impl;
 
-import ua.com.company.dao.TopicDao;
-import ua.com.company.dao.impl.TopicDaoImpl;
+import ua.com.company.dao.TopicDAO;
+import ua.com.company.dao.mysql.impl.MysqlTopicDAOImpl;
 import ua.com.company.entity.Topic;
+import ua.com.company.exception.DBException;
 import ua.com.company.service.TopicService;
 
 import java.util.List;
 
 public class TopicServiceImpl implements TopicService {
-    TopicDao topicDao = new TopicDaoImpl();
+    TopicDAO topicDao = new MysqlTopicDAOImpl();
     @Override
     public void create(Topic topic) {
     topicDao.create(topic);
@@ -16,7 +17,11 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void update(Topic topic) {
-    topicDao.update(topic);
+        try {
+            topicDao.update(topic);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -26,11 +31,21 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic findById(int id) {
-        return topicDao.findById(id);
+        try {
+            return topicDao.findById(id).get();
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public List<Topic> findAll() {
-        return topicDao.findAll();
+        try {
+            return topicDao.findAll();
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

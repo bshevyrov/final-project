@@ -48,13 +48,14 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-lg-2">
+
+       <%--     <div class="col-lg-2">
                 <div class="header__right">
                     <a href="#" class="search-switch"><span class="icon_search"></span></a>
                     <c:choose>
                         <c:when test="${sessionScope.loggedPerson != null}">
                             <p>${sessionScope.get("loggedPerson").username}</p>
-                            <%--                            https://www.w3schools.com/howto/howto_css_three_columns.asp--%>
+                            &lt;%&ndash;                            https://www.w3schools.com/howto/howto_css_three_columns.asp&ndash;%&gt;
                             <a href="/logout"><span class="icon_profile"></span></a>
                         </c:when>
                         <c:otherwise>
@@ -62,7 +63,37 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
+            </div>--%>
+
+            <div class="row">
+                <div class="column">
+                    <div style="position: absolute; left: 60%">
+                    <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <c:choose>
+                        <c:when test="${sessionScope.loggedPerson != null}">
+                            <div style="position: absolute; left: 70%">
+
+                                <p>${sessionScope.get("loggedPerson").username}</p>
+                            </div>
+                <div>
+                        <a href="/logout"><span class="icon_profile"></span></a>
             </div>
+                        </c:when>
+
+                        <c:otherwise>
+                <div>
+                            <a href="/login"><span class="icon_profile"></span></a>
+                </div>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+
+            </div>
+
         </div>
         <div id="mobile-menu-wrap"></div>
     </div>

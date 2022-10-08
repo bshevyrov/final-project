@@ -18,10 +18,9 @@ import java.util.stream.Collectors;
 public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     @Override
-    public void create(Publication publication, Image... images) {
-        Connection con = null;
-        try {
-            con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+    public void create(Publication publication, Image... images) throws DBException {
+        Connection con = getConnection();
+        try (con){
             con.setAutoCommit(false);
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             addPublication(con, publication);
