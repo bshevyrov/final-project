@@ -31,63 +31,64 @@
                                         <li><a href="/categories?id=${topic.id}">${topic.title}</a></li>
                                     </c:forEach>
                                 </ul>
-<%--
-                            <li><a href="../jsp/blog.jsp">Our Blog</a></li>
-                            <li><a href="#">Contacts</a></li>--%>
+                                <%--
+                                                            <li><a href="../jsp/blog.jsp">Our Blog</a></li>
+                                                            <li><a href="#">Contacts</a></li>--%>
 
-                            <c:if test="${sessionScope.loggedPerson != null}">
-                                <c:set var="roleType" value="<%=((Person)session.getAttribute(\"loggedPerson\")).getRole().name()%>" />                                    <c:set var="personRole" value="${sessionScope.loggedPerson.role}"/>
+                                <c:if test="${sessionScope.loggedPerson != null}">
+                                    <c:set var="roleType"
+                                           value="<%=((Person)session.getAttribute(\"loggedPerson\")).getRole().name()%>"/>
+                                    <c:set var="personRole" value="${sessionScope.loggedPerson.role}"/>
                                 <c:choose>
-                                    <c:when test="${roleType == 'ROLE_ADMIN'}">
-                                        <li><a href="/admin/user/dashboard">Users</a></li>
-                                        <li><a href="/admin/publication/dashboard">Publications</a></li>
-                                    </c:when>
-                                </c:choose>
+                                <c:when test="${roleType == 'ROLE_ADMIN'}">
+                            <li><a href="/admin/user/dashboard">Users</a></li>
+                            <li><a href="/admin/publication/dashboard">Publications</a></li>
+                            </c:when>
+                            </c:choose>
                             </c:if>
                         </ul>
                     </nav>
                 </div>
             </div>
 
-       <%--     <div class="col-lg-2">
-                <div class="header__right">
-                    <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                    <c:choose>
-                        <c:when test="${sessionScope.loggedPerson != null}">
-                            <p>${sessionScope.get("loggedPerson").username}</p>
-                            &lt;%&ndash;                            https://www.w3schools.com/howto/howto_css_three_columns.asp&ndash;%&gt;
-                            <a href="/logout"><span class="icon_profile"></span></a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="/login"><span class="icon_profile"></span></a>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </div>--%>
+            <%--     <div class="col-lg-2">
+                     <div class="header__right">
+                         <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                         <c:choose>
+                             <c:when test="${sessionScope.loggedPerson != null}">
+                                 <p>${sessionScope.get("loggedPerson").username}</p>
+                                 &lt;%&ndash;                            https://www.w3schools.com/howto/howto_css_three_columns.asp&ndash;%&gt;
+                                 <a href="/logout"><span class="icon_profile"></span></a>
+                             </c:when>
+                             <c:otherwise>
+                                 <a href="/login"><span class="icon_profile"></span></a>
+                             </c:otherwise>
+                         </c:choose>
+                     </div>
+                 </div>--%>
 
             <div class="row">
                 <div class="column">
-                    <div style="position: absolute; left: 60%">
-                    <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                    <div class="header__search" >
+                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
                     </div>
                 </div>
 
                 <div class="column">
                     <c:choose>
                         <c:when test="${sessionScope.loggedPerson != null}">
-                            <div style="position: absolute; left: 70%">
-
+                            <div class="header__username" >
                                 <p>${sessionScope.get("loggedPerson").username}</p>
                             </div>
-                <div>
-                        <a href="/logout"><span class="icon_profile"></span></a>
-            </div>
+                            <div class="header__icon">
+                                <a href="/logout"><span class="icon_profile"></span></a>
+                            </div>
                         </c:when>
 
                         <c:otherwise>
-                <div>
-                            <a href="/login"><span class="icon_profile"></span></a>
-                </div>
+                            <div class="header__icon" >
+                                <a href="/login"><span class="icon_profile"></span></a>
+                            </div>
                         </c:otherwise>
                     </c:choose>
                 </div>

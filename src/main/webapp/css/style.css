@@ -30,6 +30,19 @@
 
 /* Template default CSS
 /*----------------------------------------*/
+
+.header__search {
+    position: absolute;
+    left: 85%;
+    top: 2.1%
+}
+
+.header__icon {
+    position: absolute;
+    left: 90%;
+    top: 2.1%
+}
+
 .user__dashboard__table th {
     color: #ffffff;
     font-size: 15px;
