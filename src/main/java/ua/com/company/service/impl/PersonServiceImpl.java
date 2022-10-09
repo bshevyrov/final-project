@@ -1,5 +1,7 @@
 package ua.com.company.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.entity.Person;
 import ua.com.company.exception.DBException;
@@ -10,6 +12,8 @@ import java.util.List;
 
 public class PersonServiceImpl implements PersonService {
     private final PersonDAO personDao;
+    private final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
+
 
     public PersonServiceImpl(PersonDAO personDAO) {
         this.personDao = personDAO;
@@ -20,6 +24,7 @@ public class PersonServiceImpl implements PersonService {
         try {
             personDao.create(person);
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
     }
@@ -29,6 +34,7 @@ public class PersonServiceImpl implements PersonService {
         try {
             personDao.update(person);
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
     }
@@ -38,6 +44,7 @@ public class PersonServiceImpl implements PersonService {
         try {
             personDao.delete(id);
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
     }
@@ -49,6 +56,7 @@ public class PersonServiceImpl implements PersonService {
             person = personDao.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
         return person;
@@ -60,6 +68,7 @@ public class PersonServiceImpl implements PersonService {
         try {
             personList = personDao.findAll();
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
         return personList;
@@ -72,6 +81,7 @@ public class PersonServiceImpl implements PersonService {
             person = personDao.findPersonByUsername(email)
                     .orElseThrow(() -> new UserNotFoundException(email));
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
         return person;
@@ -84,6 +94,7 @@ public class PersonServiceImpl implements PersonService {
             person = personDao.findPersonByUsername(username)
                     .orElseThrow(() -> new UserNotFoundException(username));
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
         return person;

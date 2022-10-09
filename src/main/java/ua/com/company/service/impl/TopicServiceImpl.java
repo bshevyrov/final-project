@@ -1,5 +1,7 @@
 package ua.com.company.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.company.dao.TopicDAO;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
@@ -10,6 +12,7 @@ import java.util.List;
 
 public class TopicServiceImpl implements TopicService {
    private final TopicDAO topicDao;
+    private final Logger log = LoggerFactory.getLogger(TopicServiceImpl.class);
 
     public TopicServiceImpl(TopicDAO topicDao) {
         this.topicDao = topicDao;
@@ -20,6 +23,7 @@ public class TopicServiceImpl implements TopicService {
         try {
             topicDao.create(topic);
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
     }
@@ -29,6 +33,7 @@ public class TopicServiceImpl implements TopicService {
         try {
             topicDao.update(topic);
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
     }
@@ -38,6 +43,7 @@ public class TopicServiceImpl implements TopicService {
         try {
             topicDao.delete(id);
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
     }
@@ -48,6 +54,7 @@ public class TopicServiceImpl implements TopicService {
             return topicDao.findById(id)
                     .orElseThrow(()-> new TopicNotFoundException(""+id));
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
         return null;
@@ -58,6 +65,7 @@ public class TopicServiceImpl implements TopicService {
         try {
             return topicDao.findAll();
         } catch (DBException e) {
+            log.error(String.valueOf(e));
             e.printStackTrace();
         }
         return null;
