@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BaseDAO<T extends BaseEntity> {
-    int create(T entity);
+    int create(T entity) throws DBException;
 
     void update(T entity) throws DBException;
 
-    void delete(int id);
+    void delete(int id) throws DBException;
 
     Optional<T> findById(int id) throws DBException;
 

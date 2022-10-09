@@ -1,11 +1,10 @@
 package ua.com.company.service;
 
 import ua.com.company.entity.Person;
-
-import java.util.Optional;
+import ua.com.company.exception.UserNotFoundException;
 
 public interface PersonService extends BaseService<Person>{
-    Optional<Person> findByEmail(String email);
+    Person findByEmail(String email) throws UserNotFoundException;
 
-    Optional<Person> findByUsername(String username);
+    Person findByUsername(String username) throws UserNotFoundException;
 }

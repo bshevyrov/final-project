@@ -1,18 +1,27 @@
 package ua.com.company.service.impl;
 
 import ua.com.company.dao.TopicDAO;
-import ua.com.company.dao.mysql.impl.MysqlTopicDAOImpl;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
+import ua.com.company.exception.TopicNotFoundException;
 import ua.com.company.service.TopicService;
 
 import java.util.List;
 
 public class TopicServiceImpl implements TopicService {
-    TopicDAO topicDao = new MysqlTopicDAOImpl();
+   private final TopicDAO topicDao;
+
+    public TopicServiceImpl(TopicDAO topicDao) {
+        this.topicDao = topicDao;
+    }
+
     @Override
     public void create(Topic topic) {
-    topicDao.create(topic);
+        try {
+            topicDao.create(topic);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -26,13 +35,18 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void delete(int id) {
-    topicDao.delete(id);
+        try {
+            topicDao.delete(id);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public Topic findById(int id) {
+    public Topic findById(int id) throws TopicNotFoundException {
         try {
-            return topicDao.findById(id).get();
+            return topicDao.findById(id)
+                    .orElseThrow(()-> new TopicNotFoundException(""+id));
         } catch (DBException e) {
             e.printStackTrace();
         }

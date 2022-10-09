@@ -3,20 +3,25 @@ package ua.com.company.service.impl;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.entity.Person;
 import ua.com.company.exception.DBException;
+import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.PersonService;
 
 import java.util.List;
-import java.util.Optional;
 
 public class PersonServiceImpl implements PersonService {
-     private final PersonDAO personDao ;
-     public PersonServiceImpl(PersonDAO personDAO){
-         this.personDao = personDAO;
-     }
+    private final PersonDAO personDao;
+
+    public PersonServiceImpl(PersonDAO personDAO) {
+        this.personDao = personDAO;
+    }
 
     @Override
     public void create(Person person) {
-        personDao.create(person);
+        try {
+            personDao.create(person);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -30,39 +35,57 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void delete(int id) {
-        personDao.delete(id);
-    }
-
-    @Override
-    public Person findById(int id) {
-
         try {
-            return personDao.findById(id).get();
+            personDao.delete(id);
         } catch (DBException e) {
             e.printStackTrace();
         }
-        return null;
+    }
+
+    @Override
+    public Person findById(int id) throws UserNotFoundException {
+        Person person = null;
+        try {
+            person = personDao.findById(id)
+                    .orElseThrow(() -> new UserNotFoundException("" + id));
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 
     @Override
     public List<Person> findAll() {
+        List<Person> personList = null;
         try {
-            return personDao.findAll();
+            personList = personDao.findAll();
         } catch (DBException e) {
             e.printStackTrace();
         }
-        return null;
+        return personList;
     }
 
     @Override
-    public Optional<Person> findByEmail(String email) {
-
-         Optional<Person> person = personDao.findPersonByEmail(email);
-         return Optional.of(person.get());
+    public Person findByEmail(String email) throws UserNotFoundException {
+        Person person = null;
+        try {
+            person = personDao.findPersonByUsername(email)
+                    .orElseThrow(() -> new UserNotFoundException(email));
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 
     @Override
-    public Optional<Person> findByUsername(String username) {
-    return personDao.findPersonByUsername(username);
+    public Person findByUsername(String username) throws UserNotFoundException {
+        Person person = null;
+        try {
+            person = personDao.findPersonByUsername(username)
+                    .orElseThrow(() -> new UserNotFoundException(username));
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 }

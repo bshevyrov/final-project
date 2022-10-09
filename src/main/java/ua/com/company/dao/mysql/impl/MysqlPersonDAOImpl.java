@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 public class MysqlPersonDAOImpl implements PersonDAO {
 
     @Override
-    public int create(Person person) {
+    public int create(Person person) throws DBException {
         int id = -1;
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON, Statement.RETURN_GENERATED_KEYS)) {
             String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
             int index = 0;
@@ -40,6 +40,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
         return id;
     }
@@ -47,13 +48,12 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     @Override
     public void update(Person person) throws DBException {
         if (isExist(person.getId())) {
-            try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+            try (Connection con = getConnection();
                  PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PERSON)) {
                 // String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
                 int index = 0;
                 stmt.setString(++index, person.getEmail());
                 // stmt.setString(++index, encryptedPass);
-                person.getRole().toString();
                 stmt.setString(++index, person.getRole().toString());
                 stmt.setString(++index, person.getStatus().toString());
                 stmt.setInt(++index, person.getId());
@@ -66,6 +66,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
                 stmt.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
+                throw new DBException(e);
             }
         } else {
             throw new DBException("Cant find person with id " + person.getId());
@@ -73,21 +74,22 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public void delete(int id) {
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+    public void delete(int id) throws DBException {
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PERSON)) {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
     }
 
     @Override
-    public Optional<Person> findPersonByEmail(String email) {
+    public Optional<Person> findPersonByEmail(String email) throws DBException {
         Person Person = null;
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_EMAIL)) {
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_EMAIL);) {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -95,13 +97,14 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
         return Optional.ofNullable(Person);
     }
 
     @Override
-    public void addPublicationForPerson(Person person, Publication publication) {
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+    public void addPublicationForPerson(Person person, Publication publication) throws DBException {
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
             int index = 0;
             stmt.setInt(++index, person.getId());
@@ -109,14 +112,14 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
-
     }
 
     @Override
-    public Optional<Person> findPersonByUsername(String username) {
+    public Optional<Person> findPersonByUsername(String username) throws DBException {
         Person Person = null;
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_USERNAME)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
@@ -125,14 +128,15 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
         return Optional.ofNullable(Person);
     }
 
     @Override
-    public Optional<Person> findById(int id) {
+    public Optional<Person> findById(int id) throws DBException {
         Person person = null;
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -141,14 +145,15 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
         return Optional.ofNullable(person);
     }
 
     @Override
-    public List<Person> findAll() {
+    public List<Person> findAll() throws DBException {
         List<Person> persons = new ArrayList<>();
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(DBConstants.FIND_ALL_PERSONS);
             while (rs.next()) {
@@ -156,13 +161,14 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
         return persons;
     }
 
-    public boolean isExist(String email) {
+    public boolean isExist(String email) throws DBException {
         int count = 0;
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_EMAIL)) {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
@@ -171,13 +177,14 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
         return count == 1;
     }
 
-    public boolean isExist(int id) {
+    public boolean isExist(int id) throws DBException {
         int count = 0;
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -186,6 +193,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
         return count == 1;
     }
