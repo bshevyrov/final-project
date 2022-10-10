@@ -7,4 +7,9 @@ public interface PersonService extends BaseService<Person>{
     Person findByEmail(String email) throws UserNotFoundException;
 
     Person findByUsername(String username) throws UserNotFoundException;
+
+
+    boolean isExistByEmail(String email);
+
+    boolean isExistByUsername(String username);
 }
