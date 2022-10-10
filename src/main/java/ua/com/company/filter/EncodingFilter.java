@@ -22,14 +22,11 @@ public class EncodingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        System.out.println("EncodingfFilter before chain");
-
         HttpServletRequest req = (HttpServletRequest) request;
         if (req.getCharacterEncoding() == null) {
            req.setCharacterEncoding(encoding);
             }
             chain.doFilter(request, response);
-            System.out.println("EncodingfFilter after");
         }
     }
 

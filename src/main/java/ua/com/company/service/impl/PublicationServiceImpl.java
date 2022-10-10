@@ -78,4 +78,15 @@ public class PublicationServiceImpl implements PublicationService {
         }
         return publicationList;
     }
+
+    @Override
+    public List<Publication> findAllByTopicId(int topicId) {
+        List<Publication> publicationList = null;
+        try {
+            publicationList = publicationDAO.findAllByTopicId(topicId);
+        } catch (DBException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return publicationList;    }
 }

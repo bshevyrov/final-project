@@ -43,9 +43,9 @@
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li class="active"><a href="./index.html">Homepage</a></li>
-                            <li><a href="./categories.jsp">Categories <span class="arrow_carrot-down"></span></a>
+                            <li><a href="./category-details.jsp">Categories <span class="arrow_carrot-down"></span></a>
                                 <ul class="dropdown">
-                                    <li><a href="./categories.jsp">Categories</a></li>
+                                    <li><a href="./category-details.jsp">Categories</a></li>
                                     <li><a href="./publication-details.jsp">Anime Details</a></li>
                                     <li><a href="./anime-watching.jsp">Anime Watching</a></li>
                                     <li><a href="./blog-publication-details.jsp">Blog Details</a></li>
@@ -551,7 +551,7 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="../../../img/sidebar/comment-1.jpg" alt="">
+                                <img src="../../img/sidebar/comment-1.jpg" alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -564,7 +564,7 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="../../../img/sidebar/comment-2.jpg" alt="">
+                                <img src="../../img/sidebar/comment-2.jpg" alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -577,7 +577,7 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="../../../img/sidebar/comment-3.jpg" alt="">
+                                <img src="../../img/sidebar/comment-3.jpg" alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>
@@ -590,7 +590,7 @@
                         </div>
                         <div class="product__sidebar__comment__item">
                             <div class="product__sidebar__comment__item__pic">
-                                <img src="../../../img/sidebar/comment-4.jpg" alt="">
+                                <img src="../../img/sidebar/comment-4.jpg" alt="">
                             </div>
                             <div class="product__sidebar__comment__item__text">
                                 <ul>

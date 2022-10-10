@@ -1,4 +1,4 @@
-package ua.com.company.controller.authorization;
+package ua.com.company.controller.auth;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -9,17 +9,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "LogoutServlet", value = "/logout")
 public class LogoutController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/authorization/index.jsp");
+                "/WEB-INF/jsp/open/index.jsp");
         try {
             dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }

@@ -1,7 +1,8 @@
-package ua.com.company.controller.user;
+package ua.com.company.controller.category;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,16 +10,17 @@ import ua.com.company.dao.PublicationDAO;
 import ua.com.company.dao.mysql.impl.MysqlPublicationDAOImpl;
 import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
+import ua.com.company.service.PublicationService;
+import ua.com.company.service.TopicService;
 
 import java.io.IOException;
 import java.util.List;
 
-public class UserSubscriptionsController extends HttpServlet {
-
+public class CategoryDetailsController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/user/user-subscriptions.jsp");
+                "/WEB-INF/jsp/category/category-details.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
@@ -28,17 +30,16 @@ public class UserSubscriptionsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PublicationDAO publicationDAO = new MysqlPublicationDAOImpl();
-        int userId = (int) request.getSession().getAttribute("id");
-        List<Publication> publicationList = null;
-        try {
-            publicationList = publicationDAO.findAllByUserId(userId);
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
-        request.setAttribute("publications", publicationList);
-        processRequest(request, response);
+        int topicId = Integer.parseInt(request.getParameter("id"));
+        TopicService topicService = (TopicService) getServletContext().getAttribute("topicService");
+        PublicationService publicationService= (PublicationService) getServletContext().getAttribute("publicationService");
+        String topicName= topicService.findById(topicId).getTitle();
 
+        List<Publication> publications  = publicationService.findAllByTopicId(topicId);
+
+        request.setAttribute("topicName", topicName);
+        request.setAttribute("publications", publications);
+        processRequest(request, response);
     }
 
     @Override

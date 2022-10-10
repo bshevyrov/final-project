@@ -6,9 +6,7 @@ import jakarta.servlet.ServletRequestAttributeListener;
 public class RequestListener implements ServletRequestAttributeListener {
     @Override
     public void attributeAdded(ServletRequestAttributeEvent srae) {
-        System.out.println("srae.getName() = " + srae.getName());
-        System.out.println("srae.getValue() = " + srae.getValue());
-
+        ServletRequestAttributeListener.super.attributeReplaced(srae);
     }
 
     @Override
