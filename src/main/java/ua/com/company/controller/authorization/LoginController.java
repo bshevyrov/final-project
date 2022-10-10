@@ -21,9 +21,7 @@ public class LoginController extends HttpServlet {
                 "/WEB-INF/jsp/authorization/login.jsp");
         try {
             dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -32,7 +30,6 @@ public class LoginController extends HttpServlet {
     protected void doGet(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         processRequest(request, response);
     }
 
@@ -41,16 +38,14 @@ public class LoginController extends HttpServlet {
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
         PersonService personService = (PersonService) getServletContext().getAttribute("personService");
-        Person person = personService.findByEmail(email).get();
+        Person person = personService.findByEmail(email);
         if (PasswordUtil.validatePassword(pass, person.getPassword())) {
 //            set session person
             HttpSession session = request.getSession(false);
-
             session.setAttribute("loggedPerson", person);
             response.sendRedirect("/");
             return;
         }
-
         processRequest(request, response);
 
     }

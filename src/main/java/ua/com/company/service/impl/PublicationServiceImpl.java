@@ -20,13 +20,15 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public void create(Publication publication) {
+    public int create(Publication publication) {
+        int id = -1;
         try {
-            publicationDAO.create(publication);
+            id = publicationDAO.create(publication);
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
+        return id;
     }
 
     @Override
@@ -50,13 +52,16 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public Publication findById(int id) throws PublicationNotFoundException {
+    public Publication findById(int id) {
         Publication publication = null;
         try {
             publication = publicationDAO.findById(id)
                     .orElseThrow(() -> new PublicationNotFoundException("" + id));
         } catch (DBException e) {
             log.error(String.valueOf(e));
+            e.printStackTrace();
+        } catch (PublicationNotFoundException e) {
+            log.warn(String.valueOf(e));
             e.printStackTrace();
         }
         return publication;

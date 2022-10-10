@@ -1,3 +1,4 @@
+/*
 package ua.com.company.config.impl;
 
 import com.mysql.cj.jdbc.MysqlConnectionPoolDataSource;
@@ -62,3 +63,4 @@ public class DBDataSourceImpl implements DBDatasource {
 
 
 }
+*/

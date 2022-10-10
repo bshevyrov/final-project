@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.com.company.entity.Person;
-import ua.com.company.exception.DBException;
 import ua.com.company.service.PersonService;
 
 import java.io.IOException;
@@ -19,9 +18,7 @@ public class AdminUserDetailsController extends HttpServlet {
                 "/WEB-INF/jsp/admin/admin-user-details.jsp");
         try {
             dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -30,12 +27,7 @@ public class AdminUserDetailsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         PersonService personService = (PersonService) getServletContext().getAttribute("personService");
-        Person person = null;
-        try {
-            person = (personService.findById(Integer.parseInt(id)));
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
+        Person person = (personService.findById(Integer.parseInt(id)));
         request.setAttribute("person", person);
         processRequest(request, response);
     }

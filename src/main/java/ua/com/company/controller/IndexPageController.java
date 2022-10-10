@@ -6,10 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.dao.PublicationDAO;
-import ua.com.company.dao.mysql.impl.MysqlPublicationDAOImpl;
 import ua.com.company.entity.Publication;
-import ua.com.company.exception.DBException;
+import ua.com.company.service.PublicationService;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,14 +31,11 @@ public class IndexPageController extends HttpServlet {
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        PublicationDAO publicationDAO = new MysqlPublicationDAOImpl();
+        PublicationService publicationService = (PublicationService) getServletContext().getAttribute("publicationService");
         List<Publication> publications;
-        try {
-            publications = publicationDAO.findAll();
-            request.setAttribute("publications", publications);
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
+
+        publications = publicationService.findAll();
+        request.setAttribute("publications", publications);
         processRequest(request, response);
     }
 

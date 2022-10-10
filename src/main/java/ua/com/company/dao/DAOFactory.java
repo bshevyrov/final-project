@@ -1,6 +1,11 @@
 package ua.com.company.dao;
 
+import ua.com.company.dao.mysql.MysqlDAOFactory;
+import ua.com.company.type.DBType;
+
 import javax.naming.Context;
+
+import static ua.com.company.type.DBType.MYSQL;
 
 public abstract class DAOFactory {
     //3:22
@@ -9,6 +14,7 @@ public abstract class DAOFactory {
 
     public static synchronized DAOFactory getInstance() throws Exception {
         if (instance == null) {
+            System.out.println("!!!"+DAOFactory.daoFactoryFQN);
             Class<?> clazz = Class.forName(DAOFactory.daoFactoryFQN);
             instance = (DAOFactory) clazz.getDeclaredConstructor().newInstance();
         }
@@ -20,9 +26,14 @@ public abstract class DAOFactory {
 
     private static String daoFactoryFQN;
 
-    public static void setDaoFactoryFQN(String daoFactoryFQN) {
+    public static void setDaoFactoryFQN(DBType dbType) {
         instance=null;
-        DAOFactory.daoFactoryFQN = daoFactoryFQN;
+//        DAOFactory.daoFactoryFQN = daoFactoryFQN;
+        switch (dbType.name()){
+            case ("MYSQL"): DAOFactory.daoFactoryFQN = dbType.getClassName();
+            break;
+            default:break;
+        }
     }
 
     public abstract PersonDAO getPersonDAO();

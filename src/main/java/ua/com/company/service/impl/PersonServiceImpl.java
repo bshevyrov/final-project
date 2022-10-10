@@ -20,13 +20,15 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void create(Person person) {
+    public int create(Person person) {
+        int id = -1;
         try {
-            personDao.create(person);
+            id = personDao.create(person);
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
+        return id;
     }
 
     @Override
@@ -50,13 +52,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person findById(int id) throws UserNotFoundException {
+    public Person findById(int id) {
         Person person = null;
         try {
             person = personDao.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
         } catch (DBException e) {
             log.error(String.valueOf(e));
+            e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            log.warn(String.valueOf(e));
             e.printStackTrace();
         }
         return person;
@@ -75,20 +80,23 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person findByEmail(String email) throws UserNotFoundException {
+    public Person findByEmail(String email) {
         Person person = null;
         try {
-            person = personDao.findPersonByUsername(email)
+            person = personDao.findPersonByEmail(email)
                     .orElseThrow(() -> new UserNotFoundException(email));
         } catch (DBException e) {
             log.error(String.valueOf(e));
+            e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            log.warn(String.valueOf(e));
             e.printStackTrace();
         }
         return person;
     }
 
     @Override
-    public Person findByUsername(String username) throws UserNotFoundException {
+    public Person findByUsername(String username) {
         Person person = null;
         try {
             person = personDao.findPersonByUsername(username)
@@ -96,7 +104,36 @@ public class PersonServiceImpl implements PersonService {
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            log.warn(String.valueOf(e));
+            e.printStackTrace();
         }
         return person;
+    }
+
+    @Override
+    public boolean isExistByEmail(String email) {
+        boolean existByUEmail = false;
+
+        try {
+            existByUEmail = personDao.isExistByEmail(email);
+        } catch (DBException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return existByUEmail;
+    }
+
+
+    @Override
+    public boolean isExistByUsername(String username) {
+        boolean existByUsername = false;
+        try {
+            existByUsername = personDao.isExistByUsername(username);
+        } catch (DBException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return existByUsername;
     }
 }

@@ -11,4 +11,8 @@ public interface PersonDAO extends BaseDAO<Person> {
     void addPublicationForPerson(Person person, Publication publication) throws DBException;
 
     Optional<Person> findPersonByUsername(String username) throws DBException;
+
+    boolean isExistByEmail(String email) throws DBException;
+
+    boolean isExistByUsername(String username) throws DBException;
 }

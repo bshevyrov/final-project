@@ -70,7 +70,7 @@
         <div class='eye'></div>
 
         <p class="sub-text">Oh eyeballs! Something went wrong. We're <span class="italic">looking</span> to see what happened.</p>
-        <a href="/index">Main Page</a>
+        <a href="/">Main Page</a>
     </div>
 </div>
 <script>

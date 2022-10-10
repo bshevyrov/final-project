@@ -1,3 +1,4 @@
+/*
 package ua.com.company.config;
 
 import java.sql.Connection;
@@ -10,3 +11,4 @@ public interface ConnectionPool extends AutoCloseable{
     String getPassword();
 //    https://www.baeldung.com/java-connection-pooling
 }
+*/

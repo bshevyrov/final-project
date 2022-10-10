@@ -1,7 +1,6 @@
 package ua.com.company.dao.mysql.impl;
 
 import ua.com.company.DBConstants;
-import ua.com.company.config.impl.DBDataSourceImpl;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
@@ -20,7 +19,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public void create(Publication publication, Image... images) throws DBException {
         Connection con = getConnection();
-        try (con){
+        try (con) {
             con.setAutoCommit(false);
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             addPublication(con, publication);
@@ -86,8 +85,8 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public void update(Publication publication) {
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+    public void update(Publication publication) throws DBException {
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PUBLICATION)) {
             int index = 0;
             stmt.setString(++index, publication.getTitle());
@@ -98,17 +97,19 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
     }
 
     @Override
-    public void delete(int id) {
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+    public void delete(int id) throws DBException {
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PUBLICATION)) {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new DBException(e);
         }
     }
 
@@ -116,7 +117,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     public Optional<Publication> findById(int id) throws DBException {
 
         Publication publication = null;
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PUBLICATION_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -135,7 +136,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAll() throws DBException {
         List<Publication> publications = new ArrayList<>();
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(DBConstants.FIND_ALL_PUBLICATIONS)) {
             while (rs.next()) {
@@ -153,7 +154,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     public List<Publication> findAllByTitle(String pattern) throws DBException {
 
         List<Publication> publications = new ArrayList<>();
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_TITLE)) {
 //            int k =1;
 
@@ -175,7 +176,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAllByTopicId(int id) throws DBException {
         List<Publication> publications = new ArrayList<>();
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_TOPIC_ID)) {
 //            int k =1;
 
@@ -208,10 +209,10 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public Publication findByTitle(String title) {
+    public Publication findByTitle(String title) throws DBException {
 
         Publication publication = new Publication();
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PUBLICATION_BY_TITLE)) {
 
             stmt.setString(1, title);
@@ -236,7 +237,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAllByUserId(int userId) throws DBException {
         List<Publication> publications = new ArrayList<>();
-        try (Connection con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
+        try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_USER_ID)) {
 //            int k =1;
 

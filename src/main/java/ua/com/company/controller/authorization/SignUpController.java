@@ -6,11 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.dao.PersonDAO;
-import ua.com.company.dao.mysql.impl.MysqlPersonDAOImpl;
 import ua.com.company.entity.Person;
 import ua.com.company.service.PersonService;
-import ua.com.company.service.impl.PersonServiceImpl;
 
 import java.io.IOException;
 
@@ -33,7 +30,6 @@ public class SignUpController extends HttpServlet {
     protected void doGet(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         processRequest(request, response);
     }
 
@@ -45,32 +41,25 @@ public class SignUpController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         PersonService personService = (PersonService) getServletContext().getAttribute("personService");
-        if(
-        isValid(request, email, username, personService)){
+        if (isValid(request, email, username, personService)) {
             Person person = new Person();
             person.setEmail(email);
             person.setUsername(username);
             person.setPassword(password);
             personService.create(person);
-
         }
-
-
-
-
         processRequest(request, response);
     }
 
     private boolean isValid(HttpServletRequest request, String email, String username, PersonService personService) {
         boolean rsl = true;
-        if (personService.findByEmail(email).isPresent()) {
+        if (personService.isExistByEmail(email)) {
             request.setAttribute("email", "true");
             rsl = false;
-        } else if (personService.findByUsername(username).isPresent()) {
+        } else if (personService.isExistByUsername(username)) {
             request.setAttribute("username", "true");
             rsl = false;
         }
-
         return rsl;
     }
 }

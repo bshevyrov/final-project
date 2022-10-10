@@ -16,7 +16,7 @@ public interface PublicationDAO extends BaseDAO<Publication> {
 //    void addImage(Connection con, Publication publication, Image... images);
 //    void addTopicForPublication(Publication publication, Topic... topics);
 
-    Publication findByTitle(String title);
+    Publication findByTitle(String title) throws DBException;
 
     List<Publication> findAllByUserId(int userId) throws DBException;
 }

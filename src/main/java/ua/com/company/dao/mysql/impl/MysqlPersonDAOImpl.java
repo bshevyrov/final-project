@@ -1,7 +1,6 @@
 package ua.com.company.dao.mysql.impl;
 
 import ua.com.company.DBConstants;
-import ua.com.company.config.impl.DBDataSourceImpl;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.entity.Person;
 import ua.com.company.entity.Publication;
@@ -166,11 +165,28 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return persons;
     }
 
-    public boolean isExist(String email) throws DBException {
+    public boolean isExistByEmail(String email) throws DBException {
         int count = 0;
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_EMAIL)) {
             stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+        return count == 1;
+    }
+
+    @Override
+    public boolean isExistByUsername(String username) throws DBException {
+        int count = 0;
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_USERNAME)) {
+            stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 count = rs.getInt("count");

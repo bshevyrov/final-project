@@ -11,7 +11,7 @@ import ua.com.company.service.TopicService;
 import java.util.List;
 
 public class TopicServiceImpl implements TopicService {
-   private final TopicDAO topicDao;
+    private final TopicDAO topicDao;
     private final Logger log = LoggerFactory.getLogger(TopicServiceImpl.class);
 
     public TopicServiceImpl(TopicDAO topicDao) {
@@ -19,13 +19,15 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public void create(Topic topic) {
+    public int create(Topic topic) {
+        int id = -1;
         try {
-            topicDao.create(topic);
+            id = topicDao.create(topic);
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
+        return id;
     }
 
     @Override
@@ -49,12 +51,15 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Topic findById(int id) throws TopicNotFoundException {
+    public Topic findById(int id) {
         try {
             return topicDao.findById(id)
-                    .orElseThrow(()-> new TopicNotFoundException(""+id));
+                    .orElseThrow(() -> new TopicNotFoundException("" + id));
         } catch (DBException e) {
             log.error(String.valueOf(e));
+            e.printStackTrace();
+        } catch (TopicNotFoundException e) {
+            log.warn(String.valueOf(e));
             e.printStackTrace();
         }
         return null;
@@ -69,5 +74,17 @@ public class TopicServiceImpl implements TopicService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean isExistByTitle(String title) {
+        boolean existByTitle = false;
+        try {
+            existByTitle = topicDao.IsExistByTitle(title);
+        } catch (DBException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return existByTitle;
     }
 }

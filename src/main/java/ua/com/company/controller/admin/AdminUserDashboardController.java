@@ -2,12 +2,10 @@ package ua.com.company.controller.admin;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.com.company.entity.Person;
-import ua.com.company.exception.DBException;
 import ua.com.company.service.PersonService;
 
 import java.io.IOException;
@@ -20,9 +18,7 @@ public class AdminUserDashboardController extends HttpServlet {
                 "/WEB-INF/jsp/admin/admin-user-dashboard.jsp");
         try {
             dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -30,13 +26,8 @@ public class AdminUserDashboardController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PersonService personService = (PersonService) getServletContext().getAttribute("personService");
-            List<Person> personList = null;
-            try {
-                personList = personService.findAll();
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-            request.setAttribute("personList", personList);
+        List<Person> personList = personService.findAll();
+        request.setAttribute("personList", personList);
         processRequest(request, response);
     }
 

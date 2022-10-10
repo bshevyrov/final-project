@@ -1,10 +1,12 @@
 package ua.com.company.controller.admin;
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import ua.com.company.entity.Publication;
-import ua.com.company.exception.DBException;
 import ua.com.company.service.PublicationService;
 
 import java.io.IOException;
@@ -18,24 +20,19 @@ public class AdminPublicationDashboardController extends HttpServlet {
                 "/WEB-INF/jsp/admin/admin-publication-dashboard.jsp");
         try {
             dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PublicationService publicationService = (PublicationService) getServletContext().getAttribute("publicationService");
-            List<Publication> publicationList = null;
-            try {
-                publicationList = publicationService.findAll();
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
-            request.setAttribute("publicationList",publicationList);
+        List<Publication> publicationList = publicationService.findAll();
+        request.setAttribute("publicationList", publicationList);
         processRequest(request, response);
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
