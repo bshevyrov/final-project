@@ -30,9 +30,13 @@ public class CategoryDetailsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         int topicId = Integer.parseInt(request.getParameter("id"));
-        TopicService topicService = (TopicService) getServletContext().getAttribute("topicService");
-        PublicationService publicationService= (PublicationService) getServletContext().getAttribute("publicationService");
+
+        TopicService topicService = (TopicService) getServletContext()
+                .getAttribute("topicService");
+        PublicationService publicationService= (PublicationService) getServletContext()
+                .getAttribute("publicationService");
         String topicName= topicService.findById(topicId).getTitle();
 
         List<Publication> publications  = publicationService.findAllByTopicId(topicId);

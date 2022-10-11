@@ -15,7 +15,6 @@ import ua.com.company.service.PersonService;
 
 import java.io.IOException;
 
-@WebServlet(name = "UserServlet", value = "/user/details")
 public class UserDetailsController extends HttpServlet {
 
     private PersonService personService;
