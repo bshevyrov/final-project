@@ -3,14 +3,9 @@ package ua.com.company.controller.user;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.dao.PersonDAO;
-import ua.com.company.dao.mysql.impl.MysqlPersonDAOImpl;
-import ua.com.company.entity.Person;
-import ua.com.company.exception.DBException;
 import ua.com.company.service.PersonService;
 
 import java.io.IOException;

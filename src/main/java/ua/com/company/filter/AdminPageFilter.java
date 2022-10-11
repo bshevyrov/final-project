@@ -9,7 +9,7 @@ import ua.com.company.entity.Person;
 
 import java.io.IOException;
 
-@WebFilter(filterName = "AdminPageFilter")
+//@WebFilter(filterName = "AdminPageFilter")
 public class AdminPageFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }

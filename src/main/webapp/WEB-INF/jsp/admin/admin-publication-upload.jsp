@@ -87,7 +87,7 @@
                 </div>
             </div>
             <div class="input__item">
-                <input type="text" name="cover" id="cover" hidden>
+                <input type="text" name="coverPath" id="cover" hidden>
 
             </div>
             <div style="margin: 16px; padding: 16px">

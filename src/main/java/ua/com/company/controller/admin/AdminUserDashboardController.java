@@ -11,7 +11,6 @@ import ua.com.company.service.PersonService;
 import java.io.IOException;
 import java.util.List;
 
-//@WebServlet(name = "AdminUserDashboardServlet", value = "/admin/user/dashboard")
 public class AdminUserDashboardController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher(

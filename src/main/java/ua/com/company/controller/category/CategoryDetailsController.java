@@ -2,14 +2,10 @@ package ua.com.company.controller.category;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.dao.PublicationDAO;
-import ua.com.company.dao.mysql.impl.MysqlPublicationDAOImpl;
 import ua.com.company.entity.Publication;
-import ua.com.company.exception.DBException;
 import ua.com.company.service.PublicationService;
 import ua.com.company.service.TopicService;
 
@@ -35,11 +31,11 @@ public class CategoryDetailsController extends HttpServlet {
 
         TopicService topicService = (TopicService) getServletContext()
                 .getAttribute("topicService");
-        PublicationService publicationService= (PublicationService) getServletContext()
+        PublicationService publicationService = (PublicationService) getServletContext()
                 .getAttribute("publicationService");
-        String topicName= topicService.findById(topicId).getTitle();
+        String topicName = topicService.findById(topicId).getTitle();
 
-        List<Publication> publications  = publicationService.findAllByTopicId(topicId);
+        List<Publication> publications = publicationService.findAllByTopicId(topicId);
 
         request.setAttribute("topicName", topicName);
         request.setAttribute("publications", publications);

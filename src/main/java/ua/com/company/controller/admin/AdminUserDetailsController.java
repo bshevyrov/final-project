@@ -10,7 +10,6 @@ import ua.com.company.service.PersonService;
 
 import java.io.IOException;
 
-//@WebServlet(name = "AdminUserDetailsServlet", value = "/admin/user")
 public class AdminUserDetailsController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
