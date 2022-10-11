@@ -6,6 +6,7 @@
          version="5.0">
 
     <display-name>A Simple Application</display-name>
+
     <!--
 
         <context-param>
