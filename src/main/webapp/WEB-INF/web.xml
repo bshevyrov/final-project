@@ -94,7 +94,7 @@
         <filter-class>ua.com.company.filter.EncodingFilter</filter-class>
         <init-param>
             <param-name>encoding</param-name>
-            <param-value>UTF</param-value>
+            <param-value>UTF-8</param-value>
         </init-param>
     </filter>
     <filter-mapping>

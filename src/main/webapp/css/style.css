@@ -31,6 +31,10 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+small {
+    color: indianred;
+}
+
 .header__search {
     position: absolute;
     left: 85%;

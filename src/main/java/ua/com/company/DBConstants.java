@@ -11,8 +11,8 @@ public abstract class DBConstants {
     public static final String COUNT_PERSON_BY_EMAIL = "SELECT COUNT(id) AS count FROM person WHERE email=?";
     public static final String COUNT_PERSON_BY_USERNAME = "SELECT COUNT(id) AS count FROM person WHERE username=?";
     public static final String COUNT_PERSON_BY_ID = "SELECT COUNT(id) AS count FROM person WHERE id=?";
-    public static final String FIND_PERSON_BY_EMAIL = "SELECT * FROM person p INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id WHERE p.email=?";
-    public static final String FIND_PERSON_BY_USERNAME = "SELECT * FROM person p INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id WHERE p.username=?";
+    public static final String FIND_PERSON_BY_EMAIL = "SELECT p.*,r.name,ps.description, GROUP_CONCAT(p2.title SEPARATOR ',./')as publications FROM person p INNER JOIN person_has_publication php on p.id = php.person_id  INNER JOIN publication p2 on php.publication_id = p2.id INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id  WHERE p.email=? GROUP BY p.id";
+    public static final String FIND_PERSON_BY_USERNAME = "SELECT p.*,r.name,ps.description, GROUP_CONCAT(p2.title SEPARATOR ',./')as publications FROM person p INNER JOIN person_has_publication php on p.id = php.person_id  INNER JOIN publication p2 on php.publication_id = p2.id INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id  WHERE p.username=? GROUP BY p.id";
 
     public static final String UPDATE_PERSON = "UPDATE person SET email = ?,role_id = (SELECT id FROM role WHERE name=?),status_id = (SELECT id FROM person_status WHERE description=?)WHERE id = ?";
 

@@ -51,17 +51,22 @@
                 <div class="login__form">
                     <h3>Sign Up</h3>
                     <form class="form" <%--action="#"--%>
-                          <%--method="post" --%>id="signup" <%--onsubmit="return validateForm()--%>>
+                          method="post" id="signup" <%--onsubmit="return validateForm()--%>>
                         <div class="input__item">
                             <span class="icon_profile"></span>
                             <input type="text" placeholder="Username" name="username" id="username">
+                            <c:if test="${true.equals(usernameBusy)}">
+                                <small>Username already registred</small>
+                            </c:if>
                             <small></small>
 
                         </div>
                         <div class="input__item">
                             <span class="icon_mail"></span>
                             <input type="text" placeholder="Email address" name="email" id="email">
-
+                            <c:if test="${true.equals(emailBusy)}">
+                                <small>Email already registred</small>
+                            </c:if>
                             <small></small>
 
                         </div>

@@ -12,7 +12,7 @@ public class LogoutController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/open/index.jsp");
+                "/WEB-INF/jsp/index.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {

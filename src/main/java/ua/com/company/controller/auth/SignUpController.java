@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import ua.com.company.entity.Person;
 import ua.com.company.service.PersonService;
 
@@ -43,7 +44,14 @@ public class SignUpController extends HttpServlet {
             person.setEmail(email);
             person.setUsername(username);
             person.setPassword(password);
-            personService.create(person);
+
+            int id = personService.create(person);
+            person.setId(id);
+            HttpSession session = request.getSession(false);
+            session.setAttribute("loggedPerson", person);
+            response.sendRedirect("/");
+            return;
+
         }
         processRequest(request, response);
     }
@@ -51,10 +59,10 @@ public class SignUpController extends HttpServlet {
     private boolean isValid(HttpServletRequest request, String email, String username, PersonService personService) {
         boolean rsl = true;
         if (personService.isExistByEmail(email)) {
-            request.setAttribute("email", "true");
+            request.setAttribute("emailBusy", true);
             rsl = false;
         } else if (personService.isExistByUsername(username)) {
-            request.setAttribute("username", "true");
+            request.setAttribute("usernameBusy", true);
             rsl = false;
         }
         return rsl;
