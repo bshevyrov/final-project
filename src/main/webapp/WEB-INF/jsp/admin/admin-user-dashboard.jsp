@@ -2,9 +2,9 @@
 <html lang="zxx">
 
 <head>
-<%--    <title>Anime | Template</title>--%>
+    <%--    <title>Anime | Template</title>--%>
 
-    <%@include file="/WEB-INF/jspf/head.jspf"%>
+    <%@include file="/WEB-INF/jspf/head.jspf" %>
 </head>
 
 <body>
@@ -36,25 +36,36 @@
 <!-- Product Section Begin -->
 <section class="user__dashboard">
     <div class="user__dashboard__table">
-    <p>Users</p>
-    <table>
-        <tr>
-            <th>Email</th>
-            <th>Username</th>
-        </tr>
-        <c:forEach var="user" items="${personList}">
+        <table>
             <tr>
-                <td>
-                  <a href="/admin/user?id=${user.id}">${user.email}</a>
-                </td>
-                <td>
-                    ${user.username}
-                </td>
+                <th>Email</th>
+                <th>Username</th>
+                <th>Total subscriptions</th>
             </tr>
-        </div>
-        </c:forEach>
+            <c:forEach var="user" items="${personList}">
+                <tr>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/admin/user/details?id=${user.id}">${user.email}</a>
+                    </td>
+                    <td>
+                            ${user.username}
+                    </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${user.publications!=null}">
+                                ${fn:length(user.publications)}
+                            </c:when>
+                            <c:otherwise>
+                                0
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
 
-    </table>
+            </c:forEach>
+
+        </table>
+    </div>
 
 
 </section>
@@ -65,9 +76,8 @@
 <!-- Footer Section End -->
 
 
-
 <!-- Js Plugins -->
-<%@include file="/WEB-INF/jspf/scripts.jspf"%>
+<%@include file="/WEB-INF/jspf/scripts.jspf" %>
 
 </body>
 

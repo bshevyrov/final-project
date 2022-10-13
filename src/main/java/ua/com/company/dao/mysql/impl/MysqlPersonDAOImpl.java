@@ -198,7 +198,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return count == 1;
     }
 
-    @Override
+   /* @Override
     public Optional<Person> findSimplePersonByEmail(String email) throws DBException {
         Person person = null;
         try (Connection con = getConnection();
@@ -212,7 +212,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             e.printStackTrace();
             throw new DBException(e);
         }
-        return Optional.ofNullable(person);    }
+        return Optional.ofNullable(person);    }*/
 
     public boolean isExist(int id) throws DBException {
         int count = 0;
@@ -239,14 +239,15 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         person.setStatus(StatusType.valueOf(rs.getString(DBConstants.F_PERSON_STATUS)));
         person.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
         person.setPassword(rs.getString(DBConstants.F_PERSON_PASSWORD));
-        if ("ROLE_CUSTOMER".equals(person.getRole().name())) {
+        if ("ROLE_CUSTOMER".equals(person.getRole().name())
+                && rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION)!=null) {
             person.setPublications(getPublications(rs));
         }
         return person;
     }
 
     private List<Publication> getPublications(ResultSet rs) throws SQLException {
-        String publications = rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION);
+                String publications = rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION);
         return Arrays.stream(publications.split(",\\./"))
                 .map(Publication::new)
                 .collect(Collectors.toList());

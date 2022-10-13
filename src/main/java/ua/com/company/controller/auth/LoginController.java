@@ -37,7 +37,7 @@ public class LoginController extends HttpServlet {
         String pass = request.getParameter("pass");
         PersonService personService = (PersonService) getServletContext().getAttribute("personService");
         if (personService.isExistByEmail(email)) {
-            Person person = personService.findSimpleByEmail(email);
+            Person person = personService.findByEmail(email);
             if (PasswordUtil.validatePassword(pass, person.getPassword())) {
 //            set session person
                 HttpSession session = request.getSession(false);

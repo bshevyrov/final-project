@@ -31,6 +31,7 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+
 small {
     color: indianred;
 }
@@ -47,6 +48,31 @@ small {
     top: 2.1%
 }
 
+
+.user__dashboard {
+    padding-bottom: 80px;
+    padding-top: 80px;
+}
+
+.user__dashboard__table {
+    border-collapse: collapse;
+    position: relative;
+    left: 15%
+}
+
+.user__dashboard__table tr {
+    border: solid;
+    border-width: 1px 0;
+}
+
+.user__dashboard__table tr:first-child {
+    border-top: none;
+}
+
+.user__dashboard__table tr:last-child {
+    border-bottom: none;
+}
+
 .user__dashboard__table th {
     color: #ffffff;
     font-size: 15px;
@@ -54,7 +80,27 @@ small {
     -webkit-transition: all, 0.5s;
     -o-transition: all, 0.5s;
     transition: all, 0.5s;
-    padding: 20px;
+    /*padding: 20px;*/
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    /*padding-left: 20px;*/
+    width: 300px;
+}
+
+.user__dashboard__table td {
+    color: lightgrey;
+    font-size: 15px;
+    font-weight: 700;
+    -webkit-transition: all, 0.5s;
+    -o-transition: all, 0.5s;
+    transition: all, 0.5s;
+    /*padding: 20px;*/
+    /*padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;*/
+    /*padding-left: 20px;*/
+    /*width: 300px;*/
 }
 
 html,

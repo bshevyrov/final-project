@@ -94,6 +94,7 @@ public class PersonServiceImpl implements PersonService {
         }
         return person;
     }
+/*
     @Override
     public Person findSimpleByEmail(String email) {
         Person person = null;
@@ -109,6 +110,7 @@ public class PersonServiceImpl implements PersonService {
         }
         return person;
     }
+*/
 
     @Override
     public Person findByUsername(String username) {
