@@ -7,6 +7,7 @@ public interface PersonService extends BaseService<Person> {
 
     Person findByUsername(String username);
 
+    Person findSimpleByEmail(String email);
 
     boolean isExistByEmail(String email);
 

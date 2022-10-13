@@ -94,6 +94,21 @@ public class PersonServiceImpl implements PersonService {
         }
         return person;
     }
+    @Override
+    public Person findSimpleByEmail(String email) {
+        Person person = null;
+        try {
+            person = personDao.findSimplePersonByEmail(email)
+                    .orElseThrow(() -> new UserNotFoundException(email));
+        } catch (DBException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            log.warn(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return person;
+    }
 
     @Override
     public Person findByUsername(String username) {

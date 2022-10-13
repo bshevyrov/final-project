@@ -38,6 +38,8 @@ public abstract class DBConstants {
     public static final String FIND_TOPIC_BY_TITLE = "SELECT * FROM topic WHERE title=?";
     public static final String FIND_ALL_PUBLICATIONS_BY_TOPIC_ID = " SELECT p.* , i.name, i.path ,GROUP_CONCAT(t.title)as topics FROM publication p  INNER JOIN image i on p.id = i.publication_id   INNER JOIN publication_has_topic pht  on p.id = pht.publication_id INNER JOIN topic t  on pht.topic_id = t.id   WHERE t.id=? GROUP BY p.id";
     public static final String FIND_ALL_PUBLICATIONS_BY_USER_ID ="SELECT p.* , i.name, i.path ,GROUP_CONCAT(t.title)as topics FROM publication p  INNER JOIN image i on p.id = i.publication_id   INNER JOIN publication_has_topic pht  on p.id = pht.publication_id INNER JOIN topic t  on pht.topic_id = t.id  LEFT JOIN person_has_publication php on p.id = php.publication_id WHERE php.person_id = ? GROUP BY p.id";
+    public static final String FIND_SIMPLE_PERSON_BY_EMAIL = "SELECT *  FROM person p INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id  WHERE p.email=?";
+
     private DBConstants() {
     }
 

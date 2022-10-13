@@ -86,19 +86,19 @@ public class MysqlPersonDAOImpl implements PersonDAO {
 
     @Override
     public Optional<Person> findPersonByEmail(String email) throws DBException {
-        Person Person = null;
+        Person person = null;
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_EMAIL);) {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                Person = mapPerson(rs);
+                person = mapPerson(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DBException(e);
         }
-        return Optional.ofNullable(Person);
+        return Optional.ofNullable(person);
     }
 
     @Override
@@ -197,6 +197,22 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
         return count == 1;
     }
+
+    @Override
+    public Optional<Person> findSimplePersonByEmail(String email) throws DBException {
+        Person person = null;
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_SIMPLE_PERSON_BY_EMAIL);) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                person = mapPerson(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+        return Optional.ofNullable(person);    }
 
     public boolean isExist(int id) throws DBException {
         int count = 0;
