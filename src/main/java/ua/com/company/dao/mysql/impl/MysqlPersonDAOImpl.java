@@ -198,6 +198,35 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return count == 1;
     }
 
+    @Override
+    public boolean changeStatusById(int id) throws DBException {
+        boolean completed;
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(DBConstants.CHANGE_USER_STATUS_BY_ID)) {
+            int newStatus = 1==checkStatusById(con, id)?2:1;
+            int index=0;
+            stmt.setInt(++index,newStatus);
+            stmt.setInt(++index, id);
+            completed = stmt.execute();
+        } catch (SQLException e) {
+            completed = false;
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+        return completed;
+    }
+
+    private int checkStatusById(Connection con, int id) throws SQLException {
+        ResultSet rs = null;
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CHECK_USER_STATUS_BY_ID)) {
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            return rs.getInt(DBConstants.F_PERSON_STATUS_ID);
+        } finally {
+            close(rs);
+        }
+
+    }
    /* @Override
     public Optional<Person> findSimplePersonByEmail(String email) throws DBException {
         Person person = null;
@@ -240,14 +269,14 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         person.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
         person.setPassword(rs.getString(DBConstants.F_PERSON_PASSWORD));
         if ("ROLE_CUSTOMER".equals(person.getRole().name())
-                && rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION)!=null) {
+                && rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION) != null) {
             person.setPublications(getPublications(rs));
         }
         return person;
     }
 
     private List<Publication> getPublications(ResultSet rs) throws SQLException {
-                String publications = rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION);
+        String publications = rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION);
         return Arrays.stream(publications.split(",\\./"))
                 .map(Publication::new)
                 .collect(Collectors.toList());

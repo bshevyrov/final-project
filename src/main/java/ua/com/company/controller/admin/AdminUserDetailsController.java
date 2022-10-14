@@ -27,7 +27,7 @@ public class AdminUserDetailsController extends HttpServlet {
         String id = request.getParameter("id");
         PersonService personService = (PersonService) getServletContext().getAttribute("personService");
         Person person = (personService.findById(Integer.parseInt(id)));
-        request.setAttribute("person", person);
+        request.setAttribute("user", person);
         processRequest(request, response);
     }
 

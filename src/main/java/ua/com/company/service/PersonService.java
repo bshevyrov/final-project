@@ -12,4 +12,6 @@ public interface PersonService extends BaseService<Person> {
     boolean isExistByEmail(String email);
 
     boolean isExistByUsername(String username);
+
+    boolean changeStatusById(int parseInt);
 }

@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import ua.com.company.entity.Person;
 import ua.com.company.service.PersonService;
 
@@ -32,6 +33,14 @@ public class AdminUserDashboardController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("changeStatusId");
+        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
+
+        if (personService.changeStatusById(Integer.parseInt(id))) {
+//            HttpSession session = getServletContext().
+            //TODO exit session
+        }
+        response.sendRedirect("/admin/user/dashboard");
 
     }
 }

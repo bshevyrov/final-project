@@ -2,7 +2,7 @@
 <html lang="zxx">
 
 <head>
-        <title>Anime | Template</title>
+    <title>Anime | Template</title>
 
     <%@include file="/WEB-INF/jspf/head.jspf" %>
 </head>
@@ -42,25 +42,34 @@
             <th>Username</th>
             <th>Num of Subscriptions</th>
             <th>Status</th>
-            <th>Ban/Unban</th>
+            <th>Change status</th>
         </tr>
 
         <tr>
             <td>
-                <a href="/admin/user?id=${person.id}">${person.email}</a>
+                ${person.email}
             </td>
             <td>
                 ${person.username}
             </td>
             <td>
-                <c:set value="${person.publications}" var="numPublications"/>
-                ${fn:length(numPublications)}
+                <c:choose>
+                    <c:when test="${user.publications!=null}">
+                        ${fn:length(user.publications)}
+                    </c:when>
+                    <c:otherwise>
+                        No subscriptions
+                    </c:otherwise>
+                </c:choose>
             </td>
             <td>
-                <c:set var="status" value="<%=((Person)pageContext.getRequest().getAttribute(\"person\")).getStatus().name()%>" />
+                <c:set var="status"
+                       value="<%=((Person)pageContext.getRequest().getAttribute(\"person\")).getStatus().name()%>"/>
                 ${status}
             </td>
-            <td>ban/unban</td>
+            <td>
+                <button href="/admin/user/status?id=${user.id}">Ban</button>
+            </td>
         </tr>
 
 

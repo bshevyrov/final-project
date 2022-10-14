@@ -50,8 +50,9 @@ small {
 
 
 .user__dashboard {
-    padding-bottom: 80px;
-    padding-top: 80px;
+    /*padding-bottom: 80px;*/
+    /*padding-top: 80px;*/
+    padding: 80px;
 }
 
 .user__dashboard__table {

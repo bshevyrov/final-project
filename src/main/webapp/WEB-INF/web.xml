@@ -141,6 +141,14 @@
         <url-pattern>/admin/user/dashboard</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>AdminUserStatusServlet</servlet-name>
+        <servlet-class>ua.com.company.controller.admin.AdminUserStatusController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminUserStatusServlet</servlet-name>
+        <url-pattern>/admin/user/status</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>AdminPublicationUploadServlet</servlet-name>
         <servlet-class>ua.com.company.controller.admin.AdminPublicationUploadController</servlet-class>
     </servlet>

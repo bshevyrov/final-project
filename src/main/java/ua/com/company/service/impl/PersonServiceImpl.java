@@ -153,4 +153,16 @@ public class PersonServiceImpl implements PersonService {
         }
         return existByUsername;
     }
+
+    @Override
+    public boolean changeStatusById(int id) {
+        boolean completed = false;
+        try {
+            completed = personDao.changeStatusById(id);
+        } catch (DBException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return completed;
+    }
 }

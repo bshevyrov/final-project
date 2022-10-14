@@ -15,5 +15,7 @@ public interface PersonDAO extends BaseDAO<Person> {
     boolean isExistByEmail(String email) throws DBException;
 
     boolean isExistByUsername(String username) throws DBException;
+
+    boolean changeStatusById(int id) throws DBException;
 // Optional<Person>findSimplePersonByEmail(String email) throws DBException;
 }
