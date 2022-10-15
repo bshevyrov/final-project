@@ -203,9 +203,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         boolean completed;
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.CHANGE_USER_STATUS_BY_ID)) {
-            int newStatus = 1==checkStatusById(con, id)?2:1;
-            int index=0;
-            stmt.setInt(++index,newStatus);
+            int newStatus = checkStatusById(con, id) == 1 ? 2 : 1;
+            int index = 0;
+            stmt.setInt(++index, newStatus);
             stmt.setInt(++index, id);
             completed = stmt.execute();
         } catch (SQLException e) {
@@ -221,7 +221,11 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CHECK_USER_STATUS_BY_ID)) {
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
-            return rs.getInt(DBConstants.F_PERSON_STATUS_ID);
+            int statusCode = -1;
+            if (rs.next()) {
+                statusCode = rs.getInt(DBConstants.F_PERSON_STATUS_ID);
+            }
+            return statusCode;
         } finally {
             close(rs);
         }

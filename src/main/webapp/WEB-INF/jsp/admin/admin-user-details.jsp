@@ -54,8 +54,8 @@
             </td>
             <td>
                 <c:choose>
-                    <c:when test="${user.publications!=null}">
-                        ${fn:length(user.publications)}
+                    <c:when test="${person.publications!=null}">
+                        ${fn:length(person.publications)}
                     </c:when>
                     <c:otherwise>
                         No subscriptions
@@ -68,7 +68,7 @@
                 ${status}
             </td>
             <td>
-                <button href="/admin/user/status?id=${user.id}">Ban</button>
+                <button href="/admin/user/status?id=${person.id}">Ban</button>
             </td>
         </tr>
 

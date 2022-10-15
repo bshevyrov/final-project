@@ -41,26 +41,39 @@
                 <th>Email</th>
                 <th>Username</th>
                 <th>Total subscriptions</th>
+                <th>Status</th>
+                <th>Ban/Unban</th>
             </tr>
-            <c:forEach var="user" items="${personList}">
+            <c:forEach var="person" items="${personList}">
                 <tr>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/user/details?id=${user.id}">${user.email}</a>
+                        <a href="${pageContext.request.contextPath}/admin/user/details?id=${person.id}">${person.email}</a>
                     </td>
                     <td>
-                            ${user.username}
+                            ${person.username}
                     </td>
                     <td>
                         <c:choose>
-                            <c:when test="${user.publications!=null}">
-                                ${fn:length(user.publications)}
+                            <c:when test="${person.publications!=null}">
+                                ${fn:length(person.publications)}
                             </c:when>
                             <c:otherwise>
                                 0
                             </c:otherwise>
                         </c:choose>
                     </td>
+                    <td>
+
+                        ${person.status}
+                    </td>
+                    <td>
+<%--                        <button type="button"  href="/admin/user/status?id=${person.id}">Ban</button>--%>
+                        <form >
+                        <button type="submit" formmethod="post" name="changeStatusId" value="${person.id}">Ban</button>
+                        </form>
+                    </td>
                 </tr>
+
 
             </c:forEach>
 
