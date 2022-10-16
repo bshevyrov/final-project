@@ -35,20 +35,48 @@
 
 <!-- Product Section Begin -->
 <section class="user-dashboard">
-    <p>User</p>
     <table>
         <tr>
-            <th>Email</th>
-            <th>Username</th>
-            <th>Num of Subscriptions</th>
-            <th>Status</th>
-            <th>Change status</th>
+            <td>Email</td>
+            <td>${person.email}</td>
         </tr>
 
         <tr>
+            <td>Username</td>
+            <td>${person.username}</td>
+        </tr>
+
+        <tr>
+            <td>Status</td>
+            <td>${person.status}</td>
+        </tr>
+
+        <tr>
+            <td>subscriptions</td>
             <td>
-                ${person.email}
+                <table>
+                    <c:forEach items="${person.publications}" var="publication">
+                        <tr>
+                            <td>
+                            <a href="/publication/details?id=${publication.id}">${publication.title}</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
             </td>
+        </tr>
+
+
+        <%--</tr>
+
+        <th>Num of Subscriptions</th>
+
+        <th>Change status</th>
+
+
+        <tr>
+            <td>
+
             <td>
                 ${person.username}
             </td>
@@ -63,17 +91,13 @@
                 </c:choose>
             </td>
             <td>
-                <c:set var="status"
-                       value="<%=((Person)pageContext.getRequest().getAttribute(\"person\")).getStatus().name()%>"/>
-                ${status}
             </td>
             <td>
-                <button href="/admin/user/status?id=${person.id}">Ban</button>
+                <form>
+                    <button type="submit" formmethod="post" name="changeStatusId" value="${person.id}">Ban</button>
+                </form>
             </td>
-        </tr>
-
-
-    </table>
+        </tr>--%>
 
 
 </section>

@@ -1,4 +1,4 @@
-package ua.com.company.controller.error;
+package ua.com.company.view.controller.error;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;

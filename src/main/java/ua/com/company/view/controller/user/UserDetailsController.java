@@ -1,4 +1,4 @@
-package ua.com.company.controller.user;
+package ua.com.company.view.controller.user;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;

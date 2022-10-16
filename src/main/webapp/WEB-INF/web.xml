@@ -108,7 +108,7 @@
 
     <servlet>
         <servlet-name>AdminPublicationDashboardServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.admin.AdminPublicationDashboardController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.admin.AdminPublicationDashboardController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminPublicationDashboardServlet</servlet-name>
@@ -118,7 +118,7 @@
 
     <servlet>
         <servlet-name>AdminPublicationDetailsServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.admin.AdminPublicationDetailsController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.admin.AdminPublicationDetailsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminPublicationDetailsServlet</servlet-name>
@@ -126,7 +126,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>AdminUserDetailsServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.admin.AdminUserDetailsController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.admin.AdminUserDetailsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminUserDetailsServlet</servlet-name>
@@ -134,7 +134,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>AdminUserDashboardServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.admin.AdminUserDashboardController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.admin.AdminUserDashboardController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminUserDashboardServlet</servlet-name>
@@ -150,7 +150,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>AdminPublicationUploadServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.admin.AdminPublicationUploadController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.admin.AdminPublicationUploadController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminPublicationUploadServlet</servlet-name>
@@ -164,7 +164,7 @@
 
     <servlet>
         <servlet-name>LoginPageServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.auth.LoginController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.auth.LoginController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginPageServlet</servlet-name>
@@ -173,7 +173,7 @@
 
     <servlet>
         <servlet-name>LogoutPageServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.auth.LogoutController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.auth.LogoutController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogoutPageServlet</servlet-name>
@@ -182,7 +182,7 @@
 
     <servlet>
         <servlet-name>SignUpPageServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.auth.SignUpController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.auth.SignUpController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SignUpPageServlet</servlet-name>
@@ -192,7 +192,7 @@
     <!--    index page-->
     <servlet>
         <servlet-name>IndexPageServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.IndexPageController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.IndexPageController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>IndexPageServlet</servlet-name>
@@ -202,7 +202,7 @@
     <!--    user-->
     <servlet>
         <servlet-name>UserDetailsServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.user.UserDetailsController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.user.UserDetailsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserDetailsServlet</servlet-name>
@@ -210,7 +210,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>UserSubscriptionsServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.user.UserSubscriptionsController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.user.UserSubscriptionsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserSubscriptionsServlet</servlet-name>
@@ -220,7 +220,7 @@
     <!--    category-->
     <servlet>
         <servlet-name>CategoryDetailsServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.category.CategoryDetailsController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.category.CategoryDetailsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CategoryDetailsServlet</servlet-name>
@@ -230,7 +230,7 @@
     <!--    error-->
     <servlet>
         <servlet-name>NPEServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.error.NPEController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.error.NPEController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NPEServlet</servlet-name>
@@ -238,7 +238,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>DBEServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.error.DBEController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.error.DBEController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DBEServlet</servlet-name>
@@ -248,7 +248,7 @@
     <!--    publication-->
     <servlet>
         <servlet-name>PublicationDetailsServlet</servlet-name>
-        <servlet-class>ua.com.company.controller.publication.PublicationDetailsController</servlet-class>
+        <servlet-class>ua.com.company.view.controller.publication.PublicationDetailsController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>PublicationDetailsServlet</servlet-name>

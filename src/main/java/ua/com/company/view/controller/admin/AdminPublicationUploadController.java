@@ -1,4 +1,4 @@
-package ua.com.company.controller.admin;
+package ua.com.company.view.controller.admin;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

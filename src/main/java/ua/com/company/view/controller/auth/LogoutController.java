@@ -1,4 +1,4 @@
-package ua.com.company.controller.auth;
+package ua.com.company.view.controller.auth;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

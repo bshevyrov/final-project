@@ -63,7 +63,6 @@
                         </c:choose>
                     </td>
                     <td>
-
                         ${person.status}
                     </td>
                     <td>

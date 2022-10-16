@@ -1,21 +1,18 @@
-package ua.com.company.controller.admin;
+package ua.com.company.view.controller.error;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.entity.Publication;
-import ua.com.company.service.PublicationService;
 
 import java.io.IOException;
-import java.util.List;
 
-public class AdminPublicationDashboardController extends HttpServlet {
+public class NPEController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/admin/admin-publication-dashboard.jsp");
+                "/WEB-INF/jsp/error/something-went-wrong.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
@@ -25,14 +22,11 @@ public class AdminPublicationDashboardController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PublicationService publicationService = (PublicationService) getServletContext().getAttribute("publicationService");
-        List<Publication> publicationList = publicationService.findAll();
-        request.setAttribute("publicationList", publicationList);
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 }

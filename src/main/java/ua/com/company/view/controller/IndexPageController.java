@@ -1,4 +1,4 @@
-package ua.com.company.controller.publication;
+package ua.com.company.view.controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -9,16 +9,15 @@ import ua.com.company.entity.Publication;
 import ua.com.company.service.PublicationService;
 
 import java.io.IOException;
+import java.util.List;
 
-
-///details?title=
-
-public class PublicationDetailsController extends HttpServlet {
+//@WebServlet(name = "IndexPageServlet", value = "")
+public class IndexPageController extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/publication/publication-details.jsp");
+                "/WEB-INF/jsp/index.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
@@ -30,12 +29,12 @@ public class PublicationDetailsController extends HttpServlet {
     protected void doGet(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         PublicationService publicationService = (PublicationService) getServletContext()
                 .getAttribute("publicationService");
-        int publicationId = Integer.parseInt(request.getParameter("id"));
-        Publication publication = null;
-        publication = publicationService.findById(publicationId);
-        request.setAttribute("publication", publication);
+        List<Publication> publications;
+        publications = publicationService.findAll();
+        request.setAttribute("publications", publications);
         processRequest(request, response);
     }
 

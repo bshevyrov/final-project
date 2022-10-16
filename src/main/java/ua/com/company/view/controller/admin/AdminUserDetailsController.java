@@ -1,4 +1,4 @@
-package ua.com.company.controller.admin;
+package ua.com.company.view.controller.admin;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -33,6 +33,14 @@ public class AdminUserDetailsController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("changeStatusId");
+        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
+
+        if (personService.changeStatusById(Integer.parseInt(id))) {
+//            HttpSession session = getServletContext().
+            //TODO exit session
+        }
+        response.sendRedirect("/admin/user/details?id=" + id);
 
     }
 }
