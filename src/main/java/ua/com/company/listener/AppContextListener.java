@@ -11,6 +11,12 @@ import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.dao.TopicDAO;
+import ua.com.company.facade.PersonFacade;
+import ua.com.company.facade.PublicationFacade;
+import ua.com.company.facade.TopicFacade;
+import ua.com.company.facade.impl.PersonFacadeImpl;
+import ua.com.company.facade.impl.PublicationFacadeImpl;
+import ua.com.company.facade.impl.TopicFacadeImpl;
 import ua.com.company.service.PersonService;
 import ua.com.company.service.PublicationService;
 import ua.com.company.service.TopicService;
@@ -29,27 +35,32 @@ public class AppContextListener implements ServletContextListener {
         //config app
 
         DAOFactory.setDaoFactoryFQN(DBType.MYSQL);
-        PersonDAO personDAO = null;
-        PublicationDAO publicationDAO = null;
-        TopicDAO topicDAO = null;
-        try {
+//        PersonDAO personDAO = null;
+//        PublicationDAO publicationDAO = null;
+//        TopicDAO topicDAO = null;
+
+
+ /*       try {
             publicationDAO = DAOFactory.getInstance().getPublicationDAO();
             personDAO = DAOFactory.getInstance().getPersonDAO();
             topicDAO =DAOFactory.getInstance().getTopicDAO();
         } catch (Exception e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
-        }
+        }*/
         ServletContext servletContext = sce.getServletContext();
-
-        PersonService personService = new PersonServiceImpl(personDAO);
-        servletContext.setAttribute("personService", personService);
-
-        PublicationService publicationService = new PublicationServiceImpl(publicationDAO);
-        servletContext.setAttribute("publicationService", publicationService);
-
-        TopicService topicService = new TopicServiceImpl(topicDAO);
-        servletContext.setAttribute("topicService",topicService);
+//
+//        PersonService personService = new PersonServiceImpl(personDAO);
+//        servletContext.setAttribute("personService", personService);
+//
+//        PublicationService publicationService = new PublicationServiceImpl(publicationDAO);
+//        servletContext.setAttribute("publicationService", publicationService);
+//
+//        TopicService topicService = new TopicServiceImpl(topicDAO);
+//        servletContext.setAttribute("topicService",topicService);
+        servletContext.setAttribute("topicFacade",new TopicFacadeImpl());
+        servletContext.setAttribute("personFacade",new PersonFacadeImpl())
+        ;servletContext.setAttribute("publicationFacade",new PublicationFacadeImpl());
     }
 
     @Override

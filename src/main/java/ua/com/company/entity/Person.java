@@ -17,7 +17,16 @@ public class Person extends BaseEntity {
     private double funds;
     private String firstName;
     private String lastName;
-    private List<Publication> publications;
+
+    public int[] getPublicationsId() {
+        return publicationsId;
+    }
+
+    public void setPublicationsId(int[] publicationsId) {
+        this.publicationsId = publicationsId;
+    }
+
+    private int[] publicationsId;
     private PersonDetails personDetails;
 
 
@@ -29,17 +38,10 @@ public class Person extends BaseEntity {
         this.username = username;
     }
 
-    public void setPublications(List<Publication> publications) {
-        this.publications = publications;
-    }
-
     public PersonDetails getPersonDetails() {
         return personDetails;
     }
 
-    public List<Publication> getPublications() {
-        return publications;
-    }
 
     public void setPersonDetails(PersonDetails personDetails) {
         this.personDetails = personDetails;
@@ -122,7 +124,7 @@ public class Person extends BaseEntity {
                 ", funds=" + funds +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", publications=" + publications +
+                ", publications=" + publicationsId +
                 '}';
     }
 }
