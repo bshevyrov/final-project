@@ -2,52 +2,72 @@ package ua.com.company.facade.impl;
 
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.entity.Person;
-import ua.com.company.entity.Publication;
 import ua.com.company.facade.PersonFacade;
 import ua.com.company.service.PersonService;
 import ua.com.company.service.PublicationService;
 import ua.com.company.service.impl.PersonServiceImpl;
 import ua.com.company.service.impl.PublicationServiceImpl;
+import ua.com.company.utils.ClassConverter;
 import ua.com.company.view.dto.PersonDTO;
 import ua.com.company.view.dto.PublicationDTO;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PersonFacadeImpl implements PersonFacade {
     private final PersonService personService = new PersonServiceImpl(DAOFactory.getInstance().getPersonDAO());
     private final PublicationService publicationService = new PublicationServiceImpl(DAOFactory.getInstance().getPublicationDAO());
+
+    public PersonFacadeImpl() throws Exception {
+    }
+
     @Override
     public void create(PersonDTO personDTO) {
+        personService.create(ClassConverter.personDTOToPerson(personDTO));
 
     }
 
     @Override
     public void update(PersonDTO personDTO) {
-
+        personService.update(ClassConverter.personDTOToPerson(personDTO));
     }
 
     @Override
     public void delete(int id) {
+        personService.delete(id);
 
     }
 
     @Override
     public PersonDTO findById(int id) {
-        PersonDTO personDTO = new PersonDTO();
-        PublicationDTO publicationDTO = new PublicationDTO();
+        PersonDTO personDTO;
         Person person = personService.findById(id);
-        List<Publication> publicationList = new ArrayList<>();
-        for (int i : person.getPublicationsId()) {
-            publicationList.add(publicationService.findById(i));
-        }
+        List<PublicationDTO> publicationList = Arrays.stream(person.getPublicationsId())
+                .boxed()
+                .map(publicationService::findById)
+                .map(ClassConverter::publicationToPublicationDTO)
+                .collect(Collectors.toList());
 
-        return null;
-
+        personDTO = ClassConverter.personToPersonDTO(person);
+        personDTO.setPublications(publicationList);
+        return personDTO;
     }
 
     @Override
     public List<PersonDTO> findAll() {
-        return null;
+        List<PersonDTO> personDTOList = null;
+        List<Person> personList = personService.findAll();
+        for (Person person : personList) {
+            PersonDTO personDTO = ClassConverter.personToPersonDTO(person);
+            List<PublicationDTO> publicationList = Arrays.stream(person.getPublicationsId())
+                    .boxed()
+                    .map(publicationService::findById)
+                    .map(ClassConverter::publicationToPublicationDTO)
+                    .collect(Collectors.toList());
+            personDTO.setPublications(publicationList);
+            personDTOList.add(personDTO);
+        }
+        return personDTOList;
     }
 }

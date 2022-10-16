@@ -60,4 +60,18 @@ public final class ClassConverter {
         return topicDTO;
     }
 
+    public static Person personDTOToPerson(PersonDTO personDTO) {
+        Person person = new Person();
+        person.setId(personDTO.getId());
+        person.setUsername(personDTO.getUsername());
+        person.setEmail(personDTO.getEmail());
+        person.setFunds(personDTO.getFunds());
+        int[] publicationsId = new int[personDTO.getPublications().size()];
+        int index = 0;
+        for (PublicationDTO publication : personDTO.getPublications()) {
+            publicationsId[++index] = publication.getId();
+        }
+        person.setPublicationsId(publicationsId);
+        return person;
+    }
 }

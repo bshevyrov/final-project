@@ -11,10 +11,8 @@ import ua.com.company.utils.PasswordUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class MysqlPersonDAOImpl implements PersonDAO {
 
@@ -272,17 +270,22 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         person.setStatus(StatusType.valueOf(rs.getString(DBConstants.F_PERSON_STATUS)));
         person.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
         person.setPassword(rs.getString(DBConstants.F_PERSON_PASSWORD));
+        person.setFunds(rs.getDouble(DBConstants.F_PERSON_FUNDS));
         if ("ROLE_CUSTOMER".equals(person.getRole().name())
                 && rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION) != null) {
-            person.setPublications(getPublications(rs));
+            person.setPublicationsId(getPublicationsId(rs));
         }
         return person;
     }
 
-    private List<Publication> getPublications(ResultSet rs) throws SQLException {
-        String publications = rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION);
-        return Arrays.stream(publications.split(",\\./"))
-                .map(Publication::new)
-                .collect(Collectors.toList());
+    private int[] getPublicationsId(ResultSet rs) throws SQLException {
+        String rsPublicationsId = rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION);
+        String[] tempPublicationsId = rsPublicationsId.split(",");
+        int[] publicationsId = new int[tempPublicationsId.length];
+        int index = 0;
+        for (String s : tempPublicationsId) {
+            publicationsId[++index] = Integer.parseInt(s);
+        }
+        return publicationsId;
     }
 }

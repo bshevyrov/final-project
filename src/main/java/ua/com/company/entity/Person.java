@@ -79,13 +79,13 @@ public class Person extends BaseEntity {
         this.role = role;
     }
 
-//    public double getFunds() {
-//        return funds;
-//    }
-//
-//    public void setFunds(double funds) {
-//        this.funds = funds;
-//    }
+    public double getFunds() {
+        return funds;
+    }
+
+    public void setFunds(double funds) {
+        this.funds = funds;
+    }
 
 //    public String getFirstName() {
 //        return firstName;
