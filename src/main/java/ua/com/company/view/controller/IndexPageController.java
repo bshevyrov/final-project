@@ -17,7 +17,6 @@ import java.util.List;
 public class IndexPageController extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-
         RequestDispatcher dispatcher = request.getRequestDispatcher(
                 "/WEB-INF/jsp/index.jsp");
         try {

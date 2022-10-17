@@ -1,11 +1,10 @@
 package ua.com.company.filter;
 
 import jakarta.servlet.*;
-import jakarta.servlet.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ua.com.company.entity.Person;
+import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
@@ -25,7 +24,7 @@ public class AdminPageFilter implements Filter {
         String loginURL = req.getContextPath() + "/login";
         boolean loggedIn = (session != null)
                 && (session.getAttribute("loggedPerson") != null)
-                &&"ROLE_ADMIN".equals(((Person)session.getAttribute("loggedPerson")).getRole().name());
+                && "ROLE_ADMIN".equals(((PersonDTO) session.getAttribute("loggedPerson")).getRole().name());
         if (loggedIn) {//&&requestId==curentuserId)|| ROLE_ADMIN
             chain.doFilter(request, response);
         } else {

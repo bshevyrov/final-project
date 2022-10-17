@@ -1,4 +1,4 @@
-<%@ page import="ua.com.company.entity.Person" %>
+<%@ page import="ua.com.company.view.dto.PersonDTO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="ex" uri="/WEB-INF/tld/custom.tld" %>
@@ -37,7 +37,7 @@
 
                                 <c:if test="${sessionScope.loggedPerson != null}">
                                     <c:set var="roleType"
-                                           value="<%=((Person)session.getAttribute(\"loggedPerson\")).getRole().name()%>"/>
+                                           value="<%=((PersonDTO)session.getAttribute(\"loggedPerson\")).getRole().name()%>"/>
                                     <c:set var="personRole" value="${sessionScope.loggedPerson.role}"/>
                                 <c:choose>
                                 <c:when test="${roleType == 'ROLE_ADMIN'}">
@@ -69,7 +69,7 @@
 
             <div class="row">
                 <div class="column">
-                    <div class="header__search" >
+                    <div class="header__search">
                         <a href="#" class="search-switch"><span class="icon_search"></span></a>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                 <div class="column">
                     <c:choose>
                         <c:when test="${sessionScope.loggedPerson != null}">
-                            <div class="header__username" >
+                            <div class="header__username">
                                 <p>${sessionScope.get("loggedPerson").username}</p>
                             </div>
                             <div class="header__icon">
@@ -86,7 +86,7 @@
                         </c:when>
 
                         <c:otherwise>
-                            <div class="header__icon" >
+                            <div class="header__icon">
                                 <a href="/login"><span class="icon_profile"></span></a>
                             </div>
                         </c:otherwise>

@@ -10,6 +10,7 @@ import ua.com.company.utils.ClassConverter;
 import ua.com.company.view.dto.PersonDTO;
 import ua.com.company.view.dto.PublicationDTO;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,7 +56,7 @@ public class PersonFacadeImpl implements PersonFacade {
 
     @Override
     public List<PersonDTO> findAll() {
-        List<PersonDTO> personDTOList = null;
+        List<PersonDTO> personDTOList = new ArrayList<>();
         List<Person> personList = personService.findAll();
         for (Person person : personList) {
             PersonDTO personDTO = ClassConverter.personToPersonDTO(person);

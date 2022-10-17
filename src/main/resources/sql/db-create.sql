@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`person`
     `role_id`     INT          NOT NULL DEFAULT 1,
     `status_id`   INT          NOT NULL DEFAULT 1,
     `username`    VARCHAR(45)  NOT NULL,
+    `funds`       DOUBLE       DEFAULT (0.0),
     PRIMARY KEY (`id`),
     UNIQUE INDEX (`email` ASC) VISIBLE,
     FULLTEXT INDEX `idx_customer_email` (`email`) VISIBLE,
@@ -232,10 +233,10 @@ VALUES (1, 'ROLE_CUSTOMER'),
        (2, 'ROLE_ADMIN');
 INSERT INTO person
 VALUES (1, 'nefor89@gmail.com', now(), now(), '65535:ee2371f001922a7be621d1f1598465f6:dd8ee816129b683221aeeac1ffa67682',
-        1, 1, 'd9i');
-INSERT INTO final_project.person (id, email, create_date, update_date, password, role_id, status_id, username)
+        1, 1, 'd9i', 999.999);
+INSERT INTO person
 VALUES (2, 'bshevyrov@gmail.com', '2022-10-05 16:36:13', '2022-10-05 16:36:13',
-        '65535:ee2371f001922a7be621d1f1598465f6:dd8ee816129b683221aeeac1ffa67682', 2, 1, 'BOSS');
+        '65535:ee2371f001922a7be621d1f1598465f6:dd8ee816129b683221aeeac1ffa67682', 2, 1, 'BOSS', DEFAULT);
 
 
 INSERT INTO `publication`

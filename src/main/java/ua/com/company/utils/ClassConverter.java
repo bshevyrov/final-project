@@ -17,6 +17,7 @@ public final class ClassConverter {
         personDTO.setId(person.getId());
         personDTO.setEmail(person.getEmail());
         personDTO.setUsername(person.getUsername());
+        personDTO.setPassword(person.getPassword());
         personDTO.setRole(person.getRole());
         personDTO.setStatus(person.getStatus());
         personDTO.setFunds(person.getFunds());

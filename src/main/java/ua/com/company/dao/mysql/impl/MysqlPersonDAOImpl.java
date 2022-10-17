@@ -271,9 +271,10 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         person.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
         person.setPassword(rs.getString(DBConstants.F_PERSON_PASSWORD));
         person.setFunds(rs.getDouble(DBConstants.F_PERSON_FUNDS));
-        if ("ROLE_CUSTOMER".equals(person.getRole().name())
-                && rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION) != null) {
+        if (rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION) != null) {
             person.setPublicationsId(getPublicationsId(rs));
+        } else {
+            person.setPublicationsId(new int[]{-1});
         }
         return person;
     }
@@ -284,7 +285,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         int[] publicationsId = new int[tempPublicationsId.length];
         int index = 0;
         for (String s : tempPublicationsId) {
-            publicationsId[++index] = Integer.parseInt(s);
+            publicationsId[index++] = Integer.parseInt(s);
         }
         return publicationsId;
     }

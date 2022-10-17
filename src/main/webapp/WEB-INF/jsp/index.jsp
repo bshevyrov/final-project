@@ -1,14 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: bohdan
-  Date: 08.09.22
-  Time: 22:37
-  To change this template use File | Settings | File Templates.
---%>
 
-
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>--%>
-<%--https://betacode.net/10429/java-jsp-standard-tag-library--%>
 <!DOCTYPE html>
 <html lang="zxx">
 
