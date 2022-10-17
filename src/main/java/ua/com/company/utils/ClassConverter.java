@@ -4,10 +4,7 @@ import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
 import ua.com.company.entity.Publication;
 import ua.com.company.entity.Topic;
-import ua.com.company.view.dto.ImageDTO;
-import ua.com.company.view.dto.PersonDTO;
-import ua.com.company.view.dto.PublicationDTO;
-import ua.com.company.view.dto.TopicDTO;
+import ua.com.company.view.dto.*;
 
 import java.util.stream.Collectors;
 
@@ -66,12 +63,23 @@ public final class ClassConverter {
         person.setUsername(personDTO.getUsername());
         person.setEmail(personDTO.getEmail());
         person.setFunds(personDTO.getFunds());
-        int[] publicationsId = new int[personDTO.getPublications().size()];
-        int index = 0;
-        for (PublicationDTO publication : personDTO.getPublications()) {
-            publicationsId[++index] = publication.getId();
-        }
-        person.setPublicationsId(publicationsId);
+//        int[] publicationsId = new int[personDTO.getPublications().size()];
+//        int index = 0;
+        person.setPublicationsId(personDTO.getPublications().stream()
+                //  .map(BaseDTO::getId)
+                .mapToInt(BaseDTO::getId)
+                .toArray());
+//        for (PublicationDTO publication : personDTO.getPublications()) {
+//            publicationsId[++index] = publication.getId();
+//        }
+//        person.setPublicationsId(publicationsId);
         return person;
+    }
+
+    public static Topic topicDTOTotopic(TopicDTO topicDTO) {
+        Topic topic = new Topic();
+        topic.setId(topicDTO.getId());
+        topic.setTitle(topicDTO.getTitle());
+        return topic;
     }
 }
