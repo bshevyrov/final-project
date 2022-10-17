@@ -35,7 +35,7 @@ public class AdminPublicationUploadController extends HttpServlet {
         request.setAttribute("topics", topicService.findAll());
         processRequest(request, response);
     }
-
+TODO
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Publication publication = new Publication();

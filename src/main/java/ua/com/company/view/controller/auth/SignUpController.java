@@ -7,7 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ua.com.company.entity.Person;
+import ua.com.company.facade.PersonFacade;
 import ua.com.company.service.PersonService;
+import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
@@ -38,14 +40,14 @@ public class SignUpController extends HttpServlet {
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
-        if (isValid(request, email, username, personService)) {
-            Person person = new Person();
+        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
+        if (isValid(request, email, username, personFacade)) {
+            PersonDTO person = new PersonDTO();
             person.setEmail(email);
             person.setUsername(username);
             person.setPassword(password);
 
-            int id = personService.create(person);
+            int id = personFacade.create(person);
             person.setId(id);
             HttpSession session = request.getSession(false);
             session.setAttribute("loggedPerson", person);
@@ -56,12 +58,12 @@ public class SignUpController extends HttpServlet {
         processRequest(request, response);
     }
 
-    private boolean isValid(HttpServletRequest request, String email, String username, PersonService personService) {
+    private boolean isValid(HttpServletRequest request, String email, String username, PersonFacade personFacade) {
         boolean rsl = true;
-        if (personService.isExistByEmail(email)) {
+        if (personFacade.isExistByEmail(email)) {
             request.setAttribute("emailBusy", true);
             rsl = false;
-        } else if (personService.isExistByUsername(username)) {
+        } else if (personFacade.isExistByUsername(username)) {
             request.setAttribute("usernameBusy", true);
             rsl = false;
         }

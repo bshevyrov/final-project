@@ -5,9 +5,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import ua.com.company.entity.Person;
+import ua.com.company.facade.PersonFacade;
+import ua.com.company.facade.PublicationFacade;
 import ua.com.company.service.PersonService;
+import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,8 +26,8 @@ public class AdminUserDashboardController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
-        List<Person> personList = personService.findAll();
+        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
+        List<PersonDTO> personList = personFacade.findAll();
         request.setAttribute("personList", personList);
         processRequest(request, response);
     }
@@ -34,9 +35,9 @@ public class AdminUserDashboardController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("changeStatusId");
-        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
+        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
 
-        if (personService.changeStatusById(Integer.parseInt(id))) {
+        if (personFacade.changeStatusById(Integer.parseInt(id))) {
 //            HttpSession session = getServletContext().
             //TODO exit session
         }

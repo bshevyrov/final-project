@@ -2,6 +2,7 @@ package ua.com.company.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.TopicDAO;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
@@ -11,11 +12,26 @@ import ua.com.company.service.TopicService;
 import java.util.List;
 
 public class TopicServiceImpl implements TopicService {
-    private final TopicDAO topicDao;
     private final Logger log = LoggerFactory.getLogger(TopicServiceImpl.class);
+    private final TopicDAO topicDao = DAOFactory.getInstance().getTopicDAO();
+    private static  TopicService instance;
 
-    public TopicServiceImpl(TopicDAO topicDao) {
-        this.topicDao = topicDao;
+    //    public TopicServiceImpl(TopicDAO topicDao) {
+//        this.topicDao = topicDao;
+//    }
+    public static synchronized TopicService getInstance() {
+        if (instance == null) {
+            try {
+                instance = new TopicServiceImpl();
+            } catch (Exception e) {
+                //TODO LOG
+                e.printStackTrace();
+            }
+        }
+        return instance;
+    }
+
+    private TopicServiceImpl() throws Exception {
     }
 
     @Override

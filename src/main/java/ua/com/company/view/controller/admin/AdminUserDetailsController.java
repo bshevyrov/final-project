@@ -37,9 +37,9 @@ public class AdminUserDetailsController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("changeStatusId");
-        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
+        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
 
-        if (personService.changeStatusById(Integer.parseInt(id))) {
+        if (personFacade.changeStatusById(Integer.parseInt(id))) {
 //            HttpSession session = getServletContext().
             //TODO exit session
         }

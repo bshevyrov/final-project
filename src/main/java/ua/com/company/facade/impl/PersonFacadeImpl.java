@@ -16,10 +16,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PersonFacadeImpl implements PersonFacade {
-    private final PersonService personService = new PersonServiceImpl(DAOFactory.getInstance().getPersonDAO());
-    private final PublicationService publicationService = new PublicationServiceImpl(DAOFactory.getInstance().getPublicationDAO());
-
-    public PersonFacadeImpl() throws Exception {
+    private final PersonService personService = PersonServiceImpl.getInstance();
+    private final PublicationService publicationService =  PublicationServiceImpl.getInstance();
+    public PersonFacadeImpl(){
     }
 
     @Override

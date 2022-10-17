@@ -6,7 +6,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.com.company.entity.Publication;
+import ua.com.company.facade.PersonFacade;
+import ua.com.company.facade.PublicationFacade;
 import ua.com.company.service.PublicationService;
+import ua.com.company.view.dto.PublicationDTO;
 
 import java.io.IOException;
 
@@ -30,11 +33,11 @@ public class PublicationDetailsController extends HttpServlet {
     protected void doGet(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PublicationService publicationService = (PublicationService) getServletContext()
-                .getAttribute("publicationService");
+        PublicationFacade publicationFacade = (PublicationFacade) getServletContext()
+                .getAttribute("publicationFacade");
         int publicationId = Integer.parseInt(request.getParameter("id"));
-        Publication publication = null;
-        publication = publicationService.findById(publicationId);
+        PublicationDTO publication;
+        publication = publicationFacade.findById(publicationId);
         request.setAttribute("publication", publication);
         processRequest(request, response);
     }

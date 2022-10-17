@@ -7,8 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ua.com.company.entity.Person;
+import ua.com.company.facade.PersonFacade;
 import ua.com.company.service.PersonService;
 import ua.com.company.utils.PasswordUtil;
+import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
@@ -35,9 +37,9 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
-        PersonService personService = (PersonService) getServletContext().getAttribute("personService");
-        if (personService.isExistByEmail(email)) {
-            Person person = personService.findByEmail(email);
+        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
+        if (personFacade.isExistByEmail(email)) {
+            PersonDTO person = personFacade.findByEmail(email);
             if (PasswordUtil.validatePassword(pass, person.getPassword())) {
 //            set session person
                 HttpSession session = request.getSession(false);

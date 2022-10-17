@@ -5,9 +5,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.entity.Publication;
-import ua.com.company.service.PublicationService;
-import ua.com.company.service.TopicService;
+import ua.com.company.facade.PublicationFacade;
+import ua.com.company.facade.TopicFacade;
+import ua.com.company.view.dto.PublicationDTO;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,13 +29,13 @@ public class CategoryDetailsController extends HttpServlet {
 
         int topicId = Integer.parseInt(request.getParameter("id"));
 
-        TopicService topicService = (TopicService) getServletContext()
-                .getAttribute("topicService");
-        PublicationService publicationService = (PublicationService) getServletContext()
-                .getAttribute("publicationService");
-        String topicName = topicService.findById(topicId).getTitle();
+        TopicFacade topicFacade = (TopicFacade) getServletContext()
+                .getAttribute("topicFacade");
+        PublicationFacade publicationFacade = (PublicationFacade) getServletContext()
+                .getAttribute("publicationFacade");
+        String topicName = topicFacade.findById(topicId).getTitle();
 
-        List<Publication> publications = publicationService.findAllByTopicId(topicId);
+        List<PublicationDTO> publications = publicationFacade.findAllByTopicId(topicId);
 
         request.setAttribute("topicName", topicName);
         request.setAttribute("publications", publications);

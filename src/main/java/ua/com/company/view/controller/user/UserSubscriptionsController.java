@@ -5,10 +5,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.dao.PublicationDAO;
-import ua.com.company.dao.mysql.impl.MysqlPublicationDAOImpl;
-import ua.com.company.entity.Publication;
-import ua.com.company.exception.DBException;
+import ua.com.company.facade.PublicationFacade;
+import ua.com.company.view.dto.PublicationDTO;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,17 +26,12 @@ public class UserSubscriptionsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PublicationDAO publicationDAO = new MysqlPublicationDAOImpl();
+        PublicationFacade publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
         int userId = (int) request.getSession().getAttribute("id");
-        List<Publication> publicationList = null;
-        try {
-            publicationList = publicationDAO.findAllByUserId(userId);
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
+        List<PublicationDTO> publicationList;
+        publicationList = publicationFacade.findAllByUserId(userId);
         request.setAttribute("publications", publicationList);
         processRequest(request, response);
-
     }
 
     @Override

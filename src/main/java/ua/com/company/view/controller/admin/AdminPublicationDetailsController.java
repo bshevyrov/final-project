@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.com.company.entity.Publication;
+import ua.com.company.facade.PublicationFacade;
 import ua.com.company.service.PublicationService;
+import ua.com.company.view.dto.PublicationDTO;
 
 import java.io.IOException;
 
@@ -25,8 +27,8 @@ public class AdminPublicationDetailsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        PublicationService publicationService = (PublicationService) getServletContext().getAttribute("publicationService");
-        Publication publication = (publicationService.findById(Integer.parseInt(id)));
+        PublicationFacade publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
+        PublicationDTO publication = (publicationFacade.findById(Integer.parseInt(id)));
         request.setAttribute("publication", publication);
         processRequest(request, response);
     }
