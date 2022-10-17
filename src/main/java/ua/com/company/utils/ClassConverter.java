@@ -82,4 +82,25 @@ public final class ClassConverter {
         topic.setTitle(topicDTO.getTitle());
         return topic;
     }
+
+    public static Publication publicationDTOToPublication(PublicationDTO publicationDTO) {
+        Publication publication = new Publication();
+        publication.setId(publicationDTO.getId());
+        publication.setTitle(publicationDTO.getTitle());
+        publication.setDescription(publicationDTO.getDescription());
+        publication.setPrice(publicationDTO.getPrice());
+        publication.setTopics(publicationDTO.getTopics().stream()
+                .map(ClassConverter::topicDTOTotopic)
+                .collect(Collectors.toList()));
+        publication.setCover(ClassConverter.imageDTOToImage(publicationDTO.getCover()));
+        return publication;
+    }
+
+    private static Image imageDTOToImage(ImageDTO cover) {
+    Image image = new Image();
+    image.setPublicationId(cover.getPublicationId());
+    image.setName(cover.getPath());
+    image.setPath(cover.getPath());
+    return image;
+    }
 }
