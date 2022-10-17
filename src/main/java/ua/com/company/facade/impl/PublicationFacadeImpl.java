@@ -13,8 +13,8 @@ public class PublicationFacadeImpl implements PublicationFacade {
     private final PublicationService publicationService = PublicationServiceImpl.getInstance();
 
     @Override
-    public void create(PublicationDTO publicationDTO) {
-        publicationService.create(ClassConverter.publicationDTOToPublication(publicationDTO));
+    public int create(PublicationDTO publicationDTO) {
+        return publicationService.create(ClassConverter.publicationDTOToPublication(publicationDTO));
 
     }
 
@@ -36,6 +36,20 @@ public class PublicationFacadeImpl implements PublicationFacade {
     @Override
     public List<PublicationDTO> findAll() {
         return publicationService.findAll().stream()
+                .map(ClassConverter::publicationToPublicationDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PublicationDTO> findAllByTopicId(int topicId) {
+        return publicationService.findAllByTopicId(topicId).stream()
+                .map(ClassConverter::publicationToPublicationDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PublicationDTO> findAllByUserId(int userId) {
+        return publicationService.findAllByUserId(userId).stream()
                 .map(ClassConverter::publicationToPublicationDTO)
                 .collect(Collectors.toList());
     }

@@ -1,6 +1,5 @@
 package ua.com.company.facade.impl;
 
-import ua.com.company.dao.DAOFactory;
 import ua.com.company.entity.Person;
 import ua.com.company.facade.PersonFacade;
 import ua.com.company.service.PersonService;
@@ -17,13 +16,14 @@ import java.util.stream.Collectors;
 
 public class PersonFacadeImpl implements PersonFacade {
     private final PersonService personService = PersonServiceImpl.getInstance();
-    private final PublicationService publicationService =  PublicationServiceImpl.getInstance();
-    public PersonFacadeImpl(){
+    private final PublicationService publicationService = PublicationServiceImpl.getInstance();
+
+    public PersonFacadeImpl() {
     }
 
     @Override
-    public void create(PersonDTO personDTO) {
-        personService.create(ClassConverter.personDTOToPerson(personDTO));
+    public int create(PersonDTO personDTO) {
+        return personService.create(ClassConverter.personDTOToPerson(personDTO));
 
     }
 
@@ -68,5 +68,25 @@ public class PersonFacadeImpl implements PersonFacade {
             personDTOList.add(personDTO);
         }
         return personDTOList;
+    }
+
+    @Override
+    public boolean changeStatusById(int id) {
+        return personService.changeStatusById(id);
+    }
+
+    @Override
+    public PersonDTO findByEmail(String email) {
+        return ClassConverter.personToPersonDTO(personService.findByEmail(email));
+    }
+
+    @Override
+    public boolean isExistByEmail(String email) {
+        return personService.isExistByEmail(email);
+    }
+
+    @Override
+    public boolean isExistByUsername(String username) {
+        return personService.isExistByUsername(username);
     }
 }

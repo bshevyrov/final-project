@@ -13,15 +13,13 @@ public class TopicFacadeImpl implements TopicFacade {
     private final TopicService topicService = TopicServiceImpl.getInstance();
 
     @Override
-    public void create(TopicDTO topicDTO) {
-        topicService.create(ClassConverter.topicDTOTotopic(topicDTO));
-
+    public int create(TopicDTO topicDTO) {
+        return topicService.create(ClassConverter.topicDTOTotopic(topicDTO));
     }
 
     @Override
     public void update(TopicDTO topicDTO) {
         topicService.update(ClassConverter.topicDTOTotopic(topicDTO));
-
     }
 
     @Override

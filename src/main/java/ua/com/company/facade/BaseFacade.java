@@ -3,7 +3,7 @@ package ua.com.company.facade;
 import java.util.List;
 
 public interface BaseFacade<BaseDTO> {
-    void create(BaseDTO baseDTO);
+    int create(BaseDTO baseDTO);
 
     void update(BaseDTO baseDTO);
 

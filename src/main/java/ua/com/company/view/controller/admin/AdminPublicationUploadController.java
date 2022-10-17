@@ -6,10 +6,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.com.company.entity.Image;
-import ua.com.company.entity.Publication;
 import ua.com.company.entity.Topic;
+import ua.com.company.facade.BaseFacade;
+import ua.com.company.facade.PublicationFacade;
+import ua.com.company.facade.TopicFacade;
 import ua.com.company.service.PublicationService;
 import ua.com.company.service.TopicService;
+import ua.com.company.view.dto.BaseDTO;
+import ua.com.company.view.dto.ImageDTO;
+import ua.com.company.view.dto.PublicationDTO;
+import ua.com.company.view.dto.TopicDTO;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,41 +37,40 @@ public class AdminPublicationUploadController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        TopicService topicService = (TopicService) getServletContext().getAttribute("topicService");
-        request.setAttribute("topics", topicService.findAll());
+        TopicFacade topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
+        request.setAttribute("topics", topicFacade.findAll());
         processRequest(request, response);
     }
-TODO
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Publication publication = new Publication();
-        Image image = new Image();
-        Topic topic = new Topic();
-        TopicService topicService = (TopicService) getServletContext().getAttribute("topicService");
-        PublicationService publicationService = (PublicationService) getServletContext().getAttribute("publicationService");
+        PublicationDTO publication = new PublicationDTO();
+        ImageDTO image = new ImageDTO();
+        TopicFacade topicFacade = (TopicFacade) getServletContext().getAttribute("topicService");
+        PublicationFacade publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationService");
 
         //VALIDATION
         image.setPath(request.getParameter("coverPath"));
         image.setName(request.getParameter("title") + " cover");
-        publication.setImages((List<Image>) image);
+      //  publication.setImages((List<Image>) image);
 
         String[] topics = request.getParameterValues("topics");
-        List<Topic> topicList = Arrays.stream(topics).map(Topic::new).collect(Collectors.toList());
-        publication.setTopics(topicList);
+        List<TopicDTO> topicList = Arrays.stream(topics).map(TopicDTO::new).collect(Collectors.toList());
         if (request.getParameter("newTopics") != null) {
-            String[] newTopic = request.getParameter("newTopics").split(",");
+//          Stream
+          String[] newTopic = request.getParameter("newTopics").split(",");
+
             for (String s : newTopic) {
-                Topic currentTopic = new Topic(s);
+                TopicDTO currentTopic = new TopicDTO(s);
+               currentTopic.setId(topicFacade.create(currentTopic));
                 topicList.add(currentTopic);
-                topicService.create(currentTopic);
             }
         }
-
-
+        publication.setTopics(topicList);
         publication.setPrice(Double.parseDouble(request.getParameter("price")));
         publication.setTitle(request.getParameter("title"));
         publication.setDescription(request.getParameter("description"));
-        publicationService.create(publication);
+        publicationFacade.create(publication);
         processRequest(request, response);
 
     }

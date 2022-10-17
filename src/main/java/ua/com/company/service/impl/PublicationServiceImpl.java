@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PublicationServiceImpl implements PublicationService {
     private final Logger log = LoggerFactory.getLogger(PublicationServiceImpl.class);
-   private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
+    private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
     private static PublicationService instance;
 
     public static synchronized PublicationService getInstance() {
@@ -29,10 +29,12 @@ public class PublicationServiceImpl implements PublicationService {
     }
 //    PublicationDAO publicationDAO;
 
-//    public PublicationServiceImpl(PublicationDAO publicationDAO) {
+    //    public PublicationServiceImpl(PublicationDAO publicationDAO) {
 //        this.publicationDAO = publicationDAO;
 //    }
-private PublicationServiceImpl() throws Exception {}
+    private PublicationServiceImpl() throws Exception {
+    }
+
     @Override
     public int create(Publication publication) {
         int id = -1;
@@ -102,5 +104,18 @@ private PublicationServiceImpl() throws Exception {}
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
-        return publicationList;    }
+        return publicationList;
+    }
+
+    @Override
+    public List<Publication> findAllByUserId(int userId) {
+        List<Publication> publicationList = null;
+        try {
+            publicationList = publicationDAO.findAllByUserId(userId);
+        } catch (DBException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return publicationList;
+    }
 }
