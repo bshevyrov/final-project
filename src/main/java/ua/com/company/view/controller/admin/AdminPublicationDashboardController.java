@@ -33,6 +33,10 @@ public class AdminPublicationDashboardController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        if(request.getParameter("deleteId")!=null){
+            ((PublicationFacade)getServletContext().getAttribute("publicationFacade"))
+                    .delete(Integer.parseInt(request.getParameter("deleteId")));
+        }
+        response.sendRedirect("/admin/publication/dashboard");
     }
 }

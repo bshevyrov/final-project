@@ -36,7 +36,10 @@ public class AdminPublicationUploadController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        if(request.getParameter("id")!=null){
+            int id = Integer.parseInt(request.getParameter("id"));
+            request.setAttribute("publication",((PublicationFacade)getServletContext().getAttribute("publicationFacade")).findById(id));
+        }
         TopicFacade topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
         request.setAttribute("topics", topicFacade.findAll());
         processRequest(request, response);

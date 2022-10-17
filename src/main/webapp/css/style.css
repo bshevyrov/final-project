@@ -49,32 +49,34 @@ small {
 }
 
 
-.user__dashboard {
+.user__dashboard, .publication__dashboard {
     /*padding-bottom: 80px;*/
     /*padding-top: 80px;*/
     padding: 80px;
+
 }
 
-.user__dashboard__table {
+.user__dashboard__table, .publication__dashboard__table {
     border-collapse: collapse;
     position: relative;
     left: 15%
+
 }
 
-.user__dashboard__table tr {
+.user__dashboard__table tr, .publication__dashboard__table tr {
     border: solid;
     border-width: 1px 0;
 }
 
-.user__dashboard__table tr:first-child {
+.user__dashboard__table tr:first-child, .publication__dashboard__table tr:first-child {
     border-top: none;
 }
 
-.user__dashboard__table tr:last-child {
+.user__dashboard__table tr:last-child, .publication__dashboard__table tr:last-child {
     border-bottom: none;
 }
 
-.user__dashboard__table th {
+.user__dashboard__table th, .publication__dashboard__table th {
     color: #ffffff;
     font-size: 15px;
     font-weight: 700;
@@ -89,7 +91,7 @@ small {
     width: 300px;
 }
 
-.user__dashboard__table td {
+.user__dashboard__table td, .publication__dashboard__table td {
     color: lightgrey;
     font-size: 15px;
     font-weight: 700;

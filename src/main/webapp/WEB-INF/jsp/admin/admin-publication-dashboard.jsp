@@ -34,20 +34,33 @@
 <!-- Breadcrumb End -->--%>
 
 <!-- Product Section Begin -->
-<section class="user-dashboard">
+<section class="publication__dashboard">
+    <div class="publication__dashboard__table">
     <p>Publications</p>
     <table>
         <tr>
             <th>Title</th>
             <th>Price</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         <c:forEach var="publication" items="${publicationList}">
             <tr>
                 <td>
-                    <a href="/admin/publication?id=${publication.id}">${publication.title}</a>
+                    <a href="/admin/publication/details?id=${publication.id}">${publication.title}</a>
                 </td>
                 <td>
                         ${publication.price}
+                </td>
+                <td>
+                    <form>
+                        <button type="submit" formmethod="post" name="editId" value="${publication.id}"> Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form>
+                        <button  type="submit" formmethod="post"  name="deleteId" value="${publication.id}" href="/admin/publication/dashboard">Delete</button>
+                    </form>
                 </td>
             </tr>
 
@@ -55,7 +68,7 @@
 
     </table>
 
-
+    </div>
 </section>
 <!-- Product Section End -->
 
