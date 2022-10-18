@@ -53,9 +53,7 @@
                         ${publication.price}
                 </td>
                 <td>
-                    <form>
-                        <button type="submit" formmethod="post" name="editId" value="${publication.id}"> Edit</button>
-                    </form>
+                    <a href="/admin/publication/upload?id=${publication.id}"><button>Edit</button></a>
                 </td>
                 <td>
                     <form>

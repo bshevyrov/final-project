@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="ex" uri="/WEB-INF/tld/custom.tld" %>
+<%@ taglib prefix="con" uri="/WEB-INF/tld/contains.tld" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
@@ -26,8 +27,8 @@
                             <li class="active"><a href="./index.html">Homepage</a></li>
                             <li><a href="../jsp/open/categories.jsp">Categories <span class="arrow_carrot-down"></span></a>
                                 <ul class="dropdown">
-                                    <ex:Topics/>
-                                    <c:forEach var="topic" items="${topics}">
+                                    <ex:headerTopics/>
+                                    <c:forEach var="topic" items="${headerTopics}">
                                         <li><a href="/category/details?id=${topic.id}">${topic.title}</a></li>
                                     </c:forEach>
                                 </ul>
@@ -43,6 +44,7 @@
                                 <c:when test="${roleType == 'ROLE_ADMIN'}">
                             <li><a href="/admin/user/dashboard">Users</a></li>
                             <li><a href="/admin/publication/dashboard">Publications</a></li>
+                            <li><a href="/admin/publication/upload">New Publication</a> </li>
                             </c:when>
                             </c:choose>
                             </c:if>

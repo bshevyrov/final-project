@@ -4,7 +4,7 @@
     <short-name>Example TLD</short-name>
 
     <tag>
-        <name>Topics</name>
+        <name>headerTopics</name>
         <tag-class>ua.com.company.utils.MainPageTileTag</tag-class>
         <body-content>empty</body-content>
     </tag>

@@ -62,10 +62,13 @@ public class PublicationDTO extends BaseDTO {
 
     @Override
     public String toString() {
-        return "Publication{" +
+        return "PublicationDTO{" +
                 "title='" + title + '\'' +
-                ", sample='" + description + '\'' +
+                ", description='" + description + '\'' +
                 ", price=" + price +
+                ", images=" + images +
+                ", cover=" + cover +
+                ", topics=" + topics +
                 '}';
     }
 

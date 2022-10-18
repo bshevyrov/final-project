@@ -1,20 +1,11 @@
-<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
-<%--
-  Created by IntelliJ IDEA.
-  User: bohdan
-  Date: 12.09.22
-  Time: 04:15
-  To change this template use File | Settings | File Templates.
---%>
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
 <!DOCTYPE html>
 <html lang="zxx">
 
 <head>
-<%--    <%@ page isELIgnored="false" %>--%>
+    <%--    <%@ page isELIgnored="false" %>--%>
 
 
-<%--    <title>Anime | Template</title>--%>
+    <%--    <title>Anime | Template</title>--%>
 
     <%@include file="/WEB-INF/jspf/head.jspf" %>
 
@@ -52,11 +43,18 @@
                 <div class="section-title">
                     <h5>Title</h5>
                 </div>
-                <input placeholder="Title" name="title"></input>
+                <label>
+
+                    <input placeholder="Title" name="title" value="${publication.title}">
+
+                </label>
                 <div class="section-title">
                     <h5>Description</h5>
                 </div>
-                <textarea placeholder="Description" name="description"></textarea>
+                <label>
+                    <textarea placeholder="Description" name="description">${publication.description}</textarea>
+
+                </label>
 
                 <div class="section-title">
                     <h5>Topics</h5>
@@ -67,21 +65,37 @@
 
                     <div>
                         <c:forEach items="${topics}" var="topic">
-                            <input type="checkbox" id="topic"
-                                   name="topics" value="${topic.id}">
-                            <label for="topic">${topic.title}</label>
+                            <c:choose>
+
+                                <c:when test="${con:contains(publication.topics,topic)}">
+                                    <input type="checkbox" id="topic"
+                                           name="topics" value="${topic.id}" checked>
+                                    <label for="topic">${topic.title}</label>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox" id="topic"
+                                           name="topics" value="${topic.id}">
+                                    <label for="topic">${topic.title}</label>
+                                </c:otherwise>
+                            </c:choose>
+
                         </c:forEach>
 
                     </div>
                 </fieldset>
 
 
-                <input placeholder="New topic separated by comas" name="newTopic"></input>
+                <label>
+                    <input placeholder="New topic separated by comas" name="newTopic"></input>
+                </label>
 
                 <div class="section-title">
                     <h5>Price</h5>
                 </div>
-                <input type=number name="price"></input>
+
+                <label for="price"></label>
+                <input type=number step="0.01" name="price" id="price" value="${publication.price}">
+
                 <div class="section-title">
                     <h5>Cover</h5>
                 </div>
@@ -127,15 +141,7 @@
 
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/player.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
-<script src="/js/upload.js"></script>
+<%@ include file="/WEB-INF/jspf/scripts.jspf" %>
 
 
 </body>
