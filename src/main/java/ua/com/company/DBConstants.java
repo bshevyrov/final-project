@@ -14,7 +14,7 @@ public abstract class DBConstants {
     public static final String COUNT_PERSON_BY_ID = "SELECT COUNT(id) AS count FROM person WHERE id=?";
     public static final String FIND_PERSON_BY_EMAIL =  "SELECT p.*,r.name,ps.description, GROUP_CONCAT(p2.id) as publications_id FROM person p LEFT JOIN person_has_publication php on p.id = php.person_id  LEFT JOIN publication p2 on php.publication_id = p2.id INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id WHERE (php.publication_id IS NOT NULL OR  php.publication_id IS NULL) AND p.email=? GROUP BY p.id";
     public static final String FIND_PERSON_BY_USERNAME = "SELECT p.*,r.name,ps.description, GROUP_CONCAT(p2.id) as publications_id FROM person p INNER JOIN person_has_publication php on p.id = php.person_id  INNER JOIN publication p2 on php.publication_id = p2.id INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id  WHERE p.username=? GROUP BY p.id";
-
+public static final String DELETE_ORPHAN_TOPIC = "DELETE topic FROM topic  LEFT JOIN publication_has_topic pht ON topic.id = pht.topic_id WHERE pht.topic_id IS NULL";
     public static final String UPDATE_PERSON = "UPDATE person SET email = ?,role_id = (SELECT id FROM role WHERE name=?),status_id = (SELECT id FROM person_status WHERE description=?)WHERE id = ?";
 
 
@@ -24,7 +24,7 @@ public abstract class DBConstants {
     public static final String CREATE_PUBLICATION = "INSERT INTO publication (title,description,price) VALUES (?,?,?)";
     public static final String DELETE_PUBLICATION = "DELETE FROM publication WHERE id=?";
     public static final String FIND_ALL_PUBLICATIONS_BY_TITLE = "SELECT * FROM publication p WHERE p.title LIKE ? ORDER BY p.title";
-    public static final String UPDATE_PUBLICATION = "UPDATE publication SET title=?, description=?, price=? WHERE id=?";
+    public static final String UPDATE_PUBLICATION = "UPDATE publication SET update_date = now(), title=?, description=?, price=? WHERE id=?";
     public static final String ADD_IMAGE_TO_PUBLICATION = "INSERT INTO image(publication_id,name,path) VALUES(?,?,?)";
 
     public static final String COUNT_TOPIC_BY_TITLE = "SELECT COUNT(id) AS count FROM topic WHERE title=?";
@@ -43,6 +43,8 @@ public abstract class DBConstants {
     public static final String CHANGE_USER_STATUS_BY_ID ="UPDATE person SET status_id=? WHERE id=?" ;
     public static final String F_PERSON_STATUS_ID = "status_id";
     public static final String CHECK_USER_STATUS_BY_ID ="SELECT status_id FROM person WHERE id = ?";
+    public static final String UPDATE_IMAGE_TO_PUBLICATION = "UPDATE image SET path =? WHERE publication_id=?";
+    public static final String DELETE_PUBLICATION_HAS_TOPIC_BY_PUBLICATION_ID = "DELETE FROM publication_has_topic WHERE publication_id = ?";
 
 
     private DBConstants() {

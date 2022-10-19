@@ -17,25 +17,30 @@ import java.util.stream.Collectors;
 public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     @Override
-    public void create(Publication publication, Image... images) throws DBException {
+    public int create(Publication publication/*, Image... images*/) throws DBException {
         Connection con = getConnection();
+        int id = -1;
         try (con) {
             con.setAutoCommit(false);
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             addPublication(con, publication);
-            for (Image image : images) {
+        /*    for (Image image : images) {
                 addImageForPublication(con, publication.getId(), image);
-            }
+            }*/
+            addImageForPublication(con, publication.getId(), publication.getCover());
+
             for (Topic topic : publication.getTopics()) {
                 addTopicForPublication(con, publication.getId(), topic.getId());
             }
             con.commit();
+            id = publication.getId();
         } catch (SQLException e) {
             e.printStackTrace();
             rollback(con);
         } finally {
             close(con);
         }
+        return id;
     }
 
     private void addPublication(Connection con, Publication publication) throws SQLException {
@@ -71,6 +76,20 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     }
 
+    private void updateCoverForPublication(Connection con, int pubId, Image image) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE_TO_PUBLICATION);
+            int index = 0;
+            stmt.setString(++index, image.getPath());
+            stmt.setInt(++index, pubId);
+            stmt.execute();
+        } finally {
+            close(stmt);
+        }
+
+    }
+
     private void rollback(Connection con) {
         try {
             con.rollback();
@@ -79,20 +98,60 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         }
     }
 
-    @Override
-    public int create(Publication publication) {
-        return -1;
-    }
 
     @Override
     public void update(Publication publication) throws DBException {
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PUBLICATION)) {
+        Connection con = getConnection();
+        try (con) {
+            con.setAutoCommit(false);
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            updatePublication(con, publication);
+        /*    for (Image image : images) {
+                addImageForPublication(con, publication.getId(), image);
+            }*/
+
+            updateCoverForPublication(con, publication.getId(), publication.getCover());
+            deleteFromPublicationHasTopicByPublicationId(con, publication.getId());
+            for (Topic topic : publication.getTopics()) {
+                addTopicForPublication(con, publication.getId(), topic.getId());
+            }
+            deleteOrphanTopic(con);
+            con.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            rollback(con);
+        } finally {
+            close(con);
+        }
+    }
+
+    private void deleteFromPublicationHasTopicByPublicationId(Connection con, int pubId) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            stmt = con.prepareStatement(DBConstants.DELETE_PUBLICATION_HAS_TOPIC_BY_PUBLICATION_ID);
+            int index = 0;
+            stmt.setInt(++index, pubId);
+            stmt.execute();
+        } finally {
+            close(stmt);
+        }
+    }
+
+    private void deleteOrphanTopic(Connection con) throws SQLException {
+        try (Statement stmt = con.createStatement()) {
+            stmt.execute(DBConstants.DELETE_ORPHAN_TOPIC);
+
+        }
+    }
+
+    private void updatePublication(Connection con, Publication publication) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PUBLICATION)) {
             int index = 0;
             stmt.setString(++index, publication.getTitle());
             stmt.setString(++index, publication.getDescription());
             stmt.setDouble(++index, publication.getPrice());
             stmt.setInt(++index, publication.getId());
+
             stmt.execute();
 
         } catch (SQLException e) {

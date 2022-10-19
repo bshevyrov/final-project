@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface PublicationDAO extends BaseDAO<Publication> {
 
-    void create(Publication p,Image... images) throws DBException;
+//    void create(Publication p,Image... images) throws DBException;
     List<Publication> findAllByTitle(String title) throws DBException;
     List<Publication> findAllByTopicId(int id) throws DBException;
 //    void addImage(Connection con, Publication publication, Image... images);

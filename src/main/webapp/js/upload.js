@@ -34,16 +34,16 @@ const uploadImage = async (event) => {
     formData.append('key', thumbsnap_api_key);
     // const f = new File([file],Date.now()+'11');
     // console.log(f)
-  formData.append('media', file);
+    formData.append('media', file);
     xhr.responseType = 'json';
 
-    xhr.onload = function(e) {
+    xhr.onload = function (e) {
         if (this.status === 200) {
             console.log('response', this.response); // JSON response
             const r = xhr.response.data.media;
-            console.log('11',r);
+            console.log('11', r);
             // const r = obj.media;
-            document.getElementById("cover").setAttribute("value",r )
+            document.getElementById("cover").setAttribute("value", r)
         }
     };
 
@@ -70,9 +70,9 @@ form.addEventListener('submit', function (e) {
     e.preventDefault();
 
 
-   /* document.getElementById("img").setAttribute("value", base64)
-    form.setAttribute('method', 'post');
-    form.submit();*/
+    /* document.getElementById("img").setAttribute("value", base64)
+     form.setAttribute('method', 'post');
+     form.submit();*/
 
 });
 

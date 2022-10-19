@@ -5,19 +5,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.entity.Image;
-import ua.com.company.entity.Topic;
-import ua.com.company.facade.BaseFacade;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.facade.TopicFacade;
-import ua.com.company.service.PublicationService;
-import ua.com.company.service.TopicService;
-import ua.com.company.view.dto.BaseDTO;
 import ua.com.company.view.dto.ImageDTO;
 import ua.com.company.view.dto.PublicationDTO;
 import ua.com.company.view.dto.TopicDTO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,9 +31,9 @@ public class AdminPublicationUploadController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getParameter("id")!=null){
+        if (request.getParameter("id") != null) {
             int id = Integer.parseInt(request.getParameter("id"));
-            request.setAttribute("publication",((PublicationFacade)getServletContext().getAttribute("publicationFacade")).findById(id));
+            request.setAttribute("publication", ((PublicationFacade) getServletContext().getAttribute("publicationFacade")).findById(id));
         }
         TopicFacade topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
         request.setAttribute("topics", topicFacade.findAll());
@@ -49,23 +44,26 @@ public class AdminPublicationUploadController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PublicationDTO publication = new PublicationDTO();
         ImageDTO image = new ImageDTO();
-        TopicFacade topicFacade = (TopicFacade) getServletContext().getAttribute("topicService");
-        PublicationFacade publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationService");
+        TopicFacade topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
+        PublicationFacade publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
 
         //VALIDATION
         image.setPath(request.getParameter("coverPath"));
         image.setName(request.getParameter("title") + " cover");
-      //  publication.setImages((List<Image>) image);
+        publication.setCover(image);
+        List<TopicDTO> topicList = new ArrayList<>();
+        if (request.getParameterValues("topics") != null) {
+            String[] topics = request.getParameterValues("topics");
 
-        String[] topics = request.getParameterValues("topics");
-        List<TopicDTO> topicList = Arrays.stream(topics).map(TopicDTO::new).collect(Collectors.toList());
-        if (request.getParameter("newTopics") != null) {
-//          Stream
-          String[] newTopic = request.getParameter("newTopics").split(",");
+            topicList = Arrays.stream(topics).map(Integer::parseInt)
+                    .map(topicFacade::findById).collect(Collectors.toList());
+        }
+        if (request.getParameter("newTopics") != null && !request.getParameter("newTopics").equals("")) {
+            String[] newTopic = request.getParameter("newTopics").split(",");
 
             for (String s : newTopic) {
                 TopicDTO currentTopic = new TopicDTO(s);
-               currentTopic.setId(topicFacade.create(currentTopic));
+                currentTopic.setId(topicFacade.create(currentTopic));
                 topicList.add(currentTopic);
             }
         }
@@ -73,8 +71,17 @@ public class AdminPublicationUploadController extends HttpServlet {
         publication.setPrice(Double.parseDouble(request.getParameter("price")));
         publication.setTitle(request.getParameter("title"));
         publication.setDescription(request.getParameter("description"));
-        publicationFacade.create(publication);
-        processRequest(request, response);
+        if(request.getParameter("id")==null){
+            publicationFacade.create(publication);
+            System.out.println("NEW");
+        } else {
+            publication.setId(Integer.parseInt(request.getParameter("id")));
+            publicationFacade.update(publication);
+            for (TopicDTO topic : publication.getTopics()) {
+            }
+        }
+
+        response.sendRedirect("/admin/publication/dashboard");
 
     }
 }

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.PublicationDAO;
+import ua.com.company.dao.TopicDAO;
 import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.PublicationNotFoundException;
@@ -14,6 +15,7 @@ import java.util.List;
 public class PublicationServiceImpl implements PublicationService {
     private final Logger log = LoggerFactory.getLogger(PublicationServiceImpl.class);
     private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
+    private final TopicDAO topicDAO = DAOFactory.getInstance().getTopicDAO();
     private static PublicationService instance;
 
     public static synchronized PublicationService getInstance() {
