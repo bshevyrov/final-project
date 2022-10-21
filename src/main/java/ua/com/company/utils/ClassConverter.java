@@ -23,6 +23,9 @@ public final class ClassConverter {
         personDTO.setFunds(person.getFunds());
         personDTO.setCreateDate(person.getCreateDate());
         personDTO.setUpdateDate(person.getUpdateDate());
+        if(person.getAvatar()!=null){
+            personDTO.setAvatar(imageToImageDTO(person.getAvatar()));
+        }
         return personDTO;
     }
 
@@ -64,16 +67,20 @@ public final class ClassConverter {
         person.setUsername(personDTO.getUsername());
         person.setEmail(personDTO.getEmail());
         person.setFunds(personDTO.getFunds());
-//        int[] publicationsId = new int[personDTO.getPublications().size()];
-//        int index = 0;
-        person.setPublicationsId(personDTO.getPublications().stream()
-                //  .map(BaseDTO::getId)
-                .mapToInt(BaseDTO::getId)
-                .toArray());
-//        for (PublicationDTO publication : personDTO.getPublications()) {
-//            publicationsId[++index] = publication.getId();
-//        }
-//        person.setPublicationsId(publicationsId);
+        if (personDTO.getPassword() != null) {
+            person.setPassword(personDTO.getPassword());
+        }
+        if (personDTO.getPublications() != null) {
+            person.setPublicationsId(personDTO.getPublications().stream()
+                    .mapToInt(BaseDTO::getId)
+                    .toArray());
+//        } else {
+//            person.setPublicationsId(new int[0]);
+            if(personDTO.getAvatar()!=null){
+                person.setAvatar(imageDTOToImage(personDTO.getAvatar()));
+            }
+        }
+
         return person;
     }
 
@@ -98,10 +105,10 @@ public final class ClassConverter {
     }
 
     private static Image imageDTOToImage(ImageDTO cover) {
-    Image image = new Image();
-    image.setPublicationId(cover.getPublicationId());
-    image.setName(cover.getPath());
-    image.setPath(cover.getPath());
-    return image;
+        Image image = new Image();
+        image.setPublicationId(cover.getPublicationId());
+        image.setName(cover.getPath());
+        image.setPath(cover.getPath());
+        return image;
     }
 }

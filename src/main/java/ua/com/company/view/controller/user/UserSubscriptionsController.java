@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.com.company.facade.PublicationFacade;
+import ua.com.company.view.dto.PersonDTO;
 import ua.com.company.view.dto.PublicationDTO;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class UserSubscriptionsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PublicationFacade publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
-        int userId = (int) request.getSession().getAttribute("id");
+        int userId = ((PersonDTO) request.getSession().getAttribute("loggedPerson")).getId();
         List<PublicationDTO> publicationList;
         publicationList = publicationFacade.findAllByUserId(userId);
         request.setAttribute("publications", publicationList);

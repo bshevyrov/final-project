@@ -53,4 +53,10 @@ public class PublicationFacadeImpl implements PublicationFacade {
                 .map(ClassConverter::publicationToPublicationDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<PublicationDTO> findAllByTitle(String searchReq) {
+        return publicationService.findAllByTitle(searchReq).stream()
+                .map(ClassConverter::publicationToPublicationDTO)
+                .collect(Collectors.toList());    }
 }

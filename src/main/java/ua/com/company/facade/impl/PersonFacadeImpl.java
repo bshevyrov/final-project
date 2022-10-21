@@ -43,12 +43,14 @@ public class PersonFacadeImpl implements PersonFacade {
     public PersonDTO findById(int id) {
         PersonDTO personDTO;
         Person person = personService.findById(id);
-        List<PublicationDTO> publicationList = Arrays.stream(person.getPublicationsId())
-                .boxed()
-                .map(publicationService::findById)
-                .map(ClassConverter::publicationToPublicationDTO)
-                .collect(Collectors.toList());
-
+        List<PublicationDTO> publicationList = null;
+        if (person.getPublicationsId()!=null) {
+            publicationList = Arrays.stream(person.getPublicationsId())
+                    .boxed()
+                    .map(publicationService::findById)
+                    .map(ClassConverter::publicationToPublicationDTO)
+                    .collect(Collectors.toList());
+        }
         personDTO = ClassConverter.personToPersonDTO(person);
         personDTO.setPublications(publicationList);
         return personDTO;

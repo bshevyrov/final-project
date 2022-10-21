@@ -16,7 +16,7 @@ public class CategoryDetailsController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/category/category-details.jsp");
+                "WEB-INF/jsp/category/category-details.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
@@ -37,6 +37,17 @@ public class CategoryDetailsController extends HttpServlet {
 
         List<PublicationDTO> publications = publicationFacade.findAllByTopicId(topicId);
 
+        int totalRec=publications.size();
+        int currentPage=1;
+        int pageSize = 12;
+        System.out.println(getServletInfo());
+        System.out.println(getServletContext().getContextPath());
+        final  String url="/category?id="+topicId;
+
+
+
+
+        request.setAttribute("url", url);
         request.setAttribute("topicName", topicName);
         request.setAttribute("publications", publications);
         processRequest(request, response);

@@ -31,6 +31,14 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+.product__size__filter {
+    position: relative;
+    left: 20%;
+}
+.product__sort__filter {
+    position: relative;
+    right: 30%;
+}
 
 small {
     color: indianred;

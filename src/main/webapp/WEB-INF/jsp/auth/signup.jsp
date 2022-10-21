@@ -83,10 +83,10 @@
                             <small></small>
 
                         </div>
-                        <button type="submit" class="site-btn">Login Now</button>
+                        <button type="submit" class="site-btn">Sign Up</button>
                         <%--                        https://www.javascripttutorial.net/javascript-dom/javascript-form-validation/--%>
                     </form>
-                    <h5>Already have an account? <a href="#">Log In!</a></h5>
+                    <h5>Already have an account? <a href="/login">Log In!</a></h5>
                 </div>
             </div>
             <%--

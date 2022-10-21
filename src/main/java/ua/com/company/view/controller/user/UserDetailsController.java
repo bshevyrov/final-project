@@ -6,7 +6,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ua.com.company.facade.PersonFacade;
+import ua.com.company.facade.impl.PersonFacadeImpl;
 import ua.com.company.service.PersonService;
+import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
@@ -39,18 +42,12 @@ public class UserDetailsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-////            String userId = request.getParameter("id");
-//        int personId = ((Person) request.getSession().getAttribute("person")).getId();
-//
-//        PersonDAO personDAO = new MysqlPersonDAOImpl();
-////        int userId = (int) request.getSession().getAttribute("userId");
-//        Person person = null;
-//        try {
-//            person = personDAO.findById(personId).get();
-//        } catch (DBException e) {
-//            e.printStackTrace();
-//        }
-//        request.setAttribute("person", person);
+        int personId = ((PersonDTO) request.getSession().getAttribute("loggedPerson")).getId();
+        PersonDTO person;
+        PersonFacade personFacade = new PersonFacadeImpl();
+        person = personFacade.findById(personId);
+
+        request.setAttribute("person", person);
         processRequest(request, response);
     }
 

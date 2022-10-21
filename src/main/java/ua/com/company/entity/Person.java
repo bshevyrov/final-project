@@ -15,8 +15,17 @@ public class Person extends BaseEntity {
 
     private String username;
     private double funds;
+    private Image avatar;
     private String firstName;
     private String lastName;
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
+    }
 
     public int[] getPublicationsId() {
         return publicationsId;

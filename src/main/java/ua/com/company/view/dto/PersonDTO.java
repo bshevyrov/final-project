@@ -15,11 +15,19 @@ public class PersonDTO extends BaseDTO {
 
     private String username;
     private double funds;
+    private ImageDTO avatar;
     private String firstName;
     private String lastName;
     private List<PublicationDTO> publications;
     private PersonDetailsDTO personDetails;
 
+    public ImageDTO getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(ImageDTO avatar) {
+        this.avatar = avatar;
+    }
 
     public String getUsername() {
         return username;

@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ua.com.company.entity.Person;
+import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
@@ -28,9 +29,11 @@ public class UserPageFilter implements Filter {
         String loginURL = req.getContextPath() + "/login";
 //        int currentUserId = ((Person) session.getAttribute("person")).getId();
     //    System.out.println("currentUserId = " + currentUserId);
-        boolean loggedIn = (session != null)
-                && (session.getAttribute("person") != null)
-                        &&("ROLE_USER".equals(((Person)session.getAttribute("person")).getRole().name())||"ROLE_ADMIN".equals(((Person)session.getAttribute("person")).getRole().name()));
+        boolean loggedIn = /*(session != null)
+                && */
+                (session.getAttribute("loggedPerson") != null)
+                        &&("ROLE_CUSTOMER".equals(((PersonDTO)session.getAttribute("loggedPerson")).getRole().name())
+                ||"ROLE_ADMIN".equals(((PersonDTO)session.getAttribute("loggedPerson")).getRole().name()));
 
         if (loggedIn) {//&&requestId==curentuserId)|| ROLE_ADMIN
             chain.doFilter(request, response);

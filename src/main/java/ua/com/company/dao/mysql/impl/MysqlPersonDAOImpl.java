@@ -273,8 +273,6 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         person.setFunds(rs.getDouble(DBConstants.F_PERSON_FUNDS));
         if (rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION) != null) {
             person.setPublicationsId(getPublicationsId(rs));
-        } else {
-            person.setPublicationsId(new int[]{-1});
         }
         return person;
     }

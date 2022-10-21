@@ -46,7 +46,7 @@ public class SignUpController extends HttpServlet {
             person.setPassword(password);
 
             int id = personFacade.create(person);
-            person.setId(id);
+            person = personFacade.findById(id);
             HttpSession session = request.getSession(false);
             session.setAttribute("loggedPerson", person);
             response.sendRedirect("/");

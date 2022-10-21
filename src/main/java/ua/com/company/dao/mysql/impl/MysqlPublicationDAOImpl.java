@@ -314,6 +314,8 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         return publications;
     }
 
+
+
    /* @Override
     public void addImage(Connection con, Publication publication, Image... images) {
        try {

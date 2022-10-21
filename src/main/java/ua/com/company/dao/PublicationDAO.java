@@ -19,4 +19,6 @@ public interface PublicationDAO extends BaseDAO<Publication> {
     Publication findByTitle(String title) throws DBException;
 
     List<Publication> findAllByUserId(int userId) throws DBException;
+
+//    List<Publication> findAllLikeTitle(String searchReq);
 }

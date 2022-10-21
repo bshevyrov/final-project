@@ -140,7 +140,7 @@
                 <button type="submit" onclick="return validateForm();" class="site-btn" id="check-btn">upload</button>
         </form>
     </div>
-    <script>
+<%--    <script>
         function validateForm() {
             // var input = document.getElementById("upload").querySelectorAll("[required]");
             var emptyNewTopic = document.getElementById("newTopics").value;
@@ -157,7 +157,7 @@
             }
 
         }
-    </script>
+    </script>--%>
 </section>
 <!-- Footer Section Begin -->
 <%@ include file="/WEB-INF/jspf/footer.jspf" %>

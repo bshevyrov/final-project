@@ -190,6 +190,15 @@
     </servlet-mapping>
     <!--    auth-->
     <!--    index page-->
+
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>ua.com.company.view.controller.SearchController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>IndexPageServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.IndexPageController</servlet-class>
