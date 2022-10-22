@@ -64,8 +64,12 @@ public class Publication extends BaseEntity {
     public String toString() {
         return "Publication{" +
                 "title='" + title + '\'' +
-                ", sample='" + description + '\'' +
+                ", description='" + description + '\'' +
                 ", price=" + price +
+                ", images=" + images +
+                ", cover=" + cover +
+                ", topics=" + topics +
+                super.toString()+
                 '}';
     }
 

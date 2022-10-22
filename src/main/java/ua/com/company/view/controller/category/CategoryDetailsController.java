@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ua.com.company.entity.Sorting;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.facade.TopicFacade;
 import ua.com.company.view.dto.PublicationDTO;
@@ -35,7 +36,7 @@ public class CategoryDetailsController extends HttpServlet {
                 .getAttribute("publicationFacade");
         String topicName = topicFacade.findById(topicId).getTitle();
 
-        List<PublicationDTO> publications = publicationFacade.findAllByTopicId(topicId);
+        List<PublicationDTO> publications = publicationFacade.findAllByTopicId(new Sorting(),topicId);
 
         int totalRec=publications.size();
         int currentPage=1;

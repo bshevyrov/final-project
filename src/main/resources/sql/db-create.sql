@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`person`
     `role_id`     INT          NOT NULL DEFAULT 1,
     `status_id`   INT          NOT NULL DEFAULT 1,
     `username`    VARCHAR(45)  NOT NULL,
-    `funds`       DOUBLE       DEFAULT (0.0),
+    `funds`       DOUBLE                DEFAULT (0.0),
     PRIMARY KEY (`id`),
     UNIQUE INDEX (`email` ASC) VISIBLE,
     FULLTEXT INDEX `idx_customer_email` (`email`) VISIBLE,
@@ -272,7 +272,16 @@ VALUES (1, 'Jealousy, Vol. 1', '2022-09-22 13:23:58', '2022-09-22 13:23:58',
         23.00),
        (11, 'Seaside Stranger Vol. 1: Umibe no Étranger ', '2022-09-22 14:05:07', '2022-09-22 14:05:07',
         ' A love story between an openly gay novelist and a young man coping with grief that was recently turned into an anime film!\r\n\r\nEver since his parents disowned him for being gay, Shun has been living with his aunt on a small island near Okinawa. One day, he meets Mio, a high school student who recently lost his own parents and now spends his days sitting by the sea. The two young men begin to open up to each other...until Mio reveals that he\'s leaving. Three years later, an adult Mio returns to the island to confess his true feelings, but is Shun ready for a relationship? ',
-        21.00);
+        21.00),
+       (12, 'Love is an Illusion! Vol. 1', '2022-10-21 12:13:14', '2022-10-21 12:13:14',
+        'Hye-sung spent his entire life believing he was an alpha, the jackpot of the genetic lottery. His world is flipped upside down when he learns that he isn’t a dominating alpha, but a submissive omega instead! His frustration redlines whenever he crosses paths with the handsome Dojin, a true alpha. Supposedly, Dojin can’t stand omegas, but sparks fly when he butts heads with Hye-sung, and their explosive arguments set off an unexpectedly spicy relationship. Is their sizzling chemistry truly just pheromones?!',
+        16.98),
+       (13, 'Hyperventilation ', '2022-10-21 12:15:56', '2022-10-21 12:15:56',
+        'Myongi and Sunho haven\'t seen each other since they were 18 years old. Now 27, they run into one another at a high school reunion, and the romantic feelings they had for one another come rushing to the surface. But are they the same people now that they were back then?',
+        17.00),
+       (14, 'FANGS, Volume 1', '2022-10-21 12:19:28', '2022-10-21 12:19:28',
+        'As the sole survivor of a vampire attack, En wakes up to find that his hair has gone white as snow... and, worse, that he\'s developed a craving of his own for blood.\r\n\r\nFortunately, the vampire health and welfare organization FANGS is there to help with the transition, and the handsome Ichii steps up as his guardian and mentor. Swept up into a confusing and lonely new world where everyone seems to be hankering for a taste of his \"virgin\" blood, En must navigate the FANGS pairing system, an arrangement that sets up compatible vampires as mutual feeding partners... and partners in all other ways as well.  But what happens when En panics and declares that he\'ll be paired with Ichii?  And what does brooding, rough-around-the-edges Ichii make of his spunky, outgoing new charge?',
+        13.82);
 
 
 INSERT INTO `image`
@@ -286,7 +295,10 @@ VALUES ('Jealousy, Vol. 1 cover', 'https://thumbsnap.com/i/JGSzhtjq.jpg', 1),
        ('TWITTERING BIRDS NEVER FLY  VOL 01  cover', 'https://thumbsnap.com/i/rr8gf1JW.jpg', 8),
        ('JoJo\'s Bizarre Adventure: Part 1--Phantom Blood, Vol. 1 cover', 'https://thumbsnap.com/i/XZBBdQ2F.jpg', 9),
        ('Killing Stalking: Deluxe Edition Vol. 1 cover', 'https://thumbsnap.com/i/wV39A5AR.jpg', 10),
-       ('Seaside Stranger Vol. 1: Umibe no Étranger  cover', 'https://thumbsnap.com/i/oQjUkH8R.jpg', 11);
+       ('Seaside Stranger Vol. 1: Umibe no Étranger  cover', 'https://thumbsnap.com/i/oQjUkH8R.jpg', 11),
+       ('Love is an Illusion! Vol. 1 cover', 'https://thumbsnap.com/i/9cTa6cF7.jpg', 12),
+       ('Hyperventilation  cover', 'https://thumbsnap.com/i/k15PR9W1.jpg', 13),
+       ('FANGS, Volume 1  cover', 'https://thumbsnap.com/i/EzvRgToK.jpg', 14);
 
 
 INSERT INTO `topic`
@@ -326,7 +338,15 @@ VALUES (2, 1),
        (11, 11),
        (6, 12),
        (7, 13),
-       (11, 13);
+       (11, 13),
+       (12, 6),
+       (12, 12),
+       (12, 13),
+       (13, 6),
+       (13, 8),
+       (14, 6),
+       (14, 18),
+       (14, 12);
 
 INSERT INTO `person_has_publication`
 VALUES (1, 1, NULL),

@@ -1,6 +1,7 @@
 package ua.com.company.dao;
 
 import ua.com.company.entity.BaseEntity;
+import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
 import ua.com.company.listener.AppContextListener;
 

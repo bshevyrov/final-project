@@ -4,18 +4,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.PublicationDAO;
-import ua.com.company.dao.TopicDAO;
 import ua.com.company.entity.Publication;
+import ua.com.company.entity.Sorting;
+import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.PublicationNotFoundException;
+import ua.com.company.service.ImageService;
 import ua.com.company.service.PublicationService;
+import ua.com.company.service.TopicService;
 
 import java.util.List;
 
 public class PublicationServiceImpl implements PublicationService {
     private final Logger log = LoggerFactory.getLogger(PublicationServiceImpl.class);
     private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
-    private final TopicDAO topicDAO = DAOFactory.getInstance().getTopicDAO();
+    private final TopicService topicService = TopicServiceImpl.getInstance();
+    private final ImageService imageService = ImageServiceImpl.getInstance();
     private static PublicationService instance;
 
     public static synchronized PublicationService getInstance() {
@@ -98,10 +102,16 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findAllByTopicId(int topicId) {
+    public List<Publication> findAllByTopicId(Sorting obj,int topicId) {
         List<Publication> publicationList = null;
         try {
-            publicationList = publicationDAO.findAllByTopicId(topicId);
+            publicationList = publicationDAO.findAllByTopicId( obj,topicId);
+            for (Publication currentPub : publicationList) {
+                //                currentPub.setCover(.findById(currentPub.getId() ));
+                List<Topic> topicList = topicService.findAllByPublicationId(currentPub.getId());
+                currentPub.setTopics(topicList);
+                currentPub.setCover(imageService.findByPublicationId(currentPub.getId()));
+            }
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();

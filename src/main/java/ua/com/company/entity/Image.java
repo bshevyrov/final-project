@@ -2,7 +2,7 @@ package ua.com.company.entity;
 
 import java.io.Serializable;
 
-public class Image  implements Serializable {
+public class Image extends BaseEntity implements Serializable {
     private String name;
     private String path;
     private int publicationId;

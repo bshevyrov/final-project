@@ -61,20 +61,20 @@ public class MysqlTopicDAOImpl implements TopicDAO {
 
     @Override
     public Optional<Topic> findById(int id) throws DBException {
-        Topic topic = null;
+       Optional<Topic>topic = Optional.empty();
         try (Connection con = getConnection();
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_TOPIC_BY_ID)) {
             stmt.setInt(1, id);
             stmt.executeQuery();
             ResultSet rs = stmt.getResultSet();
             if (rs.next()) {
-                topic = mapTopic(rs);
+                topic = Optional.of(mapTopic(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);        }
-        return Optional.ofNullable(topic);
-
+            throw new DBException(e);
+        }
+        return topic;
     }
 
     @Override
@@ -119,4 +119,20 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         }
         return count == 1;
     }
+
+    @Override
+    public List<Topic> findAllByPublicationId(int pubId) throws DBException {
+        List<Topic> topicList = new ArrayList<>();
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_TOPIC_BY_PUBLICATION_ID)) {
+            stmt.setInt(1, pubId);
+            stmt.executeQuery();
+            ResultSet rs = stmt.getResultSet();
+            while (rs.next()) {
+                topicList.add(mapTopic(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);        }
+        return topicList;    }
 }

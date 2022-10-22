@@ -4,6 +4,7 @@ import ua.com.company.DBConstants;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
+import ua.com.company.entity.Sorting;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
 
@@ -233,18 +234,28 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public List<Publication> findAllByTopicId(int id) throws DBException {
+    public List<Publication> findAllByTopicId(Sorting obj, int id) throws DBException {
         List<Publication> publications = new ArrayList<>();
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_TOPIC_ID)) {
-//            int k =1;
 
-            stmt.setInt(1, id);
+        try (Connection con = getConnection();
+             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_TOPIC)) {
+            int index = 0;
+            stmt.setInt(++index, id);
+            stmt.setString(++index, obj.getSortingField());
+            if (obj.getSortingType().equals("ASC")) {
+                stmt.setString(++index, "");
+            } else {
+                stmt.setString(++index, obj.getSortingType());
+            }
+            stmt.setInt(++index, obj.getStarRecord());
+            stmt.setInt(++index, obj.getPageSize());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     publications.add(mapPublication(rs));
                 }
             }
+
+
         } catch (SQLException e) {
             //log
             e.printStackTrace();
@@ -372,16 +383,19 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         publication.setUpdateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_UPDATE_DATE));
         publication.setDescription(rs.getString(DBConstants.F_PUBLICATION_DESCRIPTION));
         publication.setPrice(rs.getDouble(DBConstants.F_PUBLICATION_PRICE));
+        return publication;
+    }
+
+    private Image mapImage(ResultSet rs) throws SQLException {
+        Image image = new Image();
         image.setName(rs.getString(DBConstants.F_IMAGE_NAME));
         image.setPath(rs.getString(DBConstants.F_IMAGE_PATH));
-
-
-//        List<Image> images = new ArrayList<>();
-//        images.add(image);
-//        publication.setImages(images);
-        publication.setCover(image);
-        publication.setTopics(getTopics(rs));
-        return publication;
+        return image;
+    }
+    private Topic mapTopic(ResultSet rs) throws SQLException {
+        Topic topic = new Topic();
+        topic.setTitle(rs.getString(DBConstants.F_TOPIC_TITLE));
+        return topic;
     }
 
     private List<Topic> getTopics(ResultSet rs) throws SQLException {

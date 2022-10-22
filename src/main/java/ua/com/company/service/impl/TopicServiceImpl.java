@@ -103,4 +103,15 @@ public class TopicServiceImpl implements TopicService {
         }
         return existByTitle;
     }
+
+    @Override
+    public List<Topic> findAllByPublicationId(int id) {
+        try {
+            return topicDao.findAllByPublicationId(id);
+        } catch (DBException e) {
+            log.error("Find publication by id error with id= " + id,e );
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

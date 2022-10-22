@@ -14,7 +14,8 @@
     <div class="loader"></div>
 </div>
 
-<!-- Header Section Begin --><%@ include file="/WEB-INF/jspf/header.jspf" %>
+<!-- Header Section Begin -->
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
 
 <!-- Header End -->
 
@@ -40,7 +41,7 @@
         <div class="anime__details__content">
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="anime__details__pic set-bg" data-setbg="${publication.cover}">
+                    <div class="anime__details__pic set-bg" data-setbg="${publication.cover.path}">
                         <div class="comment"><i class="fa fa-comments"></i> 11</div>
                         <div class="view"><i class="fa fa-eye"></i> 9141</div>
                     </div>

@@ -37,4 +37,6 @@ public abstract class DAOFactory {
     public abstract PublicationDAO getPublicationDAO();
 
     public abstract TopicDAO getTopicDAO();
+
+    public abstract ImageDAO getImageDAO() ;
 }

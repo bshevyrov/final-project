@@ -71,14 +71,14 @@ public class AdminPublicationUploadController extends HttpServlet {
         publication.setPrice(Double.parseDouble(request.getParameter("price")));
         publication.setTitle(request.getParameter("title"));
         publication.setDescription(request.getParameter("description"));
-        if(request.getParameter("id")==null){
+        if(request.getParameter("id")==null||request.getParameter("id").equals("")){
             publicationFacade.create(publication);
             System.out.println("NEW");
         } else {
             publication.setId(Integer.parseInt(request.getParameter("id")));
             publicationFacade.update(publication);
-            for (TopicDTO topic : publication.getTopics()) {
-            }
+         /*   for (TopicDTO topic : publication.getTopics()) {
+            }*/
         }
 
         response.sendRedirect("/admin/publication/dashboard");

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PersonServiceImpl implements PersonService {
     private final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
-    private final PersonDAO personDao = DAOFactory.getInstance().getPersonDAO();
+    private final PersonDAO personDAO = DAOFactory.getInstance().getPersonDAO();
 
     private static PersonService instance;
 
@@ -39,7 +39,7 @@ public class PersonServiceImpl implements PersonService {
     public int create(Person person) {
         int id = -1;
         try {
-            id = personDao.create(person);
+            id = personDAO.create(person);
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -50,7 +50,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void update(Person person) {
         try {
-            personDao.update(person);
+            personDAO.update(person);
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void delete(int id) {
         try {
-            personDao.delete(id);
+            personDAO.delete(id);
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class PersonServiceImpl implements PersonService {
     public Person findById(int id) {
         Person person = null;
         try {
-            person = personDao.findById(id)
+            person = personDAO.findById(id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
         } catch (DBException e) {
             log.error(String.valueOf(e));
@@ -87,7 +87,7 @@ public class PersonServiceImpl implements PersonService {
     public List<Person> findAll() {
         List<Person> personList = null;
         try {
-            personList = personDao.findAll();
+            personList = personDAO.findAll();
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -99,7 +99,7 @@ public class PersonServiceImpl implements PersonService {
     public Person findByEmail(String email) {
         Person person = null;
         try {
-            person = personDao.findPersonByEmail(email)
+            person = personDAO.findPersonByEmail(email)
                     .orElseThrow(() -> new UserNotFoundException(email));
         } catch (DBException e) {
             log.error(String.valueOf(e));
@@ -132,7 +132,7 @@ public class PersonServiceImpl implements PersonService {
     public Person findByUsername(String username) {
         Person person = null;
         try {
-            person = personDao.findPersonByUsername(username)
+            person = personDAO.findPersonByUsername(username)
                     .orElseThrow(() -> new UserNotFoundException(username));
         } catch (DBException e) {
             log.error(String.valueOf(e));
@@ -149,7 +149,7 @@ public class PersonServiceImpl implements PersonService {
         boolean existByUEmail = false;
 
         try {
-            existByUEmail = personDao.isExistByEmail(email);
+            existByUEmail = personDAO.isExistByEmail(email);
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -162,7 +162,7 @@ public class PersonServiceImpl implements PersonService {
     public boolean isExistByUsername(String username) {
         boolean existByUsername = false;
         try {
-            existByUsername = personDao.isExistByUsername(username);
+            existByUsername = personDAO.isExistByUsername(username);
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -174,7 +174,7 @@ public class PersonServiceImpl implements PersonService {
     public boolean changeStatusById(int id) {
         boolean completed = false;
         try {
-            completed = personDao.changeStatusById(id);
+            completed = personDAO.changeStatusById(id);
         } catch (DBException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();

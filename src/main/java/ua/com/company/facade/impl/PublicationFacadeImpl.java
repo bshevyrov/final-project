@@ -1,5 +1,6 @@
 package ua.com.company.facade.impl;
 
+import ua.com.company.entity.Sorting;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.service.PublicationService;
 import ua.com.company.service.impl.PublicationServiceImpl;
@@ -41,8 +42,8 @@ public class PublicationFacadeImpl implements PublicationFacade {
     }
 
     @Override
-    public List<PublicationDTO> findAllByTopicId(int topicId) {
-        return publicationService.findAllByTopicId(topicId).stream()
+    public List<PublicationDTO> findAllByTopicId(Sorting obj, int topicId) {
+        return publicationService.findAllByTopicId(obj,topicId).stream()
                 .map(ClassConverter::publicationToPublicationDTO)
                 .collect(Collectors.toList());
     }
