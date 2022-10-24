@@ -14,12 +14,12 @@ public class TopicFacadeImpl implements TopicFacade {
 
     @Override
     public int create(TopicDTO topicDTO) {
-        return topicService.create(ClassConverter.topicDTOTotopic(topicDTO));
+        return topicService.create(ClassConverter.topicDTOToTopic(topicDTO));
     }
 
     @Override
     public void update(TopicDTO topicDTO) {
-        topicService.update(ClassConverter.topicDTOTotopic(topicDTO));
+        topicService.update(ClassConverter.topicDTOToTopic(topicDTO));
     }
 
     @Override

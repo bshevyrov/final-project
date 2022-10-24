@@ -1,9 +1,7 @@
 package ua.com.company.dao.mysql;
 
-import ua.com.company.dao.DAOFactory;
-import ua.com.company.dao.PersonDAO;
-import ua.com.company.dao.PublicationDAO;
-import ua.com.company.dao.TopicDAO;
+import ua.com.company.dao.*;
+import ua.com.company.dao.mysql.impl.MysqlImageDAOImpl;
 import ua.com.company.dao.mysql.impl.MysqlPersonDAOImpl;
 import ua.com.company.dao.mysql.impl.MysqlPublicationDAOImpl;
 import ua.com.company.dao.mysql.impl.MysqlTopicDAOImpl;
@@ -14,10 +12,11 @@ public class MysqlDAOFactory extends DAOFactory {
     private PersonDAO personDAO;
     private PublicationDAO publicationDAO;
     private TopicDAO topicDAO;
+    private ImageDAO imageDAO;
 
     @Override
     public PersonDAO getPersonDAO() {
-        if(personDAO==null) {
+        if (personDAO == null) {
             personDAO = new MysqlPersonDAOImpl();
         }
         return personDAO;
@@ -25,7 +24,7 @@ public class MysqlDAOFactory extends DAOFactory {
 
     @Override
     public PublicationDAO getPublicationDAO() {
-        if(publicationDAO ==null){
+        if (publicationDAO == null) {
             publicationDAO = new MysqlPublicationDAOImpl();
         }
         return publicationDAO;
@@ -33,9 +32,17 @@ public class MysqlDAOFactory extends DAOFactory {
 
     @Override
     public TopicDAO getTopicDAO() {
-        if(topicDAO==null){
+        if (topicDAO == null) {
             topicDAO = new MysqlTopicDAOImpl();
         }
         return topicDAO;
+    }
+
+    @Override
+    public ImageDAO getImageDAO() {
+        if (imageDAO == null) {
+            imageDAO = new MysqlImageDAOImpl();
+        }
+        return imageDAO;
     }
 }

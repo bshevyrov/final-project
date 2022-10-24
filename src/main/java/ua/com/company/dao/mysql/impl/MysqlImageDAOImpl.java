@@ -12,9 +12,9 @@ import java.util.Optional;
 
 public class MysqlImageDAOImpl implements ImageDAO {
     @Override
-    public int create(Image image) throws DBException {
+    public int create(Connection con,Image image) throws DBException {
         int id = -1;
-        try (Connection con = getConnection();
+        try (
              PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE, Statement.RETURN_GENERATED_KEYS)) {
             int index = 0;
             stmt.setString(++index, image.getName());
@@ -35,8 +35,8 @@ public class MysqlImageDAOImpl implements ImageDAO {
     }
 
     @Override
-    public void update(Image image) throws DBException {
-        try (Connection con = getConnection();
+    public void update(Connection con,Image image) throws DBException {
+        try (
              PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE)) {
             int index = 0;
             stmt.setString(++index, image.getName());
@@ -50,8 +50,8 @@ public class MysqlImageDAOImpl implements ImageDAO {
     }
 
     @Override
-    public void delete(int id) throws DBException {
-        try (Connection con = getConnection();
+    public void delete(Connection con,int id) throws DBException {
+        try (
              PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_IMAGE)) {
             stmt.setInt(1, id);
             stmt.execute();
@@ -62,9 +62,9 @@ public class MysqlImageDAOImpl implements ImageDAO {
     }
 
     @Override
-    public Optional<Image> findById(int id) throws DBException {
+    public Optional<Image> findById(Connection con,int id) throws DBException {
         Optional<Image> image = Optional.empty();
-        try (Connection con = getConnection();
+        try (
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_IMAGE_BY_ID)) {
             stmt.setInt(1, id);
             stmt.executeQuery();
@@ -80,9 +80,9 @@ public class MysqlImageDAOImpl implements ImageDAO {
     }
 
     @Override
-    public List<Image> findAll() throws DBException {
+    public List<Image> findAll(Connection con) throws DBException {
         List<Image> imageList = new ArrayList<>();
-        try (Connection con = getConnection();
+        try (
              Statement stmt = con.createStatement()) {
             stmt.executeQuery(DBConstants.FIND_ALL_IMAGES);
             ResultSet rs = stmt.getResultSet();
@@ -97,10 +97,10 @@ public class MysqlImageDAOImpl implements ImageDAO {
     }
 
     @Override
-    public Optional<Image> findByPublicationId(int id) throws DBException {
+    public Optional<Image> findByPublicationId(Connection con,int id) throws DBException {
 
         Optional<Image> image = Optional.empty();
-        try (Connection con = getConnection();
+        try (
              PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_IMAGE_BY_PUBLICATION_ID)) {
             stmt.setInt(1, id);
             stmt.executeQuery();
@@ -117,9 +117,11 @@ public class MysqlImageDAOImpl implements ImageDAO {
 
     private Image mapImage(ResultSet rs) throws SQLException {
         Image image = new Image();
-        image.setId(rs.getInt("id"));
-        image.setName(rs.getString("name"));
-        image.setPath(rs.getString("path"));
+        image.setId(rs.getInt(DBConstants.F_IMAGE_ID));
+        image.setName(rs.getString(DBConstants.F_IMAGE_NAME));
+        image.setPath(rs.getString(DBConstants.F_IMAGE_PATH));
+        image.setCreateDate(rs.getTimestamp(DBConstants.F_IMAGE_CREATE_DATE));
+        image.setUpdateDate(rs.getTimestamp(DBConstants.F_IMAGE_UPDATE_DATE));
         return image;
     }
 }

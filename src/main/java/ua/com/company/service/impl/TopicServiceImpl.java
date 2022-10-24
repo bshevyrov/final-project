@@ -9,6 +9,8 @@ import ua.com.company.exception.DBException;
 import ua.com.company.exception.TopicNotFoundException;
 import ua.com.company.service.TopicService;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class TopicServiceImpl implements TopicService {
@@ -37,9 +39,9 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public int create(Topic topic) {
         int id = -1;
-        try {
-            id = topicDao.create(topic);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            id = topicDao.create(con,topic);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -48,9 +50,9 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void update(Topic topic) {
-        try {
-            topicDao.update(topic);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            topicDao.update(con,topic);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -58,9 +60,9 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void delete(int id) {
-        try {
-            topicDao.delete(id);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            topicDao.delete(con,id);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -68,10 +70,10 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic findById(int id) {
-        try {
-            return topicDao.findById(id)
+        try (Connection con = getConnection()){
+            return topicDao.findById(con,id)
                     .orElseThrow(() -> new TopicNotFoundException("" + id));
-        } catch (DBException e) {
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         } catch (TopicNotFoundException e) {
@@ -83,9 +85,9 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<Topic> findAll() {
-        try {
-            return topicDao.findAll();
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            return topicDao.findAll(con);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -95,9 +97,9 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public boolean isExistByTitle(String title) {
         boolean existByTitle = false;
-        try {
-            existByTitle = topicDao.IsExistByTitle(title);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            existByTitle = topicDao.IsExistByTitle(con,title);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -106,9 +108,9 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<Topic> findAllByPublicationId(int id) {
-        try {
-            return topicDao.findAllByPublicationId(id);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            return topicDao.findAllByPublicationId(con,id);
+        } catch (DBException | SQLException e) {
             log.error("Find publication by id error with id= " + id,e );
             e.printStackTrace();
         }

@@ -13,10 +13,9 @@ import java.util.Optional;
 public class MysqlTopicDAOImpl implements TopicDAO {
 
     @Override
-    public int create(Topic topic) throws DBException {
+    public int create(Connection con, Topic topic) throws DBException {
         int id = -1;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC, Statement.RETURN_GENERATED_KEYS)) {
             int index = 0;
             stmt.setString(++index, topic.getTitle());
             int count = stmt.executeUpdate();
@@ -29,14 +28,14 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);        }
+            throw new DBException(e);
+        }
         return id;
     }
 
     @Override
-    public void update(Topic topic) throws DBException {
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_TOPIC)) {
+    public void update(Connection con, Topic topic) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_TOPIC)) {
             int index = 0;
             stmt.setString(++index, topic.getTitle());
             stmt.setInt(++index, topic.getId());
@@ -48,9 +47,8 @@ public class MysqlTopicDAOImpl implements TopicDAO {
     }
 
     @Override
-    public void delete(int id) throws DBException {
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_TOPIC)) {
+    public void delete(Connection con, int id) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_TOPIC)) {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
@@ -60,10 +58,9 @@ public class MysqlTopicDAOImpl implements TopicDAO {
     }
 
     @Override
-    public Optional<Topic> findById(int id) throws DBException {
-       Optional<Topic>topic = Optional.empty();
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_TOPIC_BY_ID)) {
+    public Optional<Topic> findById(Connection con, int id) throws DBException {
+        Optional<Topic> topic = Optional.empty();
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_TOPIC_BY_ID)) {
             stmt.setInt(1, id);
             stmt.executeQuery();
             ResultSet rs = stmt.getResultSet();
@@ -78,10 +75,9 @@ public class MysqlTopicDAOImpl implements TopicDAO {
     }
 
     @Override
-    public List<Topic> findAll() throws DBException {
+    public List<Topic> findAll(Connection con) throws DBException {
         List<Topic> topics = new ArrayList<>();
-        try (Connection con = getConnection();
-             Statement stmt = con.createStatement()) {
+        try (Statement stmt = con.createStatement()) {
             stmt.executeQuery(DBConstants.FIND_ALL_TOPICS);
             ResultSet rs = stmt.getResultSet();
             while (rs.next()) {
@@ -94,20 +90,10 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         return topics;
     }
 
-    private Topic mapTopic(ResultSet rs) throws SQLException {
-        Topic topic = new Topic();
-        topic.setId(rs.getInt(DBConstants.F_TOPIC_ID));
-        topic.setTitle(rs.getString(DBConstants.F_TOPIC_TITLE));
-//        topic.setCreateDate(rs.getTimestamp(DBConstants.F_TOPIC_CREATE_DATE));
-//        topic.setUpdateDate(rs.getTimestamp(DBConstants.F_TOPIC_UPDATE_DATE));
-        return topic;
-    }
-
     @Override
-    public boolean IsExistByTitle(String title) throws DBException {
+    public boolean IsExistByTitle(Connection con, String title) throws DBException {
         int count = 0;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_TOPIC_BY_TITLE)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_TOPIC_BY_TITLE)) {
             stmt.setString(1, title);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -121,10 +107,9 @@ public class MysqlTopicDAOImpl implements TopicDAO {
     }
 
     @Override
-    public List<Topic> findAllByPublicationId(int pubId) throws DBException {
+    public List<Topic> findAllByPublicationId(Connection con, int pubId) throws DBException {
         List<Topic> topicList = new ArrayList<>();
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_TOPIC_BY_PUBLICATION_ID)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_TOPIC_BY_PUBLICATION_ID)) {
             stmt.setInt(1, pubId);
             stmt.executeQuery();
             ResultSet rs = stmt.getResultSet();
@@ -133,6 +118,17 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);        }
-        return topicList;    }
+            throw new DBException(e);
+        }
+        return topicList;
+    }
+
+    private Topic mapTopic(ResultSet rs) throws SQLException {
+        Topic topic = new Topic();
+        topic.setId(rs.getInt(DBConstants.F_TOPIC_ID));
+        topic.setTitle(rs.getString(DBConstants.F_TOPIC_TITLE));
+        topic.setCreateDate(rs.getTimestamp(DBConstants.F_TOPIC_CREATE_DATE));
+        topic.setUpdateDate(rs.getTimestamp(DBConstants.F_TOPIC_UPDATE_DATE));
+        return topic;
+    }
 }

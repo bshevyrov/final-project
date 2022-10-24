@@ -11,6 +11,8 @@ import ua.com.company.exception.ImageNotFoundException;
 import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.ImageService;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ImageServiceImpl implements ImageService {
@@ -37,9 +39,9 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public int create(Image image) {
         int id = -1;
-        try {
-            id = imageDAO.create(image);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            id = imageDAO.create(con,image);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -48,9 +50,9 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void update(Image image) {
-        try {
-            imageDAO.update(image);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            imageDAO.update(con,image);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -58,9 +60,9 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void delete(int id) {
-        try {
-            imageDAO.delete(id);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            imageDAO.delete(con,id);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -69,10 +71,10 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public Image findById(int id) {
         Image image = null;
-        try {
-            image = imageDAO.findById(id)
+        try (Connection con = getConnection()){
+            image = imageDAO.findById(con,id)
                     .orElseThrow(() -> new ImageNotFoundException("" + id));
-        } catch (DBException e) {
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         } catch (ImageNotFoundException e) {
@@ -85,12 +87,27 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<Image> findAll() {
         List<Image> imageList = null;
-        try {
-            imageList = imageDAO.findAll();
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            imageList = imageDAO.findAll(con);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
         return imageList;
     }
+
+    @Override
+    public Image findByPublicationId(Connection con, int id) {
+        Image image = null;
+        try {
+            image = imageDAO.findByPublicationId(con,id)
+                    .orElseThrow(() -> new ImageNotFoundException("" + id));
+        } catch (DBException  e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        } catch (ImageNotFoundException e) {
+            log.warn(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return image;    }
 }

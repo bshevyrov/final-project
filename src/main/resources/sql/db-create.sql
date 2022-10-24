@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`person`
     `status_id`   INT          NOT NULL DEFAULT 1,
     `username`    VARCHAR(45)  NOT NULL,
     `funds`       DOUBLE                DEFAULT (0.0),
+    `image_id`    INT,
     PRIMARY KEY (`id`),
     UNIQUE INDEX (`email` ASC) VISIBLE,
     FULLTEXT INDEX `idx_customer_email` (`email`) VISIBLE,
@@ -95,6 +96,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`publication`
     `update_date` TIMESTAMP              NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `description` VARCHAR(4096)          NULL     DEFAULT NULL,
     `price`       DECIMAL(9, 2) UNSIGNED NOT NULL,
+    `image_id`    INT,
     PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB;
@@ -212,15 +214,14 @@ DROP TABLE IF EXISTS `final_project`.`image`;
 
 CREATE TABLE IF NOT EXISTS `final_project`.`image`
 (
-    `name`           VARCHAR(256) NOT NULL,
-    `path`           VARCHAR(256) NOT NULL,
-    `publication_id` INT          NOT NULL,
-    PRIMARY KEY (`publication_id`),
-    CONSTRAINT `fk_image_publication1`
-        FOREIGN KEY (`publication_id`)
-            REFERENCES `final_project`.`publication` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE NO ACTION
+    `id`          INT          NOT NULL AUTO_INCREMENT,
+
+    `name`        VARCHAR(256) NOT NULL,
+    `path`        VARCHAR(256) NOT NULL,
+    `create_date` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_date` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+    PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB;
 
@@ -242,63 +243,64 @@ VALUES (2, 'bshevyrov@gmail.com', '2022-10-05 16:36:13', '2022-10-05 16:36:13',
 INSERT INTO `publication`
 VALUES (1, 'Jealousy, Vol. 1', '2022-09-22 13:23:58', '2022-09-22 13:23:58',
         ' The prequel to the popular yakuza rom-com Fourth Generation Head: Tatsuyuki Oyamato!\r\n\r\nA yakuza head finds himself ensnared in the unwavering attentions of a sometimes impetuous but always cunning schemer. If being yakuza doesn’t get him killed, his new lover just might!\r\n\r\nUichi Rogi is in a bind, both literally and figuratively, when he meets Akitora Oyamato, the yakuza head who’s come to collect a debt from Uichi’s lover. Instantly smitten, Uichi concocts dubious and often dangerous schemes to get closer to the man, but his lies come at a heavy price—one he may regret having to pay for Akitora’s affections. ',
-        14.00),
+        14.00, 1),
        (2, 'Attack on Titan 1', '2022-09-22 13:42:53', '2022-09-22 13:42:53',
         'In this post-apocalytpic sci-fi story, humanity has been devastated by the bizarre, giant humanoids known as the Titans. Little is known about where they came from or why they are bent on consuming mankind. Seemingly unintelligent, they have roamed the world for years, killing everyone they see. For the past century, what\'s left of man has hidden in a giant, three-walled city. People believe their 50-meter-high walls will protect them from the Titans, but the sudden appearance of an immense Titan is about to change everything.',
-        15.00),
+        15.00, 2),
        (3, 'Berserk, Vol. 1', '2022-09-22 13:46:28', '2022-09-22 13:46:28',
         'Created by Kentaro Miura, Berserk is manga mayhem to the extreme - violent, horrifying, and mercilessly funny - and the wellspring for the internationally popular anime series. Not for the squeamish or the easily offended, Berserk asks for no quarter - and offers none!\r\nHis name is Guts, the Black Swordsman, a feared warrior spoken of only in whispers. Bearer of a gigantic sword, an iron hand, and the scars of countless battles and tortures, his flesh is also indelibly marked with The Brand, an unholy symbol that draws the forces of darkness to him and dooms him as their sacrifice. But Guts won\'t take his fate lying down; he\'ll cut a crimson swath of carnage through the ranks of the damned - and anyone else foolish enough to oppose him! Accompanied by Puck the Elf, more an annoyance than a companion, Guts relentlessly follows a dark, bloodstained path that leads only to death...or vengeance.',
-        14.00),
+        14.00, 3),
        (4, 'GTO: Great Teacher Onizuka Vol. 1', '2022-09-22 13:47:53', '2022-09-22 13:47:53',
         'Meet Eikichi Onizuka, a 22-year-old virgin and ex-biker. He\'s crude, foul-mouthed, and has a split-second temper. His goal: to be the Greatest High School Teacher in the world! Onizuka may think he\'s the toughest guy on campus, but when he meets his class full of bullies, blackmailers and scheming sadists, he\'ll have to prove it.',
-        16.00),
+        16.00, 4),
        (5, 'Mob Psycho 100 Volume 1 ', '2022-09-22 13:51:55', '2022-09-22 13:51:55',
         'From the creator of One-Punch Man and now a Netflix Live Action Series! Do you or someone you know need an exorcist who works cheap? Reigen\'s your guy!\r\n\r\nWhat\'s his secret to busting ghosts while keeping prices low? Well, first, he\'s a fraud, and second, he pays the guy who\'s got the real psychic power--his student assistant Shigeo--less than minimum wage. Shigeo is an awkward but kind boy whose urge to help others and get along with them is bound up with the mental safety locks he\'s placed on his own emotions. Reigen knows he needs to exploit Shigeo to stay in business, yet for better or worse he\'s also his mentor and counselor. And he also knows whenever the normally repressed kid\'s emotions reach level 100, it may unleash more psychic energy than either of them can handle! ',
-        99.00),
+        99.00, 5),
        (6, 'One-Punch Man, Vol. 1', '2022-09-22 13:53:33', '2022-09-22 13:53:33',
         ' Life gets pretty boring when you can beat the snot out of any villain with just one punch.\r\n\r\nNothing about Saitama passes the eyeball test when it comes to superheroes, from his lifeless expression to his bald head to his unimpressive physique. However, this average-looking guy has a not-so-average problem—he just can’t seem to find an opponent strong enough to take on!\r\n\r\nEvery time a promising villain appears, Saitama beats the snot out of ’em with one punch! Can he finally find an opponent who can go toe-to-toe with him and give his life some meaning? Or is he doomed to a life of superpowered boredom? ',
-        21.00),
+        21.00, 6),
        (7, 'Sasaki and Miyano, Vol. 1 ', '2022-09-22 13:54:20', '2022-09-22 13:54:20',
         'It all started like a typical old-school boys’ love plotline—bad-boy senior meets adorably awkward underclassman, one of them falls in love, and so on and so forth. But although Miyano is a self-proclaimed boys’ love expert, he hasn’t quite realized…he’s in one himself. Which means it’s up to Sasaki to make sure their story has a happily ever after…!',
-        13.00),
+        13.00, 7),
        (8, 'TWITTERING BIRDS NEVER FLY  VOL 01 ', '2022-09-22 13:56:11', '2022-09-22 13:56:11',
         'The sexually masochistic yakuza boss, Yashiro, isn\'t the type to warm up to others easily. But when Chikara Doumeki, his newly hired bodyguard, catches his interest, he reconsiders his \"hands-off\" policy with subordinates. As Yashiro\'s invitations fail, the yakuza boss finds out his bodyguard has a very personal reason for staying at arm\'s length.',
-        21.00),
+        21.00, 8),
        (9, 'JoJo\'s Bizarre Adventure: Part 1--Phantom Blood, Vol. 1', '2022-09-22 14:03:25', '2022-09-22 14:03:25',
         ' A multigenerational tale of the heroic Joestar family and their never-ending battle against evil!\r\n\r\nThe legendary Shonen Jump series, now available in English for the first time, in a deluxe edition featuring color pages and newly drawn cover art! JoJo’s Bizarre Adventure is a groundbreaking manga famous for its outlandish characters, wild humor and frenetic battles. A multigenerational tale of the heroic Joestar family and their never-ending battle against evil! \r\n\r\nYoung Jonathan Joestar’s life is forever changed when he meets his new adopted brother, Dio. For some reason, Dio has a smoldering grudge against him and derives pleasure from seeing him suffer. But every man has his limits, as Dio finds out. This is the beginning of a long and hateful relationship!  ',
-        15.00),
+        15.00, 9),
        (10, 'Killing Stalking: Deluxe Edition Vol. 1', '2022-09-22 14:04:18', '2022-09-22 14:04:18',
         '\r\nThe Mature-rated Boys\' Love horror webtoon from Lezhin that became a global manhwa hit! Get this chilling and thrilling tale in a deluxe, full-color paperback in English for the very first time.\r\n\r\nYoon Bum, a scrawny and quiet man, has a crush on one of the most popular and handsome guys in his college: Sangwoo. After the two cross paths again, Yoon Bum’s feelings grow in intensity until they become an obsession–and he breaks into Sangwoo’s home. But what he sees inside is not the Sangwoo of his fantasies; his dreams of this alluring man abruptly turn into a nightmare.\r\n\r\nThis wildly popular BL horror manhwa webtoon is the grand prize winner of the 2nd Lezhin Comics World Comic Contest, and has been published in numerous languages since its 2016 debut, winning critical praise across the globe. Now readers can own this full-color, deluxe paperback edition in English for the first time, with a special fold-out insert included in every volume! ',
-        23.00),
+        23.00, 10),
        (11, 'Seaside Stranger Vol. 1: Umibe no Étranger ', '2022-09-22 14:05:07', '2022-09-22 14:05:07',
         ' A love story between an openly gay novelist and a young man coping with grief that was recently turned into an anime film!\r\n\r\nEver since his parents disowned him for being gay, Shun has been living with his aunt on a small island near Okinawa. One day, he meets Mio, a high school student who recently lost his own parents and now spends his days sitting by the sea. The two young men begin to open up to each other...until Mio reveals that he\'s leaving. Three years later, an adult Mio returns to the island to confess his true feelings, but is Shun ready for a relationship? ',
-        21.00),
+        21.00, 11),
        (12, 'Love is an Illusion! Vol. 1', '2022-10-21 12:13:14', '2022-10-21 12:13:14',
         'Hye-sung spent his entire life believing he was an alpha, the jackpot of the genetic lottery. His world is flipped upside down when he learns that he isn’t a dominating alpha, but a submissive omega instead! His frustration redlines whenever he crosses paths with the handsome Dojin, a true alpha. Supposedly, Dojin can’t stand omegas, but sparks fly when he butts heads with Hye-sung, and their explosive arguments set off an unexpectedly spicy relationship. Is their sizzling chemistry truly just pheromones?!',
-        16.98),
+        16.98, 12),
        (13, 'Hyperventilation ', '2022-10-21 12:15:56', '2022-10-21 12:15:56',
         'Myongi and Sunho haven\'t seen each other since they were 18 years old. Now 27, they run into one another at a high school reunion, and the romantic feelings they had for one another come rushing to the surface. But are they the same people now that they were back then?',
-        17.00),
+        17.00, 13),
        (14, 'FANGS, Volume 1', '2022-10-21 12:19:28', '2022-10-21 12:19:28',
         'As the sole survivor of a vampire attack, En wakes up to find that his hair has gone white as snow... and, worse, that he\'s developed a craving of his own for blood.\r\n\r\nFortunately, the vampire health and welfare organization FANGS is there to help with the transition, and the handsome Ichii steps up as his guardian and mentor. Swept up into a confusing and lonely new world where everyone seems to be hankering for a taste of his \"virgin\" blood, En must navigate the FANGS pairing system, an arrangement that sets up compatible vampires as mutual feeding partners... and partners in all other ways as well.  But what happens when En panics and declares that he\'ll be paired with Ichii?  And what does brooding, rough-around-the-edges Ichii make of his spunky, outgoing new charge?',
-        13.82);
+        13.82, 14);
 
 
 INSERT INTO `image`
-VALUES ('Jealousy, Vol. 1 cover', 'https://thumbsnap.com/i/JGSzhtjq.jpg', 1),
-       ('Attack on Titan 1 cover', 'https://thumbsnap.com/i/yGNMtYZi.jpg', 2),
-       ('Berserk, Vol. 1 cover', 'https://thumbsnap.com/i/tYVjyMfa.jpg', 3),
-       ('GTO: Great Teacher Onizuka Vol. 1 cover', 'https://thumbsnap.com/i/tAFwZvqh.jpg', 4),
-       ('Mob Psycho 100 Volume 1  cover', 'https://thumbsnap.com/i/WHYFTgUn.jpg', 5),
-       ('One-Punch Man, Vol. 1 cover', 'https://thumbsnap.com/i/tPJTFnqT.jpg', 6),
-       ('Sasaki and Miyano, Vol. 1  cover', 'https://thumbsnap.com/i/TfZmvdrX.jpg', 7),
-       ('TWITTERING BIRDS NEVER FLY  VOL 01  cover', 'https://thumbsnap.com/i/rr8gf1JW.jpg', 8),
-       ('JoJo\'s Bizarre Adventure: Part 1--Phantom Blood, Vol. 1 cover', 'https://thumbsnap.com/i/XZBBdQ2F.jpg', 9),
-       ('Killing Stalking: Deluxe Edition Vol. 1 cover', 'https://thumbsnap.com/i/wV39A5AR.jpg', 10),
-       ('Seaside Stranger Vol. 1: Umibe no Étranger  cover', 'https://thumbsnap.com/i/oQjUkH8R.jpg', 11),
-       ('Love is an Illusion! Vol. 1 cover', 'https://thumbsnap.com/i/9cTa6cF7.jpg', 12),
-       ('Hyperventilation  cover', 'https://thumbsnap.com/i/k15PR9W1.jpg', 13),
-       ('FANGS, Volume 1  cover', 'https://thumbsnap.com/i/EzvRgToK.jpg', 14);
+VALUES (1, 'Jealousy, Vol. 1 cover', 'https://thumbsnap.com/i/JGSzhtjq.jpg', now(), now()),
+       (2, 'Attack on Titan 1 cover', 'https://thumbsnap.com/i/yGNMtYZi.jpg', now(), now()),
+       (3, 'Berserk, Vol. 1 cover', 'https://thumbsnap.com/i/tYVjyMfa.jpg', now(), now()),
+       (4, 'GTO: Great Teacher Onizuka Vol. 1 cover', 'https://thumbsnap.com/i/tAFwZvqh.jpg', now(), now()),
+       (5, 'Mob Psycho 100 Volume 1  cover', 'https://thumbsnap.com/i/WHYFTgUn.jpg', now(), now()),
+       (6, 'One-Punch Man, Vol. 1 cover', 'https://thumbsnap.com/i/tPJTFnqT.jpg', now(), now()),
+       (7, 'Sasaki and Miyano, Vol. 1  cover', 'https://thumbsnap.com/i/TfZmvdrX.jpg', now(), now()),
+       (8, 'TWITTERING BIRDS NEVER FLY  VOL 01  cover', 'https://thumbsnap.com/i/rr8gf1JW.jpg', now(), now()),
+       (9, 'JoJo\'s Bizarre Adventure: Part 1--Phantom Blood, Vol. 1 cover', 'https://thumbsnap.com/i/XZBBdQ2F.jpg',
+        now(), now()),
+       (10, 'Killing Stalking: Deluxe Edition Vol. 1 cover', 'https://thumbsnap.com/i/wV39A5AR.jpg', now(), now()),
+       (11, 'Seaside Stranger Vol. 1: Umibe no Étranger  cover', 'https://thumbsnap.com/i/oQjUkH8R.jpg', now(), now()),
+       (12, 'Love is an Illusion! Vol. 1 cover', 'https://thumbsnap.com/i/9cTa6cF7.jpg', now(), now()),
+       (13, 'Hyperventilation  cover', 'https://thumbsnap.com/i/k15PR9W1.jpg', now(), now()),
+       (14, 'FANGS, Volume 1  cover', 'https://thumbsnap.com/i/EzvRgToK.jpg', now(), now());
 
 
 INSERT INTO `topic`

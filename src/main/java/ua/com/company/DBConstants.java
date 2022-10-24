@@ -21,7 +21,7 @@ public abstract class DBConstants {
     public static final String FIND_PUBLICATION_BY_ID = "SELECT p.* , i.name, i.path ,GROUP_CONCAT(t.title)as topics FROM publication p INNER JOIN image i on p.id = i.publication_id INNER JOIN publication_has_topic pht  on p.id = pht.publication_id INNER JOIN topic t  on pht.topic_id = t.id WHERE p.id=? GROUP BY p.id";
 
     public static final String FIND_ALL_PUBLICATIONS = "SELECT p.* , i.name, i.path ,GROUP_CONCAT(t.title)as topics FROM publication p  INNER JOIN image i on p.id = i.publication_id   INNER JOIN publication_has_topic pht  on p.id = pht.publication_id INNER JOIN topic t  on pht.topic_id = t.id   GROUP BY p.id";
-    public static final String CREATE_PUBLICATION = "INSERT INTO publication (title,description,price) VALUES (?,?,?)";
+    public static final String CREATE_PUBLICATION = "INSERT INTO publication (title,description,price,image_id) VALUES (?,?,?,?)";
     public static final String DELETE_PUBLICATION = "DELETE FROM publication WHERE id=?";
     public static final String FIND_ALL_PUBLICATIONS_BY_TITLE = "SELECT * FROM publication p WHERE p.title LIKE ? ORDER BY p.title";
     public static final String UPDATE_PUBLICATION = "UPDATE publication SET update_date = now(), title=?, description=?, price=? WHERE id=?";
@@ -52,6 +52,9 @@ public abstract class DBConstants {
     public static final String FIND_IMAGE_BY_ID ="SELECT name,path FROM image WHERE id =?" ;
     public static final String FIND_ALL_IMAGES = "SELECT name, path FROM image";
     public static final String FIND_IMAGE_BY_PUBLICATION_ID ="SELECT i.name, i.path FROM image i LEFT JOIN publication_has_image phi on i.id = phi.image_id WHERE phi.publication_id = ?" ;
+    public static final String F_IMAGE_ID = "id";
+    public static final String F_IMAGE_CREATE_DATE = "create_date";
+    public static final String F_IMAGE_UPDATE_DATE = "update_date";
 
     private DBConstants() {
     }

@@ -17,10 +17,9 @@ import java.util.Optional;
 public class MysqlPersonDAOImpl implements PersonDAO {
 
     @Override
-    public int create(Person person) throws DBException {
+    public int create(Connection con, Person person) throws DBException {
         int id = -1;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON, Statement.RETURN_GENERATED_KEYS)) {
             String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
             int index = 0;
             stmt.setString(++index, person.getUsername());
@@ -43,10 +42,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public void update(Person person) throws DBException {
-        if (isExist(person.getId())) {
-            try (Connection con = getConnection();
-                 PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PERSON)) {
+    public void update(Connection con, Person person) throws DBException {
+        if (isExist(con, person.getId())) {
+            try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PERSON)) {
                 // String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
                 int index = 0;
                 stmt.setString(++index, person.getEmail());
@@ -71,9 +69,8 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public void delete(int id) throws DBException {
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PERSON)) {
+    public void delete(Connection con, int id) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PERSON)) {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
@@ -83,10 +80,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public Optional<Person> findPersonByEmail(String email) throws DBException {
+    public Optional<Person> findPersonByEmail(Connection con, String email) throws DBException {
         Person person = null;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_EMAIL);) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_EMAIL);) {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -100,9 +96,8 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public void addPublicationForPerson(Person person, Publication publication) throws DBException {
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
+    public void addPublicationForPerson(Connection con, Person person, Publication publication) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
             int index = 0;
             stmt.setInt(++index, person.getId());
             stmt.setInt(++index, publication.getId());
@@ -114,10 +109,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public Optional<Person> findPersonByUsername(String username) throws DBException {
+    public Optional<Person> findPersonByUsername(Connection con, String username) throws DBException {
         Person Person = null;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_USERNAME)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_USERNAME)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -131,10 +125,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public Optional<Person> findById(int id) throws DBException {
+    public Optional<Person> findById(Connection con, int id) throws DBException {
         Person person = null;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_ID)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -148,10 +141,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public List<Person> findAll() throws DBException {
+    public List<Person> findAll(Connection con) throws DBException {
         List<Person> persons = new ArrayList<>();
-        try (Connection con = getConnection();
-             Statement stmt = con.createStatement()) {
+        try (Statement stmt = con.createStatement()) {
             ResultSet rs = stmt.executeQuery(DBConstants.FIND_ALL_PERSONS);
             while (rs.next()) {
                 persons.add(mapPerson(rs));
@@ -163,10 +155,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return persons;
     }
 
-    public boolean isExistByEmail(String email) throws DBException {
+    public boolean isExistByEmail(Connection con, String email) throws DBException {
         int count = 0;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_EMAIL)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_EMAIL)) {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -180,10 +171,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public boolean isExistByUsername(String username) throws DBException {
+    public boolean isExistByUsername(Connection con, String username) throws DBException {
         int count = 0;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_USERNAME)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_USERNAME)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -197,10 +187,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public boolean changeStatusById(int id) throws DBException {
+    public boolean changeStatusById(Connection con, int id) throws DBException {
         boolean completed;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.CHANGE_USER_STATUS_BY_ID)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CHANGE_USER_STATUS_BY_ID)) {
             int newStatus = checkStatusById(con, id) == 1 ? 2 : 1;
             int index = 0;
             stmt.setInt(++index, newStatus);
@@ -245,10 +234,9 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
         return Optional.ofNullable(person);    }*/
 
-    public boolean isExist(int id) throws DBException {
+    public boolean isExist(Connection con, int id) throws DBException {
         int count = 0;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_ID)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {

@@ -2,18 +2,11 @@ package ua.com.company.entity;
 
 import java.io.Serializable;
 
-public class Image extends BaseEntity implements Serializable {
+public class Image extends BaseEntity  {
     private String name;
     private String path;
-    private int publicationId;
 
-    public int getPublicationId() {
-        return publicationId;
-    }
 
-    public void setPublicationId(int publicationId) {
-        this.publicationId = publicationId;
-    }
 
     public String getName() {
         return name;
@@ -36,7 +29,7 @@ public class Image extends BaseEntity implements Serializable {
         return "Image{" +
                 "name='" + name + '\'' +
                 ", path='" + path + '\'' +
-                ", publicationId=" + publicationId +
+                super.toString()+
                 '}';
     }
 }

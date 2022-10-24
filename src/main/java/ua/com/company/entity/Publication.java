@@ -7,7 +7,7 @@ public class Publication extends BaseEntity {
     private String description;
     private double price;
 
-    private List<Image> images;
+//    private List<Image> images;
     private Image cover;
 
     private List<Topic> topics;
@@ -28,13 +28,13 @@ public class Publication extends BaseEntity {
         this.cover = cover;
     }
 
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
+//    public List<Image> getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(List<Image> images) {
+//        this.images = images;
+//    }
 
     public String getTitle() {
         return title;
@@ -66,7 +66,7 @@ public class Publication extends BaseEntity {
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", images=" + images +
+//                ", images=" + images +
                 ", cover=" + cover +
                 ", topics=" + topics +
                 super.toString()+

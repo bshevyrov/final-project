@@ -9,6 +9,8 @@ import ua.com.company.exception.DBException;
 import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.PersonService;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class PersonServiceImpl implements PersonService {
@@ -38,9 +40,9 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public int create(Person person) {
         int id = -1;
-        try {
-            id = personDAO.create(person);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            id = personDAO.create(con,person);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -49,9 +51,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void update(Person person) {
-        try {
-            personDAO.update(person);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            personDAO.update(con,person);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -59,9 +61,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void delete(int id) {
-        try {
-            personDAO.delete(id);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            personDAO.delete(con,id);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -70,10 +72,10 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findById(int id) {
         Person person = null;
-        try {
-            person = personDAO.findById(id)
+        try (Connection con = getConnection()){
+            person = personDAO.findById(con,id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
-        } catch (DBException e) {
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         } catch (UserNotFoundException e) {
@@ -86,9 +88,9 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<Person> findAll() {
         List<Person> personList = null;
-        try {
-            personList = personDAO.findAll();
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            personList = personDAO.findAll(con);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -98,10 +100,10 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findByEmail(String email) {
         Person person = null;
-        try {
-            person = personDAO.findPersonByEmail(email)
+        try (Connection con = getConnection()){
+            person = personDAO.findPersonByEmail(con,email)
                     .orElseThrow(() -> new UserNotFoundException(email));
-        } catch (DBException e) {
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         } catch (UserNotFoundException e) {
@@ -131,10 +133,10 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findByUsername(String username) {
         Person person = null;
-        try {
-            person = personDAO.findPersonByUsername(username)
+        try (Connection con = getConnection()){
+            person = personDAO.findPersonByUsername(con,username)
                     .orElseThrow(() -> new UserNotFoundException(username));
-        } catch (DBException e) {
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         } catch (UserNotFoundException e) {
@@ -148,9 +150,9 @@ public class PersonServiceImpl implements PersonService {
     public boolean isExistByEmail(String email) {
         boolean existByUEmail = false;
 
-        try {
-            existByUEmail = personDAO.isExistByEmail(email);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            existByUEmail = personDAO.isExistByEmail(con,email);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -161,9 +163,9 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean isExistByUsername(String username) {
         boolean existByUsername = false;
-        try {
-            existByUsername = personDAO.isExistByUsername(username);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            existByUsername = personDAO.isExistByUsername(con,username);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
@@ -173,9 +175,9 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean changeStatusById(int id) {
         boolean completed = false;
-        try {
-            completed = personDAO.changeStatusById(id);
-        } catch (DBException e) {
+        try (Connection con = getConnection()){
+            completed = personDAO.changeStatusById(con,id);
+        } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }

@@ -16,16 +16,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BaseDAO<T extends BaseEntity> {
-    int create(T entity) throws DBException;
+    int create(Connection con, T entity) throws DBException, SQLException;
 
-    void update(T entity) throws DBException;
+    void update(Connection con,T entity) throws DBException;
 
-    void delete(int id) throws DBException;
+    void delete(Connection con,int id) throws DBException;
 
-    Optional<T> findById(int id) throws DBException;
+    Optional<T> findById(Connection con,int id) throws DBException;
 
-    List<T> findAll() throws DBException;
-
+    List<T> findAll(Connection con) throws DBException;
     default void close(AutoCloseable closeable) {
         if (closeable != null) {
             try {
@@ -35,7 +34,7 @@ public interface BaseDAO<T extends BaseEntity> {
             }
         }
     }
-
+/*
     default  Connection getConnection() throws DBException {
         Context initCtx;
         try {
@@ -50,15 +49,15 @@ public interface BaseDAO<T extends BaseEntity> {
             e.printStackTrace();
             throw new DBException(e);
         }
-         /*  Connection con;
+           Connection con;
      try {
             con = AppContextListener.initializeDao().getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DBException(e);
         }
-        return con;*/
-    }
+        return con;
+    }*/
 //    https://elearn.epam.com/courses/course-v1:RD_CEE+OnlineUAJava+2022-Spring/courseware/5ecd5c2b45a249169c2af0fbecc2a0d8/b302e28df8c34c37a410f36182128255/3?activate_block_id=block-v1%3ARD_CEE%2BOnlineUAJava%2B2022-Spring%2Btype%40vertical%2Bblock%40f6d242f4e80b4bf6aef3def55c70950e
 //2;35
 }

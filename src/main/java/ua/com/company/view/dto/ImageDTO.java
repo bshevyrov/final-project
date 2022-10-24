@@ -2,18 +2,10 @@ package ua.com.company.view.dto;
 
 import java.io.Serializable;
 
-public class ImageDTO implements Serializable {
+public class ImageDTO extends BaseDTO {
     private String name;
     private String path;
-    private int publicationId;
 
-    public int getPublicationId() {
-        return publicationId;
-    }
-
-    public void setPublicationId(int publicationId) {
-        this.publicationId = publicationId;
-    }
 
     public String getName() {
         return name;
@@ -36,7 +28,6 @@ public class ImageDTO implements Serializable {
         return "Image{" +
                 "name='" + name + '\'' +
                 ", path='" + path + '\'' +
-                ", publicationId=" + publicationId +
                 '}';
     }
 }
