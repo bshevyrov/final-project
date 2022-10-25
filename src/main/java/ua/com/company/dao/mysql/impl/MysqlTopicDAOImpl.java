@@ -127,8 +127,8 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         Topic topic = new Topic();
         topic.setId(rs.getInt(DBConstants.F_TOPIC_ID));
         topic.setTitle(rs.getString(DBConstants.F_TOPIC_TITLE));
-        topic.setCreateDate(rs.getTimestamp(DBConstants.F_TOPIC_CREATE_DATE));
-        topic.setUpdateDate(rs.getTimestamp(DBConstants.F_TOPIC_UPDATE_DATE));
+/*        topic.setCreateDate(rs.getTimestamp(DBConstants.F_TOPIC_CREATE_DATE));
+        topic.setUpdateDate(rs.getTimestamp(DBConstants.F_TOPIC_UPDATE_DATE));*/
         return topic;
     }
 }

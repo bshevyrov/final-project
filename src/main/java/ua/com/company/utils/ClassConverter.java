@@ -58,8 +58,8 @@ public final class ClassConverter {
         TopicDTO topicDTO = new TopicDTO();
         topicDTO.setId(topic.getId());
         topicDTO.setTitle(topic.getTitle());
-        topicDTO.setCreateDate(topic.getCreateDate());
-        topicDTO.setUpdateDate(topic.getUpdateDate());
+//        topicDTO.setCreateDate(topic.getCreateDate());
+//        topicDTO.setUpdateDate(topic.getUpdateDate());
         return topicDTO;
     }
 

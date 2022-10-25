@@ -20,7 +20,7 @@ public abstract class DBConstants {
 
     public static final String FIND_PUBLICATION_BY_ID = "SELECT p.* , i.name, i.path ,GROUP_CONCAT(t.title)as topics FROM publication p INNER JOIN image i on p.id = i.publication_id INNER JOIN publication_has_topic pht  on p.id = pht.publication_id INNER JOIN topic t  on pht.topic_id = t.id WHERE p.id=? GROUP BY p.id";
 
-    public static final String FIND_ALL_PUBLICATIONS = "SELECT p.* , i.name, i.path ,GROUP_CONCAT(t.title)as topics FROM publication p  INNER JOIN image i on p.id = i.publication_id   INNER JOIN publication_has_topic pht  on p.id = pht.publication_id INNER JOIN topic t  on pht.topic_id = t.id   GROUP BY p.id";
+    public static final String FIND_ALL_PUBLICATIONS = "SELECT p.* , i.name, i.path ,GROUP_CONCAT(t.title)as topics FROM publication p  INNER JOIN image i on p.image_id = i.id   INNER JOIN publication_has_topic pht  on p.id = pht.publication_id INNER JOIN topic t  on pht.topic_id = t.id   GROUP BY p.id";
     public static final String CREATE_PUBLICATION = "INSERT INTO publication (title,description,price,image_id) VALUES (?,?,?,?)";
     public static final String DELETE_PUBLICATION = "DELETE FROM publication WHERE id=?";
     public static final String FIND_ALL_PUBLICATIONS_BY_TITLE = "SELECT * FROM publication p WHERE p.title LIKE ? ORDER BY p.title";
@@ -38,7 +38,8 @@ public abstract class DBConstants {
     public static final String ADD_TOPIC_TO_PUBLICATION = "INSERT INTO publication_has_topic (publication_id,topic_id) VALUES (?,?)";
     public static final String FIND_TOPIC_BY_TITLE = "SELECT * FROM topic WHERE title=?";
     public static final String FIND_ALL_PUBLICATIONS_BY_TOPIC_ID_ASC = "(SELECT p.* , i.name, i.path ,GROUP_CONCAT(t.title)as topics FROM publication p  INNER JOIN image i on p.id = i.publication_id   INNER JOIN publication_has_topic pht  on p.id = pht.publication_id INNER JOIN topic t  on pht.topic_id = t.id   WHERE t.id=? GROUP BY ? ) ORDER by ?  LIMIT ?,?";
-    public static final String FIND_ALL_PUBLICATIONS_BY_TOPIC = "SELECT * FROM publication p LEFT JOIN publication_has_topic pht on p.id = pht.publication_id WHERE pht.topic_id = ? ORDER BY ? LIMIT ?,?";
+    public static final String FIND_ALL_PUBLICATIONS_BY_TOPIC = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path,t.title FROM publication p LEFT JOIN publication_has_topic pht on p.id = pht.publication_id INNER JOIN topic t on pht.topic_id = t.id INNER JOIN image i on p.image_id = i.id WHERE pht.topic_id = ? ORDER BY ? LIMIT ?,?";
+    public static final String FIND_ALL_PUBLICATIONS_BY_TOPIC_ID_DESC ="SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path,t.title FROM publication p LEFT JOIN publication_has_topic pht on p.id = pht.publication_id INNER JOIN topic t on pht.topic_id = t.id INNER JOIN image i on p.image_id = i.id WHERE pht.topic_id = ? ORDER BY ? DESC LIMIT ?,?" ;
     public static final String FIND_ALL_PUBLICATIONS_BY_USER_ID = "(SELECT p.* , i.name, i.path ,GROUP_CONCAT(t.title)as topics FROM publication p  INNER JOIN image i on p.id = i.publication_id   INNER JOIN publication_has_topic pht  on p.id = pht.publication_id INNER JOIN topic t  on pht.topic_id = t.id  LEFT JOIN person_has_publication php on p.id = php.publication_id WHERE php.person_id = ? GROUP BY p.id LIMIT ?,?) ORDERED ? ?" ;
     public static final String FIND_SIMPLE_PERSON_BY_EMAIL = "SELECT *  FROM person p INNER JOIN role r on p.role_id = r.id INNER JOIN  person_status ps  on p.status_id = ps.id  WHERE p.email=?";
     public static final String CHANGE_USER_STATUS_BY_ID = "UPDATE person SET status_id=? WHERE id=?";

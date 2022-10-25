@@ -172,6 +172,9 @@ public class PublicationServiceImpl implements PublicationService {
         List<Publication> publicationList = null;
         try (Connection con = getConnection()){
             publicationList = publicationDAO.findAll(con);
+            for (Publication publication : publicationList) {
+                publication.setTopics(topicService.findAllByPublicationId(publication.getId()));
+            }
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -185,9 +188,9 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()){
             publicationList = publicationDAO.findAllByTopicId(con,obj, topicId);
             for (Publication currentPub : publicationList) {
-//                List<Topic> topicList = topicService.findAllByPublicationId(currentPub.getId());
-//                currentPub.setTopics(topicList);
-                currentPub.setCover(imageService.findByPublicationId(con,currentPub.getId()));
+                List<Topic> topicList = topicService.findAllByPublicationId(currentPub.getId());
+                currentPub.setTopics(topicList);
+//                currentPub.setCover(imageService..findByPublicationId(con,currentPub.getId()));
             }
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
