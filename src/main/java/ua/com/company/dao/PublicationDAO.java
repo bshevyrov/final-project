@@ -28,5 +28,7 @@ public interface PublicationDAO extends BaseDAO<Publication> {
     void deleteFromPublicationHasTopicByPublicationId(Connection con, int id) throws SQLException;
 
     void updateCoverForPublication(Connection con, int id, Image cover) throws SQLException;
+
+    int countAllByTopicId(Connection con, int topicId) throws DBException;
 //    List<Publication> findAllLikeTitle(String searchReq);
 }

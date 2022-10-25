@@ -11,4 +11,6 @@ public interface PublicationService extends BaseService<Publication>{
     List<Publication> findAllByUserId(int userId);
 
     List<Publication> findAllByTitle(String searchReq);
+
+    int countAllByTopicId(int topicId);
 }

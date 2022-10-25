@@ -34,19 +34,19 @@ public class CategoryDetailsController extends HttpServlet {
                 .getAttribute("publicationFacade");
         String topicName = topicFacade.findById(topicId).getTitle();
 
-        List<PublicationDTO> publications = publicationFacade.findAllByTopicId(new Sorting(), topicId);
 
-
-
-        int totalRec = publications.size();
         int currentPage = 1;
-        int pageSize = 12;
-        System.out.println(getServletInfo());
-        System.out.println(getServletContext().getContextPath());
+        String pageSize = "6";
+        Sorting sort = new Sorting();
+        sort.setPageSize(Integer.parseInt(pageSize));
+        List<PublicationDTO> publications = publicationFacade.findAllByTopicId(sort, topicId);
         final String url = "/category?id=" + topicId;
+        int lastPage = publicationFacade.countAllByTopicId(topicId) % Integer.parseInt(pageSize) == 0 ? publicationFacade.countAllByTopicId(topicId) / Integer.parseInt(pageSize) : publicationFacade.countAllByTopicId(topicId) / Integer.parseInt(pageSize) + 1;
 
-        request.setAttribute("currentSort","titleAsc");
-        request.setAttribute("currentSize","6");
+        request.setAttribute("lastPage", lastPage);
+        request.setAttribute("currentSort", "titleAsc");
+        request.setAttribute("currentSize", pageSize);
+        request.setAttribute("currentPage", currentPage);
         request.setAttribute("url", url);
         request.setAttribute("topicName", topicName);
         request.setAttribute("publications", publications);
@@ -65,11 +65,11 @@ public class CategoryDetailsController extends HttpServlet {
 
         Sorting sorting = new Sorting();
         String sort;
-if(request.getParameter("sort")!=null) {
-     sort = request.getParameter("sort");
-}else{
-    sort = request.getParameter("currentSort");
-}
+        if (request.getParameter("sort") != null) {
+            sort = request.getParameter("sort");
+        } else {
+            sort = request.getParameter("currentSort");
+        }
         switch (sort) {
             case "priceDesc": {
                 sorting.setSortingType("DESC");
@@ -92,28 +92,40 @@ if(request.getParameter("sort")!=null) {
                 break;
             }
         }
-String pageSize;
-if(request.getParameter("pageSize")==null){
-    pageSize=request.getParameter("currentSize");
-}else {
-    pageSize=request.getParameter("pageSize");
-}
-switch (pageSize){
-    case "6":sorting.setPageSize(6);
-    break ;
-    case "12":sorting.setPageSize(12);
-    break ;
-    case "24":sorting.setPageSize(24);
-    break;
-}
+        String pageSize;
+        if (request.getParameter("pageSize") == null) {
+            pageSize = request.getParameter("currentSize");
+        } else {
+            pageSize = request.getParameter("pageSize");
+        }
+        switch (pageSize) {
+            case "6":
+                sorting.setPageSize(6);
+                break;
+            case "12":
+                sorting.setPageSize(12);
+                break;
+            case "24":
+                sorting.setPageSize(24);
+                break;
+        }
 
+        String currentPage;
+        if (request.getParameter("currentPage") == null) {
+            currentPage = "1";
+        } else {
+            currentPage = request.getParameter("currentPage");
+        }
+        sorting.setStarRecord(Integer.parseInt(currentPage) == 1 ? 0 : (Integer.parseInt(currentPage) - 1) * Integer.parseInt(pageSize));
 
 
         List<PublicationDTO> publications = publicationFacade.findAllByTopicId(sorting, topicId);
         final String url = "/category?id=" + topicId;
-
-        request.setAttribute("currentSort",sort);
-        request.setAttribute("currentSize",pageSize);
+        int lastPage = publicationFacade.countAllByTopicId(topicId) % Integer.parseInt(pageSize) == 0 ? publicationFacade.countAllByTopicId(topicId) / Integer.parseInt(pageSize) : publicationFacade.countAllByTopicId(topicId) / Integer.parseInt(pageSize) + 1;
+        request.setAttribute("lastPage", lastPage);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("currentSort", sort);
+        request.setAttribute("currentSize", pageSize);
         request.setAttribute("url", url);
         request.setAttribute("topicName", topicName);
         request.setAttribute("publications", publications);

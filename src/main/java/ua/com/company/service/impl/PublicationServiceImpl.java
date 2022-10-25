@@ -222,4 +222,16 @@ public class PublicationServiceImpl implements PublicationService {
         }
         return publicationList;
     }
+
+    @Override
+    public int countAllByTopicId(int topicId) {
+        int count = -1;
+        try (Connection con = getConnection()) {
+            count = publicationDAO.countAllByTopicId(con, topicId);
+        } catch (DBException | SQLException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return count;
+    }
 }

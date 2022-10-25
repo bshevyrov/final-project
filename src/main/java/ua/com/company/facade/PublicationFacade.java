@@ -11,4 +11,6 @@ public interface PublicationFacade extends BaseFacade<PublicationDTO> {
     List<PublicationDTO> findAllByUserId(int userId);
 
     List<PublicationDTO> findAllByTitle(String searchReq);
+
+    int countAllByTopicId(int topicId);
 }

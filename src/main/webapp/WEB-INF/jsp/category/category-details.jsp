@@ -52,7 +52,7 @@
                                 <%--                                <div class="product__page__filter">--%>
                                 <div class="product__sort__filter">
                                     <p>Order by:</p>
-                                    <form action="${url}" method="POST">
+                                    <form action="${url}" id="sortForm" method="POST">
                                         <input type="hidden" id="1" name="currentSort" value="${currentSort}">
                                         <input type="hidden" id="2" name="currentSize" value="${currentSize}">
                                         <select name="sort" onchange="this.form.submit()">
@@ -63,31 +63,31 @@
                                         </select>
                                     </form>
 
-<%--                                    <form  action="${url}" method="POST">--%>
-<%--                                        <input type="hidden" id="1" name="currentSort" value="${currentSort}">--%>
-<%--                                        <input type="hidden" id="2" name="currentSize" value="${currentSize}">--%>
+                                    <%--                                    <form  action="${url}" method="POST">--%>
+                                    <%--                                        <input type="hidden" id="1" name="currentSort" value="${currentSort}">--%>
+                                    <%--                                        <input type="hidden" id="2" name="currentSize" value="${currentSize}">--%>
 
-<%--                                    </form>--%>
-<%--                                    <form hidden>--%>
-<%--                                        <input name="currentSort" value="${currentSort}">--%>
-<%--                                        <input name="currentSize" value="${currentSize}">--%>
-<%--                                    </form>--%>
+                                    <%--                                    </form>--%>
+                                    <%--                                    <form hidden>--%>
+                                    <%--                                        <input name="currentSort" value="${currentSort}">--%>
+                                    <%--                                        <input name="currentSize" value="${currentSize}">--%>
+                                    <%--                                    </form>--%>
 
                                 </div>
-<%--                                <div class="col-lg-4 col-md-4 col-sm-6">--%>
-                                    <div class="product__size__filter">
-                                        <p>Page size:</p>
-                                        <form action="${url}" method="POST">
-                                            <input type="hidden" id="3" name="currentSort" value="${currentSort}">
-                                            <input type="hidden" id="4" name="currentSize" value="${currentSize}">
-                                            <select name="pageSize" onchange="this.form.submit()">
-                                                <option value="6">6</option>
-                                                <option value="12">12</option>
-                                                <option value="24">24</option>
-                                            </select>
-                                        </form>
-                                    </div>
-<%--                                </div>--%>
+                                <%--                                <div class="col-lg-4 col-md-4 col-sm-6">--%>
+                                <div class="product__size__filter">
+                                    <p>Page size:</p>
+                                    <form action="${url}" method="POST">
+                                        <input type="hidden" id="3" name="currentSort" value="${currentSort}">
+                                        <input type="hidden" id="4" name="currentSize" value="${currentSize}">
+                                        <select name="pageSize" onchange="this.form.submit()">
+                                            <option value="6">6</option>
+                                            <option value="12">12</option>
+                                            <option value="24">24</option>
+                                        </select>
+                                    </form>
+                                </div>
+                                <%--                                </div>--%>
                             </div>
 
                         </div>
@@ -125,13 +125,51 @@
                     </div>
                 </div>
                 <div class="product__pagination">
-                    <%@include file="/WEB-INF/jspf/pagination.jspf" %>
-                    <a href="#" class="current-page">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#"><i class="fa fa-angle-double-right"></i></a>
+
+
+                    <c:choose>
+                        <c:when test="${currentPage==1}">
+                            <button type="button" disabled>Prev</button>
+                        </c:when>
+                        <c:otherwise>
+                            <form action="${url}" method="POST">
+                                <input type="hidden"  name="currentSort" value="${currentSort}">
+                                <input type="hidden"  name="currentSize" value="${currentSize}">
+                                <input type="hidden"  name="currentPage" value="${currentPage-1}">
+
+                                <button type="submit">Prev</button>
+                            </form>
+
+                        </c:otherwise>
+                    </c:choose>
+
+                    <c:choose>
+                        <c:when test="${currentPage==lastPage}">
+                            <button type="button" disabled>Next</button>
+                        </c:when>
+                        <c:otherwise>
+                            <form action="${url}" method="POST">
+                                <input type="hidden"  name="currentSort" value="${currentSort}">
+                                <input type="hidden"  name="currentSize" value="${currentSize}">
+                                <input type="hidden"  name="currentPage" value="${currentPage+1}">
+
+                                <button type="submit">Next</button>
+                            </form>
+
+                        </c:otherwise>
+                    </c:choose>
+
+
+
+
+                    <%--                    <%@include file="/WEB-INF/jspf/pagination.jspf" %>--%>
+
+                    <%--                    <a href="#" class="current-page">1</a>--%>
+                    <%--                    <a href="#">2</a>--%>
+                    <%--                    <a href="#">3</a>--%>
+                    <%--                    <a href="#">4</a>--%>
+                    <%--                    <a href="#">5</a>--%>
+                    <%--                    <a href="#"><i class="fa fa-angle-double-right"></i></a>--%>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
@@ -301,6 +339,15 @@
 
 <!-- Js Plugins -->
 <%@include file="/WEB-INF/jspf/scripts.jspf" %>
+<%--<script>--%>
+<%--    function submitForms(){--%>
+<%--        document.getElementById("sortForm").submit();--%>
+<%--        document.getElementById("sizeForm").submit();--%>
+<%--        document.getElementById("sizeForm").submit();--%>
+<%--        --%>
+<%--        // document.submitforms[1].submit();--%>
+<%--    }--%>
+<%--</script>--%>
 
 </body>
 

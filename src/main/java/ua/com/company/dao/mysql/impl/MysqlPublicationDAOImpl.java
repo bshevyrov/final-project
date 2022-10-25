@@ -94,6 +94,27 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     }
 
+    @Override
+    public int countAllByTopicId(Connection con, int topicId) throws DBException {
+        int count =-1;
+            try (
+                    PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_TOPIC_ID)) {
+                stmt.setInt(1, topicId);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    count = rs.getInt("count");
+                }
+            } catch (SQLException e) {
+                //log
+                e.printStackTrace();
+                throw new DBException("GOOD INFORMATION ERORR", e);
+            }
+            return count;
+
+        }
+
+
+
 //    private void rollback(Connection con) {
 //        try {
 //            con.rollback();

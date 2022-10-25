@@ -60,4 +60,9 @@ public class PublicationFacadeImpl implements PublicationFacade {
         return publicationService.findAllByTitle(searchReq).stream()
                 .map(ClassConverter::publicationToPublicationDTO)
                 .collect(Collectors.toList());    }
+
+    @Override
+    public int countAllByTopicId(int topicId) {
+        return publicationService.countAllByTopicId(topicId);
+    }
 }
