@@ -17,32 +17,7 @@ import java.util.stream.Collectors;
 
 public class MysqlPublicationDAOImpl implements PublicationDAO {
 
-    /* @Override
-     public int create(Publication publication*//*, Image... images*//*) throws DBException {
-        Connection con = getConnection();
-        int id = -1;
-        try (con) {
-            con.setAutoCommit(false);
-            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            addPublication(con, publication);
-        *//*    for (Image image : images) {
-                addImageForPublication(con, publication.getId(), image);
-            }*//*
-            addImageForPublication(con, publication.getId(), publication.getCover());
 
-            for (Topic topic : publication.getTopics()) {
-                addTopicForPublication(con, publication.getId(), topic.getId());
-            }
-            con.commit();
-            id = publication.getId();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            rollback(con);
-        } finally {
-            close(con);
-        }
-        return id;
-    }*/
     @Override
     public int create(Connection con, Publication publication) throws SQLException {
         int id = -1;
@@ -64,21 +39,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         }
         return id;
     }
-/*
-    private void addImageForPublication(Connection con, int pubId, Image image) throws SQLException {
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(DBConstants.ADD_IMAGE_TO_PUBLICATION);
-            int index = 0;
-            stmt.setInt(++index, pubId);
-            stmt.setString(++index, image.getName());
-            stmt.setString(++index, image.getPath());
-            stmt.execute();
-        } finally {
-            close(stmt);
-        }
 
-    }*/
 
     public void updateCoverForPublication(Connection con, int pubId, Image image) throws SQLException {
         PreparedStatement stmt = null;
@@ -96,32 +57,22 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     @Override
     public int countAllByTopicId(Connection con, int topicId) throws DBException {
-        int count =-1;
-            try (
-                    PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_TOPIC_ID)) {
-                stmt.setInt(1, topicId);
-                ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    count = rs.getInt("count");
-                }
-            } catch (SQLException e) {
-                //log
-                e.printStackTrace();
-                throw new DBException("GOOD INFORMATION ERORR", e);
+        int count = -1;
+        try (
+                PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_TOPIC_ID)) {
+            stmt.setInt(1, topicId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("count");
             }
-            return count;
-
+        } catch (SQLException e) {
+            //log
+            e.printStackTrace();
+            throw new DBException("GOOD INFORMATION ERORR", e);
         }
+        return count;
 
-
-
-//    private void rollback(Connection con) {
-//        try {
-//            con.rollback();
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
+    }
 
 
     @Override
@@ -160,21 +111,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         }
     }
 
-//    public void updatePublication(Connection con, Publication publication) throws DBException {
-//        try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PUBLICATION)) {
-//            int index = 0;
-//            stmt.setString(++index, publication.getTitle());
-//            stmt.setString(++index, publication.getDescription());
-//            stmt.setDouble(++index, publication.getPrice());
-//            stmt.setInt(++index, publication.getId());
-//
-//            stmt.execute();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw new DBException(e);
-//        }
-//    }
 
     @Override
     public void delete(Connection con, int id) throws DBException {
@@ -254,41 +190,25 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path,t.title " +
                 "FROM publication p LEFT JOIN publication_has_topic pht on p.id = pht.publication_id" +
                 " INNER JOIN topic t on pht.topic_id = t.id " +
-                "INNER JOIN image i on p.image_id = i.id WHERE pht.topic_id ="+id+" ORDER BY "+obj.getSortingField()+
-                " "+(obj.getSortingType().equals("DESC")?"DESC":"")+
-                " LIMIT "+obj.getStarRecord()+","+obj.getPageSize()+"";
-//        if(obj.getSortingType().equals("DESC")){
-//            query=DBConstants.FIND_ALL_PUBLICATIONS_BY_TOPIC_ID_DESC;
-//        } else {
-//            query=DBConstants.FIND_ALL_PUBLICATIONS_BY_TOPIC;
-//        }
+                "INNER JOIN image i on p.image_id = i.id WHERE pht.topic_id =" + id + " ORDER BY " + obj.getSortingField() +
+                " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
+                " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
+
         try (
                 Statement stmt = con.createStatement()) {
-//            try (
-//                    PreparedStatement stmt = con.prepareStatement(query)) {
-//                int index = 0;
-//                stmt.setInt(++index, id);
-//                stmt.setString(++index, obj.getSortingField());
-////            if (obj.getSortingType().equals("ASC")) {
-////                stmt.setString(++index, "");
-////            } else {
-////                stmt.setString(++index, obj.getSortingType());
-////            }
-//                stmt.setInt(++index, obj.getStarRecord());
-//                stmt.setInt(++index, obj.getPageSize());
-//                try (ResultSet rs = stmt.executeQuery()) {
-                try (ResultSet rs = stmt.executeQuery(query)) {
-                    while (rs.next()) {
-                        publications.add(mapPublication(rs));
-                    }
+
+            try (ResultSet rs = stmt.executeQuery(query)) {
+                while (rs.next()) {
+                    publications.add(mapPublication(rs));
                 }
-
-
-            } catch (SQLException e) {
-                //log
-                e.printStackTrace();
-                throw new DBException("GOOD INFORMATION ERORR", e);
             }
+
+
+        } catch (SQLException e) {
+            //log
+            e.printStackTrace();
+            throw new DBException("GOOD INFORMATION ERORR", e);
+        }
         return publications;
     }
 //    }
@@ -355,47 +275,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
 
-
-   /* @Override
-    public void addImage(Connection con, Publication publication, Image... images) {
-       try {
-
-           PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_IMAGE_TO_PUBLICATION);
-      int index=0;
-      stmt.setInt(++index,publication.getId());
-      stmt.setString(++index,images.);
-
-       } catch (SQLException e) {
-           e.printStackTrace();
-       }
-
-
-    }*/
-
-//    public void addNewTopic(Topic topic, PublicationTopic... publicationTopic) throws DBException {
-//        Connection con = null;
-//        PreparedStatement pStmt = null;
-//        try {
-//            con = DBDataSourceImpl.getInstance().getDataSource().getConnection();
-//            pStmt = con.prepareStatement("INSERT INTO topic (title) VALUES (?);", Statement.RETURN_GENERATED_KEYS);
-//            pStmt.setString(1, topic.getTitle());
-////2:23
-//
-//            try (ResultSet rs = pStmt.executeQuery()) {
-//                rs.next();
-//            }
-//
-//        } catch (SQLException e) {
-//            //log
-//            e.printStackTrace();
-//            throw new DBException("GOOD INFORMATION ERORR", e);
-//        } finally {
-//            close(pStmt);
-//            close(con);
-//        }
-//    }
-
-
     static String escapeForLike(String param) {
         return param.replace("!", "!!")
                 .replace("%", "!%")
@@ -442,24 +321,3 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 }
 
-//select *
-//        from publication
-//        join (
-//        select question_id, group_concat(tags.name) as name
-//        from tags
-//        group by question_id
-//        ) tags on questions.id = tags.question_id
-//        left join (
-//        select question_id, group_concat(comments.body) as body
-//        from comments
-//        group by question_id
-//        ) comments on questions.id = comments.question_id p
-//
-//
-//
-//
-//        select *
-//        from publication p
-//        inner join publication_has_topic pht on p.id = pht.publication_id
-//        inner join topic t on pht.topic_id = t.id
-//        where p.id=11

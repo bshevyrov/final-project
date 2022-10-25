@@ -52,21 +52,23 @@ public class AdminPublicationUploadController extends HttpServlet {
         image.setName(request.getParameter("title") + " cover");
         publication.setCover(image);
         List<TopicDTO> topicList = new ArrayList<>();
+
         if (request.getParameterValues("topics") != null) {
             String[] topics = request.getParameterValues("topics");
 
             topicList = Arrays.stream(topics).map(Integer::parseInt)
                     .map(topicFacade::findById).collect(Collectors.toList());
         }
+
         if (request.getParameter("newTopics") != null && !request.getParameter("newTopics").equals("")) {
             String[] newTopic = request.getParameter("newTopics").split(",");
-
             for (String s : newTopic) {
                 TopicDTO currentTopic = new TopicDTO(s);
                 currentTopic.setId(topicFacade.create(currentTopic));
                 topicList.add(currentTopic);
             }
         }
+
         publication.setTopics(topicList);
         publication.setPrice(Double.parseDouble(request.getParameter("price")));
         publication.setTitle(request.getParameter("title"));

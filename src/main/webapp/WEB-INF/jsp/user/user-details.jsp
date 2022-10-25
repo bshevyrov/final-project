@@ -57,7 +57,7 @@
           <h5>Funds</h5>
           <br/>
 
-       ${person.username}"
+       ${person.funds}"
             </div>
 
         </div>

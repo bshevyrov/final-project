@@ -10,4 +10,6 @@ public interface PersonFacade extends BaseFacade<PersonDTO>{
     boolean isExistByEmail(String email);
 
     boolean isExistByUsername(String username);
+
+    void subscribe(int pubId,int personId);
 }

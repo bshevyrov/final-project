@@ -5,9 +5,11 @@ import org.slf4j.LoggerFactory;
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.entity.Person;
+import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.PersonService;
+import ua.com.company.service.PublicationService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,7 +18,7 @@ import java.util.List;
 public class PersonServiceImpl implements PersonService {
     private final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
     private final PersonDAO personDAO = DAOFactory.getInstance().getPersonDAO();
-
+    private final PublicationService publicationService = PublicationServiceImpl.getInstance();
     private static PersonService instance;
 
     public static synchronized PersonService getInstance() {
@@ -40,8 +42,8 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public int create(Person person) {
         int id = -1;
-        try (Connection con = getConnection()){
-            id = personDAO.create(con,person);
+        try (Connection con = getConnection()) {
+            id = personDAO.create(con, person);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -51,8 +53,8 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void update(Person person) {
-        try (Connection con = getConnection()){
-            personDAO.update(con,person);
+        try (Connection con = getConnection()) {
+            personDAO.update(con, person);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -61,8 +63,8 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void delete(int id) {
-        try (Connection con = getConnection()){
-            personDAO.delete(con,id);
+        try (Connection con = getConnection()) {
+            personDAO.delete(con, id);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -72,8 +74,8 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findById(int id) {
         Person person = null;
-        try (Connection con = getConnection()){
-            person = personDAO.findById(con,id)
+        try (Connection con = getConnection()) {
+            person = personDAO.findById(con, id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
@@ -88,7 +90,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<Person> findAll() {
         List<Person> personList = null;
-        try (Connection con = getConnection()){
+        try (Connection con = getConnection()) {
             personList = personDAO.findAll(con);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
@@ -100,8 +102,8 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findByEmail(String email) {
         Person person = null;
-        try (Connection con = getConnection()){
-            person = personDAO.findPersonByEmail(con,email)
+        try (Connection con = getConnection()) {
+            person = personDAO.findPersonByEmail(con, email)
                     .orElseThrow(() -> new UserNotFoundException(email));
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
@@ -133,8 +135,8 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findByUsername(String username) {
         Person person = null;
-        try (Connection con = getConnection()){
-            person = personDAO.findPersonByUsername(con,username)
+        try (Connection con = getConnection()) {
+            person = personDAO.findPersonByUsername(con, username)
                     .orElseThrow(() -> new UserNotFoundException(username));
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
@@ -150,8 +152,8 @@ public class PersonServiceImpl implements PersonService {
     public boolean isExistByEmail(String email) {
         boolean existByUEmail = false;
 
-        try (Connection con = getConnection()){
-            existByUEmail = personDAO.isExistByEmail(con,email);
+        try (Connection con = getConnection()) {
+            existByUEmail = personDAO.isExistByEmail(con, email);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -163,8 +165,8 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean isExistByUsername(String username) {
         boolean existByUsername = false;
-        try (Connection con = getConnection()){
-            existByUsername = personDAO.isExistByUsername(con,username);
+        try (Connection con = getConnection()) {
+            existByUsername = personDAO.isExistByUsername(con, username);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -175,12 +177,38 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean changeStatusById(int id) {
         boolean completed = false;
-        try (Connection con = getConnection()){
-            completed = personDAO.changeStatusById(con,id);
+        try (Connection con = getConnection()) {
+            completed = personDAO.changeStatusById(con, id);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
         return completed;
     }
-}
+
+    @Override
+    public void subscribe(int pubId, int personId) {
+            Person person= findById(personId);
+            Publication publication = publicationService.findById(pubId);
+
+                try (Connection con = getConnection()) {
+                    if (person.getFunds()-publication.getPrice()>0) {
+                        for (int i : person.getPublicationsId()) {
+                            if (pubId == i) {
+                                throw new DBException("Subscriptions already exist");
+                            }
+                        }
+                    }
+                    personDAO.decreaseFunds(con,personId,person.getFunds()-publication.getPrice());
+                    personDAO.subscribe(con, pubId,personId);
+                } catch (DBException | SQLException e) {
+                    log.error(String.valueOf(e));
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+
+
+

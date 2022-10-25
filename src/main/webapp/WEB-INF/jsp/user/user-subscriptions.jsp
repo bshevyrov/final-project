@@ -42,10 +42,10 @@
                 <th>Price</th>
 
             </tr>
-            <c:forEach var="publication" items="${person.publications}">
+            <c:forEach var="publication" items="${publications}">
                 <tr>
                     <td>
-                        <a href="publication/details?id=${publication.id}">${publication.title}</a>
+                        <a href="/publication/details?id=${publication.id}">${publication.title}</a>
                     </td>
                     <td>
                             ${publication.price}

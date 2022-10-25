@@ -14,4 +14,6 @@ public interface PersonService extends BaseService<Person> {
     boolean isExistByUsername(String username);
 
     boolean changeStatusById(int parseInt);
+
+    void subscribe(int pubId,int personId);
 }

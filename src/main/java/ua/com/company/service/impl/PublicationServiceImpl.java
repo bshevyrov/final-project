@@ -3,6 +3,7 @@ package ua.com.company.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.com.company.dao.DAOFactory;
+import ua.com.company.dao.ImageDAO;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
@@ -21,6 +22,7 @@ import java.util.List;
 public class PublicationServiceImpl implements PublicationService {
     private final Logger log = LoggerFactory.getLogger(PublicationServiceImpl.class);
     private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
+    private final ImageDAO imageDAO = DAOFactory.getInstance().getImageDAO();
     private final TopicService topicService = TopicServiceImpl.getInstance();
     private final ImageService imageService = ImageServiceImpl.getInstance();
     private static PublicationService instance;
@@ -56,27 +58,15 @@ public class PublicationServiceImpl implements PublicationService {
         int id = -1;
         try  {
             con.setAutoCommit(false);
-            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-
-            int coverId = imageService.create(publication.getCover());
-            Image cover = publication.getCover();
-            cover.setId(coverId);
+//            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+           imageDAO.create(con,publication.getCover());
+//            Image cover = publication.getCover();
+//            cover.setId(coverId);
             id = publicationDAO.create(con, publication);
             for (Topic topic : publication.getTopics()) {
                 publicationDAO.addTopicForPublication(con, publication.getId(), topic.getId());
             }
-
-
             con.commit();
-
-/*
-            int id = -1;
-            try {
-                id = publicationDAO.create(publication);
-            } catch (DBException e) {
-                log.error(String.valueOf(e));
-                e.printStackTrace();
-            }*/
         } catch (SQLException | DBException e) {
             e.printStackTrace();
             rollback(con);
@@ -157,6 +147,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()){
             publication = publicationDAO.findById(con,id)
                     .orElseThrow(() -> new PublicationNotFoundException("" + id));
+            publication.setTopics(topicService.findAllByPublicationId(publication.getId()));
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -204,6 +195,9 @@ public class PublicationServiceImpl implements PublicationService {
         List<Publication> publicationList = null;
         try (Connection con = getConnection()){
             publicationList = publicationDAO.findAllByUserId(con,userId);
+            for (Publication publication : publicationList) {
+                publication.setTopics(topicService.findAllByPublicationId(publication.getId()));
+            }
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -216,6 +210,9 @@ public class PublicationServiceImpl implements PublicationService {
         List<Publication> publicationList = null;
         try (Connection con = getConnection()){
             publicationList = publicationDAO.findAllByTitle(con,searchReq);
+            for (Publication publication : publicationList) {
+                publication.setTopics(topicService.findAllByPublicationId(publication.getId()));
+            }
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();

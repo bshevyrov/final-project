@@ -92,4 +92,9 @@ public class PersonFacadeImpl implements PersonFacade {
     public boolean isExistByUsername(String username) {
         return personService.isExistByUsername(username);
     }
+
+    @Override
+    public void subscribe(int pubId,int personId) {
+        personService.subscribe(pubId,personId);
+    }
 }

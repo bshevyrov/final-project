@@ -140,14 +140,14 @@
         <servlet-name>AdminUserDashboardServlet</servlet-name>
         <url-pattern>/admin/user/dashboard</url-pattern>
     </servlet-mapping>
-<!--    <servlet>
-        <servlet-name>AdminUserStatusServlet</servlet-name>
-        <servlet-class>ua.com.company.view.controller.admin.AdminUserStatusController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminUserStatusServlet</servlet-name>
-        <url-pattern>/admin/user/status</url-pattern>
-    </servlet-mapping>-->
+    <!--    <servlet>
+            <servlet-name>AdminUserStatusServlet</servlet-name>
+            <servlet-class>ua.com.company.view.controller.admin.AdminUserStatusController</servlet-class>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>AdminUserStatusServlet</servlet-name>
+            <url-pattern>/admin/user/status</url-pattern>
+        </servlet-mapping>-->
     <servlet>
         <servlet-name>AdminPublicationUploadServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.admin.AdminPublicationUploadController</servlet-class>
@@ -190,7 +190,14 @@
     </servlet-mapping>
     <!--    auth-->
     <!--    index page-->
-
+    <servlet>
+        <servlet-name>SubscribeServlet</servlet-name>
+        <servlet-class>ua.com.company.view.controller.user.UserSubscribeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubscribeServlet</servlet-name>
+        <url-pattern>/user/subscribe</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.SearchController</servlet-class>

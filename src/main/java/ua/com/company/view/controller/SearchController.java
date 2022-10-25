@@ -13,7 +13,7 @@ public class SearchController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/category/category-details.jsp");
+                "/WEB-INF/jsp/search.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {

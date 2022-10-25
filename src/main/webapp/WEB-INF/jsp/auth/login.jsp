@@ -43,6 +43,9 @@
       <div class="col-lg-6">
         <div class="login__form">
           <h3>Login</h3>
+          <c:if test ="${true.equals(ban)}">
+            <small>You are banned(</small>
+          </c:if>
           <form method="post">
             <div class="input__item">
               <input type="text" name="email" placeholder="Email address">

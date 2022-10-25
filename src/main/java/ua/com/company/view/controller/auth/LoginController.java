@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import ua.com.company.entity.Person;
 import ua.com.company.facade.PersonFacade;
 import ua.com.company.service.PersonService;
+import ua.com.company.type.StatusType;
 import ua.com.company.utils.PasswordUtil;
 import ua.com.company.view.dto.PersonDTO;
 
@@ -41,11 +42,15 @@ public class LoginController extends HttpServlet {
         if (personFacade.isExistByEmail(email)) {
             PersonDTO person = personFacade.findByEmail(email);
             if (PasswordUtil.validatePassword(pass, person.getPassword())) {
-//            set session person
-                HttpSession session = request.getSession(false);
-                session.setAttribute("loggedPerson", person);
-                response.sendRedirect("/");
-                return;
+                if (person.getStatus() == StatusType.ENABLED) {
+                    HttpSession session = request.getSession(false);
+                    session.setAttribute("loggedPerson", person);
+                    response.sendRedirect("/");
+                    return;
+                } else {
+                    request.setAttribute("ban",true);
+                }
+
             }
             request.setAttribute("passWrong", true);
         } else {

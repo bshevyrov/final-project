@@ -203,6 +203,36 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return completed;
     }
 
+    @Override
+    public void decreaseFunds(Connection con, int personId, double newFunds) throws DBException {
+
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.DECREASE_FUNDS)) {
+            int index = 0;
+            stmt.setDouble(++index, newFunds);
+            stmt.setInt(++index, personId);
+
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+
+    }
+
+    @Override
+    public void subscribe(Connection con, int pubId, int personId) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON_HAS_PUBLICATION)) {
+            int index = 0;
+            stmt.setInt(++index, personId);
+            stmt.setInt(++index, pubId);
+
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+    }
+
     private int checkStatusById(Connection con, int id) throws SQLException {
         ResultSet rs = null;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CHECK_USER_STATUS_BY_ID)) {
@@ -218,21 +248,6 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
 
     }
-   /* @Override
-    public Optional<Person> findSimplePersonByEmail(String email) throws DBException {
-        Person person = null;
-        try (Connection con = getConnection();
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_SIMPLE_PERSON_BY_EMAIL);) {
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                person = mapPerson(rs);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new DBException(e);
-        }
-        return Optional.ofNullable(person);    }*/
 
     public boolean isExist(Connection con, int id) throws DBException {
         int count = 0;

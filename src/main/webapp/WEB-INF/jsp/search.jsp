@@ -96,28 +96,36 @@
 
                         <div class="row">
                             <%--https://www.codejava.net/java-ee/jstl/jstl-core-tag-foreach--%>
-                            <c:forEach var="publication" items="${publications}">
-                                <c:set var="cover_img" value="${publication.cover}"/>
-                                <div class="col-lg-4 col-md-6 col-sm-6">
-                                    <div class="product__item">
-                                        <div class="product__item__pic set-bg" data-setbg="${cover_img.path}">
-                                            <div class="ep">18 / 18</div>
-                                            <div class="comment"><i class="fa fa-bank"></i> ${publication.price}</div>
-                                            <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                        </div>
-                                        <div class="product__item__text">
-                                            <ul>
-                                                <c:forEach var="topic" items="${publication.topics}">
-                                                    <li>${topic.title}</li>
-                                                </c:forEach>
-                                            </ul>
-                                            <h5>
-                                                <a href="/publication/details?id=${publication.id}">${publication.title}</a>
-                                            </h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
+                          <c:choose>
+                              <c:when test="${publications==null}">
+                                  <h4>NOTHING FOUND</h4>
+                              </c:when>
+                              <c:otherwise>
+                                  <c:forEach var="publication" items="${publications}">
+                                      <c:set var="cover_img" value="${publication.cover}"/>
+                                      <div class="col-lg-4 col-md-6 col-sm-6">
+                                          <div class="product__item">
+                                              <div class="product__item__pic set-bg" data-setbg="${cover_img.path}">
+                                                  <div class="ep">18 / 18</div>
+                                                  <div class="comment"><i class="fa fa-bank"></i> ${publication.price}</div>
+                                                  <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                              </div>
+                                              <div class="product__item__text">
+                                                  <ul>
+                                                      <c:forEach var="topic" items="${publication.topics}">
+                                                          <li>${topic.title}</li>
+                                                      </c:forEach>
+                                                  </ul>
+                                                  <h5>
+                                                      <a href="/publication/details?id=${publication.id}">${publication.title}</a>
+                                                  </h5>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </c:forEach>
+                              </c:otherwise>
+                          </c:choose>
+
 
                         </div>
 
