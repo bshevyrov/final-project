@@ -230,38 +230,47 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAllByTopicId(Connection con, Sorting obj, int id) throws DBException {
         List<Publication> publications = new ArrayList<>();
-        String query;
-        if(obj.getSortingType().equals("DESC")){
-            query=DBConstants.FIND_ALL_PUBLICATIONS_BY_TOPIC_ID_DESC;
-        } else {
-            query=DBConstants.FIND_ALL_PUBLICATIONS_BY_TOPIC;
-        }
+        String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path,t.title " +
+                "FROM publication p LEFT JOIN publication_has_topic pht on p.id = pht.publication_id" +
+                " INNER JOIN topic t on pht.topic_id = t.id " +
+                "INNER JOIN image i on p.image_id = i.id WHERE pht.topic_id ="+id+" ORDER BY "+obj.getSortingField()+
+                " "+(obj.getSortingType().equals("DESC")?"DESC":"")+
+                " LIMIT "+obj.getStarRecord()+","+obj.getPageSize()+"";
+//        if(obj.getSortingType().equals("DESC")){
+//            query=DBConstants.FIND_ALL_PUBLICATIONS_BY_TOPIC_ID_DESC;
+//        } else {
+//            query=DBConstants.FIND_ALL_PUBLICATIONS_BY_TOPIC;
+//        }
         try (
-                PreparedStatement stmt = con.prepareStatement(query)) {
-            int index = 0;
-            stmt.setInt(++index, id);
-            stmt.setString(++index, obj.getSortingField());
-//            if (obj.getSortingType().equals("ASC")) {
-//                stmt.setString(++index, "");
-//            } else {
-//                stmt.setString(++index, obj.getSortingType());
-//            }
-            stmt.setInt(++index, obj.getStarRecord());
-            stmt.setInt(++index, obj.getPageSize());
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    publications.add(mapPublication(rs));
+                Statement stmt = con.createStatement()) {
+//            try (
+//                    PreparedStatement stmt = con.prepareStatement(query)) {
+//                int index = 0;
+//                stmt.setInt(++index, id);
+//                stmt.setString(++index, obj.getSortingField());
+////            if (obj.getSortingType().equals("ASC")) {
+////                stmt.setString(++index, "");
+////            } else {
+////                stmt.setString(++index, obj.getSortingType());
+////            }
+//                stmt.setInt(++index, obj.getStarRecord());
+//                stmt.setInt(++index, obj.getPageSize());
+//                try (ResultSet rs = stmt.executeQuery()) {
+                try (ResultSet rs = stmt.executeQuery(query)) {
+                    while (rs.next()) {
+                        publications.add(mapPublication(rs));
+                    }
                 }
+
+
+            } catch (SQLException e) {
+                //log
+                e.printStackTrace();
+                throw new DBException("GOOD INFORMATION ERORR", e);
             }
-
-
-        } catch (SQLException e) {
-            //log
-            e.printStackTrace();
-            throw new DBException("GOOD INFORMATION ERORR", e);
-        }
         return publications;
     }
+//    }
 
 
     public void addTopicForPublication(Connection con, int pubId, int topicId) throws SQLException {

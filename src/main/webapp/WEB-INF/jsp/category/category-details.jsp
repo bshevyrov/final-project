@@ -53,6 +53,8 @@
                                 <div class="product__sort__filter">
                                     <p>Order by:</p>
                                     <form action="${url}" method="POST">
+                                        <input type="hidden" id="1" name="currentSort" value="${currentSort}">
+                                        <input type="hidden" id="2" name="currentSize" value="${currentSize}">
                                         <select name="sort" onchange="this.form.submit()">
                                             <option value="titleAsc">Title asc</option>
                                             <option value="titleDesc">Title desc</option>
@@ -61,11 +63,23 @@
                                         </select>
                                     </form>
 
+<%--                                    <form  action="${url}" method="POST">--%>
+<%--                                        <input type="hidden" id="1" name="currentSort" value="${currentSort}">--%>
+<%--                                        <input type="hidden" id="2" name="currentSize" value="${currentSize}">--%>
+
+<%--                                    </form>--%>
+<%--                                    <form hidden>--%>
+<%--                                        <input name="currentSort" value="${currentSort}">--%>
+<%--                                        <input name="currentSize" value="${currentSize}">--%>
+<%--                                    </form>--%>
+
                                 </div>
 <%--                                <div class="col-lg-4 col-md-4 col-sm-6">--%>
                                     <div class="product__size__filter">
                                         <p>Page size:</p>
                                         <form action="${url}" method="POST">
+                                            <input type="hidden" id="3" name="currentSort" value="${currentSort}">
+                                            <input type="hidden" id="4" name="currentSize" value="${currentSize}">
                                             <select name="pageSize" onchange="this.form.submit()">
                                                 <option value="6">6</option>
                                                 <option value="12">12</option>

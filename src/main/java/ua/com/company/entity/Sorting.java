@@ -3,8 +3,8 @@ package ua.com.company.entity;
 import ua.com.company.DBConstants;
 
 public class Sorting {
-    private String sortingField = DBConstants.F_PUBLICATION_CREATE_DATE;
-    private String sortingType = "DESC";
+    private String sortingField = "p.title";
+    private String sortingType = "ASC";
     private int starRecord = 0;
     private int pageSize = 6;
 
