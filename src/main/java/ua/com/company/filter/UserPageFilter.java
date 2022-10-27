@@ -4,12 +4,10 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ua.com.company.entity.Person;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
-//@WebFilter(filterName = "UserPageFilter")
 public class UserPageFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }
@@ -28,12 +26,12 @@ public class UserPageFilter implements Filter {
 //        System.out.println("userSubscriptionsUrl = " + userSubscriptionsUrl);
         String loginURL = req.getContextPath() + "/login";
 //        int currentUserId = ((Person) session.getAttribute("person")).getId();
-    //    System.out.println("currentUserId = " + currentUserId);
+        //    System.out.println("currentUserId = " + currentUserId);
         boolean loggedIn = /*(session != null)
                 && */
                 (session.getAttribute("loggedPerson") != null)
-                        &&("ROLE_CUSTOMER".equals(((PersonDTO)session.getAttribute("loggedPerson")).getRole().name())
-                ||"ROLE_ADMIN".equals(((PersonDTO)session.getAttribute("loggedPerson")).getRole().name()));
+                        && ("ROLE_CUSTOMER".equals(((PersonDTO) session.getAttribute("loggedPerson")).getRole().name())
+                        || "ROLE_ADMIN".equals(((PersonDTO) session.getAttribute("loggedPerson")).getRole().name()));
 
         if (loggedIn) {//&&requestId==curentuserId)|| ROLE_ADMIN
             chain.doFilter(request, response);

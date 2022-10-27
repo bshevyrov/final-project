@@ -99,8 +99,8 @@
 
                             <a href="/user/subscribe?id=${publication.id}" class="follow-btn"><i
                                     class="fa fa-heart-o"></i> Subscribe</a>
-                            <%--                            <a href="#" class="watch-btn"><span>Watch Now</span> <i--%>
-                            <%--                                    class="fa fa-angle-right"></i></a>--%>
+                            <%-- <a href="#" class="watch-btn"><span>Watch Now</span> <i
+                                    class="fa fa-angle-right"></i></a>--%>
                         </div>
                     </div>
                 </div>

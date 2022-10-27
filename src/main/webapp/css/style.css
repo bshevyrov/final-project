@@ -31,10 +31,31 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+.header__search .btn {
+    color: #ffffff;
+    position: relative;
+    top: -15%;
+}
+
+.product__pagination__button .button_prev, .product__pagination__button .button_next {
+    font-size: 13px;
+    color: #ffffff;
+    background: #e53637;
+    display: inline-block;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    border-radius: 4px;
+    margin-right: 11px;
+}
+
+
 .product__size__filter {
     position: relative;
     left: 20%;
 }
+
 .product__sort__filter {
     position: relative;
     right: 30%;
@@ -195,17 +216,17 @@ ol {
   Helper CSS
 -----------------------*/
 
-.section-title, .section-description, .section-topic, .section-price, .section-cover {
+.section-title, .section-username, .section-description, .section-topic, .section-price, .section-cover {
     margin-bottom: 30px;
 }
 
-.section-topic h3, .section-topic input[type=checkbox]+label {
+.section-topic h3, .section-topic input[type=checkbox] + label {
     color: lightgrey;
 }
 
 
-.section-title h4, .section-description h4, .section-topic h4, .section-price h4, .section-cover h4,
-.section-title h5, .section-description h5, .section-topic h5, .section-price h5, .section-cover h5{
+.section-title h4, .section-username h4, .section-description h4, .section-topic h4, .section-price h4, .section-cover h4,
+.section-title h5, .section-username h5, .section-description h5, .section-topic h5, .section-price h5, .section-cover h5 {
     color: #ffffff;
     font-weight: 600;
     line-height: 21px;
@@ -215,8 +236,8 @@ ol {
     font-family: "Oswald", sans-serif;
 }
 
-.section-title h4:after, .section-description h4:after, .section-topic h4:after, .section-price h4:after, .section-cover h4:after,
-.section-title h5:after,  .section-description h5:after, .section-topic h5:after, .section-price h5:after, .section-cover h5:after {
+.section-title h4:after, .section-username h4:after, .section-description h4:after, .section-topic h4:after, .section-price h4:after, .section-cover h4:after,
+.section-title h5:after, .section-username h5:after, .section-description h5:after, .section-topic h5:after, .section-price h5:after, .section-cover h5:after {
     position: absolute;
     left: 0;
     top: -6px;
@@ -230,6 +251,7 @@ ol {
     width: 400px;
     height: 400px;
 }
+
 .set-bg {
     background-repeat: no-repeat;
     background-size: cover;

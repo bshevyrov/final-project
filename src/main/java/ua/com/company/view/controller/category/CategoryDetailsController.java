@@ -27,6 +27,8 @@ public class CategoryDetailsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         int topicId = Integer.parseInt(request.getParameter("id"));
         TopicFacade topicFacade = (TopicFacade) getServletContext()
                 .getAttribute("topicFacade");
@@ -50,11 +52,14 @@ public class CategoryDetailsController extends HttpServlet {
         request.setAttribute("url", url);
         request.setAttribute("topicName", topicName);
         request.setAttribute("publications", publications);
+
+
         processRequest(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         int topicId = Integer.parseInt(request.getParameter("id"));
 
         TopicFacade topicFacade = (TopicFacade) getServletContext()

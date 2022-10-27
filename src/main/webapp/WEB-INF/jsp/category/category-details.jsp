@@ -124,43 +124,44 @@
 
                     </div>
                 </div>
-                <div class="product__pagination">
+                <div class="product__pagination__button">
+                    <div class="row">
+                        <div class="column">
+                            <c:choose>
+                                <c:when test="${currentPage==1}">
+                                    <button type="submit" class="button_prev" disabled style="color: grey">Prev</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <form action="${url}" method="POST">
+                                        <input type="hidden" name="currentSort" value="${currentSort}">
+                                        <input type="hidden" name="currentSize" value="${currentSize}">
+                                        <input type="hidden" name="currentPage" value="${currentPage-1}">
 
+                                        <button type="submit" class="button_prev">Prev</button>
+                                    </form>
 
-                    <c:choose>
-                        <c:when test="${currentPage==1}">
-                            <button type="button" disabled>Prev</button>
-                        </c:when>
-                        <c:otherwise>
-                            <form action="${url}" method="POST">
-                                <input type="hidden"  name="currentSort" value="${currentSort}">
-                                <input type="hidden"  name="currentSize" value="${currentSize}">
-                                <input type="hidden"  name="currentPage" value="${currentPage-1}">
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                        <div class="column">
 
-                                <button type="submit">Prev</button>
-                            </form>
+                            <c:choose>
+                                <c:when test="${currentPage==lastPage}">
+                                    <button type="submit" class="button_next" disabled style="color: grey">Next</button>
+                                </c:when>
+                                <c:otherwise>
+                                    <form action="${url}" method="POST">
+                                        <input type="hidden" name="currentSort" value="${currentSort}">
+                                        <input type="hidden" name="currentSize" value="${currentSize}">
+                                        <input type="hidden" name="currentPage" value="${currentPage+1}">
 
-                        </c:otherwise>
-                    </c:choose>
+                                        <button type="submit" class="button_next">Next</button>
+                                    </form>
 
-                    <c:choose>
-                        <c:when test="${currentPage==lastPage}">
-                            <button type="button" disabled>Next</button>
-                        </c:when>
-                        <c:otherwise>
-                            <form action="${url}" method="POST">
-                                <input type="hidden"  name="currentSort" value="${currentSort}">
-                                <input type="hidden"  name="currentSize" value="${currentSize}">
-                                <input type="hidden"  name="currentPage" value="${currentPage+1}">
-
-                                <button type="submit">Next</button>
-                            </form>
-
-                        </c:otherwise>
-                    </c:choose>
-
-
-
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
 
                     <%--                    <%@include file="/WEB-INF/jspf/pagination.jspf" %>--%>
 

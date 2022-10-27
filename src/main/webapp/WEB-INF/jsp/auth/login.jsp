@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="zxx">
+<?xml version="1.0" encoding="UTF-8"?>
 
 <head>
-
 
   <title>Anime | Template</title>
   <%@include file="/WEB-INF/jspf/head.jspf" %>
@@ -61,7 +59,8 @@
                 <small>Wrong pass</small>
               </c:if>
             </div>
-            <button type="submit" class="site-btn">Login Now</button>
+            <fmt:message key="login.button.submit" var="buttonValue" />
+            <button type="submit" class="site-btn" value="${buttonValue}"> <fmt:message key="login.button.submit"/></button>
           </form>
           <a href="#" class="forget_pass">Forgot Your Password?</a>
         </div>
@@ -118,4 +117,3 @@
 
 </body>
 
-</html>

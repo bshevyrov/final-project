@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.ImageDAO;
 import ua.com.company.dao.PublicationDAO;
-import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
 import ua.com.company.entity.Sorting;
 import ua.com.company.entity.Topic;
@@ -48,7 +47,6 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public int create(Publication publication) {
-
         Connection con = null;
         try {
             con = getConnection();
@@ -56,12 +54,9 @@ public class PublicationServiceImpl implements PublicationService {
             e.printStackTrace();
         }
         int id = -1;
-        try  {
+        try {
             con.setAutoCommit(false);
-//            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-           imageDAO.create(con,publication.getCover());
-//            Image cover = publication.getCover();
-//            cover.setId(coverId);
+            imageDAO.create(con, publication.getCover());
             id = publicationDAO.create(con, publication);
             for (Topic topic : publication.getTopics()) {
                 publicationDAO.addTopicForPublication(con, publication.getId(), topic.getId());
@@ -71,7 +66,6 @@ public class PublicationServiceImpl implements PublicationService {
             e.printStackTrace();
             rollback(con);
         } finally {
-
             close(con);
         }
         return id;
@@ -85,11 +79,11 @@ public class PublicationServiceImpl implements PublicationService {
         } catch (DBException e) {
             e.printStackTrace();
         }
-        try  {
+        try {
             con.setAutoCommit(false);
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
-           publicationDAO.update(con, publication);
+            publicationDAO.update(con, publication);
         /*    for (Image image : images) {
                 addImageForPublication(con, publication.getId(), image);
             }*/
@@ -109,20 +103,6 @@ public class PublicationServiceImpl implements PublicationService {
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //        try (Connection con = getConnection()){
 //            publicationDAO.update(con,publication);
 //        } catch (DBException | SQLException e) {
@@ -133,8 +113,8 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public void delete(int id) {
-        try (Connection con = getConnection()){
-            publicationDAO.delete(con,id);
+        try (Connection con = getConnection()) {
+            publicationDAO.delete(con, id);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -144,8 +124,8 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public Publication findById(int id) {
         Publication publication = null;
-        try (Connection con = getConnection()){
-            publication = publicationDAO.findById(con,id)
+        try (Connection con = getConnection()) {
+            publication = publicationDAO.findById(con, id)
                     .orElseThrow(() -> new PublicationNotFoundException("" + id));
             publication.setTopics(topicService.findAllByPublicationId(publication.getId()));
         } catch (DBException | SQLException e) {
@@ -161,7 +141,7 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public List<Publication> findAll() {
         List<Publication> publicationList = null;
-        try (Connection con = getConnection()){
+        try (Connection con = getConnection()) {
             publicationList = publicationDAO.findAll(con);
             for (Publication publication : publicationList) {
                 publication.setTopics(topicService.findAllByPublicationId(publication.getId()));
@@ -176,8 +156,8 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public List<Publication> findAllByTopicId(Sorting obj, int topicId) {
         List<Publication> publicationList = null;
-        try (Connection con = getConnection()){
-            publicationList = publicationDAO.findAllByTopicId(con,obj, topicId);
+        try (Connection con = getConnection()) {
+            publicationList = publicationDAO.findAllByTopicId(con, obj, topicId);
             for (Publication currentPub : publicationList) {
                 List<Topic> topicList = topicService.findAllByPublicationId(currentPub.getId());
                 currentPub.setTopics(topicList);
@@ -193,8 +173,8 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public List<Publication> findAllByUserId(int userId) {
         List<Publication> publicationList = null;
-        try (Connection con = getConnection()){
-            publicationList = publicationDAO.findAllByUserId(con,userId);
+        try (Connection con = getConnection()) {
+            publicationList = publicationDAO.findAllByUserId(con, userId);
             for (Publication publication : publicationList) {
                 publication.setTopics(topicService.findAllByPublicationId(publication.getId()));
             }
@@ -208,8 +188,8 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public List<Publication> findAllByTitle(String searchReq) {
         List<Publication> publicationList = null;
-        try (Connection con = getConnection()){
-            publicationList = publicationDAO.findAllByTitle(con,searchReq);
+        try (Connection con = getConnection()) {
+            publicationList = publicationDAO.findAllByTitle(con, searchReq);
             for (Publication publication : publicationList) {
                 publication.setTopics(topicService.findAllByPublicationId(publication.getId()));
             }

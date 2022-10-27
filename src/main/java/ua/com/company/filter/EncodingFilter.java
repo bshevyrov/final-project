@@ -15,6 +15,7 @@ public class EncodingFilter implements Filter {
 
     public void init(FilterConfig config) throws ServletException {
         encoding = config.getInitParameter("encoding");
+
     }
 
     public void destroy() {
@@ -26,6 +27,7 @@ public class EncodingFilter implements Filter {
         if (req.getCharacterEncoding() == null) {
            req.setCharacterEncoding(encoding);
             }
+
             chain.doFilter(request, response);
         }
     }
