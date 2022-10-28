@@ -49,8 +49,8 @@ public class PublicationFacadeImpl implements PublicationFacade {
     }
 
     @Override
-    public List<PublicationDTO> findAllByUserId(int userId) {
-        return publicationService.findAllByUserId(userId).stream()
+    public List<PublicationDTO> findAllByUserId(Sorting obj, int userId) {
+        return publicationService.findAllByUserId(obj,userId).stream()
                 .map(ClassConverter::publicationToPublicationDTO)
                 .collect(Collectors.toList());
     }
@@ -65,4 +65,8 @@ public class PublicationFacadeImpl implements PublicationFacade {
     public int countAllByTopicId(int topicId) {
         return publicationService.countAllByTopicId(topicId);
     }
+
+    @Override
+    public int countAllByUserId(int userId) {
+        return publicationService.countAllByUserId(userId);    }
 }

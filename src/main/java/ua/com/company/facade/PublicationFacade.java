@@ -8,9 +8,11 @@ import java.util.List;
 public interface PublicationFacade extends BaseFacade<PublicationDTO> {
     List<PublicationDTO> findAllByTopicId(Sorting obj, int topicId);
 
-    List<PublicationDTO> findAllByUserId(int userId);
+    List<PublicationDTO> findAllByUserId(Sorting obj, int userId);
 
     List<PublicationDTO> findAllByTitle(String searchReq);
 
     int countAllByTopicId(int topicId);
+
+    int countAllByUserId(int userId);
 }

@@ -74,6 +74,23 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     }
 
+    @Override
+    public int countAllByUserId(Connection con, int userId) throws DBException {
+        int count = -1;
+        try (
+                PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_USER_ID)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            //log
+            e.printStackTrace();
+            throw new DBException("GOOD INFORMATION ERORR", e);
+        }
+        return count;    }
+
 
     @Override
     public void update(Connection con, Publication publication) throws DBException {
@@ -193,17 +210,13 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 "INNER JOIN image i on p.image_id = i.id WHERE pht.topic_id =" + id + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
-
         try (
                 Statement stmt = con.createStatement()) {
-
             try (ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
                     publications.add(mapPublication(rs));
                 }
             }
-
-
         } catch (SQLException e) {
             //log
             e.printStackTrace();
@@ -254,14 +267,17 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public List<Publication> findAllByUserId(Connection con, int userId) throws DBException {
+    public List<Publication> findAllByUserId(Connection con,Sorting obj, int userId) throws DBException {
         List<Publication> publications = new ArrayList<>();
+        String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
+                "FROM publication p LEFT JOIN person_has_publication php on p.id = php.publication_id" +
+                " INNER JOIN person pers on php.person_id = pers.id " +
+                "INNER JOIN image i on p.image_id = i.id WHERE pers.id =" + userId + " ORDER BY " + obj.getSortingField() +
+                " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
+                " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
         try (
-                PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_USER_ID)) {
-//            int k =1;
-
-            stmt.setInt(1, userId);
-            try (ResultSet rs = stmt.executeQuery()) {
+                Statement stmt = con.createStatement()) {
+            try (ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
                     publications.add(mapPublication(rs));
                 }
@@ -306,18 +322,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         return image;
     }
 
-    private Topic mapTopic(ResultSet rs) throws SQLException {
-        Topic topic = new Topic();
-        topic.setId(rs.getInt(DBConstants.F_TOPIC_ID));
-        topic.setTitle(rs.getString(DBConstants.F_TOPIC_TITLE));
-        return topic;
-    }
 
-    private List<Topic> getTopics(ResultSet rs) throws SQLException {
-        String topics = rs.getString(DBConstants.F_PUBLICATION_HAS_TOPIC_TOPICS);
-        return Arrays.stream(topics.split(","))
-                .map(Topic::new)
-                .collect(Collectors.toList());
-    }
 }
 

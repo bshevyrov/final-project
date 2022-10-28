@@ -1,3 +1,4 @@
+<%--
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -49,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <%--                                <div class="product__page__filter">--%>
+                                &lt;%&ndash;                                <div class="product__page__filter">&ndash;%&gt;
                                 <div class="product__sort__filter">
                                     <p>Order by:</p>
                                     <form action="${url}" id="sortForm" method="POST">
@@ -63,18 +64,18 @@
                                         </select>
                                     </form>
 
-                                    <%--                                    <form  action="${url}" method="POST">--%>
-                                    <%--                                        <input type="hidden" id="1" name="currentSort" value="${currentSort}">--%>
-                                    <%--                                        <input type="hidden" id="2" name="currentSize" value="${currentSize}">--%>
+                                    &lt;%&ndash;                                    <form  action="${url}" method="POST">&ndash;%&gt;
+                                    &lt;%&ndash;                                        <input type="hidden" id="1" name="currentSort" value="${currentSort}">&ndash;%&gt;
+                                    &lt;%&ndash;                                        <input type="hidden" id="2" name="currentSize" value="${currentSize}">&ndash;%&gt;
 
-                                    <%--                                    </form>--%>
-                                    <%--                                    <form hidden>--%>
-                                    <%--                                        <input name="currentSort" value="${currentSort}">--%>
-                                    <%--                                        <input name="currentSize" value="${currentSize}">--%>
-                                    <%--                                    </form>--%>
+                                    &lt;%&ndash;                                    </form>&ndash;%&gt;
+                                    &lt;%&ndash;                                    <form hidden>&ndash;%&gt;
+                                    &lt;%&ndash;                                        <input name="currentSort" value="${currentSort}">&ndash;%&gt;
+                                    &lt;%&ndash;                                        <input name="currentSize" value="${currentSize}">&ndash;%&gt;
+                                    &lt;%&ndash;                                    </form>&ndash;%&gt;
 
                                 </div>
-                                <%--                                <div class="col-lg-4 col-md-4 col-sm-6">--%>
+                                &lt;%&ndash;                                <div class="col-lg-4 col-md-4 col-sm-6">&ndash;%&gt;
                                 <div class="product__size__filter">
                                     <p>Page size:</p>
                                     <form action="${url}" method="POST">
@@ -87,7 +88,7 @@
                                         </select>
                                     </form>
                                 </div>
-                                <%--                                </div>--%>
+                                &lt;%&ndash;                                </div>&ndash;%&gt;
                             </div>
 
                         </div>
@@ -95,7 +96,7 @@
                     <div class="row">
 
                         <div class="row">
-                            <%--https://www.codejava.net/java-ee/jstl/jstl-core-tag-foreach--%>
+                            &lt;%&ndash;https://www.codejava.net/java-ee/jstl/jstl-core-tag-foreach&ndash;%&gt;
                             <c:forEach var="publication" items="${publications}">
                                 <c:set var="cover_img" value="${publication.cover}"/>
                                 <div class="col-lg-4 col-md-6 col-sm-6">
@@ -162,14 +163,14 @@
 
 
 
-                    <%--                    <%@include file="/WEB-INF/jspf/pagination.jspf" %>--%>
+                    &lt;%&ndash;                    <%@include file="/WEB-INF/jspf/pagination.jspf" %>&ndash;%&gt;
 
-                    <%--                    <a href="#" class="current-page">1</a>--%>
-                    <%--                    <a href="#">2</a>--%>
-                    <%--                    <a href="#">3</a>--%>
-                    <%--                    <a href="#">4</a>--%>
-                    <%--                    <a href="#">5</a>--%>
-                    <%--                    <a href="#"><i class="fa fa-angle-double-right"></i></a>--%>
+                    &lt;%&ndash;                    <a href="#" class="current-page">1</a>&ndash;%&gt;
+                    &lt;%&ndash;                    <a href="#">2</a>&ndash;%&gt;
+                    &lt;%&ndash;                    <a href="#">3</a>&ndash;%&gt;
+                    &lt;%&ndash;                    <a href="#">4</a>&ndash;%&gt;
+                    &lt;%&ndash;                    <a href="#">5</a>&ndash;%&gt;
+                    &lt;%&ndash;                    <a href="#"><i class="fa fa-angle-double-right"></i></a>&ndash;%&gt;
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
@@ -343,3 +344,4 @@
 </body>
 
 </html>
+--%>

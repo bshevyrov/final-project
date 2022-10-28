@@ -29,7 +29,9 @@
                         <div class="row">
                             <div class="col-lg-8 col-md-8 col-sm-6">
                                 <div class="section-title">
+                                    <c:if test="${topicName!=null}">
                                     <h4>${topicName}</h4>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="row">
