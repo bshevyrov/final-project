@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="zxx">
 
 <head>
-    <%--    <title>Anime | Template</title>--%>
+        <title>Anime | Template</title>
 
     <%@include file="/WEB-INF/jspf/head.jspf" %>
 </head>
@@ -16,33 +14,18 @@
 <!-- Header Section Begin -->
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 <!-- Header End -->
-<%--
-<!-- Breadcrumb Begin -->
-<div class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__links">
-                    <a href="../../../anime/index.html"><i class="fa fa-home"></i> Home</a>
-                    <a href="./categories.html">Categories</a>
-                    <span>${topicName}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Breadcrumb End -->--%>
+
 
 <!-- Product Section Begin -->
 <section class="user__dashboard">
     <div class="user__dashboard__table">
         <table>
             <tr>
-                <th>Email</th>
-                <th>Username</th>
-                <th>Total subscriptions</th>
-                <th>Status</th>
-                <th>Ban/Unban</th>
+                <th><fmt:message key="admin.user.dashboard.email"/></th>
+                <th><fmt:message key="admin.user.dashboard.username"/></th>
+                <th><fmt:message key="admin.user.dashboard.total.subscriptions"/></th>
+                <th><fmt:message key="admin.user.dashboard.status"/></th>
+                <th><fmt:message key="admin.user.dashboard.status.change"/></th>
             </tr>
             <c:forEach var="person" items="${personList}">
                 <tr>
@@ -66,20 +49,14 @@
                         ${person.status}
                     </td>
                     <td>
-<%--                        <button type="button"  href="/admin/user/status?id=${person.id}">Ban</button>--%>
                         <form >
-                        <button type="submit" formmethod="post" name="changeStatusId" value="${person.id}">Ban</button>
+                        <button type="submit" formmethod="post" name="changeStatusId" value="${person.id}"><fmt:message key="admin.user.dashboard.button.ban"/></button>
                         </form>
                     </td>
                 </tr>
-
-
             </c:forEach>
-
         </table>
     </div>
-
-
 </section>
 <!-- Product Section End -->
 
