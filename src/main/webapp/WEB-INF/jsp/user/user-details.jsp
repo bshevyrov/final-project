@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="zxx">
 
 <head>
     <title>Anime | Template</title>
@@ -113,4 +111,3 @@
 
 </body>
 
-</html>

@@ -57,13 +57,13 @@
                                     <c:set var="personRole" value="${sessionScope.loggedPerson.role}"/>
                                 <c:choose>
                                 <c:when test="${roleType == 'ROLE_ADMIN'}">
-                            <li><a href="/admin/user/dashboard">Users</a></li>
-                            <li><a href="/admin/publication/dashboard">Publications</a></li>
-                            <li><a href="/admin/publication/upload">New Publication</a></li>
+                            <li><a href="/admin/user/dashboard"><fmt:message key="header.admin.users"/></a></li>
+                            <li><a href="/admin/publication/dashboard"><fmt:message key="header.admin.publications"/></a></li>
+                            <li><a href="/admin/publication/upload"><fmt:message key="header.admin.new.publication"/></a></li>
                             </c:when>
                             <c:otherwise>
-                                <li><a href="/user/details">Details</a></li>
-                                <li><a href="/user/subscriptions">Subscriptions</a></li>
+                                <li><a href="/user/details"><fmt:message key="header.user.details"/></a></li>
+                                <li><a href="/user/subscriptions"><fmt:message key="header.user.subscriptions"/></a></li>
                             </c:otherwise>
                             </c:choose>
                             </c:if>
@@ -101,7 +101,9 @@
                                                 <input type="text" class="form-control" name="search"
                                                        placeholder="Search">
                                             </div>
+<%--                                            <fmt:message key="header.submit" var="header.submit"/>--%>
                                             <button type="submit" class="btn btn-default"
+                                                   <%-- value="${header.submit}"--%>><fmt:message key="header.submit"/></button>
 
                                         </form>
                                     </div>
@@ -138,16 +140,6 @@
         <div id="mobile-menu-wrap"></div>
     </div>
 
-    <!-- Search model Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch"><i class="icon_close"></i></div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
-    <!-- Search model end -->
+
 
 </header>
-<%--</html>--%>

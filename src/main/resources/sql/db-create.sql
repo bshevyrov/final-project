@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`publication_has_topic`
         FOREIGN KEY (`publication_id`)
             REFERENCES `final_project`.`publication` (`id`)
             ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
+            ON UPDATE CASCADE ,
     CONSTRAINT `fk_publication_has_topic_topic1`
         FOREIGN KEY (`topic_id`)
             REFERENCES `final_project`.`topic` (`id`)
