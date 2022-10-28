@@ -46,19 +46,7 @@
                                             <option value="priceDesc"><fmt:message key="category.order.price.desc"/></option>
                                         </select>
                                     </form>
-
-                                    <%--                                    <form  action="${url}" method="POST">--%>
-                                    <%--                                        <input type="hidden" id="1" name="currentSort" value="${currentSort}">--%>
-                                    <%--                                        <input type="hidden" id="2" name="currentSize" value="${currentSize}">--%>
-
-                                    <%--                                    </form>--%>
-                                    <%--                                    <form hidden>--%>
-                                    <%--                                        <input name="currentSort" value="${currentSort}">--%>
-                                    <%--                                        <input name="currentSize" value="${currentSize}">--%>
-                                    <%--                                    </form>--%>
-
                                 </div>
-                                <%--                                <div class="col-lg-4 col-md-4 col-sm-6">--%>
                                 <div class="product__size__filter">
                                     <p><fmt:message key="category.page.size"/>:</p>
                                     <form action="${url}" method="POST">
@@ -71,7 +59,6 @@
                                         </select>
                                     </form>
                                 </div>
-                                <%--                                </div>--%>
                             </div>
 
                         </div>
@@ -146,15 +133,6 @@
                             </c:choose>
                         </div>
                     </div>
-
-                    <%--                    <%@include file="/WEB-INF/jspf/pagination.jspf" %>--%>
-
-                    <%--                    <a href="#" class="current-page">1</a>--%>
-                    <%--                    <a href="#">2</a>--%>
-                    <%--                    <a href="#">3</a>--%>
-                    <%--                    <a href="#">4</a>--%>
-                    <%--                    <a href="#">5</a>--%>
-                    <%--                    <a href="#"><i class="fa fa-angle-double-right"></i></a>--%>
                 </div>
             </div>
 
