@@ -16,22 +16,6 @@
 <!-- Header Section Begin -->
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 <!-- Header End -->
-<%--
-<!-- Breadcrumb Begin -->
-<div class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__links">
-                    <a href="../../../anime/index.html"><i class="fa fa-home"></i> Home</a>
-                    <a href="./categories.html">Categories</a>
-                    <span>${topicName}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Breadcrumb End -->--%>
 
 <!-- Product Section Begin -->
 <section class="anime-details spad">
@@ -40,21 +24,21 @@
             <div class="anime__details__form">
                 <input name="id" value="${publication.id}" hidden>
                 <div class="section-title">
-                    <h5>Email</h5>
+                    <h5><fmt:message key="user.span.email"/></h5>
                     <br/>
                     <label>
                         <input placeholder="Email" name="email" value="${person.email}" required>
                     </label>
                 </div>
                 <div class="section-username">
-                    <h5>Username</h5>
+                    <h5><fmt:message key="user.span.username"/></h5>
                     <br/>
                     <label>
                         <input placeholder="Username" name="username" value="${person.username}" required>
                     </label>
                 </div>
                 <div class="section-topic">
-                    <h5>Funds</h5>
+                    <h5><fmt:message key="user.span.funds"/></h5>
                     <br/>
                     <label>
                         <input placeholder="Funds" name="funds" value="${person.funds}" readonly>
@@ -62,19 +46,18 @@
                 </div>
             </div>
             <div class="section-price">
-                <h5>Deposit Funds</h5>
+                <h5><fmt:message key="user.span.deposit.funds"/></h5>
                 <br/>
-                <label for="price"></label>
-                <input type=number step="0.01" name="funds" id="price">
+                <label for="addFunds"></label>
+                <input type=number step="0.01" name="addFunds" id="addFunds">
             </div>
             <div class="section-cover">
-                <h5>Avatar</h5>
+                <h5><fmt:message key="user.span.avatar"/></h5>
             </div>
 
             <div class="input__item">
                 <label for="currentAvatar">
                     <input type="currentAvatar" name="coverPath" id="currentAvatar" value="${person.avatar}" hidden>
-
                 </label>
             </div>
             <div
@@ -84,14 +67,14 @@
                         <input
                                 class="form-control form-control-lg"
                                 id="selectAvatar"
-                                type="file"
+                                type="file" accept="image/png, image/jpeg"
                         />
                     </c:when>
                     <c:otherwise>
                         <input
                                 class="form-control form-control-lg"
                                 id="selectAvatar"
-                                type="file" required
+                                type="file" accept="image/png, image/jpeg" required
                         />
                     </c:otherwise>
 
@@ -102,7 +85,7 @@
             <div class="img-container">
                 <div class="row">
                     <div class="col">
-                        <h3>Image Preview:</h3>
+                        <h3><fmt:message key="user.span.avatar.preview"/></h3>
                         <img class="img" id="avatar" src="${person.avatar}"/>
                     </div>
                     <div class="col">
@@ -113,7 +96,7 @@
                 <br/>
                 <%--            <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>--%>
 
-                <button type="submit" <%--onclick="return validateForm();"--%> class="site-btn" id="check-btn">upload
+                <button type="submit" <%--onclick="return validateForm();"--%> class="site-btn" id="check-btn"><fmt:message key="user.button.update"/>
                 </button>
         </form>
     </div>
