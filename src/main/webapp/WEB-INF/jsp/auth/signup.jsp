@@ -1,13 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: bohdan
-  Date: 09.09.22
-  Time: 21:24
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="zxx">
 
 <head>
     <meta charset="UTF-8">
@@ -34,8 +24,8 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="normal__breadcrumb__text">
-                    <h2>Sign Up</h2>
-                    <p>Welcome to the official Anime blog.</p>
+                    <h2><fmt:message key="signup.page.name"/></h2>
+                    <p><fmt:message key="auth.message.greetings"/></p>
                 </div>
             </div>
         </div>
@@ -49,14 +39,14 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="login__form">
-                    <h3>Sign Up</h3>
+                    <h3><fmt:message key="signup.page.name"/></h3>
                     <form class="form" <%--action="#"--%>
                           method="post" id="signup" <%--onsubmit="return validateForm()--%>>
                         <div class="input__item">
                             <span class="icon_profile"></span>
                             <input type="text" placeholder="Username" name="username" id="username">
                             <c:if test="${true.equals(usernameBusy)}">
-                                <small>Username already registred</small>
+                                <small><fmt:message key="signup.message.username"/></small>
                             </c:if>
                             <small></small>
 
@@ -65,7 +55,7 @@
                             <span class="icon_mail"></span>
                             <input type="text" placeholder="Email address" name="email" id="email">
                             <c:if test="${true.equals(emailBusy)}">
-                                <small>Email already registred</small>
+                                <small><fmt:message key="signup.message.email"/></small>
                             </c:if>
                             <small></small>
 
@@ -83,10 +73,10 @@
                             <small></small>
 
                         </div>
-                        <button type="submit" class="site-btn">Sign Up</button>
+                        <button type="submit" class="site-btn"><fmt:message key="signup.button.signup"/></button>
                         <%--                        https://www.javascripttutorial.net/javascript-dom/javascript-form-validation/--%>
                     </form>
-                    <h5>Already have an account? <a href="/login">Log In!</a></h5>
+                    <h5><fmt:message key="signup.message.signup"/> <a href="/login"><fmt:message key="signup.button.login"/></a></h5>
                 </div>
             </div>
             <%--

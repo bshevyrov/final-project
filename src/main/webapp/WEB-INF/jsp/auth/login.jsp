@@ -59,8 +59,7 @@
                 <small><fmt:message key="auth.message.pass"/></small>
               </c:if>
             </div>
-            <fmt:message key="login.button.submit" var="buttonValue" />
-            <button type="submit" class="site-btn" value="${buttonValue}"><fmt:message key="auth.button.submit"/></button>
+            <button type="submit" class="site-btn"><fmt:message key="auth.button.submit"/></button>
           </form>
 <%--          <a href="#" class="forget_pass">Forgot Your Password?</a>--%>
         </div>
