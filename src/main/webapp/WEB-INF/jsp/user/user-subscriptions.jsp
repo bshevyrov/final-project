@@ -339,15 +339,6 @@
 
 <!-- Js Plugins -->
 <%@include file="/WEB-INF/jspf/scripts.jspf" %>
-<%--<script>--%>
-<%--    function submitForms(){--%>
-<%--        document.getElementById("sortForm").submit();--%>
-<%--        document.getElementById("sizeForm").submit();--%>
-<%--        document.getElementById("sizeForm").submit();--%>
-<%--        --%>
-<%--        // document.submitforms[1].submit();--%>
-<%--    }--%>
-<%--</script>--%>
 
 </body>
 
