@@ -1,3 +1,4 @@
+/*
 package ua.com.company.view.controller.admin;
 
 import jakarta.servlet.RequestDispatcher;
@@ -38,3 +39,4 @@ public class AdminPublicationDetailsController extends HttpServlet {
 
     }
 }
+*/

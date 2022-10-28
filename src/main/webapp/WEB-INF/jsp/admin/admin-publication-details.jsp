@@ -1,3 +1,4 @@
+<%--
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -16,22 +17,7 @@
 <!-- Header Section Begin -->
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 <!-- Header End -->
-<%--
-<!-- Breadcrumb Begin -->
-<div class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__links">
-                    <a href="../../../anime/index.html"><i class="fa fa-home"></i> Home</a>
-                    <a href="./categories.html">Categories</a>
-                    <span>${topicName}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Breadcrumb End -->--%>
+
 
 <!-- Product Section Begin -->
 <section class="publication-details">
@@ -78,4 +64,4 @@
 
 </body>
 
-</html>
+</html>--%>

@@ -16,55 +16,44 @@
 <!-- Header Section Begin -->
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 <!-- Header End -->
-<%--
-<!-- Breadcrumb Begin -->
-<div class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__links">
-                    <a href="../../../anime/index.html"><i class="fa fa-home"></i> Home</a>
-                    <a href="./categories.html">Categories</a>
-                    <span>${topicName}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Breadcrumb End -->--%>
+
 
 <!-- Product Section Begin -->
 <section class="publication__dashboard">
     <div class="publication__dashboard__table">
-    <p>Publications</p>
-    <table>
-        <tr>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-        <c:forEach var="publication" items="${publicationList}">
+        <p><fmt:message key="admin.publication.dashboard.publications"/></p>
+        <table>
             <tr>
-                <td>
-                    <a href="/admin/publication/details?id=${publication.id}">${publication.title}</a>
-                </td>
-                <td>
-                        ${publication.price}
-                </td>
-                <td>
-                    <a href="/admin/publication/upload?id=${publication.id}"><button>Edit</button></a>
-                </td>
-                <td>
-                    <form>
-                        <button  type="submit" formmethod="post"  name="deleteId" value="${publication.id}" href="/admin/publication/dashboard">Delete</button>
-                    </form>
-                </td>
+                <th><fmt:message key="admin.publication.dashboard.title"/></th>
+                <th><fmt:message key="admin.publication.dashboard.price"/></th>
+                <th><fmt:message key="admin.publication.dashboard.edit"/></th>
+                <th><fmt:message key="admin.publication.dashboard.delete"/></th>
             </tr>
+            <c:forEach var="publication" items="${publicationList}">
+                <tr>
+                    <td>
+                        <a href="/publication/details?id=${publication.id}">${publication.title}</a>
+                    </td>
+                    <td>
+                            ${publication.price}
+                    </td>
+                    <td>
+                        <a href="/admin/publication/upload?id=${publication.id}">
+                            <button><fmt:message key="admin.publication.dashboard.edit"/></button>
+                        </a>
+                    </td>
+                    <td>
+                        <form>
+                            <button type="submit" formmethod="post" name="deleteId" value="${publication.id}"
+                                    href="/admin/publication/dashboard"><fmt:message key="admin.publication.dashboard.delete"/>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
 
-        </c:forEach>
+            </c:forEach>
 
-    </table>
+        </table>
 
     </div>
 </section>
