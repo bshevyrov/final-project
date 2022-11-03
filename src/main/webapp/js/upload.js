@@ -32,8 +32,7 @@ const uploadImage = async (event) => {
     xhr.open('POST', 'https://thumbsnap.com/api/upload');
     formData = new FormData();
     formData.append('key', thumbsnap_api_key);
-    // const f = new File([file],Date.now()+'11');
-    // console.log(f)
+
     formData.append('media', file);
     xhr.responseType = 'json';
 
@@ -49,15 +48,6 @@ const uploadImage = async (event) => {
 
     xhr.send(formData);
 
-    // console.log('HTTP Error: ' + xhr.status);
-
-    // console.log('upload done', xhr);
-
-
-    // var json2 = JSON.parse(xhr.response)
-    // console.log(json2.media);
-
-    // document.getElementById("img").setAttribute("value",base64 )
 
 };
 
@@ -70,9 +60,7 @@ form.addEventListener('submit', function (e) {
     e.preventDefault();
 
 
-    /* document.getElementById("img").setAttribute("value", base64)
-     form.setAttribute('method', 'post');
-     form.submit();*/
+
 
 });
 

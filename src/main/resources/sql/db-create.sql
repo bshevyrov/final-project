@@ -348,6 +348,7 @@ VALUES (2, 1),
        (13, 8),
        (14, 6),
        (14, 18),
+       (10, 6),
        (14, 12);
 
 INSERT INTO `person_has_publication`
