@@ -10,9 +10,11 @@ public interface PublicationService extends BaseService<Publication>{
     List<Publication> findAllByTopicId(Sorting obj, int topicId);
     List<Publication> findAllByUserId(Sorting obj,int userId);
 
-    List<Publication> findAllByTitle(String searchReq);
+    List<Publication> findAllByTitle(Sorting sorting, String searchReq);
 
     int countAllByTopicId(int topicId);
 
     int countAllByUserId(int userId);
+
+    int countAllByTitle(String searchReq);
 }

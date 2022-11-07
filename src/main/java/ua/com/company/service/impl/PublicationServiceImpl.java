@@ -167,10 +167,10 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findAllByTitle(String searchReq) {
+    public List<Publication> findAllByTitle(Sorting sorting, String searchReq) {
         List<Publication> publicationList = null;
         try (Connection con = getConnection()) {
-            publicationList = publicationDAO.findAllByTitle(con, searchReq);
+            publicationList = publicationDAO.findAllByTitle(con, sorting, searchReq);
             for (Publication publication : publicationList) {
                 publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
             }
@@ -203,5 +203,21 @@ public class PublicationServiceImpl implements PublicationService {
             e.printStackTrace();
         }
         return count;
+    }
+
+    @Override
+    public int countAllByTitle(String searchReq) {
+        int count = -1;
+        try (Connection con = getConnection()) {
+            count = publicationDAO.countAllByTitle(con,searchReq);
+        } catch (DBException | SQLException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        }
+        return count;
+
+
+
+
     }
 }

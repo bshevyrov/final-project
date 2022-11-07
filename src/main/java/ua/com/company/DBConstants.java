@@ -60,6 +60,7 @@ public abstract class DBConstants {
     public static final String DECREASE_FUNDS ="UPDATE person SET funds=? WHERE id=?";
     public static final String CREATE_PERSON_HAS_PUBLICATION ="INSERT INTO person_has_publication (person_id, publication_id) VALUES (?,?)";
     public static final String COUNT_PUBLICATION_BY_USER_ID = "SELECT COUNT(publication_id) AS count FROM person_has_publication WHERE person_id=?";
+    public static final String COUNT_PUBLICATION_BY_TITLE = "SELECT COUNT(id) AS count FROM publication WHERE title=?";
 
     private DBConstants() {
     }

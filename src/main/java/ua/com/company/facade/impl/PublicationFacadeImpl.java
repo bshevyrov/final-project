@@ -43,23 +43,24 @@ public class PublicationFacadeImpl implements PublicationFacade {
 
     @Override
     public List<PublicationDTO> findAllByTopicId(Sorting obj, int topicId) {
-        return publicationService.findAllByTopicId(obj,topicId).stream()
+        return publicationService.findAllByTopicId(obj, topicId).stream()
                 .map(ClassConverter::publicationToPublicationDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<PublicationDTO> findAllByUserId(Sorting obj, int userId) {
-        return publicationService.findAllByUserId(obj,userId).stream()
+        return publicationService.findAllByUserId(obj, userId).stream()
                 .map(ClassConverter::publicationToPublicationDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<PublicationDTO> findAllByTitle(String searchReq) {
-        return publicationService.findAllByTitle(searchReq).stream()
+    public List<PublicationDTO> findAllByTitle(Sorting sorting, String searchReq) {
+        return publicationService.findAllByTitle(sorting, searchReq).stream()
                 .map(ClassConverter::publicationToPublicationDTO)
-                .collect(Collectors.toList());    }
+                .collect(Collectors.toList());
+    }
 
     @Override
     public int countAllByTopicId(int topicId) {
@@ -68,5 +69,10 @@ public class PublicationFacadeImpl implements PublicationFacade {
 
     @Override
     public int countAllByUserId(int userId) {
-        return publicationService.countAllByUserId(userId);    }
+        return publicationService.countAllByUserId(userId);
+    }
+
+    @Override
+    public int countAllByTitle(String searchReq) {
+            return publicationService.countAllByTitle(searchReq);    }
 }

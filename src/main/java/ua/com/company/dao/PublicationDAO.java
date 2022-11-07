@@ -12,7 +12,7 @@ import java.util.List;
 public interface PublicationDAO extends BaseDAO<Publication> {
 
     //    void create(Publication p,Image... images) throws DBException;
-    List<Publication> findAllByTitle(Connection con, String title) throws DBException;
+    List<Publication> findAllByTitle(Connection con,Sorting sorting, String title) throws DBException;
 
     List<Publication> findAllByTopicId(Connection con, Sorting obj, int id) throws DBException;
 //    void addImage(Connection con, Publication publication, Image... images);
@@ -33,5 +33,7 @@ public interface PublicationDAO extends BaseDAO<Publication> {
     int countAllByTopicId(Connection con, int topicId) throws DBException;
 
     int countAllByUserId(Connection con, int userId) throws DBException;
+
+    int countAllByTitle(Connection con, String searchReq) throws DBException;
 //    List<Publication> findAllLikeTitle(String searchReq);
 }

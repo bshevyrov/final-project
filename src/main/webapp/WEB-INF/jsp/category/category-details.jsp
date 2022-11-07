@@ -32,6 +32,9 @@
                                     <c:if test="${topicName!=null}">
                                     <h4>${topicName}</h4>
                                     </c:if>
+                                    <c:if test="${searchName!=null}">
+                                        <h4>${searchName}</h4>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="row">
@@ -41,6 +44,7 @@
                                     <form action="${url}" id="sortForm" method="POST">
                                         <input type="hidden" id="1" name="currentSort" value="${currentSort}">
                                         <input type="hidden" id="2" name="currentSize" value="${currentSize}">
+                                        <input type="hidden" name="currentSearch" value="${searchName}">
                                         <select name="sort" onchange="this.form.submit()">
                                             <option value="titleAsc"><fmt:message key="category.order.title.asc"/></option>
                                             <option value="titleDesc"><fmt:message key="category.order.title.desc"/></option>
@@ -54,6 +58,8 @@
                                     <form action="${url}" method="POST">
                                         <input type="hidden" id="3" name="currentSort" value="${currentSort}">
                                         <input type="hidden" id="4" name="currentSize" value="${currentSize}">
+                                        <input type="hidden" name="currentSearch" value="${searchName}">
+
                                         <select name="pageSize" onchange="this.form.submit()">
                                             <option value="6">6</option>
                                             <option value="12">12</option>
@@ -108,6 +114,8 @@
                                     <form action="${url}" method="POST">
                                         <input type="hidden" name="currentSort" value="${currentSort}">
                                         <input type="hidden" name="currentSize" value="${currentSize}">
+                                        <input type="hidden" name="currentSearch" value="${searchName}">
+
                                         <input type="hidden" name="currentPage" value="${currentPage-1}">
 
                                         <button type="submit" class="button_prev"><fmt:message key="category.btn.prev"/></button>
@@ -127,6 +135,8 @@
                                         <input type="hidden" name="currentSort" value="${currentSort}">
                                         <input type="hidden" name="currentSize" value="${currentSize}">
                                         <input type="hidden" name="currentPage" value="${currentPage+1}">
+                                        <input type="hidden" name="currentSearch" value="${searchName}">
+
 
                                         <button type="submit" class="button_next"><fmt:message key="category.btn.next"/></button>
                                     </form>

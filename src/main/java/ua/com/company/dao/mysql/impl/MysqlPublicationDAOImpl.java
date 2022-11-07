@@ -91,6 +91,26 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         }
         return count;    }
 
+    @Override
+    public int countAllByTitle(Connection con, String searchReq) throws DBException {
+        int count = -1;
+
+
+        try (
+                PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_TITLE)) {
+            stmt.setString( 1, "%" + escapeForLike(searchReq) + "%");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            //log
+            e.printStackTrace();
+            throw new DBException("GOOD INFORMATION ERORR", e);
+        }
+        return count;
+    }
+
 
     @Override
     public void update(Connection con, Publication publication) throws DBException {
@@ -179,16 +199,29 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public List<Publication> findAllByTitle(Connection con, String pattern) throws DBException {
+    public List<Publication> findAllByTitle(Connection con,Sorting obj, String pattern) throws DBException {
 
+//        List<Publication> publications = new ArrayList<>();
+//        try (
+//                PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_TITLE)) {
+////            int k =1;
+//
+//            stmt.setString(1, "%" + escapeForLike(pattern) + "%");
+////            stmt.setString(1, pattern);
+//            try (ResultSet rs = stmt.executeQuery()) {
+//                while (rs.next()) {
+//                    publications.add(mapPublication(rs));
+//                }
+//            }
         List<Publication> publications = new ArrayList<>();
+        String search = "'"+"%" + escapeForLike(pattern) + "%"+"'";
+        String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
+                "FROM publication p INNER JOIN image i on p.image_id = i.id WHERE p.title LIKE " + search + " ORDER BY " + obj.getSortingField() +
+                " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
+                " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
         try (
-                PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_TITLE)) {
-//            int k =1;
-
-            stmt.setString(1, "%" + escapeForLike(pattern) + "%");
-//            stmt.setString(1, pattern);
-            try (ResultSet rs = stmt.executeQuery()) {
+                Statement stmt = con.createStatement()) {
+            try (ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
                     publications.add(mapPublication(rs));
                 }
