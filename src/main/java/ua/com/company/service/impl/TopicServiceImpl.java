@@ -1,7 +1,7 @@
 package ua.com.company.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.TopicDAO;
 import ua.com.company.entity.Topic;
@@ -14,9 +14,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class TopicServiceImpl implements TopicService {
-    private final Logger log = LoggerFactory.getLogger(TopicServiceImpl.class);
+    private final Logger log = LogManager.getLogger(TopicServiceImpl.class);
     private final TopicDAO topicDao = DAOFactory.getInstance().getTopicDAO();
-    private static  TopicService instance;
+    private static TopicService instance;
 
     //    public TopicServiceImpl(TopicDAO topicDao) {
 //        this.topicDao = topicDao;
@@ -39,8 +39,8 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public int create(Topic topic) {
         int id = -1;
-        try (Connection con = getConnection()){
-            id = topicDao.create(con,topic);
+        try (Connection con = getConnection()) {
+            id = topicDao.create(con, topic);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -50,8 +50,8 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void update(Topic topic) {
-        try (Connection con = getConnection()){
-            topicDao.update(con,topic);
+        try (Connection con = getConnection()) {
+            topicDao.update(con, topic);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -60,8 +60,8 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void delete(int id) {
-        try (Connection con = getConnection()){
-            topicDao.delete(con,id);
+        try (Connection con = getConnection()) {
+            topicDao.delete(con, id);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -70,8 +70,8 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Topic findById(int id) {
-        try (Connection con = getConnection()){
-            return topicDao.findById(con,id)
+        try (Connection con = getConnection()) {
+            return topicDao.findById(con, id)
                     .orElseThrow(() -> new TopicNotFoundException("" + id));
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
@@ -85,7 +85,7 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<Topic> findAll() {
-        try (Connection con = getConnection()){
+        try (Connection con = getConnection()) {
             return topicDao.findAll(con);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
@@ -97,8 +97,8 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public boolean isExistByTitle(String title) {
         boolean existByTitle = false;
-        try (Connection con = getConnection()){
-            existByTitle = topicDao.IsExistByTitle(con,title);
+        try (Connection con = getConnection()) {
+            existByTitle = topicDao.IsExistByTitle(con, title);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
@@ -108,10 +108,10 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public List<Topic> findAllByPublicationId(int id) {
-        try (Connection con = getConnection()){
-            return topicDao.findAllByPublicationId(con,id);
+        try (Connection con = getConnection()) {
+            return topicDao.findAllByPublicationId(con, id);
         } catch (DBException | SQLException e) {
-            log.error("Find publication by id error with id= " + id,e );
+            log.error("Find publication by id error with id= " + id, e);
             e.printStackTrace();
         }
         return null;

@@ -1,10 +1,13 @@
 package ua.com.company.view.controller.category;
 
+import com.mysql.cj.util.StringUtils;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.entity.Sorting;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.facade.TopicFacade;
@@ -14,6 +17,9 @@ import java.io.IOException;
 import java.util.List;
 
 public class CategoryDetailsController extends HttpServlet {
+//    private final Logger log = LoggerFactory.getLogger(CategoryDetailsController.class);
+    private final Logger log = LogManager.getLogger(CategoryDetailsController.class);
+
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
@@ -27,34 +33,40 @@ public class CategoryDetailsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String reqParam =request.getParameter("id");
+
+       if( !StringUtils.isNullOrEmpty(reqParam)&&StringUtils.isStrictlyNumeric(reqParam)) {
+
+           int topicId = Integer.parseInt(reqParam);
+           TopicFacade topicFacade = (TopicFacade) getServletContext()
+                   .getAttribute("topicFacade");
+           PublicationFacade publicationFacade = (PublicationFacade) getServletContext()
+                   .getAttribute("publicationFacade");
+           String topicName = topicFacade.findById(topicId).getTitle();
 
 
-        int topicId = Integer.parseInt(request.getParameter("id"));
-        TopicFacade topicFacade = (TopicFacade) getServletContext()
-                .getAttribute("topicFacade");
-        PublicationFacade publicationFacade = (PublicationFacade) getServletContext()
-                .getAttribute("publicationFacade");
-        String topicName = topicFacade.findById(topicId).getTitle();
+           int currentPage = 1;
+           String pageSize = "6";
+           Sorting sort = new Sorting();
+           sort.setPageSize(Integer.parseInt(pageSize));
+           List<PublicationDTO> publications = publicationFacade.findAllByTopicId(sort, topicId);
+           final String url = "/category?id=" + topicId;
+           int lastPage = publicationFacade.countAllByTopicId(topicId) % Integer.parseInt(pageSize) == 0 ? publicationFacade.countAllByTopicId(topicId) / Integer.parseInt(pageSize) : publicationFacade.countAllByTopicId(topicId) / Integer.parseInt(pageSize) + 1;
+
+           request.setAttribute("lastPage", lastPage);
+           request.setAttribute("currentSort", "titleAsc");
+           request.setAttribute("currentSize", pageSize);
+           request.setAttribute("currentPage", currentPage);
+           request.setAttribute("url", url);
+           request.setAttribute("topicName", topicName);
+           request.setAttribute("publications", publications);
 
 
-        int currentPage = 1;
-        String pageSize = "6";
-        Sorting sort = new Sorting();
-        sort.setPageSize(Integer.parseInt(pageSize));
-        List<PublicationDTO> publications = publicationFacade.findAllByTopicId(sort, topicId);
-        final String url = "/category?id=" + topicId;
-        int lastPage = publicationFacade.countAllByTopicId(topicId) % Integer.parseInt(pageSize) == 0 ? publicationFacade.countAllByTopicId(topicId) / Integer.parseInt(pageSize) : publicationFacade.countAllByTopicId(topicId) / Integer.parseInt(pageSize) + 1;
-
-        request.setAttribute("lastPage", lastPage);
-        request.setAttribute("currentSort", "titleAsc");
-        request.setAttribute("currentSize", pageSize);
-        request.setAttribute("currentPage", currentPage);
-        request.setAttribute("url", url);
-        request.setAttribute("topicName", topicName);
-        request.setAttribute("publications", publications);
-
-
-        processRequest(request, response);
+           processRequest(request, response);
+       } else {
+           log.error("get Param illegal = " + reqParam);
+           response.sendRedirect("/");
+       }
     }
 
     @Override

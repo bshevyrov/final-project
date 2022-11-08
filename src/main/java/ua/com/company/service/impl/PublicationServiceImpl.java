@@ -1,7 +1,7 @@
 package ua.com.company.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.ImageDAO;
 import ua.com.company.dao.PublicationDAO;
@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class PublicationServiceImpl implements PublicationService {
-    private final Logger log = LoggerFactory.getLogger(PublicationServiceImpl.class);
+    private final Logger log = LogManager.getLogger(PublicationServiceImpl.class);
     private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
     private final ImageDAO imageDAO = DAOFactory.getInstance().getImageDAO();
     private final TopicDAO topicDAO = DAOFactory.getInstance().getTopicDAO();
@@ -209,14 +209,12 @@ public class PublicationServiceImpl implements PublicationService {
     public int countAllByTitle(String searchReq) {
         int count = -1;
         try (Connection con = getConnection()) {
-            count = publicationDAO.countAllByTitle(con,searchReq);
+            count = publicationDAO.countAllByTitle(con, searchReq);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
         return count;
-
-
 
 
     }

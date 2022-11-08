@@ -1,34 +1,22 @@
 package ua.com.company.listener;
 
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletContextAttributeListener;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.DAOFactory;
-import ua.com.company.dao.PersonDAO;
-import ua.com.company.dao.PublicationDAO;
-import ua.com.company.dao.TopicDAO;
-import ua.com.company.facade.PersonFacade;
-import ua.com.company.facade.PublicationFacade;
-import ua.com.company.facade.TopicFacade;
 import ua.com.company.facade.impl.PersonFacadeImpl;
 import ua.com.company.facade.impl.PublicationFacadeImpl;
 import ua.com.company.facade.impl.TopicFacadeImpl;
-import ua.com.company.service.PersonService;
-import ua.com.company.service.PublicationService;
-import ua.com.company.service.TopicService;
 import ua.com.company.service.impl.PersonServiceImpl;
-import ua.com.company.service.impl.PublicationServiceImpl;
-import ua.com.company.service.impl.TopicServiceImpl;
 import ua.com.company.type.DBType;
 
 
 @WebListener
 public class AppContextListener implements ServletContextListener {
-    private final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
+    private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -58,9 +46,10 @@ public class AppContextListener implements ServletContextListener {
 //
 //        TopicService topicService = new TopicServiceImpl(topicDAO);
 //        servletContext.setAttribute("topicService",topicService);
-        servletContext.setAttribute("topicFacade",new TopicFacadeImpl());
-        servletContext.setAttribute("personFacade",new PersonFacadeImpl())
-        ;servletContext.setAttribute("publicationFacade",new PublicationFacadeImpl());
+        servletContext.setAttribute("topicFacade", new TopicFacadeImpl());
+        servletContext.setAttribute("personFacade", new PersonFacadeImpl())
+        ;
+        servletContext.setAttribute("publicationFacade", new PublicationFacadeImpl());
     }
 
     @Override

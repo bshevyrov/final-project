@@ -1,7 +1,7 @@
 package ua.com.company.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.entity.Person;
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class PersonServiceImpl implements PersonService {
-    private final Logger log = LoggerFactory.getLogger(PersonServiceImpl.class);
+    private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
     private final PersonDAO personDAO = DAOFactory.getInstance().getPersonDAO();
     private final PublicationService publicationService = PublicationServiceImpl.getInstance();
     private static PersonService instance;
@@ -188,26 +188,26 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void subscribe(int pubId, int personId) {
-            Person person= findById(personId);
-            Publication publication = publicationService.findById(pubId);
+        Person person = findById(personId);
+        Publication publication = publicationService.findById(pubId);
 
-                try (Connection con = getConnection()) {
-                    if (person.getFunds()-publication.getPrice()>0) {
-                        for (int i : person.getPublicationsId()) {
-                            if (pubId == i) {
-                                throw new DBException("Subscriptions already exist");
-                            }
-                        }
+        try (Connection con = getConnection()) {
+            if (person.getFunds() - publication.getPrice() > 0) {
+                for (int i : person.getPublicationsId()) {
+                    if (pubId == i) {
+                        throw new DBException("Subscriptions already exist");
                     }
-                    personDAO.decreaseFunds(con,personId,person.getFunds()-publication.getPrice());
-                    personDAO.subscribe(con, pubId,personId);
-                } catch (DBException | SQLException e) {
-                    log.error(String.valueOf(e));
-                    e.printStackTrace();
                 }
             }
-
+            personDAO.decreaseFunds(con, personId, person.getFunds() - publication.getPrice());
+            personDAO.subscribe(con, pubId, personId);
+        } catch (DBException | SQLException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
         }
+    }
+
+}
 
 
 
