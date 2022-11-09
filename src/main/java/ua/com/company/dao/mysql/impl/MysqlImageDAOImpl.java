@@ -14,8 +14,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
     @Override
     public int create(Connection con,Image image) throws DBException {
         int id = -1;
-        try (
-             PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE, Statement.RETURN_GENERATED_KEYS)) {
+        try (             PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE, Statement.RETURN_GENERATED_KEYS)) {
             int index = 0;
             stmt.setString(++index, image.getName());
             stmt.setString(++index, image.getPath());

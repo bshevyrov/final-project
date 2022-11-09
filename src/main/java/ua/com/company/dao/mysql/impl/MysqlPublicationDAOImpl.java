@@ -5,15 +5,12 @@ import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
 import ua.com.company.entity.Sorting;
-import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class MysqlPublicationDAOImpl implements PublicationDAO {
 
@@ -58,8 +55,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public int countAllByTopicId(Connection con, int topicId) throws DBException {
         int count = -1;
-        try (
-                PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_TOPIC_ID)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_TOPIC_ID)) {
             stmt.setInt(1, topicId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -77,8 +73,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public int countAllByUserId(Connection con, int userId) throws DBException {
         int count = -1;
-        try (
-                PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_USER_ID)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_USER_ID)) {
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -89,16 +84,14 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             e.printStackTrace();
             throw new DBException("GOOD INFORMATION ERORR", e);
         }
-        return count;    }
+        return count;
+    }
 
     @Override
     public int countAllByTitle(Connection con, String searchReq) throws DBException {
         int count = -1;
-
-
-        try (
-                PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_TITLE)) {
-            stmt.setString( 1, "%" + escapeForLike(searchReq) + "%");
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_BY_TITLE)) {
+            stmt.setString(1, "%" + escapeForLike(searchReq) + "%");
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 count = rs.getInt("count");
@@ -120,9 +113,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setString(++index, publication.getDescription());
             stmt.setDouble(++index, publication.getPrice());
             stmt.setInt(++index, publication.getId());
-
             stmt.execute();
-
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DBException(e);
@@ -144,15 +135,13 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     public void deleteOrphanTopic(Connection con) throws SQLException {
         try (Statement stmt = con.createStatement()) {
             stmt.execute(DBConstants.DELETE_ORPHAN_TOPIC);
-
         }
     }
 
 
     @Override
     public void delete(Connection con, int id) throws DBException {
-        try (
-                PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PUBLICATION)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PUBLICATION)) {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
@@ -163,10 +152,8 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     @Override
     public Optional<Publication> findById(Connection con, int id) throws DBException {
-
         Publication publication = null;
-        try (
-                PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PUBLICATION_BY_ID)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PUBLICATION_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -184,9 +171,8 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAll(Connection con) throws DBException {
         List<Publication> publications = new ArrayList<>();
-        try (
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery(DBConstants.FIND_ALL_PUBLICATIONS)) {
+        try (Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery(DBConstants.FIND_ALL_PUBLICATIONS)) {
             while (rs.next()) {
                 publications.add(mapPublication(rs));
             }
@@ -199,22 +185,10 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public List<Publication> findAllByTitle(Connection con,Sorting obj, String pattern) throws DBException {
+    public List<Publication> findAllByTitle(Connection con, Sorting obj, String pattern) throws DBException {
 
-//        List<Publication> publications = new ArrayList<>();
-//        try (
-//                PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_TITLE)) {
-////            int k =1;
-//
-//            stmt.setString(1, "%" + escapeForLike(pattern) + "%");
-////            stmt.setString(1, pattern);
-//            try (ResultSet rs = stmt.executeQuery()) {
-//                while (rs.next()) {
-//                    publications.add(mapPublication(rs));
-//                }
-//            }
         List<Publication> publications = new ArrayList<>();
-        String search = "'"+"%" + escapeForLike(pattern) + "%"+"'";
+        String search = "'" + "%" + escapeForLike(pattern) + "%" + "'";
         String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
                 "FROM publication p INNER JOIN image i on p.image_id = i.id WHERE p.title LIKE " + search + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
@@ -300,7 +274,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public List<Publication> findAllByUserId(Connection con,Sorting obj, int userId) throws DBException {
+    public List<Publication> findAllByUserId(Connection con, Sorting obj, int userId) throws DBException {
         List<Publication> publications = new ArrayList<>();
         String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
                 "FROM publication p LEFT JOIN person_has_publication php on p.id = php.publication_id" +
