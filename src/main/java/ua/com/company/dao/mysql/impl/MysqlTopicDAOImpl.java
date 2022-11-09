@@ -28,7 +28,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(topic.toString(),e);
         }
         return id;
     }
@@ -121,6 +121,24 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             throw new DBException(e);
         }
         return topicList;
+    }
+
+    @Override
+    public Optional<Topic> findByTitle(Connection con, String title) throws DBException {
+
+        Optional<Topic> topic = Optional.empty();
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_TOPIC_BY_TITLE)) {
+            stmt.setString(1, title);
+            stmt.executeQuery();
+            ResultSet rs = stmt.getResultSet();
+            if (rs.next()) {
+                topic = Optional.of(mapTopic(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
+        }
+        return topic;
     }
 
     private Topic mapTopic(ResultSet rs) throws SQLException {

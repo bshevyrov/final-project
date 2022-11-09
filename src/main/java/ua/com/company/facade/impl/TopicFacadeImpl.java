@@ -13,8 +13,8 @@ public class TopicFacadeImpl implements TopicFacade {
     private final TopicService topicService = TopicServiceImpl.getInstance();
 
     @Override
-    public int create(TopicDTO topicDTO) {
-        return topicService.create(ClassConverter.topicDTOToTopic(topicDTO));
+    public void create(TopicDTO topicDTO) {
+         topicService.create(ClassConverter.topicDTOToTopic(topicDTO));
     }
 
     @Override
@@ -38,4 +38,10 @@ public class TopicFacadeImpl implements TopicFacade {
                 .map(ClassConverter::topicToTopicDTO)
                 .collect(Collectors.toList());
     }
-}
+
+    @Override
+    public TopicDTO findByTitle(String title) {
+         return ClassConverter.topicToTopicDTO(topicService.findByTitle(title));
+    }
+    }
+

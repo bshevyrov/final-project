@@ -22,13 +22,13 @@ public interface PublicationDAO extends BaseDAO<Publication> {
 
     List<Publication> findAllByUserId(Connection con, Sorting obj, int userId) throws DBException;
 
-    void addTopicForPublication(Connection con, int pubId, int topicId) throws SQLException;
+    void addTopicForPublication(Connection con, int pubId, int topicId) throws DBException;
 
-    void deleteOrphanTopic(Connection con) throws SQLException;
+    void deleteOrphanTopic(Connection con) throws DBException;
 
-    void deleteFromPublicationHasTopicByPublicationId(Connection con, int id) throws SQLException;
+    void deleteFromPublicationHasTopicByPublicationId(Connection con, int id) throws  DBException;
 
-    void updateCoverForPublication(Connection con, int id, Image cover) throws SQLException;
+    void updateCoverForPublication(Connection con, int id, Image cover) throws  DBException;
 
     int countAllByTopicId(Connection con, int topicId) throws DBException;
 

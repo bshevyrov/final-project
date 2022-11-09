@@ -40,15 +40,13 @@ public class PersonServiceImpl implements PersonService {
 //    }
 
     @Override
-    public int create(Person person) {
-        int id = -1;
+    public void create(Person person) {
         try (Connection con = getConnection()) {
-            id = personDAO.create(con, person);
+           personDAO.create(con, person);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
-        return id;
     }
 
     @Override

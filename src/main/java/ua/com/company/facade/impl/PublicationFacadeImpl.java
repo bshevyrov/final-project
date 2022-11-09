@@ -15,8 +15,8 @@ public class PublicationFacadeImpl implements PublicationFacade {
 
     @Override
     public int create(PublicationDTO publicationDTO) {
-        return publicationService.create(ClassConverter.publicationDTOToPublication(publicationDTO));
-
+         publicationService.create(ClassConverter.publicationDTOToPublication(publicationDTO));
+        return 0;
     }
 
     @Override

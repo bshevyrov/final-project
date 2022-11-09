@@ -10,4 +10,6 @@ public interface TopicService extends BaseService<Topic> {
     boolean isExistByTitle(String topic);
 
     List<Topic> findAllByPublicationId( int id);
+
+    Topic findByTitle(String title);
 }

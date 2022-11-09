@@ -25,7 +25,6 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             stmt.setString(++index, person.getUsername());
             stmt.setString(++index, person.getEmail());
             stmt.setString(++index, encryptedPass);
-//            stmt.setString(++index, person.getRole().toString());
             int count = stmt.executeUpdate();
             if (count > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
@@ -42,7 +41,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public void update(Connection con, Person person) throws DBException {
+    public void update(Connection con, Person person) throws DBException {//TODO
         if (isExist(con, person.getId())) {
             try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PERSON)) {
                 // String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
@@ -266,7 +265,6 @@ public class MysqlPersonDAOImpl implements PersonDAO {
 
     private Person mapPerson(ResultSet rs) throws SQLException {
         Person person = new Person();
-        // List<Publication> publications = new ArrayList<>();
         person.setId(rs.getInt(DBConstants.F_PERSON_ID));
         person.setEmail(rs.getString(DBConstants.F_PERSON_EMAIL));
         person.setRole(RoleType.valueOf(rs.getString(DBConstants.F_PERSON_ROLE)));

@@ -16,7 +16,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
 
     @Override
-    public int create(Connection con, Publication publication) throws SQLException {
+    public int create(Connection con, Publication publication) throws DBException {
         int id = -1;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION,
                 Statement.RETURN_GENERATED_KEYS)) {
@@ -33,23 +33,24 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                     }
                 }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(publication.toString(), e);
         }
         return id;
     }
 
 
-    public void updateCoverForPublication(Connection con, int pubId, Image image) throws SQLException {
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE_TO_PUBLICATION);
+    public void updateCoverForPublication(Connection con, int pubId, Image image) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE_TO_PUBLICATION)) {
             int index = 0;
             stmt.setString(++index, image.getPath());
             stmt.setInt(++index, pubId);
             stmt.execute();
-        } finally {
-            close(stmt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException("pubId= " + pubId + image.toString(), e);
         }
-
     }
 
     @Override
@@ -62,12 +63,10 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            //log
             e.printStackTrace();
-            throw new DBException("GOOD INFORMATION ERORR", e);
+            throw new DBException("topicId= " + topicId, e);
         }
         return count;
-
     }
 
     @Override
@@ -80,9 +79,8 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            //log
             e.printStackTrace();
-            throw new DBException("GOOD INFORMATION ERORR", e);
+            throw new DBException("userId= " + userId, e);
         }
         return count;
     }
@@ -120,21 +118,24 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         }
     }
 
-    public void deleteFromPublicationHasTopicByPublicationId(Connection con, int pubId) throws SQLException {
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(DBConstants.DELETE_PUBLICATION_HAS_TOPIC_BY_PUBLICATION_ID);
+    public void deleteFromPublicationHasTopicByPublicationId(Connection con, int pubId) throws DBException {
+
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PUBLICATION_HAS_TOPIC_BY_PUBLICATION_ID)) {
             int index = 0;
             stmt.setInt(++index, pubId);
             stmt.execute();
-        } finally {
-            close(stmt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
         }
     }
 
-    public void deleteOrphanTopic(Connection con) throws SQLException {
+    public void deleteOrphanTopic(Connection con) throws DBException {
         try (Statement stmt = con.createStatement()) {
             stmt.execute(DBConstants.DELETE_ORPHAN_TOPIC);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(e);
         }
     }
 
@@ -193,19 +194,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 "FROM publication p INNER JOIN image i on p.image_id = i.id WHERE p.title LIKE " + search + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
-        try (
-                Statement stmt = con.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    publications.add(mapPublication(rs));
-                }
-            }
-        } catch (SQLException e) {
-            //log
-            e.printStackTrace();
-            throw new DBException("GOOD INFORMATION ERORR", e);
-        }
-        return publications;
+        return getPublications(con, publications, query);
     }
 
     @Override
@@ -217,61 +206,39 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 "INNER JOIN image i on p.image_id = i.id WHERE pht.topic_id =" + id + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
-        try (
-                Statement stmt = con.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    publications.add(mapPublication(rs));
-                }
-            }
-        } catch (SQLException e) {
-            //log
-            e.printStackTrace();
-            throw new DBException("GOOD INFORMATION ERORR", e);
-        }
-        return publications;
+        return getPublications(con, publications, query);
     }
-//    }
 
 
-    public void addTopicForPublication(Connection con, int pubId, int topicId) throws SQLException {
-        PreparedStatement stmt = null;
-        try {
-            stmt = con.prepareStatement(DBConstants.ADD_TOPIC_TO_PUBLICATION);
+    public void addTopicForPublication(Connection con, int pubId, int topicId) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_TOPIC_TO_PUBLICATION)) {
             int index = 0;
             stmt.setInt(++index, pubId);
             stmt.setInt(++index, topicId);
             stmt.execute();
-        } finally {
-            close(stmt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException("pubId=" + pubId + " topicId=" + topicId, e);
         }
     }
 
     @Override
     public Publication findByTitle(Connection con, String title) throws DBException {
-
         Publication publication = new Publication();
-        try (
-                PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PUBLICATION_BY_TITLE)) {
-
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PUBLICATION_BY_TITLE)) {
             stmt.setString(1, title);
-//            stmt.setString(1, pattern);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     publication = mapPublication(rs);
                 }
             }
         } catch (SQLException e) {
-            //log
             e.printStackTrace();
-            try {
-                throw new DBException("GOOD INFORMATION ERORR", e);
-            } catch (DBException ex) {
-                ex.printStackTrace();
-            }
+            throw new DBException(title, e);
         }
         return publication;
     }
+
 
     @Override
     public List<Publication> findAllByUserId(Connection con, Sorting obj, int userId) throws DBException {
@@ -282,17 +249,19 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 "INNER JOIN image i on p.image_id = i.id WHERE pers.id =" + userId + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
-        try (
-                Statement stmt = con.createStatement()) {
+        return getPublications(con, publications, query);
+    }
+
+    private List<Publication> getPublications(Connection con, List<Publication> publications, String query) throws DBException {
+        try (Statement stmt = con.createStatement()) {
             try (ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
                     publications.add(mapPublication(rs));
                 }
             }
         } catch (SQLException e) {
-            //log
             e.printStackTrace();
-            throw new DBException("GOOD INFORMATION ERORR", e);
+            throw new DBException(con + query, e);
         }
         return publications;
     }

@@ -35,15 +35,13 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public int create(Image image) {
-        int id = -1;
+    public void create(Image image) {
         try (Connection con = getConnection()) {
-            id = imageDAO.create(con, image);
+             imageDAO.create(con, image);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
-        return id;
     }
 
     @Override

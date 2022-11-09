@@ -24,8 +24,8 @@ public class PersonFacadeImpl implements PersonFacade {
 
     @Override
     public int create(PersonDTO personDTO) {
-        return personService.create(ClassConverter.personDTOToPerson(personDTO));
-
+        personService.create(ClassConverter.personDTOToPerson(personDTO));
+        return 0;
     }
 
     @Override
@@ -36,7 +36,6 @@ public class PersonFacadeImpl implements PersonFacade {
     @Override
     public void delete(int id) {
         personService.delete(id);
-
     }
 
     @Override

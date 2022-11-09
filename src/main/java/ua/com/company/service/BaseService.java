@@ -1,8 +1,8 @@
 package ua.com.company.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.entity.BaseEntity;
-import ua.com.company.exception.DBException;
-import ua.com.company.listener.AppContextListener;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface BaseService<E extends BaseEntity> {
-    int create(E e);
+     Logger log = LogManager.getLogger(BaseService.class);
+
+    void create(E e);
 
     void update(E e);
 
@@ -41,20 +43,15 @@ public interface BaseService<E extends BaseEntity> {
         }
     }
 
-    default Connection getConnection() throws DBException {
-        Context initCtx;
+    default Connection getConnection(){
         try {
-            initCtx = new InitialContext();
-            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            Context envCtx = (Context) new InitialContext().lookup("java:comp/env");
             DataSource ds = (DataSource) envCtx.lookup("jdbc/MySQL");
-
             return ds.getConnection();
         } catch (NamingException | SQLException e) {
+            log.error("NO CONNECTION TO DB ");
             e.printStackTrace();
-            throw new DBException(e);
+            throw new RuntimeException("No db - no app",e);
         }
-
     }
-
-
 }

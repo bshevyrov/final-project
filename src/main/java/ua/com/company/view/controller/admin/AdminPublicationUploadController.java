@@ -33,6 +33,8 @@ public class AdminPublicationUploadController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("id") != null) {
             int id = Integer.parseInt(request.getParameter("id"));
+            //TODO NOT NUMBER
+
             request.setAttribute("publication", ((PublicationFacade) getServletContext().getAttribute("publicationFacade")).findById(id));
         }
         TopicFacade topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
@@ -55,34 +57,28 @@ public class AdminPublicationUploadController extends HttpServlet {
 
         if (request.getParameterValues("topics") != null) {
             String[] topics = request.getParameterValues("topics");
-
             topicList = Arrays.stream(topics).map(Integer::parseInt)
                     .map(topicFacade::findById).collect(Collectors.toList());
         }
-
         if (request.getParameter("newTopics") != null && !request.getParameter("newTopics").equals("")) {
             String[] newTopic = request.getParameter("newTopics").split(",");
             for (String s : newTopic) {
-                TopicDTO currentTopic = new TopicDTO(s);
-                currentTopic.setId(topicFacade.create(currentTopic));
-                topicList.add(currentTopic);
+                TopicDTO currentTopic = new TopicDTO(s.trim());
+                topicFacade.create(currentTopic);
+                topicList.add(topicFacade.findByTitle(currentTopic.getTitle()));
             }
         }
-
         publication.setTopics(topicList);
         publication.setPrice(Double.parseDouble(request.getParameter("price")));
         publication.setTitle(request.getParameter("title"));
         publication.setDescription(request.getParameter("description"));
+
         if(request.getParameter("id")==null||request.getParameter("id").equals("")){
             publicationFacade.create(publication);
         } else {
             publication.setId(Integer.parseInt(request.getParameter("id")));
             publicationFacade.update(publication);
-         /*   for (TopicDTO topic : publication.getTopics()) {
-            }*/
         }
-
         response.sendRedirect("/admin/publication/dashboard");
-
     }
 }

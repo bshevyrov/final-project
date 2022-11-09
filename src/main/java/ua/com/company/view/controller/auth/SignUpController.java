@@ -44,14 +44,12 @@ public class SignUpController extends HttpServlet {
             person.setEmail(email);
             person.setUsername(username);
             person.setPassword(password);
-
-            int id = personFacade.create(person);
-            person = personFacade.findById(id);
+            personFacade.create(person);
+            person = personFacade.findByEmail(email);
             HttpSession session = request.getSession(false);
             session.setAttribute("loggedPerson", person);
             response.sendRedirect("/");
             return;
-
         }
         processRequest(request, response);
     }

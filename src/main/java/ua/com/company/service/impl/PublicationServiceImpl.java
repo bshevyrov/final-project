@@ -40,40 +40,29 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public int create(Publication publication) {
-        Connection con = null;
-        try {
-            con = getConnection();
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
-        int id = -1;
+    public void create(Publication publication) {
+        Connection con = getConnection();
         try {
             con.setAutoCommit(false);
             imageDAO.create(con, publication.getCover());
-            id = publicationDAO.create(con, publication);
-            publication.setId(id);
+            publicationDAO.create(con, publication);
+            publication = publicationDAO.findByTitle(con, publication.getTitle());
             for (Topic topic : publication.getTopics()) {
                 publicationDAO.addTopicForPublication(con, publication.getId(), topic.getId());
             }
             con.commit();
         } catch (SQLException | DBException e) {
             e.printStackTrace();
+            log.error("Can`t create publication " + publication, e);
             rollback(con);
         } finally {
             close(con);
         }
-        return id;
     }
 
     @Override
     public void update(Publication publication) {
-        Connection con = null;
-        try {
-            con = getConnection();
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
+        Connection con = getConnection();
         try {
             con.setAutoCommit(false);
             publicationDAO.update(con, publication);
@@ -86,6 +75,7 @@ public class PublicationServiceImpl implements PublicationService {
             con.commit();
         } catch (SQLException | DBException e) {
             e.printStackTrace();
+            log.error("Can`t update publication " + publication, e);
             rollback(con);
         } finally {
             close(con);
@@ -98,7 +88,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             publicationDAO.delete(con, id);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Delete Error", e);
             e.printStackTrace();
         }
     }
@@ -114,7 +104,7 @@ public class PublicationServiceImpl implements PublicationService {
             log.error(String.valueOf(e));
             e.printStackTrace();
         } catch (PublicationNotFoundException e) {
-            log.warn(String.valueOf(e));
+            log.warn("Publication not found", e);
             e.printStackTrace();
         }
         return publication;
@@ -129,7 +119,7 @@ public class PublicationServiceImpl implements PublicationService {
                 publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
             }
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("findAll ex ", e);
             e.printStackTrace();
         }
         return publicationList;
@@ -145,7 +135,7 @@ public class PublicationServiceImpl implements PublicationService {
                 currentPub.setTopics(topicList);
             }
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("findAllByTopicId ex ", e);
             e.printStackTrace();
         }
         return publicationList;
@@ -160,7 +150,7 @@ public class PublicationServiceImpl implements PublicationService {
                 publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
             }
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("findAllByUserId ex ", e);
             e.printStackTrace();
         }
         return publicationList;
@@ -175,7 +165,7 @@ public class PublicationServiceImpl implements PublicationService {
                 publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
             }
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("findAllByTitle ex ", e);
             e.printStackTrace();
         }
         return publicationList;
@@ -187,7 +177,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             count = publicationDAO.countAllByTopicId(con, topicId);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("countAllByTopicId ex ", e);
             e.printStackTrace();
         }
         return count;
@@ -199,7 +189,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             count = publicationDAO.countAllByUserId(con, userId);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("countAllByUserId ex ", e);
             e.printStackTrace();
         }
         return count;
@@ -211,11 +201,9 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             count = publicationDAO.countAllByTitle(con, searchReq);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("countAllByTitle ex ", e);
             e.printStackTrace();
         }
         return count;
-
-
     }
 }

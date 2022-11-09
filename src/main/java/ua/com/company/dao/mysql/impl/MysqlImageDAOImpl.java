@@ -12,9 +12,9 @@ import java.util.Optional;
 
 public class MysqlImageDAOImpl implements ImageDAO {
     @Override
-    public int create(Connection con,Image image) throws DBException {
+    public int create(Connection con, Image image) throws DBException {
         int id = -1;
-        try (             PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE, Statement.RETURN_GENERATED_KEYS)) {
             int index = 0;
             stmt.setString(++index, image.getName());
             stmt.setString(++index, image.getPath());
@@ -28,15 +28,14 @@ public class MysqlImageDAOImpl implements ImageDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException("Error create with " + con + " and " + image, e);
         }
         return id;
     }
 
     @Override
-    public void update(Connection con,Image image) throws DBException {
-        try (
-             PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE)) {
+    public void update(Connection con, Image image) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE)) {
             int index = 0;
             stmt.setString(++index, image.getName());
             stmt.setString(++index, image.getPath());
@@ -44,27 +43,25 @@ public class MysqlImageDAOImpl implements ImageDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException("Error update with " + con + " and " + image, e);
         }
     }
 
     @Override
-    public void delete(Connection con,int id) throws DBException {
-        try (
-             PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_IMAGE)) {
+    public void delete(Connection con, int id) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_IMAGE)) {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException("Error delete with " + con + " and " + id, e);
         }
     }
 
     @Override
-    public Optional<Image> findById(Connection con,int id) throws DBException {
+    public Optional<Image> findById(Connection con, int id) throws DBException {
         Optional<Image> image = Optional.empty();
-        try (
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_IMAGE_BY_ID)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_IMAGE_BY_ID)) {
             stmt.setInt(1, id);
             stmt.executeQuery();
             ResultSet rs = stmt.getResultSet();
@@ -73,7 +70,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException("Error findById with " + con + " and " + id, e);
         }
         return image;
     }
@@ -81,8 +78,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
     @Override
     public List<Image> findAll(Connection con) throws DBException {
         List<Image> imageList = new ArrayList<>();
-        try (
-             Statement stmt = con.createStatement()) {
+        try (Statement stmt = con.createStatement()) {
             stmt.executeQuery(DBConstants.FIND_ALL_IMAGES);
             ResultSet rs = stmt.getResultSet();
             while (rs.next()) {
@@ -90,17 +86,15 @@ public class MysqlImageDAOImpl implements ImageDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException("Error findAll with " + con, e);
         }
         return imageList;
     }
 
     @Override
-    public Optional<Image> findByPublicationId(Connection con,int id) throws DBException {
-
+    public Optional<Image> findByPublicationId(Connection con, int id) throws DBException {
         Optional<Image> image = Optional.empty();
-        try (
-             PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_IMAGE_BY_PUBLICATION_ID)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_IMAGE_BY_PUBLICATION_ID)) {
             stmt.setInt(1, id);
             stmt.executeQuery();
             ResultSet rs = stmt.getResultSet();
@@ -109,7 +103,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException("Error findByPublicationId  with " + con + " and " + id, e);
         }
         return image;
     }

@@ -37,15 +37,13 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public int create(Topic topic) {
-        int id = -1;
+    public void create(Topic topic) {
         try (Connection con = getConnection()) {
-            id = topicDao.create(con, topic);
+            topicDao.create(con, topic);
         } catch (DBException | SQLException e) {
             log.error(String.valueOf(e));
             e.printStackTrace();
         }
-        return id;
     }
 
     @Override
@@ -112,6 +110,21 @@ public class TopicServiceImpl implements TopicService {
             return topicDao.findAllByPublicationId(con, id);
         } catch (DBException | SQLException e) {
             log.error("Find publication by id error with id= " + id, e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Topic findByTitle(String title) {
+        try (Connection con = getConnection()) {
+            return topicDao.findByTitle(con, title)
+                    .orElseThrow(() -> new TopicNotFoundException("" + title));
+        } catch (DBException | SQLException e) {
+            log.error(String.valueOf(e));
+            e.printStackTrace();
+        } catch (TopicNotFoundException e) {
+            log.warn(String.valueOf(e));
             e.printStackTrace();
         }
         return null;
