@@ -14,9 +14,8 @@ public class PublicationFacadeImpl implements PublicationFacade {
     private final PublicationService publicationService = PublicationServiceImpl.getInstance();
 
     @Override
-    public int create(PublicationDTO publicationDTO) {
+    public void create(PublicationDTO publicationDTO) {
          publicationService.create(ClassConverter.publicationDTOToPublication(publicationDTO));
-        return 0;
     }
 
     @Override

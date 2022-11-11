@@ -35,7 +35,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(publication.toString(), e);
+            throw new DBException(con + publication.toString(), e);
         }
         return id;
     }
@@ -49,7 +49,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException("pubId= " + pubId + image.toString(), e);
+            throw new DBException(con + "pubId= " + pubId + image.toString(), e);
         }
     }
 
@@ -64,7 +64,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException("topicId= " + topicId, e);
+            throw new DBException(con + "topicId= " + topicId, e);
         }
         return count;
     }
@@ -80,7 +80,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException("userId= " + userId, e);
+            throw new DBException(con + "userId= " + userId, e);
         }
         return count;
     }
@@ -95,9 +95,8 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            //log
             e.printStackTrace();
-            throw new DBException("GOOD INFORMATION ERORR", e);
+            throw new DBException(con + "searchReq= " + searchReq, e);
         }
         return count;
     }
@@ -114,19 +113,18 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con + "publication= " + publication, e);
         }
     }
 
     public void deleteFromPublicationHasTopicByPublicationId(Connection con, int pubId) throws DBException {
-
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PUBLICATION_HAS_TOPIC_BY_PUBLICATION_ID)) {
             int index = 0;
             stmt.setInt(++index, pubId);
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con + "pubId= " + pubId, e);
         }
     }
 
@@ -135,7 +133,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.execute(DBConstants.DELETE_ORPHAN_TOPIC);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con.toString(), e);
         }
     }
 
@@ -147,7 +145,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con + "id= " + id, e);
         }
     }
 
@@ -161,9 +159,8 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 publication = mapPublication(rs);
             }
         } catch (SQLException e) {
-            //log
             e.printStackTrace();
-            throw new DBException("GOOD INFORMATION ERORR", e);
+            throw new DBException(con + "id= " + id, e);
         }
         return Optional.ofNullable(publication);
 
@@ -178,16 +175,14 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 publications.add(mapPublication(rs));
             }
         } catch (SQLException e) {
-            //log
             e.printStackTrace();
-            throw new DBException("GOOD INFORMATION ERORR", e);
+            throw new DBException(con.toString(), e);
         }
         return publications;
     }
 
     @Override
     public List<Publication> findAllByTitle(Connection con, Sorting obj, String pattern) throws DBException {
-
         List<Publication> publications = new ArrayList<>();
         String search = "'" + "%" + escapeForLike(pattern) + "%" + "'";
         String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
@@ -218,7 +213,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException("pubId=" + pubId + " topicId=" + topicId, e);
+            throw new DBException(con + " pubId=" + pubId + " topicId=" + topicId, e);
         }
     }
 
@@ -234,7 +229,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(title, e);
+            throw new DBException(con + " title=" + title , e);
         }
         return publication;
     }

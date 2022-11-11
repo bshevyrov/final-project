@@ -49,9 +49,9 @@ public interface BaseService<E extends BaseEntity> {
             DataSource ds = (DataSource) envCtx.lookup("jdbc/MySQL");
             return ds.getConnection();
         } catch (NamingException | SQLException e) {
-            log.error("NO CONNECTION TO DB ");
-            e.printStackTrace();
-            throw new RuntimeException("No db - no app",e);
+            log.error("NO CONNECTION TO DB. APP SHUTDOWN",e);
+            System.exit(1);
         }
+        return null;
     }
 }

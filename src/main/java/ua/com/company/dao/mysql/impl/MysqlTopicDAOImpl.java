@@ -28,7 +28,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(topic.toString(),e);
+            throw new DBException(con + topic.toString(), e);
         }
         return id;
     }
@@ -42,7 +42,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con + topic.toString(), e);
         }
     }
 
@@ -53,7 +53,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con + " id= " + id, e);
         }
     }
 
@@ -69,7 +69,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con + " id= " + id, e);
         }
         return topic;
     }
@@ -85,7 +85,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con.toString(), e);
         }
         return topics;
     }
@@ -101,7 +101,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con + " title= " + title, e);
         }
         return count == 1;
     }
@@ -118,7 +118,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con + " pubId= " + pubId, e);
         }
         return topicList;
     }
@@ -136,7 +136,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(e);
+            throw new DBException(con + " title= " + title, e);
         }
         return topic;
     }
