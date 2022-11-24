@@ -35,16 +35,13 @@ public class PersonServiceImpl implements PersonService {
 
     private PersonServiceImpl() throws Exception {
     }
-//    public PersonServiceImpl(PersonDAO personDAO) {
-//        this.personDao = personDAO;
-//    }
 
     @Override
     public void create(Person person) {
         try (Connection con = getConnection()) {
-           personDAO.create(con, person);
+            personDAO.create(con, person);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Can`t create person " + person, e);
             e.printStackTrace();
         }
     }
@@ -54,7 +51,7 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = getConnection()) {
             personDAO.update(con, person);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Can`t update person " + person, e);
             e.printStackTrace();
         }
     }
@@ -64,7 +61,7 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = getConnection()) {
             personDAO.delete(con, id);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Delete Error " + id, e);
             e.printStackTrace();
         }
     }
@@ -76,10 +73,10 @@ public class PersonServiceImpl implements PersonService {
             person = personDAO.findById(con, id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Person not found " + id, e);
             e.printStackTrace();
         } catch (UserNotFoundException e) {
-            log.warn(String.valueOf(e));
+            log.warn("Person not found " + id, e);
             e.printStackTrace();
         }
         return person;
@@ -91,7 +88,7 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = getConnection()) {
             personList = personDAO.findAll(con);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("findAll ex ", e);
             e.printStackTrace();
         }
         return personList;
@@ -104,31 +101,14 @@ public class PersonServiceImpl implements PersonService {
             person = personDAO.findPersonByEmail(con, email)
                     .orElseThrow(() -> new UserNotFoundException(email));
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Person not found " + email, e);
             e.printStackTrace();
         } catch (UserNotFoundException e) {
-            log.warn(String.valueOf(e));
+            log.warn("Person not found " + email, e);
             e.printStackTrace();
         }
         return person;
     }
-/*
-    @Override
-    public Person findSimpleByEmail(String email) {
-        Person person = null;
-        try {
-            person = personDao.findSimplePersonByEmail(email)
-                    .orElseThrow(() -> new UserNotFoundException(email));
-        } catch (DBException e) {
-            log.error(String.valueOf(e));
-            e.printStackTrace();
-        } catch (UserNotFoundException e) {
-            log.warn(String.valueOf(e));
-            e.printStackTrace();
-        }
-        return person;
-    }
-*/
 
     @Override
     public Person findByUsername(String username) {
@@ -137,10 +117,10 @@ public class PersonServiceImpl implements PersonService {
             person = personDAO.findPersonByUsername(con, username)
                     .orElseThrow(() -> new UserNotFoundException(username));
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Person not found " + username, e);
             e.printStackTrace();
         } catch (UserNotFoundException e) {
-            log.warn(String.valueOf(e));
+            log.warn("Person not found " + username, e);
             e.printStackTrace();
         }
         return person;
@@ -153,7 +133,7 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = getConnection()) {
             existByUEmail = personDAO.isExistByEmail(con, email);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Is exist by email ex " + email, e);
             e.printStackTrace();
         }
         return existByUEmail;
@@ -166,7 +146,7 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = getConnection()) {
             existByUsername = personDAO.isExistByUsername(con, username);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Is exist by username ex " + username, e);
             e.printStackTrace();
         }
         return existByUsername;
@@ -178,7 +158,7 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = getConnection()) {
             completed = personDAO.changeStatusById(con, id);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Change status by id ex " + id, e);
             e.printStackTrace();
         }
         return completed;
@@ -186,6 +166,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void subscribe(int pubId, int personId) {
+        //todo
         Person person = findById(personId);
         Publication publication = publicationService.findById(pubId);
 
@@ -200,13 +181,8 @@ public class PersonServiceImpl implements PersonService {
             personDAO.decreaseFunds(con, personId, person.getFunds() - publication.getPrice());
             personDAO.subscribe(con, pubId, personId);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Subscribe ex, publication id = " + pubId + " person id = " + personId, e);
             e.printStackTrace();
         }
     }
-
 }
-
-
-
-

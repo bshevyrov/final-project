@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface BaseService<E extends BaseEntity> {
-     Logger log = LogManager.getLogger(BaseService.class);
+    Logger log = LogManager.getLogger(BaseService.class);
 
     void create(E e);
 
@@ -31,25 +31,26 @@ public interface BaseService<E extends BaseEntity> {
             try {
                 closeable.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.warn("Close problem: ", e);
             }
         }
     }
+
     default void rollback(Connection con) {
         try {
             con.rollback();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.error("Rollback trouble: ", ex);
         }
     }
 
-    default Connection getConnection(){
+    default Connection getConnection() {
         try {
             Context envCtx = (Context) new InitialContext().lookup("java:comp/env");
             DataSource ds = (DataSource) envCtx.lookup("jdbc/MySQL");
             return ds.getConnection();
         } catch (NamingException | SQLException e) {
-            log.error("NO CONNECTION TO DB. APP SHUTDOWN",e);
+            log.error("NO CONNECTION TO DB. APP SHUTDOWN", e);
             System.exit(1);
         }
         return null;

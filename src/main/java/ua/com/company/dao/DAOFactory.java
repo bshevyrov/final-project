@@ -20,7 +20,6 @@ public abstract class DAOFactory {
 
     public static void setDaoFactoryFQN(DBType dbType) {
         instance = null;
-//        DAOFactory.daoFactoryFQN = daoFactoryFQN;
         switch (dbType.name()) {
             case ("MYSQL"):
                 DAOFactory.daoFactoryFQN = dbType.getClassName();

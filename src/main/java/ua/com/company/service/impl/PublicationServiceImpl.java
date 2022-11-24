@@ -88,7 +88,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             publicationDAO.delete(con, id);
         } catch (DBException | SQLException e) {
-            log.error("Delete Error", e);
+            log.error("Delete Error " + id, e);
             e.printStackTrace();
         }
     }
@@ -101,10 +101,10 @@ public class PublicationServiceImpl implements PublicationService {
                     .orElseThrow(() -> new PublicationNotFoundException("" + id));
             publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Publication not found " + id, e);
             e.printStackTrace();
         } catch (PublicationNotFoundException e) {
-            log.warn("Publication not found", e);
+            log.warn("Publication not found " + id, e);
             e.printStackTrace();
         }
         return publication;

@@ -18,9 +18,6 @@ public class TopicServiceImpl implements TopicService {
     private final TopicDAO topicDao = DAOFactory.getInstance().getTopicDAO();
     private static TopicService instance;
 
-    //    public TopicServiceImpl(TopicDAO topicDao) {
-//        this.topicDao = topicDao;
-//    }
     public static synchronized TopicService getInstance() {
         if (instance == null) {
             try {
@@ -41,7 +38,7 @@ public class TopicServiceImpl implements TopicService {
         try (Connection con = getConnection()) {
             topicDao.create(con, topic);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Can`t create publication " + topic, e);
             e.printStackTrace();
         }
     }
@@ -51,7 +48,7 @@ public class TopicServiceImpl implements TopicService {
         try (Connection con = getConnection()) {
             topicDao.update(con, topic);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Can`t update topic " + topic, e);
             e.printStackTrace();
         }
     }
@@ -61,7 +58,7 @@ public class TopicServiceImpl implements TopicService {
         try (Connection con = getConnection()) {
             topicDao.delete(con, id);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Delete Error" + id, e);
             e.printStackTrace();
         }
     }
@@ -72,11 +69,11 @@ public class TopicServiceImpl implements TopicService {
             return topicDao.findById(con, id)
                     .orElseThrow(() -> new TopicNotFoundException("" + id));
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Topic not found " + id, e);
             e.printStackTrace();
         } catch (TopicNotFoundException e) {
-            log.warn(String.valueOf(e));
-            e.printStackTrace();
+            log.warn("Topic not found " + id, e);
+
         }
         return null;
     }
@@ -86,7 +83,7 @@ public class TopicServiceImpl implements TopicService {
         try (Connection con = getConnection()) {
             return topicDao.findAll(con);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("findAll ex ", e);
             e.printStackTrace();
         }
         return null;
@@ -98,7 +95,7 @@ public class TopicServiceImpl implements TopicService {
         try (Connection con = getConnection()) {
             existByTitle = topicDao.IsExistByTitle(con, title);
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("isExist ex " + title, e);
             e.printStackTrace();
         }
         return existByTitle;
@@ -121,10 +118,10 @@ public class TopicServiceImpl implements TopicService {
             return topicDao.findByTitle(con, title)
                     .orElseThrow(() -> new TopicNotFoundException("" + title));
         } catch (DBException | SQLException e) {
-            log.error(String.valueOf(e));
+            log.error("Topic not found " + title, e);
             e.printStackTrace();
         } catch (TopicNotFoundException e) {
-            log.warn(String.valueOf(e));
+            log.warn("Topic not found " + title, e);
             e.printStackTrace();
         }
         return null;

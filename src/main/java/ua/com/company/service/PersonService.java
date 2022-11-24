@@ -15,5 +15,5 @@ public interface PersonService extends BaseService<Person> {
 
     boolean changeStatusById(int parseInt);
 
-    void subscribe(int pubId,int personId);
+    void subscribe(int pubId, int personId);
 }
