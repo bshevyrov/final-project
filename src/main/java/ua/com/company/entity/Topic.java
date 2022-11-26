@@ -1,5 +1,7 @@
 package ua.com.company.entity;
 
+import java.util.Objects;
+
 public class Topic extends BaseEntity {
     private String title;
 
@@ -24,5 +26,18 @@ public class Topic extends BaseEntity {
 //                super.toString()+
                 "title='" + title + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Topic topic = (Topic) o;
+        return Objects.equals(title, topic.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
     }
 }

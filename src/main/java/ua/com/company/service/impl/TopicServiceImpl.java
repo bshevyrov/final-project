@@ -38,8 +38,8 @@ public class TopicServiceImpl implements TopicService {
         try (Connection con = getConnection()) {
             topicDao.create(con, topic);
         } catch (DBException | SQLException e) {
-            log.error("Can`t create publication " + topic, e);
-            e.printStackTrace();
+            log.error("Can`t create topic " + topic, e);
+//            e.printStackTrace();
         }
     }
 
