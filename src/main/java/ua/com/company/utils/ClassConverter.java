@@ -29,6 +29,19 @@ public final class ClassConverter {
         return personDTO;
     }
 
+    public static Publication publicationDTOToPublication(PublicationDTO publicationDTO) {
+        Publication publication = new Publication();
+        publication.setId(publicationDTO.getId());
+        publication.setTitle(publicationDTO.getTitle());
+        publication.setDescription(publicationDTO.getDescription());
+        publication.setPrice(publicationDTO.getPrice());
+        publication.setTopics(publicationDTO.getTopics().stream()
+                .map(ClassConverter::topicDTOToTopic)
+                .collect(Collectors.toList()));
+        publication.setCover(ClassConverter.imageDTOToImage(publicationDTO.getCover()));
+        return publication;
+    }
+
     public static PublicationDTO publicationToPublicationDTO(Publication publication) {
         PublicationDTO publicationDTO = new PublicationDTO();
         publicationDTO.setId(publication.getId());
@@ -54,12 +67,17 @@ public final class ClassConverter {
         return imageDTO;
     }
 
+    public static Topic topicDTOToTopic(TopicDTO topicDTO) {
+        Topic topic = new Topic();
+        topic.setId(topicDTO.getId());
+        topic.setTitle(topicDTO.getTitle());
+        return topic;
+    }
+
     public static TopicDTO topicToTopicDTO(Topic topic) {
         TopicDTO topicDTO = new TopicDTO();
         topicDTO.setId(topic.getId());
         topicDTO.setTitle(topic.getTitle());
-//        topicDTO.setCreateDate(topic.getCreateDate());
-//        topicDTO.setUpdateDate(topic.getUpdateDate());
         return topicDTO;
     }
 
@@ -84,26 +102,6 @@ public final class ClassConverter {
         }
 
         return person;
-    }
-
-    public static Topic topicDTOToTopic(TopicDTO topicDTO) {
-        Topic topic = new Topic();
-        topic.setId(topicDTO.getId());
-        topic.setTitle(topicDTO.getTitle());
-        return topic;
-    }
-
-    public static Publication publicationDTOToPublication(PublicationDTO publicationDTO) {
-        Publication publication = new Publication();
-        publication.setId(publicationDTO.getId());
-        publication.setTitle(publicationDTO.getTitle());
-        publication.setDescription(publicationDTO.getDescription());
-        publication.setPrice(publicationDTO.getPrice());
-        publication.setTopics(publicationDTO.getTopics().stream()
-                .map(ClassConverter::topicDTOToTopic)
-                .collect(Collectors.toList()));
-        publication.setCover(ClassConverter.imageDTOToImage(publicationDTO.getCover()));
-        return publication;
     }
 
     private static Image imageDTOToImage(ImageDTO cover) {
