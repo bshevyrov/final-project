@@ -12,6 +12,7 @@ import ua.com.company.facade.impl.PublicationFacadeImpl;
 import ua.com.company.facade.impl.TopicFacadeImpl;
 import ua.com.company.service.impl.PersonServiceImpl;
 import ua.com.company.service.impl.PublicationServiceImpl;
+import ua.com.company.service.impl.TopicServiceImpl;
 import ua.com.company.type.DBType;
 
 
@@ -47,7 +48,7 @@ public class AppContextListener implements ServletContextListener {
 //
 //        TopicService topicService = new TopicServiceImpl(topicDAO);
 //        servletContext.setAttribute("topicService",topicService);
-        servletContext.setAttribute("topicFacade", new TopicFacadeImpl());
+        servletContext.setAttribute("topicFacade", new TopicFacadeImpl(TopicServiceImpl.getInstance()));
         servletContext.setAttribute("personFacade", new PersonFacadeImpl(PersonServiceImpl.getInstance(), PublicationServiceImpl.getInstance()));
         servletContext.setAttribute("publicationFacade", new PublicationFacadeImpl(PublicationServiceImpl.getInstance()));
     }
