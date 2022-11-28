@@ -3,7 +3,6 @@ package ua.com.company.facade.impl;
 import ua.com.company.entity.Sorting;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.service.PublicationService;
-import ua.com.company.service.impl.PublicationServiceImpl;
 import ua.com.company.utils.ClassConverter;
 import ua.com.company.view.dto.PublicationDTO;
 
@@ -11,11 +10,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PublicationFacadeImpl implements PublicationFacade {
-    private final PublicationService publicationService = PublicationServiceImpl.getInstance();
+    private final PublicationService publicationService /*= PublicationServiceImpl.getInstance()*/;
+
+    public PublicationFacadeImpl(PublicationService publicationService) {
+        this.publicationService = publicationService;
+    }
 
     @Override
     public void create(PublicationDTO publicationDTO) {
-         publicationService.create(ClassConverter.publicationDTOToPublication(publicationDTO));
+        publicationService.create(ClassConverter.publicationDTOToPublication(publicationDTO));
     }
 
     @Override
@@ -73,5 +76,6 @@ public class PublicationFacadeImpl implements PublicationFacade {
 
     @Override
     public int countAllByTitle(String searchReq) {
-            return publicationService.countAllByTitle(searchReq);    }
+        return publicationService.countAllByTitle(searchReq);
+    }
 }
