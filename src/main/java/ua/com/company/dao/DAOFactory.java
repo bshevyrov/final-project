@@ -2,13 +2,23 @@ package ua.com.company.dao;
 
 import ua.com.company.type.DBType;
 
+import java.lang.reflect.InvocationTargetException;
+
 public abstract class DAOFactory {
     private static DAOFactory instance;
 
-    public static synchronized DAOFactory getInstance() throws Exception {
+    public static synchronized DAOFactory getInstance() {
         if (instance == null) {
-            Class<?> clazz = Class.forName(DAOFactory.daoFactoryFQN);
+            Class<?> clazz;
+            try {
+                clazz = Class.forName(DAOFactory.daoFactoryFQN);
+
             instance = (DAOFactory) clazz.getDeclaredConstructor().newInstance();
+            } catch (ClassNotFoundException | InvocationTargetException | InstantiationException |
+                     IllegalAccessException | NoSuchMethodException e) {
+                e.printStackTrace();
+                //TODO LOG
+            }
         }
         return instance;
     }
