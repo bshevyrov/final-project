@@ -17,7 +17,7 @@ import java.util.Optional;
 public class DerbyPersonDAOImpl implements PersonDAO {
 
     @Override
-    public int create(Connection con, Person person) throws DBException {
+    public void create(Connection con, Person person) throws DBException {
         int id = -1;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON, Statement.RETURN_GENERATED_KEYS)) {
             String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
@@ -37,7 +37,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
             e.printStackTrace();
             throw new DBException(con + person.toString(), e);
         }
-        return id;
+//        return id;
     }
 
     @Override

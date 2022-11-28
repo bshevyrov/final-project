@@ -17,7 +17,7 @@ import java.util.Optional;
 public class MysqlPersonDAOImpl implements PersonDAO {
 
     @Override
-    public int create(Connection con, Person person) throws DBException {
+    public void create(Connection con, Person person) throws DBException {
         int id = -1;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON, Statement.RETURN_GENERATED_KEYS)) {
             String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
@@ -37,7 +37,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             e.printStackTrace();
             throw new DBException(con + person.toString(), e);
         }
-        return id;
+//        return id;
     }
 
     @Override
@@ -94,16 +94,19 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public void addPublicationForPerson(Connection con, Person person, Publication publication) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
-            int index = 0;
-            stmt.setInt(++index, person.getId());
-            stmt.setInt(++index, publication.getId());
-            stmt.execute();
+    public Optional<Person> findById(Connection con, int id) throws DBException {
+        Person person = null;
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_ID)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                person = mapPerson(rs);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(con + person.toString() + publication.toString(), e);
+            throw new DBException(con + "id " + id, e);
         }
+        return Optional.ofNullable(person);
     }
 
     @Override
@@ -123,19 +126,16 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public Optional<Person> findById(Connection con, int id) throws DBException {
-        Person person = null;
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_ID)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                person = mapPerson(rs);
-            }
+    public void addPublicationForPerson(Connection con, Person person, Publication publication) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
+            int index = 0;
+            stmt.setInt(++index, person.getId());
+            stmt.setInt(++index, publication.getId());
+            stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(con + "id " + id, e);
+            throw new DBException(con + person.toString() + publication.toString(), e);
         }
-        return Optional.ofNullable(person);
     }
 
     @Override

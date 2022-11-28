@@ -16,7 +16,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
 
     @Override
-    public int create(Connection con, Publication publication) throws DBException {
+    public void create(Connection con, Publication publication) throws DBException {
         int id = -1;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION,
                 Statement.RETURN_GENERATED_KEYS)) {
@@ -37,7 +37,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             e.printStackTrace();
             throw new DBException(con + publication.toString(), e);
         }
-        return id;
+//        return id;
     }
 
 

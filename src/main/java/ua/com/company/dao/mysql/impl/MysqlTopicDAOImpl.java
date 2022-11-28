@@ -13,7 +13,7 @@ import java.util.Optional;
 public class MysqlTopicDAOImpl implements TopicDAO {
 
     @Override
-    public int create(Connection con, Topic topic) throws DBException {
+    public void create(Connection con, Topic topic) throws DBException {
         int id = -1;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC, Statement.RETURN_GENERATED_KEYS)) {
             int index = 0;
@@ -30,7 +30,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             e.printStackTrace();
             throw new DBException(con + topic.toString(), e);
         }
-        return id;
+//        return id;
     }
 
     @Override

@@ -33,6 +33,7 @@ public class TopicServiceImpl implements TopicService {
     private TopicServiceImpl() throws Exception {
     }
 
+
     @Override
     public void create(Topic topic) {
         try (Connection con = getConnection()) {

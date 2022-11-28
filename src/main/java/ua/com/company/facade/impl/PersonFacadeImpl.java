@@ -4,8 +4,6 @@ import ua.com.company.entity.Person;
 import ua.com.company.facade.PersonFacade;
 import ua.com.company.service.PersonService;
 import ua.com.company.service.PublicationService;
-import ua.com.company.service.impl.PersonServiceImpl;
-import ua.com.company.service.impl.PublicationServiceImpl;
 import ua.com.company.utils.ClassConverter;
 import ua.com.company.view.dto.PersonDTO;
 import ua.com.company.view.dto.PublicationDTO;
@@ -16,10 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PersonFacadeImpl implements PersonFacade {
-    private final PersonService personService = PersonServiceImpl.getInstance();
-    private final PublicationService publicationService = PublicationServiceImpl.getInstance();
+    private final PersonService personService /*= PersonServiceImpl.getInstance()*/;
+    private final PublicationService publicationService /*= PublicationServiceImpl.getInstance()*/;
 
-    public PersonFacadeImpl() {
+    public PersonFacadeImpl(PersonService personService, PublicationService publicationService) {
+        this.personService = personService;
+        this.publicationService = publicationService;
     }
 
     @Override
@@ -37,22 +37,6 @@ public class PersonFacadeImpl implements PersonFacade {
         personService.delete(id);
     }
 
-    @Override
-    public PersonDTO findById(int id) {
-        PersonDTO personDTO;
-        Person person = personService.findById(id);
-        List<PublicationDTO> publicationList = null;
-        if (person.getPublicationsId()!=null) {
-            publicationList = Arrays.stream(person.getPublicationsId())
-                    .boxed()
-                    .map(publicationService::findById)
-                    .map(ClassConverter::publicationToPublicationDTO)
-                    .collect(Collectors.toList());
-        }
-        personDTO = ClassConverter.personToPersonDTO(person);
-        personDTO.setPublications(publicationList);
-        return personDTO;
-    }
 
     @Override
     public List<PersonDTO> findAll() {
@@ -78,8 +62,33 @@ public class PersonFacadeImpl implements PersonFacade {
 
     @Override
     public PersonDTO findByEmail(String email) {
-        return ClassConverter.personToPersonDTO(personService.findByEmail(email));
+        //TODO WHEN SUBSCRIBE THEN CHANGE SUBSCRIBE ICON  BY TAKE FROM LOGGED PERSON
+        //ALOT of connection
+        Person person = personService.findByEmail(email);
+        return getPersonDTOFromPerson(person);
     }
+
+    @Override
+    public PersonDTO findById(int id) {
+        Person person = personService.findById(id);
+        return getPersonDTOFromPerson(person);
+    }
+
+    private PersonDTO getPersonDTOFromPerson(Person person) {
+        PersonDTO personDTO;
+        List<PublicationDTO> publicationList = null;
+        if (person.getPublicationsId()!=null) {
+            publicationList = Arrays.stream(person.getPublicationsId())
+                    .boxed()
+                    .map(publicationService::findById)
+                    .map(ClassConverter::publicationToPublicationDTO)
+                    .collect(Collectors.toList());
+        }
+        personDTO = ClassConverter.personToPersonDTO(person);
+        personDTO.setPublications(publicationList);
+        return personDTO;
+    }
+
 
     @Override
     public boolean isExistByEmail(String email) {

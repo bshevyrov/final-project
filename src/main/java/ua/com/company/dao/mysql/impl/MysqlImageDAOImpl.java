@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class MysqlImageDAOImpl implements ImageDAO {
     @Override
-    public int create(Connection con, Image image) throws DBException {
+    public void create(Connection con, Image image) throws DBException {
         int id = -1;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE, Statement.RETURN_GENERATED_KEYS)) {
             int index = 0;
@@ -30,7 +30,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
             e.printStackTrace();
             throw new DBException("Error create with " + con + " and " + image, e);
         }
-        return id;
+//        return id;
     }
 
     @Override

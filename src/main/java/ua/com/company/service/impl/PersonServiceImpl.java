@@ -33,7 +33,7 @@ public class PersonServiceImpl implements PersonService {
         return instance;
     }
 
-    private PersonServiceImpl() throws Exception {
+    private PersonServiceImpl(){
     }
 
     @Override
@@ -67,6 +67,18 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public List<Person> findAll() {
+        List<Person> personList = null;
+        try (Connection con = getConnection()) {
+            personList = personDAO.findAll(con);
+        } catch (DBException | SQLException e) {
+            log.error("findAll ex ", e);
+            e.printStackTrace();
+        }
+        return personList;
+    }
+
+    @Override
     public Person findById(int id) {
         Person person = null;
         try (Connection con = getConnection()) {
@@ -80,18 +92,6 @@ public class PersonServiceImpl implements PersonService {
             e.printStackTrace();
         }
         return person;
-    }
-
-    @Override
-    public List<Person> findAll() {
-        List<Person> personList = null;
-        try (Connection con = getConnection()) {
-            personList = personDAO.findAll(con);
-        } catch (DBException | SQLException e) {
-            log.error("findAll ex ", e);
-            e.printStackTrace();
-        }
-        return personList;
     }
 
     @Override

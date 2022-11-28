@@ -9,13 +9,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import ua.com.company.facade.PersonFacade;
 import ua.com.company.facade.impl.PersonFacadeImpl;
 import ua.com.company.service.PersonService;
+import ua.com.company.service.PublicationService;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
 public class UserDetailsController extends HttpServlet {
 
-    private PersonService personService;
+//    private PersonService personService;
+//    private PublicationService publicationService;
     private ServletContext sc;
 
 /*    @Override
@@ -44,7 +46,7 @@ public class UserDetailsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int personId = ((PersonDTO) request.getSession().getAttribute("loggedPerson")).getId();
         PersonDTO person;
-        PersonFacade personFacade = new PersonFacadeImpl();
+        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
         person = personFacade.findById(personId);
 
         request.setAttribute("person", person);

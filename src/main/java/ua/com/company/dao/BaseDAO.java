@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BaseDAO<T extends BaseEntity> {
-    int create(Connection con, T entity) throws DBException;
+    void create(Connection con, T entity) throws DBException;
 
     void update(Connection con, T entity) throws DBException;
 
