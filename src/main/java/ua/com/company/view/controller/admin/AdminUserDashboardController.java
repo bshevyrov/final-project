@@ -5,9 +5,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import ua.com.company.facade.PersonFacade;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.service.PersonService;
+import ua.com.company.utils.CurrentSessionsThreadLocal;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
@@ -37,10 +39,10 @@ public class AdminUserDashboardController extends HttpServlet {
         String id = request.getParameter("changeStatusId");
         PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
 
-        if (personFacade.changeStatusById(Integer.parseInt(id))) {
-//            HttpSession session = getServletContext().
-            //TODO exit session
-        }
+        System.out.println(((List<HttpSession>)getServletContext().getAttribute("openSessions")).size());
+        CurrentSessionsThreadLocal.set((List<HttpSession>) getServletContext().getAttribute("openSessions"));
+        personFacade.changeStatusById(Integer.parseInt(id));
+        CurrentSessionsThreadLocal.unset();
         response.sendRedirect("/admin/user/dashboard");
 
     }

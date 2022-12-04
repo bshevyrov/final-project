@@ -1,6 +1,5 @@
 package ua.com.company.service.impl;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +13,7 @@ import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.PersonService;
 import ua.com.company.service.PublicationService;
 import ua.com.company.utils.ClassConverter;
+import ua.com.company.utils.CurrentSessionsThreadLocal;
 import ua.com.company.utils.LoggedPersonThreadLocal;
 import ua.com.company.view.dto.PersonDTO;
 import ua.com.company.view.dto.PublicationDTO;
@@ -167,6 +167,28 @@ public class PersonServiceImpl implements PersonService {
         boolean completed = false;
         try (Connection con = getConnection()) {
             completed = personDAO.changeStatusById(con, id);
+            PersonDTO currentPersonDTO = ClassConverter.personToPersonDTO(personDAO.findById(con, id).get());
+
+            List<HttpSession> currentSessions = CurrentSessionsThreadLocal.get();
+            int index = -1;
+            for (int i = 0; i < currentSessions.size(); i++) {
+                if (currentSessions.get(i).getAttribute("loggedPerson").equals(currentPersonDTO)) {
+                    index = i;
+                    currentSessions.get(i).invalidate();
+                    break;
+                }
+            }
+
+            if (index > -1) {
+                currentSessions.remove(index);
+            }
+//            currentSessions.forEach(session1 -> {
+//                if (session1.getAttribute("loggedPerson").equals(currentPersonDTO)) {
+//                    currentSessions.remove(session1);
+//                    session1.invalidate();
+//                }
+//            });
+
         } catch (DBException | SQLException e) {
             log.error("Change status by id ex " + id, e);
             e.printStackTrace();

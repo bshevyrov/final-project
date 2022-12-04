@@ -14,6 +14,8 @@ import ua.com.company.utils.PasswordUtil;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class LoginController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -45,6 +47,14 @@ public class LoginController extends HttpServlet {
                 if (person.getStatus() == StatusType.ENABLED) {
                     HttpSession session = request.getSession(false);
                     session.setAttribute("loggedPerson", person);
+                    ArrayList<HttpSession> currentSessions = (ArrayList<HttpSession>) getServletContext().getAttribute("openSessions");
+                    currentSessions.forEach(session1 -> {
+                        if (session1.getAttribute("loggedPerson").equals(person)) {
+                            ((ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).remove(session1);
+                            session1.invalidate();
+                        }
+                    });
+                    ( (ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).add(session);
                     response.sendRedirect("/");
                     return;
                 } else {

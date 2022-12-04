@@ -52,11 +52,11 @@
                                     </c:forEach>
                                 </ul>
                                 <c:if test="${sessionScope.loggedPerson != null}">
-                                    <c:set var="roleType"
-                                           value="<%=((PersonDTO)session.getAttribute(\"loggedPerson\")).getRole().name()%>"/>
-                                    <c:set var="personRole" value="${sessionScope.loggedPerson.role}"/>
+<%--                                    <c:set var="roleType"--%>
+<%--                                           value="<%=((PersonDTO)session.getAttribute(\"loggedPerson\")).getRole().name()%>"/>--%>
+<%--                                    <c:set var="personRole" value="${sessionScope.loggedPerson.role}"/>--%>
                                 <c:choose>
-                                <c:when test="${roleType == 'ROLE_ADMIN'}">
+                                <c:when test="${sessionScope.loggedPerson.role == 'ROLE_ADMIN'}">
                             <li><a href="/admin/user/dashboard"><fmt:message key="header.admin.users"/></a></li>
                             <li><a href="/admin/publication/dashboard"><fmt:message key="header.admin.publications"/></a></li>
                             <li><a href="/admin/publication/upload"><fmt:message key="header.admin.new.publication"/></a></li>
@@ -119,7 +119,7 @@
                     <c:choose>
                         <c:when test="${sessionScope.loggedPerson != null}">
                             <div class="header__username">
-                                <p>${sessionScope.get("loggedPerson").username}</p>
+                                <p>${sessionScope.loggedPerson.username}</p>
                             </div>
                             <div class="header__icon">
                                 <a href="/logout"><span class="icon_profile"></span></a>

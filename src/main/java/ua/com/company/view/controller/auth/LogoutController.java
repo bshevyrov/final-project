@@ -5,11 +5,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.facade.PublicationFacade;
-import ua.com.company.view.dto.PublicationDTO;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 public class LogoutController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -25,12 +24,8 @@ public class LogoutController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    ((ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).remove(request.getSession(false));
         request.getSession(false).invalidate();
-        PublicationFacade publicationFacade = (PublicationFacade) getServletContext()
-                .getAttribute("publicationFacade");
-        List<PublicationDTO> publications;
-        publications = publicationFacade.findAll();
-        request.setAttribute("publications", publications);
         processRequest(request, response);
     }
 

@@ -74,14 +74,27 @@
                             </div>
                         </div>
                         <div>
-                            <c:if test="${con:contains(sessionScope.loggedPerson.publications,publication)}">
-                                <p>ALREADY</p>
-                            </c:if>
-                        </div>
-                        <div class="anime__details__btn">
-                            <a href="/user/subscribe?id=${publication.id}" class="follow-btn"><i
-                                    class="fa fa-heart-o"></i> <fmt:message key="publication.button.subscribe"/></a>
-                        </div>
+
+                                <c:choose>
+                                    <c:when test="${sessionScope.loggedPerson != null
+                                    && sessionScope.loggedPerson.publications != null
+                                    && con:contains(sessionScope.loggedPerson.publications,publication)}">
+                                        <c:if test="${con:contains(sessionScope.loggedPerson.publications,publication)}">
+                                            <div class="anime__details__btn">
+                                                <a disabled class="follow-btn"> <fmt:message key="publication.button.subscribed"/></a>
+                                            </div>
+                                        </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="anime__details__btn">
+                                            <a href="/user/subscribe?id=${publication.id}" class="follow-btn"><i
+                                                    class="fa fa-heart-o"></i> <fmt:message key="publication.button.subscribe"/></a>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
+
+
+
                     </div>
                 </div>
             </div>

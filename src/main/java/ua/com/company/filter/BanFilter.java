@@ -3,10 +3,12 @@ package ua.com.company.filter;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import ua.com.company.type.StatusType;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
+import java.util.List;
 
 public class BanFilter implements Filter {
 
@@ -16,14 +18,16 @@ public class BanFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        if (req.getSession(false).getAttribute("loggedPerson") != null) {
-            if (((PersonDTO) req.getSession(false).getAttribute("loggedPerson")).getStatus() == StatusType.DISABLED) {
-                req.getSession(false).removeAttribute("loggedPerson");
-            }
-            resp.sendRedirect("/");
-        } else {
-            chain.doFilter(request, response);
+
+        if (req.getSession(false).getAttribute("loggedPerson") != null
+                && !((List<HttpSession>) req.getServletContext().getAttribute("openSessions")).contains(req.getSession(false))
+                ){
+                req.getSession(false).invalidate();
+                resp.sendRedirect("/");
+
         }
+            chain.doFilter(request, response);
+
     }
 
 }
