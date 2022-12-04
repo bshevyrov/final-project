@@ -1,23 +1,33 @@
 package ua.com.company.service.impl;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.PersonDAO;
+import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Person;
 import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.PersonService;
 import ua.com.company.service.PublicationService;
+import ua.com.company.utils.ClassConverter;
+import ua.com.company.utils.LoggedPersonThreadLocal;
+import ua.com.company.view.dto.PersonDTO;
+import ua.com.company.view.dto.PublicationDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PersonServiceImpl implements PersonService {
     private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
     private final PersonDAO personDAO = DAOFactory.getInstance().getPersonDAO();
+    private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
     private final PublicationService publicationService = PublicationServiceImpl.getInstance();
     private static PersonService instance;
 
@@ -33,7 +43,7 @@ public class PersonServiceImpl implements PersonService {
         return instance;
     }
 
-    private PersonServiceImpl(){
+    private PersonServiceImpl() {
     }
 
     @Override
@@ -167,22 +177,30 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void subscribe(int pubId, int personId) {
         //todo
-        Person person = findById(personId);
-        Publication publication = publicationService.findById(pubId);
 
         try (Connection con = getConnection()) {
-            if (person.getFunds() - publication.getPrice() > 0) {
-                for (int i : person.getPublicationsId()) {
-                    if (pubId == i) {
-                        throw new DBException("Subscriptions already exist");
-                    }
-                }
-            }
+            Person person = personDAO.findById(con, personId).get();
+            Publication publication = publicationDAO.findById(con, pubId).get();
+
             personDAO.decreaseFunds(con, personId, person.getFunds() - publication.getPrice());
             personDAO.subscribe(con, pubId, personId);
+
+            HttpSession httpSession = LoggedPersonThreadLocal.get();
+            Person currentPerson = personDAO.findById(con, personId).get();
+
+            PersonDTO currentPersonDTO = ClassConverter.personToPersonDTO(currentPerson);
+            List<PublicationDTO> publicationList = Arrays.stream(currentPerson.getPublicationsId())
+                    .boxed()
+                    .map(publicationService::findById)
+                    .map(ClassConverter::publicationToPublicationDTO)
+                    .collect(Collectors.toList());
+            currentPersonDTO.setPublications(publicationList);
+
+            httpSession.setAttribute("loggedPerson", currentPersonDTO);
         } catch (DBException | SQLException e) {
-            log.error("Subscribe ex, publication id = " + pubId + " person id = " + personId, e);
+            log.error("Subscribe exception, publication id = " + pubId + " person id = " + personId, e);
             e.printStackTrace();
         }
+
     }
 }

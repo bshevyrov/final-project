@@ -73,6 +73,11 @@
                                 <%--                                </div>--%>
                             </div>
                         </div>
+                        <div>
+                            <c:if test="${con:contains(sessionScope.loggedPerson.publications,publication)}">
+                                <p>ALREADY</p>
+                            </c:if>
+                        </div>
                         <div class="anime__details__btn">
                             <a href="/user/subscribe?id=${publication.id}" class="follow-btn"><i
                                     class="fa fa-heart-o"></i> <fmt:message key="publication.button.subscribe"/></a>

@@ -104,7 +104,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(con + "id " + id, e);
+            throw new DBException(con + " id " + id, e);
         }
         return Optional.ofNullable(person);
     }

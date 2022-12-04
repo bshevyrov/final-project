@@ -9,6 +9,7 @@ import ua.com.company.entity.Publication;
 import ua.com.company.facade.PersonFacade;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.service.PublicationService;
+import ua.com.company.view.dto.PersonDTO;
 import ua.com.company.view.dto.PublicationDTO;
 
 import java.io.IOException;

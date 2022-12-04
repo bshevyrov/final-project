@@ -51,6 +51,7 @@ public class AppContextListener implements ServletContextListener {
         servletContext.setAttribute("topicFacade", new TopicFacadeImpl(TopicServiceImpl.getInstance()));
         servletContext.setAttribute("personFacade", new PersonFacadeImpl(PersonServiceImpl.getInstance(), PublicationServiceImpl.getInstance()));
         servletContext.setAttribute("publicationFacade", new PublicationFacadeImpl(PublicationServiceImpl.getInstance()));
+
     }
 
     @Override

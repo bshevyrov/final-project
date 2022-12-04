@@ -1,6 +1,7 @@
 package ua.com.company.view.dto;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PublicationDTO extends BaseDTO {
     private String title;
@@ -75,7 +76,21 @@ public class PublicationDTO extends BaseDTO {
     public PublicationDTO() {
     }
 
+    //TODO del
     public PublicationDTO(String title) {
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PublicationDTO that = (PublicationDTO) o;
+        return Double.compare(that.price, price) == 0 && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(images, that.images) && Objects.equals(cover, that.cover) && Objects.equals(topics, that.topics);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description, price, images, cover, topics);
     }
 }
