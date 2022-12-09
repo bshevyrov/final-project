@@ -4,6 +4,7 @@ import ua.com.company.DBConstants;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
+import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
 
@@ -99,6 +100,60 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             throw new DBException(con + "searchReq= " + searchReq, e);
         }
         return count;
+    }
+
+    @Override
+    public List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException {
+        List<PublicationComment> publicationComment = new ArrayList<>();
+        
+        String query = "SELECT p.username, p.image_id, pc.text,pc.update_date " +
+                "FROM publication_comment pc LEFT JOIN person p on p.id = pc.person_id" +
+                " WHERE publication_id = ?" + " ORDER BY " + sorting.getSortingField() +
+                " " + (sorting.getSortingType().equals("DESC") ? "DESC" : "") +
+                " LIMIT " + sorting.getStarRecord() + "," + sorting.getPageSize() + "";
+
+        try (Statement stmt = con.createStatement()) {
+            try (ResultSet rs = stmt.executeQuery(query)) {
+                while (rs.next()) {
+                    publicationComment.add(mapPublicationComment(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(con + query, e);
+        }
+        return publicationComment;
+    }
+
+    @Override
+    public void createComment(Connection con, int pubId, int personId, String comment) throws DBException {
+        int id = -1;
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION_COMMENT)) {
+            int index = 0;
+            stmt.setInt(++index, personId);
+            stmt.setInt(++index, personId);
+            stmt.setString(++index, comment);
+            int count = stmt.executeUpdate();
+            if (count > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        id = rs.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DBException(con + " pubId= "+pubId+" personId= "+ " comment= "+ comment, e);
+        }
+    }
+
+    private PublicationComment mapPublicationComment(ResultSet rs) throws SQLException {
+        PublicationComment publicationComment = new PublicationComment();
+        publicationComment.setUserName(rs.getString(DBConstants.F_PERSON_USERNAME));
+        publicationComment.setUpdateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_COMMENT_UPDATE_DATE));
+        publicationComment.setAvatarPath(rs.getString(DBConstants.F_IMAGE_PATH));
+        publicationComment.setText(rs.getString(DBConstants.F_PUBLICATION_COMMENT_TEXT));
+       return publicationComment;
     }
 
 

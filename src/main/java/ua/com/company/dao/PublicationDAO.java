@@ -2,6 +2,7 @@ package ua.com.company.dao;
 
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
+import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
 
@@ -35,5 +36,8 @@ public interface PublicationDAO extends BaseDAO<Publication> {
     int countAllByUserId(Connection con, int userId) throws DBException;
 
     int countAllByTitle(Connection con, String searchReq) throws DBException;
+
+    List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException;
 //    List<Publication> findAllLikeTitle(String searchReq);
+    void createComment(Connection con, int pubId, int personId, String comment ) throws DBException;
 }

@@ -1,6 +1,7 @@
 package ua.com.company.facade;
 
 import ua.com.company.entity.Sorting;
+import ua.com.company.view.dto.PublicationCommentDTO;
 import ua.com.company.view.dto.PublicationDTO;
 
 import java.util.List;
@@ -17,4 +18,8 @@ public interface PublicationFacade extends BaseFacade<PublicationDTO> {
     int countAllByUserId(int userId);
 
     int countAllByTitle(String searchReq);
+
+    List<PublicationCommentDTO> findAllCommentsByPublicationId(Sorting sorting, int publicationId);
+
+    void createComment(int pubId, int personId, String comment);
 }

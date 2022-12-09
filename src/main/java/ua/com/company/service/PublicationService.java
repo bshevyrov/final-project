@@ -1,6 +1,7 @@
 package ua.com.company.service;
 
 import ua.com.company.entity.Publication;
+import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 
 import java.util.List;
@@ -17,4 +18,8 @@ public interface PublicationService extends BaseService<Publication> {
     int countAllByUserId(int userId);
 
     int countAllByTitle(String searchReq);
+
+    List<PublicationComment> findAllCommentsByPublicationId(Sorting sorting, int publicationId);
+
+    void createComment(int pubId, int personId, String comment);
 }

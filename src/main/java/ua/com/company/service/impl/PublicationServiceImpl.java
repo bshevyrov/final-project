@@ -7,6 +7,7 @@ import ua.com.company.dao.ImageDAO;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.dao.TopicDAO;
 import ua.com.company.entity.Publication;
+import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
@@ -205,5 +206,35 @@ public class PublicationServiceImpl implements PublicationService {
             e.printStackTrace();
         }
         return count;
+    }
+
+    @Override
+    public List<PublicationComment> findAllCommentsByPublicationId(Sorting sorting, int publicationId) {
+        List<PublicationComment> commentList = null;
+        try (Connection con = getConnection()) {
+
+            commentList = publicationDAO.findAllCommentsByPublicationId(con, sorting, publicationId);
+
+        } catch (DBException | SQLException e) {
+            log.error("findAllCommentsByPublicationId exception  " , e);
+            e.printStackTrace();
+        }
+        return commentList;
+    }
+
+    @Override
+    public void createComment(int pubId, int personId, String comment) {
+        Connection con = getConnection();
+        try {
+
+            publicationDAO.createComment(con, pubId,personId,comment);
+
+        } catch (DBException e) {
+            e.printStackTrace();
+            log.error("Can`t create publicationComment " , e);
+            rollback(con);
+        } finally {
+            close(con);
+        }
     }
 }

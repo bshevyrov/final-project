@@ -61,6 +61,9 @@ public abstract class DBConstants {
     public static final String CREATE_PERSON_HAS_PUBLICATION = "INSERT INTO person_has_publication (person_id, publication_id) VALUES (?,?)";
     public static final String COUNT_PUBLICATION_BY_USER_ID = "SELECT COUNT(publication_id) AS count FROM person_has_publication WHERE person_id=?";
     public static final String COUNT_PUBLICATION_BY_TITLE = "SELECT COUNT(id) AS count FROM publication WHERE title=?";
+    public static final String F_PUBLICATION_COMMENT_UPDATE_DATE = "update_date";
+    public static final String F_PUBLICATION_COMMENT_TEXT = "text";
+    public static final String CREATE_PUBLICATION_COMMENT = "INSERT INTO publication_comment (publication_id, person_id,text) VALUES (?,?,?)";
 
     private DBConstants() {
     }

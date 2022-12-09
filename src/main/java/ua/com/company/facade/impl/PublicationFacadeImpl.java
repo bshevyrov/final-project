@@ -4,6 +4,7 @@ import ua.com.company.entity.Sorting;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.service.PublicationService;
 import ua.com.company.utils.ClassConverter;
+import ua.com.company.view.dto.PublicationCommentDTO;
 import ua.com.company.view.dto.PublicationDTO;
 
 import java.util.List;
@@ -77,5 +78,17 @@ public class PublicationFacadeImpl implements PublicationFacade {
     @Override
     public int countAllByTitle(String searchReq) {
         return publicationService.countAllByTitle(searchReq);
+    }
+
+    @Override
+    public List<PublicationCommentDTO> findAllCommentsByPublicationId(Sorting sorting, int publicationId) {
+        return publicationService.findAllCommentsByPublicationId(sorting, publicationId).stream()
+                .map(ClassConverter::publicationCommentToPublicationCommentDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void createComment(int pubId, int personId, String comment) {
+        publicationService.createComment(pubId, personId, comment);
     }
 }

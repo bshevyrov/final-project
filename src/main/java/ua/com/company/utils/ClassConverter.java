@@ -1,9 +1,6 @@
 package ua.com.company.utils;
 
-import ua.com.company.entity.Image;
-import ua.com.company.entity.Person;
-import ua.com.company.entity.Publication;
-import ua.com.company.entity.Topic;
+import ua.com.company.entity.*;
 import ua.com.company.view.dto.*;
 
 import java.util.stream.Collectors;
@@ -112,5 +109,17 @@ public final class ClassConverter {
         image.setCreateDate(cover.getCreateDate());
         image.setUpdateDate(cover.getUpdateDate());
         return image;
+    }
+
+    public static PublicationCommentDTO publicationCommentToPublicationCommentDTO(PublicationComment comment){
+        PublicationCommentDTO publicationCommentDTO = new PublicationCommentDTO();
+        publicationCommentDTO.setAvatarPath(comment.getAvatarPath());
+        publicationCommentDTO.setText(comment.getText());
+        publicationCommentDTO.setUserName(comment.getUserName());
+        publicationCommentDTO.setUpdateDate(comment.getUpdateDate());
+        return publicationCommentDTO;
+
+
+
     }
 }
