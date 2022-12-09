@@ -224,17 +224,13 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public void createComment(int pubId, int personId, String comment) {
-        Connection con = getConnection();
-        try {
 
+        try ( Connection con = getConnection()){
             publicationDAO.createComment(con, pubId,personId,comment);
-
-        } catch (DBException e) {
+        } catch (DBException | SQLException e) {
             e.printStackTrace();
             log.error("Can`t create publicationComment " , e);
-            rollback(con);
-        } finally {
-            close(con);
+
         }
     }
 }

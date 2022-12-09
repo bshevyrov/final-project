@@ -199,7 +199,7 @@ VALUES (1, 'ROLE_CUSTOMER'),
        (2, 'ROLE_ADMIN');
 INSERT INTO person
 VALUES (1, 'nefor89@gmail.com', now(), now(), '65535:ee2371f001922a7be621d1f1598465f6:dd8ee816129b683221aeeac1ffa67682',
-        1, 1, 'd9i', 999.999,null);
+        1, 1, 'd9i', 999.999, 15);
 INSERT INTO person
 VALUES (2, 'bshevyrov@gmail.com', '2022-10-05 16:36:13', '2022-10-05 16:36:13',
         '65535:ee2371f001922a7be621d1f1598465f6:dd8ee816129b683221aeeac1ffa67682', 2, 1, 'BOSS', DEFAULT,null);
@@ -318,8 +318,8 @@ VALUES (2, 1),
        (14, 12);
 
 INSERT INTO `person_has_publication`
-VALUES (1, 1, NULL),
-       (1, 2, NULL);
+VALUES (1, 1),
+       (1, 2);
 
 
 SET SQL_MODE = @OLD_SQL_MODE;

@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ex" uri="/WEB-INF/tld/custom.tld" %>
 <%@ taglib prefix="con" uri="/WEB-INF/tld/contains.tld" %>
+<%@ taglib prefix="ocpsoft" uri="http://ocpsoft.org/prettytime/tags" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 

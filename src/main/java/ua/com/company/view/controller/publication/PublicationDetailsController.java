@@ -39,16 +39,17 @@ public class PublicationDetailsController extends HttpServlet {
         int publicationId = Integer.parseInt(request.getParameter("id"));
         PublicationDTO publication;
         publication = publicationFacade.findById(publicationId);
+
         request.setAttribute("publication", publication);
         Sorting sorting = new Sorting();
         sorting.setSortingField("update_date");
         sorting.setPageSize(6);
         sorting.setSortingType("ASC");
-        if(request.getParameter("startRecord")== null){
+//        if(request.getParameter("startRecord")== null){
             sorting.setStarRecord(0);
-        } else{
-            sorting.setStarRecord(Integer.parseInt(request.getParameter("startRecord")));
-        }
+//        } else{
+//            sorting.setStarRecord(Integer.parseInt(request.getParameter("startRecord")));
+//        }
         //coment section
         List<PublicationCommentDTO> commentList = publicationFacade.findAllCommentsByPublicationId(sorting, publicationId);
         request.setAttribute("comments", commentList);
@@ -63,11 +64,31 @@ public class PublicationDetailsController extends HttpServlet {
 
         PublicationFacade publicationFacade = (PublicationFacade) getServletContext()
                 .getAttribute("publicationFacade");
-        int pubId = Integer.parseInt(request.getParameter("pubId"));
-        int personId = ((PersonDTO) request.getSession(false).getAttribute("loggedPerson")).getId();
-        String comment = request.getParameter("comment");
 
-        publicationFacade.createComment(pubId, personId, comment);
+        int publicationId = Integer.parseInt(request.getParameter("pubId"));
+        if(request.getParameter("comment")!=null){
+            int personId = ((PersonDTO) request.getSession(false).getAttribute("loggedPerson")).getId();
+            String comment = request.getParameter("comment");
+            publicationFacade.createComment(publicationId, personId, comment);
+            response.sendRedirect("/publication/details?id="+publicationId);
+            System.out.println("NOT redirected");
+        }
+        Sorting sorting = new Sorting();
+        sorting.setSortingField("update_date");
+        sorting.setPageSize(6);
+        sorting.setSortingType("ASC");
+//        if(request.getParameter("startRecord")== null){
+//        sorting.setStarRecord(0);
+//        } else{
+            sorting.setStarRecord(Integer.parseInt(request.getParameter("startRecord")));
+//        }
+
+        PublicationDTO publication;
+        publication = publicationFacade.findById(publicationId);
+        request.setAttribute("publication", publication);
+
+        List<PublicationCommentDTO> commentList = publicationFacade.findAllCommentsByPublicationId(sorting, publicationId);
+        request.setAttribute("comments", commentList);
         processRequest(request, response);
     }
 }

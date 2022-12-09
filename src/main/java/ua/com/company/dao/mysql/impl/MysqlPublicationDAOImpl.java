@@ -104,25 +104,26 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     @Override
     public List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException {
-        List<PublicationComment> publicationComment = new ArrayList<>();
-        
-        String query = "SELECT p.username, p.image_id, pc.text,pc.update_date " +
-                "FROM publication_comment pc LEFT JOIN person p on p.id = pc.person_id" +
-                " WHERE publication_id = ?" + " ORDER BY " + sorting.getSortingField() +
+        List<PublicationComment> commentList = new ArrayList<>();
+
+        String query = "SELECT p.username, i.path, pc.text,pc.update_date " +
+                "FROM publication_comment pc LEFT JOIN person p on p.id = pc.person_id " +
+                "LEFT JOIN image i on p.image_id = i.id " +
+                " WHERE publication_id = " + publicationId + " ORDER BY " + sorting.getSortingField() +
                 " " + (sorting.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + sorting.getStarRecord() + "," + sorting.getPageSize() + "";
 
         try (Statement stmt = con.createStatement()) {
             try (ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
-                    publicationComment.add(mapPublicationComment(rs));
+                    commentList.add(mapPublicationComment(rs));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DBException(con + query, e);
         }
-        return publicationComment;
+        return commentList;
     }
 
     @Override
@@ -143,7 +144,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(con + " pubId= "+pubId+" personId= "+ " comment= "+ comment, e);
+            throw new DBException(con + " pubId= " + pubId + " personId= " + " comment= " + comment, e);
         }
     }
 
@@ -153,7 +154,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         publicationComment.setUpdateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_COMMENT_UPDATE_DATE));
         publicationComment.setAvatarPath(rs.getString(DBConstants.F_IMAGE_PATH));
         publicationComment.setText(rs.getString(DBConstants.F_PUBLICATION_COMMENT_TEXT));
-       return publicationComment;
+        return publicationComment;
     }
 
 
@@ -284,7 +285,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DBException(con + " title=" + title , e);
+            throw new DBException(con + " title=" + title, e);
         }
         return publication;
     }
