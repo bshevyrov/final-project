@@ -71,7 +71,8 @@ public class PublicationDetailsController extends HttpServlet {
             String comment = request.getParameter("comment");
             publicationFacade.createComment(publicationId, personId, comment);
             response.sendRedirect("/publication/details?id="+publicationId);
-            System.out.println("NOT redirected");
+            return;
+//            System.out.println("NOT redirected");
         }
         Sorting sorting = new Sorting();
         sorting.setSortingField("update_date");

@@ -77,8 +77,8 @@
                         <div>
 
                             <c:choose>
-                                <c:when test="${sessionScope.loggedPerson != null
-                                    && sessionScope.loggedPerson.publications != null
+                                <c:when test="${not empty sessionScope.loggedPerson
+                                    && not empty sessionScope.loggedPerson.publications
                                     && con:contains(sessionScope.loggedPerson.publications,publication)}">
                                     <c:if test="${con:contains(sessionScope.loggedPerson.publications,publication)}">
                                         <div class="anime__details__btn">
@@ -103,35 +103,37 @@
                 <div class="col-lg-8">
                     <div class="anime__details__review">
                         <div class="section-title">
-                            <h5>Reviews</h5>
+                            <h5><fmt:message key="publication.text.comments"/></h5>
                         </div>
                         <c:if test="${not empty comments}">
                             <c:forEach items="${comments}" var="comment">
-                            <div class="anime__review__item">
-                                <div class="anime__review__item__pic">
-                                    <img src="${comment.avatarPath}" alt="">
+                                <div class="anime__review__item">
+                                    <div class="anime__review__item__pic">
+                                        <img src="${comment.avatarPath}" alt="">
+                                    </div>
+                                    <div class="anime__review__item__text">
+                                        <h6>${comment.userName} - <span><ocpsoft:prettytime
+                                                date="${comment.updateDate}"/> </span></h6>
+                                        <p>${comment.text}</p>
+                                    </div>
                                 </div>
-                                <div class="anime__review__item__text">
-                                    <h6>${comment.userName} - <span><ocpsoft:prettytime date="${comment.updateDate}"/> </span></h6>
-                                    <p>${comment.text}</p>
-                                </div>
-                            </div>
                             </c:forEach>
                         </c:if>
-
-
                     </div>
-                    <div class="anime__details__form">
-                        <div class="section-title">
-                            <h5>Your Comment</h5>
+                    <c:if test="${not empty sessionScope.loggedPerson}">
+
+                        <div class="anime__details__form">
+                            <div class="section-title">
+                                <h5><fmt:message key="publication.text.comment.new"/></h5>
+                            </div>
+                            <form class="form" method="post">
+                                <input hidden name="pubId" value="${publication.id}"/>
+
+                                <textarea name="comment" placeholder="Your Comment"></textarea>
+                                <button type="submit"><i class="fa fa-location-arrow"></i> <fmt:message key="publication.button.comment.send"/></button>
+                            </form>
                         </div>
-                        <form class="form" method="post">
-                            <input hidden name="pubId" value="${publication.id}"/>
-
-                            <textarea name ="comment" placeholder="Your Comment"></textarea>
-                            <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
-                        </form>
-                    </div>
+                    </c:if>
                 </div>
             </div>
         </div>

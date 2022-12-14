@@ -194,7 +194,6 @@ CREATE TABLE IF NOT EXISTS `final_project`.`publication_comment`
     `text`           VARCHAR(1024) NULL,
     `publication_id` INT           NOT NULL,
     `person_id`      INT           NOT NULL,
-    PRIMARY KEY (`publication_id`, `person_id`),
     INDEX `fk_publication_comment_publication1_idx` (`publication_id` ASC) VISIBLE,
     INDEX `fk_publication_comment_person1_idx` (`person_id` ASC) VISIBLE,
     CONSTRAINT `fk_publication_comment_publication1`
@@ -340,7 +339,8 @@ VALUES (1, 1),
        (1, 2);
 
 INSERT INTO `publication_comment`
-VALUES ('2022-12-09 20:17:11', 'GTO TOP!!!', 4, 1);
+VALUES ('2022-12-09 20:17:11', 'GTO TOP!!!', 4, 1),
+       ('2022-12-14 18:50:16', 'Сам ще не читав, але сестра каже що їй сподобалось.', 2, 1);
 
 
 

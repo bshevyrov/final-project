@@ -163,10 +163,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public boolean changeStatusById(int id) {
-        boolean completed = false;
+    public void changeStatusById(int id) {
         try (Connection con = getConnection()) {
-            completed = personDAO.changeStatusById(con, id);
+            personDAO.changeStatusById(con, id);
             PersonDTO currentPersonDTO = ClassConverter.personToPersonDTO(personDAO.findById(con, id).get());
 
             List<HttpSession> currentSessions = CurrentSessionsThreadLocal.get();
@@ -191,9 +190,7 @@ public class PersonServiceImpl implements PersonService {
 
         } catch (DBException | SQLException e) {
             log.error("Change status by id ex " + id, e);
-            e.printStackTrace();
         }
-        return completed;
     }
 
     @Override

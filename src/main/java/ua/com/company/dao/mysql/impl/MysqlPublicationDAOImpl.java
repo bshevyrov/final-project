@@ -15,30 +15,18 @@ import java.util.Optional;
 
 public class MysqlPublicationDAOImpl implements PublicationDAO {
 
-
     @Override
     public void create(Connection con, Publication publication) throws DBException {
-        int id = -1;
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION,
-                Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION)) {
             int index = 0;
             stmt.setString(++index, publication.getTitle());
             stmt.setString(++index, publication.getDescription());
             stmt.setDouble(++index, publication.getPrice());
             stmt.setInt(++index, publication.getCover().getId());
-            int count = stmt.executeUpdate();
-            if (count > 0) {
-                try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        id = rs.getInt(1);
-                    }
-                }
-            }
+            stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + publication.toString(), e);
         }
-//        return id;
     }
 
 
@@ -49,7 +37,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, pubId);
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + "pubId= " + pubId + image.toString(), e);
         }
     }
@@ -64,7 +51,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + "topicId= " + topicId, e);
         }
         return count;
@@ -80,7 +66,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + "userId= " + userId, e);
         }
         return count;
@@ -96,7 +81,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + "searchReq= " + searchReq, e);
         }
         return count;
@@ -105,14 +89,12 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException {
         List<PublicationComment> commentList = new ArrayList<>();
-
         String query = "SELECT p.username, i.path, pc.text,pc.update_date " +
                 "FROM publication_comment pc LEFT JOIN person p on p.id = pc.person_id " +
                 "LEFT JOIN image i on p.image_id = i.id " +
                 " WHERE publication_id = " + publicationId + " ORDER BY " + sorting.getSortingField() +
                 " " + (sorting.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + sorting.getStarRecord() + "," + sorting.getPageSize() + "";
-
         try (Statement stmt = con.createStatement()) {
             try (ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
@@ -120,7 +102,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + query, e);
         }
         return commentList;
@@ -128,33 +109,15 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     @Override
     public void createComment(Connection con, int pubId, int personId, String comment) throws DBException {
-        int id = -1;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION_COMMENT)) {
             int index = 0;
-            stmt.setInt(++index, personId);
+            stmt.setInt(++index, pubId);
             stmt.setInt(++index, personId);
             stmt.setString(++index, comment);
-            int count = stmt.executeUpdate();
-            if (count > 0) {
-                try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        id = rs.getInt(1);
-                    }
-                }
-            }
+            stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + " pubId= " + pubId + " personId= " + " comment= " + comment, e);
         }
-    }
-
-    private PublicationComment mapPublicationComment(ResultSet rs) throws SQLException {
-        PublicationComment publicationComment = new PublicationComment();
-        publicationComment.setUserName(rs.getString(DBConstants.F_PERSON_USERNAME));
-        publicationComment.setUpdateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_COMMENT_UPDATE_DATE));
-        publicationComment.setAvatarPath(rs.getString(DBConstants.F_IMAGE_PATH));
-        publicationComment.setText(rs.getString(DBConstants.F_PUBLICATION_COMMENT_TEXT));
-        return publicationComment;
     }
 
 
@@ -168,7 +131,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, publication.getId());
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + "publication= " + publication, e);
         }
     }
@@ -179,7 +141,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, pubId);
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + "pubId= " + pubId, e);
         }
     }
@@ -188,7 +149,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         try (Statement stmt = con.createStatement()) {
             stmt.execute(DBConstants.DELETE_ORPHAN_TOPIC);
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con.toString(), e);
         }
     }
@@ -200,25 +160,23 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + "id= " + id, e);
         }
     }
 
     @Override
     public Optional<Publication> findById(Connection con, int id) throws DBException {
-        Publication publication = null;
+        Optional<Publication> publication = Optional.empty();
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PUBLICATION_BY_ID)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                publication = mapPublication(rs);
+                publication = Optional.of(mapPublication(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + "id= " + id, e);
         }
-        return Optional.ofNullable(publication);
+        return publication;
 
     }
 
@@ -231,14 +189,13 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 publications.add(mapPublication(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con.toString(), e);
         }
         return publications;
     }
 
     @Override
-    public List<Publication> findAllByTitle(Connection con, Sorting obj, String pattern) throws DBException {
+    public List<Publication> findAllByTitle(Connection con, Sorting obj, String pattern) throws DBException {//TODO GENERIC FINDALL
         List<Publication> publications = new ArrayList<>();
         String search = "'" + "%" + escapeForLike(pattern) + "%" + "'";
         String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
@@ -268,7 +225,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, topicId);
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + " pubId=" + pubId + " topicId=" + topicId, e);
         }
     }
@@ -284,7 +240,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + " title=" + title, e);
         }
         return publication;
@@ -311,12 +266,10 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + query, e);
         }
         return publications;
     }
-
 
     static String escapeForLike(String param) {
         return param.replace("!", "!!")
@@ -329,13 +282,9 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         Publication publication = new Publication();
         publication.setId(rs.getInt(DBConstants.F_PUBLICATION_ID));
         publication.setTitle(rs.getString(DBConstants.F_PUBLICATION_TITLE));
-//        publication.setCreateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_CREATE_DATE));
-//        publication.setUpdateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_UPDATE_DATE));
         publication.setDescription(rs.getString(DBConstants.F_PUBLICATION_DESCRIPTION));
         publication.setPrice(rs.getDouble(DBConstants.F_PUBLICATION_PRICE));
         publication.setCover(mapImage(rs));
-//        publication.setTopics(getTopics(rs));
-//        publication.setTopics((List<Topic>) mapTopic(rs));
         return publication;
     }
 
@@ -344,11 +293,16 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         image.setId(rs.getInt(DBConstants.F_IMAGE_ID));
         image.setName(rs.getString(DBConstants.F_IMAGE_NAME));
         image.setPath(rs.getString(DBConstants.F_IMAGE_PATH));
-//        image.setCreateDate(rs.getTimestamp(DBConstants.F_IMAGE_CREATE_DATE));
-//        image.setUpdateDate(rs.getTimestamp(DBConstants.F_IMAGE_UPDATE_DATE));
         return image;
     }
 
-
+    private PublicationComment mapPublicationComment(ResultSet rs) throws SQLException {
+        PublicationComment publicationComment = new PublicationComment();
+        publicationComment.setUserName(rs.getString(DBConstants.F_PERSON_USERNAME));
+        publicationComment.setUpdateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_COMMENT_UPDATE_DATE));
+        publicationComment.setAvatarPath(rs.getString(DBConstants.F_IMAGE_PATH));
+        publicationComment.setText(rs.getString(DBConstants.F_PUBLICATION_COMMENT_TEXT));
+        return publicationComment;
+    }
 }
 
