@@ -56,8 +56,8 @@ public class PersonFacadeImpl implements PersonFacade {
     }
 
     @Override
-    public boolean changeStatusById(int id) {
-        return personService.changeStatusById(id);
+    public void changeStatusById(int id) {
+         personService.changeStatusById(id);
     }
 
     @Override

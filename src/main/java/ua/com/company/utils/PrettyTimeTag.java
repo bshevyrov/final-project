@@ -38,8 +38,8 @@ public class PrettyTimeTag extends SimpleTagSupport {
     @Override
     public void doTag() throws IOException {
         if (locale != null) {
-            Locale locale = SetLocaleSupport.parseLocale(this.locale);
-            prettyTime.setLocale(locale);
+            Locale currentLocale = new Locale(locale);
+            prettyTime.setLocale(currentLocale);
         }
 
         JspWriter out = getJspContext().getOut();
@@ -51,11 +51,17 @@ public class PrettyTimeTag extends SimpleTagSupport {
      */
 
     public void setDate(Timestamp ts) {
-
         this.date = new Date(ts.getTime());
     }
 
     public void setLocale(String locale) {
+        //language to locale switch
+        switch (locale){
+            case "ua": locale = "uk";
+            break;
+            case "en": locale = "en";
+            break;
+        }
         this.locale = locale;
     }
 

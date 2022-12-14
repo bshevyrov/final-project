@@ -39,10 +39,7 @@ public class AdminUserDetailsController extends HttpServlet {
         String id = request.getParameter("changeStatusId");
         PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
 
-        if (personFacade.changeStatusById(Integer.parseInt(id))) {
-//            HttpSession session = getServletContext().
-            //TODO exit session
-        }
+        personFacade.changeStatusById(Integer.parseInt(id));
         response.sendRedirect("/admin/user/details?id=" + id);
 
     }

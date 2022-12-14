@@ -112,8 +112,9 @@
                                         <img src="${comment.avatarPath}" alt="">
                                     </div>
                                     <div class="anime__review__item__text">
+
                                         <h6>${comment.userName} - <span><ocpsoft:prettytime
-                                                date="${comment.updateDate}"/> </span></h6>
+                                                date="${comment.updateDate}" locale="${language}" /> </span></h6>
                                         <p>${comment.text}</p>
                                     </div>
                                 </div>

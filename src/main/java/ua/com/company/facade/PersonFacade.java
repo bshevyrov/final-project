@@ -3,7 +3,7 @@ package ua.com.company.facade;
 import ua.com.company.view.dto.PersonDTO;
 
 public interface PersonFacade extends BaseFacade<PersonDTO> {
-    boolean changeStatusById(int parseInt);
+    void changeStatusById(int parseInt);
 
     PersonDTO findByEmail(String email);
 
