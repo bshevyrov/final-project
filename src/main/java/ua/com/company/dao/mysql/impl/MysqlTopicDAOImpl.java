@@ -14,23 +14,13 @@ public class MysqlTopicDAOImpl implements TopicDAO {
 
     @Override
     public void create(Connection con, Topic topic) throws DBException {
-        int id = -1;
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC)) {
             int index = 0;
             stmt.setString(++index, topic.getTitle());
-            int count = stmt.executeUpdate();
-            if (count > 0) {
-                try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        id = rs.getInt(1);
-                    }
-                }
-            }
+            stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + topic.toString(), e);
         }
-//        return id;
     }
 
     @Override
@@ -41,7 +31,6 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             stmt.setInt(++index, topic.getId());
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + topic.toString(), e);
         }
     }
@@ -52,7 +41,6 @@ public class MysqlTopicDAOImpl implements TopicDAO {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + " id= " + id, e);
         }
     }
@@ -68,7 +56,6 @@ public class MysqlTopicDAOImpl implements TopicDAO {
                 topic = Optional.of(mapTopic(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + " id= " + id, e);
         }
         return topic;
@@ -84,7 +71,6 @@ public class MysqlTopicDAOImpl implements TopicDAO {
                 topics.add(mapTopic(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con.toString(), e);
         }
         return topics;
@@ -100,7 +86,6 @@ public class MysqlTopicDAOImpl implements TopicDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + " title= " + title, e);
         }
         return count == 1;
@@ -117,7 +102,6 @@ public class MysqlTopicDAOImpl implements TopicDAO {
                 topicList.add(mapTopic(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + " pubId= " + pubId, e);
         }
         return topicList;
@@ -125,7 +109,6 @@ public class MysqlTopicDAOImpl implements TopicDAO {
 
     @Override
     public Optional<Topic> findByTitle(Connection con, String title) throws DBException {
-
         Optional<Topic> topic = Optional.empty();
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_TOPIC_BY_TITLE)) {
             stmt.setString(1, title);
@@ -135,7 +118,6 @@ public class MysqlTopicDAOImpl implements TopicDAO {
                 topic = Optional.of(mapTopic(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException(con + " title= " + title, e);
         }
         return topic;
@@ -145,8 +127,6 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         Topic topic = new Topic();
         topic.setId(rs.getInt(DBConstants.F_TOPIC_ID));
         topic.setTitle(rs.getString(DBConstants.F_TOPIC_TITLE));
-/*        topic.setCreateDate(rs.getTimestamp(DBConstants.F_TOPIC_CREATE_DATE));
-        topic.setUpdateDate(rs.getTimestamp(DBConstants.F_TOPIC_UPDATE_DATE));*/
         return topic;
     }
 }
