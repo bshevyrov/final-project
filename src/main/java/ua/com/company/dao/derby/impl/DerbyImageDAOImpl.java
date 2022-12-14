@@ -13,24 +13,14 @@ import java.util.Optional;
 public class DerbyImageDAOImpl implements ImageDAO {
     @Override
     public void create(Connection con, Image image) throws DBException {
-        int id = -1;
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE)) {
             int index = 0;
             stmt.setString(++index, image.getName());
             stmt.setString(++index, image.getPath());
-            int count = stmt.executeUpdate();
-            if (count > 0) {
-                try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        id = rs.getInt(1);
-                    }
-                }
-            }
+            stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException("Error create with " + con + " and " + image, e);
         }
-//        return id;
     }
 
     @Override
@@ -42,7 +32,6 @@ public class DerbyImageDAOImpl implements ImageDAO {
             stmt.setInt(++index, image.getId());
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException("Error update with " + con + " and " + image, e);
         }
     }
@@ -53,7 +42,6 @@ public class DerbyImageDAOImpl implements ImageDAO {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException("Error delete with " + con + " and " + id, e);
         }
     }
@@ -69,7 +57,6 @@ public class DerbyImageDAOImpl implements ImageDAO {
                 image = Optional.of(mapImage(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException("Error findById with " + con + " and " + id, e);
         }
         return image;
@@ -85,7 +72,6 @@ public class DerbyImageDAOImpl implements ImageDAO {
                 imageList.add(mapImage(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException("Error findAll with " + con, e);
         }
         return imageList;
@@ -102,7 +88,6 @@ public class DerbyImageDAOImpl implements ImageDAO {
                 image = Optional.of(mapImage(rs));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DBException("Error findByPublicationId  with " + con + " and " + id, e);
         }
         return image;
