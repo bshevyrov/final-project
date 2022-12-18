@@ -1,18 +1,17 @@
 package ua.com.company.dao.mysql;
 
 import ua.com.company.dao.*;
-import ua.com.company.dao.mysql.impl.MysqlImageDAOImpl;
-import ua.com.company.dao.mysql.impl.MysqlPersonDAOImpl;
-import ua.com.company.dao.mysql.impl.MysqlPublicationDAOImpl;
-import ua.com.company.dao.mysql.impl.MysqlTopicDAOImpl;
+import ua.com.company.dao.mysql.impl.*;
 
 //package?
 public class MysqlDAOFactory extends DAOFactory {
 
     private PersonDAO personDAO;
+    private PersonAddressDAO personAddressDAO;
     private PublicationDAO publicationDAO;
+    private PublicationCommentDAO publicationCommentDAO;
     private TopicDAO topicDAO;
-    private ImageDAO imageDAO;
+    private ImageDAO imageDAO;;
 
     @Override
     public PersonDAO getPersonDAO() {
@@ -44,5 +43,19 @@ public class MysqlDAOFactory extends DAOFactory {
             imageDAO = new MysqlImageDAOImpl();
         }
         return imageDAO;
+    }
+
+    @Override
+    public PersonAddressDAO getPersonAddressDAO() {
+        if (personAddressDAO == null) {
+            personAddressDAO = new MysqlPersonAddressDAOImpl();
+        }
+        return personAddressDAO;
+    }
+    public PublicationCommentDAO getPublicationCommentDAO() {
+        if (publicationCommentDAO == null) {
+            publicationCommentDAO = new MysqlPublicationCommentDAOImpl();
+        }
+        return publicationCommentDAO;
     }
 }

@@ -2,6 +2,7 @@ package ua.com.company.dao.derby.impl;
 
 import ua.com.company.DBConstants;
 import ua.com.company.dao.PersonDAO;
+import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
 import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
@@ -71,17 +72,17 @@ public class DerbyPersonDAOImpl implements PersonDAO {
 
     @Override
     public Optional<Person> findPersonByEmail(Connection con, String email) throws DBException {
-        Person person = null;
+        Optional<Person> person = Optional.empty();
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_EMAIL);) {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                person = mapPerson(rs);
+                person = Optional.of(mapPerson(rs));
             }
         } catch (SQLException e) {
             throw new DBException(con + "email " + email, e);
         }
-        return Optional.ofNullable(person);
+        return person;
     }
 
     @Override
@@ -246,6 +247,9 @@ public class DerbyPersonDAOImpl implements PersonDAO {
         if (rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION) != null) {
             person.setPublicationsId(getPublicationsId(rs));
         }
+        Image image = new Image();
+        image.setId(rs.getInt(DBConstants.F_PERSON_IMAGE_ID));
+        person.setAvatar(image);
         return person;
     }
 }

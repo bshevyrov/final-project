@@ -85,40 +85,6 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
         return count;
     }
 
-    @Override
-    public List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException {
-        List<PublicationComment> commentList = new ArrayList<>();
-        String query = "SELECT p.username, i.path, pc.text,pc.update_date " +
-                "FROM publication_comment pc LEFT JOIN person p on p.id = pc.person_id " +
-                "LEFT JOIN image i on p.image_id = i.id " +
-                " WHERE publication_id = " + publicationId + " ORDER BY " + sorting.getSortingField() +
-                " " + (sorting.getSortingType().equals("DESC") ? "DESC" : "") +
-                " LIMIT " + sorting.getStarRecord() + "," + sorting.getPageSize() + "";
-        try (Statement stmt = con.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    commentList.add(mapPublicationComment(rs));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DBException(con + query, e);
-        }
-        return commentList;
-    }
-
-    @Override
-    public void createComment(Connection con, int pubId, int personId, String comment) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION_COMMENT)) {
-            int index = 0;
-            stmt.setInt(++index, pubId);
-            stmt.setInt(++index, personId);
-            stmt.setString(++index, comment);
-            stmt.execute();
-        } catch (SQLException e) {
-            throw new DBException(con + " pubId= " + pubId + " personId= " + " comment= " + comment, e);
-        }
-    }
-
 
     @Override
     public void update(Connection con, Publication publication) throws DBException {
@@ -295,13 +261,6 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
         return image;
     }
 
-    private PublicationComment mapPublicationComment(ResultSet rs) throws SQLException {
-        PublicationComment publicationComment = new PublicationComment();
-        publicationComment.setUserName(rs.getString(DBConstants.F_PERSON_USERNAME));
-        publicationComment.setUpdateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_COMMENT_UPDATE_DATE));
-        publicationComment.setAvatarPath(rs.getString(DBConstants.F_IMAGE_PATH));
-        publicationComment.setText(rs.getString(DBConstants.F_PUBLICATION_COMMENT_TEXT));
-        return publicationComment;
-    }
+
 }
 

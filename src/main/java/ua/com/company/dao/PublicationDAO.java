@@ -37,7 +37,7 @@ public interface PublicationDAO extends BaseDAO<Publication> {
 
     int countAllByTitle(Connection con, String searchReq) throws DBException;
 
-    List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException;
-//    List<Publication> findAllLikeTitle(String searchReq);
-    void createComment(Connection con, int pubId, int personId, String comment ) throws DBException;
+//    List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException;
+////    List<Publication> findAllLikeTitle(String searchReq);
+//    void createComment(Connection con, int pubId, int personId, String comment ) throws DBException;
 }

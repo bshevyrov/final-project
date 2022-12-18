@@ -1,12 +1,31 @@
 package ua.com.company.entity;
 
-import java.sql.Timestamp;
-
-public class PublicationComment extends BaseEntity{
+public class PublicationComment extends BaseEntity {
 
     private String userName;
     private String avatarPath;
     private String text;
+
+    private int publicationId;
+
+    private int personId;
+
+
+    public int getPublicationId() {
+        return publicationId;
+    }
+
+    public void setPublicationId(int publicationId) {
+        this.publicationId = publicationId;
+    }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
 
     public String getUserName() {
         return userName;
@@ -33,5 +52,16 @@ public class PublicationComment extends BaseEntity{
     }
 
     public PublicationComment() {
+    }
+
+    @Override
+    public String toString() {
+        return "PublicationComment{" +
+                "userName='" + userName + '\'' +
+                ", avatarPath='" + avatarPath + '\'' +
+                ", text='" + text + '\'' +
+                ", publicationId=" + publicationId +
+                ", personId=" + personId +
+                '}';
     }
 }

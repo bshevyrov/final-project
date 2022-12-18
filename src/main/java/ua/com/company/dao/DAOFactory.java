@@ -13,7 +13,7 @@ public abstract class DAOFactory {
             try {
                 clazz = Class.forName(DAOFactory.daoFactoryFQN);
 
-            instance = (DAOFactory) clazz.getDeclaredConstructor().newInstance();
+                instance = (DAOFactory) clazz.getDeclaredConstructor().newInstance();
             } catch (ClassNotFoundException | InvocationTargetException | InstantiationException |
                      IllegalAccessException | NoSuchMethodException e) {
                 e.printStackTrace();
@@ -35,7 +35,7 @@ public abstract class DAOFactory {
 //                DAOFactory.daoFactoryFQN = dbType.getClassName();
 //                break;
 //            case ("DERBY"):
-                DAOFactory.daoFactoryFQN = dbType.getClassName();
+        DAOFactory.daoFactoryFQN = dbType.getClassName();
 //            default:
 //                break;
 //        }
@@ -49,9 +49,11 @@ public abstract class DAOFactory {
 
     public abstract PublicationDAO getPublicationDAO();
 
+    public abstract PublicationCommentDAO getPublicationCommentDAO();
+
     public abstract TopicDAO getTopicDAO();
 
     public abstract ImageDAO getImageDAO();
 
-    public abstract PersonAddressDAO getPersonDetailsDAO();
+    public abstract PersonAddressDAO getPersonAddressDAO();
 }

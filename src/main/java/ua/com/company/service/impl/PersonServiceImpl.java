@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class PersonServiceImpl implements PersonService {
     private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
     private final PersonDAO personDAO = DAOFactory.getInstance().getPersonDAO();
-    private final PersonAddressDAO personAddressDAOAO = DAOFactory.getInstance().getPersonDetailsDAO();
+    private final PersonAddressDAO personAddressDAOAO = DAOFactory.getInstance().getPersonAddressDAO();
     private final ImageDAO imageDAO = DAOFactory.getInstance().getImageDAO();
     private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
     private final PublicationService publicationService = PublicationServiceImpl.getInstance();

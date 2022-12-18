@@ -2,10 +2,8 @@ package ua.com.company.service.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.company.dao.DAOFactory;
-import ua.com.company.dao.ImageDAO;
-import ua.com.company.dao.PublicationDAO;
-import ua.com.company.dao.TopicDAO;
+import ua.com.company.dao.*;
+import ua.com.company.dao.mysql.impl.MysqlPublicationCommentDAOImpl;
 import ua.com.company.entity.Publication;
 import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
@@ -24,6 +22,7 @@ public class PublicationServiceImpl implements PublicationService {
     private final ImageDAO imageDAO = DAOFactory.getInstance().getImageDAO();
     private final TopicDAO topicDAO = DAOFactory.getInstance().getTopicDAO();
     private static PublicationService instance;
+    private  final PublicationCommentDAO publicationCommentDAO = DAOFactory.getInstance().getPublicationCommentDAO();
 
     public static synchronized PublicationService getInstance() {
         if (instance == null) {
@@ -213,7 +212,7 @@ public class PublicationServiceImpl implements PublicationService {
         List<PublicationComment> commentList = null;
         try (Connection con = getConnection()) {
 
-            commentList = publicationDAO.findAllCommentsByPublicationId(con, sorting, publicationId);
+            commentList = publicationCommentDAO.findAllCommentsByPublicationId(con, sorting, publicationId);
 
         } catch (DBException | SQLException e) {
             log.error("findAllCommentsByPublicationId exception  " , e);
@@ -222,15 +221,5 @@ public class PublicationServiceImpl implements PublicationService {
         return commentList;
     }
 
-    @Override
-    public void createComment(int pubId, int personId, String comment) {
 
-        try ( Connection con = getConnection()){
-            publicationDAO.createComment(con, pubId,personId,comment);
-        } catch (DBException | SQLException e) {
-            e.printStackTrace();
-            log.error("Can`t create publicationComment " , e);
-
-        }
-    }
 }

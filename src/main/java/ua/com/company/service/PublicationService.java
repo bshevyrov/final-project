@@ -19,7 +19,7 @@ public interface PublicationService extends BaseService<Publication> {
 
     int countAllByTitle(String searchReq);
 
-    List<PublicationComment> findAllCommentsByPublicationId(Sorting sorting, int publicationId);
+//    List<PublicationComment> findAllCommentsByPublicationId(Sorting sorting, int publicationId);
 
-    void createComment(int pubId, int personId, String comment);
+//    void createComment(int pubId, int personId, String comment);
 }

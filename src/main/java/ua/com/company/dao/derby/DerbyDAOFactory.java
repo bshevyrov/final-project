@@ -1,16 +1,15 @@
 package ua.com.company.dao.derby;
 
 import ua.com.company.dao.*;
-import ua.com.company.dao.derby.impl.DerbyImageDAOImpl;
-import ua.com.company.dao.derby.impl.DerbyPersonDAOImpl;
-import ua.com.company.dao.derby.impl.DerbyPublicationDAOImpl;
-import ua.com.company.dao.derby.impl.DerbyTopicDAOImpl;
+import ua.com.company.dao.derby.impl.*;
 
 //package?
 public class DerbyDAOFactory extends DAOFactory {
 
     private PersonDAO personDAO;
+    private PersonAddressDAO personAddressDAO;
     private PublicationDAO publicationDAO;
+    private PublicationCommentDAO publicationCommentDAO;
     private TopicDAO topicDAO;
     private ImageDAO imageDAO;
 
@@ -44,5 +43,21 @@ public class DerbyDAOFactory extends DAOFactory {
             imageDAO = new DerbyImageDAOImpl();
         }
         return imageDAO;
+    }
+
+    @Override
+    public PersonAddressDAO getPersonAddressDAO() {
+        if (personAddressDAO == null) {
+            personAddressDAO = new DerbyPersonAddressDAOImpl();
+        }
+        return personAddressDAO;
+    }
+
+    @Override
+    public PublicationCommentDAO getPublicationCommentDAO() {
+        if (publicationCommentDAO == null) {
+            publicationCommentDAO = new DerbyPublicationCommentDAOImpl();
+        }
+        return publicationCommentDAO;
     }
 }

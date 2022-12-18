@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class PersonAddressDAOImpl implements PersonAddressDAO {
+public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
 
     @Override
     public void create(Connection con, PersonAddress personAddress) throws DBException {
@@ -59,7 +59,7 @@ public class PersonAddressDAOImpl implements PersonAddressDAO {
 
     @Override
     public Optional<PersonAddress> findById(Connection con, int id) throws DBException {
-       Optional <PersonAddress> personAddress = Optional.empty();
+        Optional <PersonAddress> personAddress = Optional.empty();
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_ADDRESS_BY_ID);) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -107,3 +107,4 @@ public class PersonAddressDAOImpl implements PersonAddressDAO {
         return personAddress;
     }
 }
+
