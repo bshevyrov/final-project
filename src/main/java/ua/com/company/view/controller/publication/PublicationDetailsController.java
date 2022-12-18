@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.com.company.entity.Sorting;
+import ua.com.company.facade.PublicationCommentFacade;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.view.dto.PersonDTO;
 import ua.com.company.view.dto.PublicationCommentDTO;
@@ -36,6 +37,8 @@ public class PublicationDetailsController extends HttpServlet {
             throws ServletException, IOException {
         PublicationFacade publicationFacade = (PublicationFacade) getServletContext()
                 .getAttribute("publicationFacade");
+                PublicationCommentFacade publicationCommentFacade = (PublicationCommentFacade) getServletContext()
+                .getAttribute("publicationCommentFacade");
         int publicationId = Integer.parseInt(request.getParameter("id"));
         PublicationDTO publication;
         publication = publicationFacade.findById(publicationId);
@@ -51,7 +54,7 @@ public class PublicationDetailsController extends HttpServlet {
 //            sorting.setStarRecord(Integer.parseInt(request.getParameter("startRecord")));
 //        }
         //coment section
-        List<PublicationCommentDTO> commentList = publicationFacade.findAllCommentsByPublicationId(sorting, publicationId);
+        List<PublicationCommentDTO> commentList = publicationCommentFacade.findAllByPublicationId(sorting, publicationId);
         request.setAttribute("comments", commentList);
         //
         processRequest(request, response);
@@ -64,12 +67,19 @@ public class PublicationDetailsController extends HttpServlet {
 
         PublicationFacade publicationFacade = (PublicationFacade) getServletContext()
                 .getAttribute("publicationFacade");
+        PublicationCommentFacade publicationCommentFacade = (PublicationCommentFacade) getServletContext()
+                .getAttribute("publicationCommentFacade");
 
         int publicationId = Integer.parseInt(request.getParameter("pubId"));
         if(request.getParameter("comment")!=null){
-            int personId = ((PersonDTO) request.getSession(false).getAttribute("loggedPerson")).getId();
+            PersonDTO personDTO = ((PersonDTO) request.getSession(false).getAttribute("loggedPerson"));
             String comment = request.getParameter("comment");
-            publicationFacade.createComment(publicationId, personId, comment);
+            PublicationCommentDTO publicationCommentDTO = new PublicationCommentDTO();
+            publicationCommentDTO.setPublicationId(publicationId);
+            publicationCommentDTO.setAvatarPath(personDTO.getAvatar().getPath());
+            publicationCommentDTO.setPersonId(personDTO.getId());
+            publicationCommentDTO.setText(comment);
+            publicationCommentFacade.create(publicationCommentDTO);
             response.sendRedirect("/publication/details?id="+publicationId);
             return;
 //            System.out.println("NOT redirected");
@@ -88,7 +98,7 @@ public class PublicationDetailsController extends HttpServlet {
         publication = publicationFacade.findById(publicationId);
         request.setAttribute("publication", publication);
 
-        List<PublicationCommentDTO> commentList = publicationFacade.findAllCommentsByPublicationId(sorting, publicationId);
+        List<PublicationCommentDTO> commentList = publicationCommentFacade.findAllByPublicationId(sorting, publicationId);
         request.setAttribute("comments", commentList);
         processRequest(request, response);
     }

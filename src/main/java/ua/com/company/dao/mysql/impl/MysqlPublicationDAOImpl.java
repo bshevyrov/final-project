@@ -4,7 +4,6 @@ import ua.com.company.DBConstants;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
-import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
 
@@ -87,7 +86,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
 
-
     @Override
     public void update(Connection con, Publication publication) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PUBLICATION)) {
@@ -165,8 +163,8 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     public List<Publication> findAllByTitle(Connection con, Sorting obj, String pattern) throws DBException {//TODO GENERIC FINDALL
         List<Publication> publications = new ArrayList<>();
         String search = "'" + "%" + escapeForLike(pattern) + "%" + "'";
-        String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
-                "FROM publication p INNER JOIN image i on p.image_id = i.id WHERE p.title LIKE " + search + " ORDER BY " + obj.getSortingField() +
+        String query = "SELECT * " +
+                "FROM publication p WHERE p.title LIKE " + search + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
         return getPublications(con, publications, query);
@@ -175,12 +173,14 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAllByTopicId(Connection con, Sorting obj, int id) throws DBException {
         List<Publication> publications = new ArrayList<>();
-        String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path,t.title " +
+
+        String query = "SELECT * " +
                 "FROM publication p LEFT JOIN publication_has_topic pht on p.id = pht.publication_id" +
                 " INNER JOIN topic t on pht.topic_id = t.id " +
-                "INNER JOIN image i on p.image_id = i.id WHERE pht.topic_id =" + id + " ORDER BY " + obj.getSortingField() +
+                " WHERE pht.topic_id =" + id + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
+
         return getPublications(con, publications, query);
     }
 
@@ -216,10 +216,10 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAllByUserId(Connection con, Sorting obj, int userId) throws DBException {
         List<Publication> publications = new ArrayList<>();
-        String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
+        String query = "SELECT * " +
                 "FROM publication p LEFT JOIN person_has_publication php on p.id = php.publication_id" +
                 " INNER JOIN person pers on php.person_id = pers.id " +
-                "INNER JOIN image i on p.image_id = i.id WHERE pers.id =" + userId + " ORDER BY " + obj.getSortingField() +
+                " WHERE pers.id =" + userId + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
         return getPublications(con, publications, query);
@@ -251,16 +251,10 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         publication.setTitle(rs.getString(DBConstants.F_PUBLICATION_TITLE));
         publication.setDescription(rs.getString(DBConstants.F_PUBLICATION_DESCRIPTION));
         publication.setPrice(rs.getDouble(DBConstants.F_PUBLICATION_PRICE));
-        publication.setCover(mapImage(rs));
-        return publication;
-    }
-
-    private Image mapImage(ResultSet rs) throws SQLException {
         Image image = new Image();
-        image.setId(rs.getInt(DBConstants.F_IMAGE_ID));
-        image.setName(rs.getString(DBConstants.F_IMAGE_NAME));
-        image.setPath(rs.getString(DBConstants.F_IMAGE_PATH));
-        return image;
+        image.setId(rs.getInt(DBConstants.F_PUBLICATION_IMAGE_ID));
+        publication.setCover(image);
+        return publication;
     }
 
 

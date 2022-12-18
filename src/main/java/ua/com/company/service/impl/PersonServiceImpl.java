@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class PersonServiceImpl implements PersonService {
     private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
     private final PersonDAO personDAO = DAOFactory.getInstance().getPersonDAO();
-    private final PersonAddressDAO personAddressDAOAO = DAOFactory.getInstance().getPersonAddressDAO();
+    private final PersonAddressDAO personAddressDAO = DAOFactory.getInstance().getPersonAddressDAO();
     private final ImageDAO imageDAO = DAOFactory.getInstance().getImageDAO();
     private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
     private final PublicationService publicationService = PublicationServiceImpl.getInstance();
@@ -35,12 +35,7 @@ public class PersonServiceImpl implements PersonService {
 
     public static synchronized PersonService getInstance() {
         if (instance == null) {
-            try {
                 instance = new PersonServiceImpl();
-            } catch (Exception e) {
-                //TODO LOG
-                e.printStackTrace();
-            }
         }
         return instance;
     }
@@ -97,7 +92,7 @@ public class PersonServiceImpl implements PersonService {
             person = personDAO.findById(con, id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
             Image image = imageDAO.findById(con, person.getAvatar().getId()).get();
-            PersonAddress personAddress = personDetailsDAO.findPersonDetailsByPersonId(con, id);
+            PersonAddress personAddress = personAddressDAO.findByPersonId(con, id).get();
             person.setAvatar(image);
         } catch (DBException | SQLException e) {
             log.error("Person not found " + id, e);

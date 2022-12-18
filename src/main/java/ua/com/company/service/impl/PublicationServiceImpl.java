@@ -22,7 +22,6 @@ public class PublicationServiceImpl implements PublicationService {
     private final ImageDAO imageDAO = DAOFactory.getInstance().getImageDAO();
     private final TopicDAO topicDAO = DAOFactory.getInstance().getTopicDAO();
     private static PublicationService instance;
-    private  final PublicationCommentDAO publicationCommentDAO = DAOFactory.getInstance().getPublicationCommentDAO();
 
     public static synchronized PublicationService getInstance() {
         if (instance == null) {
@@ -99,6 +98,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             publication = publicationDAO.findById(con, id)
                     .orElseThrow(() -> new PublicationNotFoundException("" + id));
+            publication.setCover(imageDAO.findById(con,publication.getCover().getId()).get());
             publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
         } catch (DBException | SQLException e) {
             log.error("Publication not found " + id, e);
@@ -116,6 +116,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             publicationList = publicationDAO.findAll(con);
             for (Publication publication : publicationList) {
+                publication.setCover(imageDAO.findById(con,publication.getCover().getId()).get());
                 publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
             }
         } catch (DBException | SQLException e) {
@@ -131,6 +132,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             publicationList = publicationDAO.findAllByTopicId(con, obj, topicId);
             for (Publication currentPub : publicationList) {
+                currentPub.setCover(imageDAO.findById(con,currentPub.getCover().getId()).get());
                 List<Topic> topicList = topicDAO.findAllByPublicationId(con, currentPub.getId());
                 currentPub.setTopics(topicList);
             }
@@ -147,6 +149,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             publicationList = publicationDAO.findAllByUserId(con, obj, userId);
             for (Publication publication : publicationList) {
+                publication.setCover(imageDAO.findById(con,publication.getCover().getId()).get());
                 publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
             }
         } catch (DBException | SQLException e) {
@@ -162,6 +165,7 @@ public class PublicationServiceImpl implements PublicationService {
         try (Connection con = getConnection()) {
             publicationList = publicationDAO.findAllByTitle(con, sorting, searchReq);
             for (Publication publication : publicationList) {
+                publication.setCover(imageDAO.findById(con,publication.getCover().getId()).get());
                 publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
             }
         } catch (DBException | SQLException e) {
@@ -207,19 +211,7 @@ public class PublicationServiceImpl implements PublicationService {
         return count;
     }
 
-    @Override
-    public List<PublicationComment> findAllCommentsByPublicationId(Sorting sorting, int publicationId) {
-        List<PublicationComment> commentList = null;
-        try (Connection con = getConnection()) {
 
-            commentList = publicationCommentDAO.findAllCommentsByPublicationId(con, sorting, publicationId);
-
-        } catch (DBException | SQLException e) {
-            log.error("findAllCommentsByPublicationId exception  " , e);
-            e.printStackTrace();
-        }
-        return commentList;
-    }
 
 
 }

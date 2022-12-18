@@ -42,4 +42,14 @@ public class Sorting {
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
+
+    @Override
+    public String toString() {
+        return "Sorting{" +
+                "sortingField='" + sortingField + '\'' +
+                ", sortingType='" + sortingType + '\'' +
+                ", starRecord=" + starRecord +
+                ", pageSize=" + pageSize +
+                '}';
+    }
 }

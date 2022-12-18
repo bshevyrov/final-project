@@ -8,12 +8,10 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.DAOFactory;
-import ua.com.company.facade.impl.PersonFacadeImpl;
-import ua.com.company.facade.impl.PublicationFacadeImpl;
-import ua.com.company.facade.impl.TopicFacadeImpl;
-import ua.com.company.service.impl.PersonServiceImpl;
-import ua.com.company.service.impl.PublicationServiceImpl;
-import ua.com.company.service.impl.TopicServiceImpl;
+import ua.com.company.facade.impl.*;
+import ua.com.company.service.PersonAddressService;
+import ua.com.company.service.PublicationCommentService;
+import ua.com.company.service.impl.*;
 import ua.com.company.type.DBType;
 
 import java.util.ArrayList;
@@ -53,7 +51,9 @@ public class AppContextListener implements ServletContextListener {
 //        servletContext.setAttribute("topicService",topicService);
         servletContext.setAttribute("topicFacade", new TopicFacadeImpl(TopicServiceImpl.getInstance()));
         servletContext.setAttribute("personFacade", new PersonFacadeImpl(PersonServiceImpl.getInstance(), PublicationServiceImpl.getInstance()));
+        servletContext.setAttribute("personAddressFacade", new PersonAddressFacadeImpl(PersonAddressServiceImpl.getInstance()));
         servletContext.setAttribute("publicationFacade", new PublicationFacadeImpl(PublicationServiceImpl.getInstance()));
+        servletContext.setAttribute("publicationCommentFacade", new PublicationCommentFacadeImpl(PublicationCommentServiceImpl.getInstance()));
         servletContext.setAttribute("openSessions", new ArrayList<HttpSession>());
     }
 

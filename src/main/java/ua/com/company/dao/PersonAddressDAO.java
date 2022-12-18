@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface PersonAddressDAO extends BaseDAO<PersonAddress> {
 
-    Optional<PersonAddress> findByUserId(Connection con, int userId) throws DBException;
+    Optional<PersonAddress> findByPersonId(Connection con, int userId) throws DBException;
 }

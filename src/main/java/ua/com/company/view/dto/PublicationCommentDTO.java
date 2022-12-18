@@ -4,10 +4,30 @@ import java.sql.Timestamp;
 
 public class PublicationCommentDTO extends BaseDTO{
 
-
     private String userName;
     private String avatarPath;
     private String text;
+
+    private int publicationId;
+
+    private int personId;
+
+
+    public int getPublicationId() {
+        return publicationId;
+    }
+
+    public void setPublicationId(int publicationId) {
+        this.publicationId = publicationId;
+    }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
 
     public String getUserName() {
         return userName;
@@ -25,7 +45,6 @@ public class PublicationCommentDTO extends BaseDTO{
         this.avatarPath = avatarPath;
     }
 
-
     public String getText() {
         return text;
     }
@@ -35,6 +54,17 @@ public class PublicationCommentDTO extends BaseDTO{
     }
 
     public PublicationCommentDTO() {
+    }
+
+    @Override
+    public String toString() {
+        return "PublicationComment{" +
+                "userName='" + userName + '\'' +
+                ", avatarPath='" + avatarPath + '\'' +
+                ", text='" + text + '\'' +
+                ", publicationId=" + publicationId +
+                ", personId=" + personId +
+                '}';
     }
 }
 

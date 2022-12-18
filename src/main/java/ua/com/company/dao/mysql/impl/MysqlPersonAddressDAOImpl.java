@@ -78,7 +78,7 @@ public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
     }
 
     @Override
-    public Optional<PersonAddress> findByUserId(Connection con, int userId) throws DBException {
+    public Optional<PersonAddress> findByPersonId(Connection con, int userId) throws DBException {
         Optional<PersonAddress> personAddress = Optional.empty();
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_ADDRESS_BY_PERSON_ID);) {
             stmt.setInt(1, userId);

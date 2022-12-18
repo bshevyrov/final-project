@@ -80,15 +80,5 @@ public class PublicationFacadeImpl implements PublicationFacade {
         return publicationService.countAllByTitle(searchReq);
     }
 
-    @Override
-    public List<PublicationCommentDTO> findAllCommentsByPublicationId(Sorting sorting, int publicationId) {
-        return publicationService.findAllCommentsByPublicationId(sorting, publicationId).stream()
-                .map(ClassConverter::publicationCommentToPublicationCommentDTO)
-                .collect(Collectors.toList());
-    }
 
-    @Override
-    public void createComment(int pubId, int personId, String comment) {
-        publicationService.createComment(pubId, personId, comment);
-    }
 }

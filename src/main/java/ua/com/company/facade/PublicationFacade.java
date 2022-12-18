@@ -19,7 +19,4 @@ public interface PublicationFacade extends BaseFacade<PublicationDTO> {
 
     int countAllByTitle(String searchReq);
 
-    List<PublicationCommentDTO> findAllCommentsByPublicationId(Sorting sorting, int publicationId);
-
-    void createComment(int pubId, int personId, String comment);
 }
