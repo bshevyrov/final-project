@@ -52,4 +52,6 @@ public abstract class DAOFactory {
     public abstract TopicDAO getTopicDAO();
 
     public abstract ImageDAO getImageDAO();
+
+    public abstract PersonAddressDAO getPersonDetailsDAO();
 }

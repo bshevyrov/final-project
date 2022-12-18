@@ -7,207 +7,235 @@ SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
 SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE =
         'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
----------------------------------------------------
--- Schema final_project
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `final_project`;
+
 
 -- -----------------------------------------------------
 -- Schema final_project
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `final_project`;
-USE `final_project`;
+DROP SCHEMA IF EXISTS `final_project` ;
+
+-- -----------------------------------------------------
+-- Schema final_project
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `final_project` ;
+USE `final_project` ;
 
 -- -----------------------------------------------------
 -- Table `final_project`.`role`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`role`;
+DROP TABLE IF EXISTS `final_project`.`role` ;
 
-CREATE TABLE IF NOT EXISTS `final_project`.`role`
-(
-    `id`   INT         NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX `description_UNIQUE` (`name` ASC) VISIBLE
-)
+CREATE TABLE IF NOT EXISTS `final_project`.`role` (
+                                                      `id` INT NOT NULL AUTO_INCREMENT,
+                                                      `name` VARCHAR(45) NOT NULL,
+                                                      PRIMARY KEY (`id`),
+                                                      UNIQUE INDEX `description_UNIQUE` (`name` ASC) VISIBLE)
     ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `final_project`.`person_status`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`person_status`;
+DROP TABLE IF EXISTS `final_project`.`person_status` ;
 
-CREATE TABLE IF NOT EXISTS `final_project`.`person_status`
-(
-    `id`          INT         NOT NULL AUTO_INCREMENT,
-    `description` VARCHAR(45) NOT NULL,
-    PRIMARY KEY (`id`)
-)
+CREATE TABLE IF NOT EXISTS `final_project`.`person_status` (
+                                                               `id` INT NOT NULL AUTO_INCREMENT,
+                                                               `description` VARCHAR(45) NOT NULL,
+                                                               PRIMARY KEY (`id`))
+    ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `final_project`.`image`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `final_project`.`image` ;
+
+CREATE TABLE IF NOT EXISTS `final_project`.`image` (
+                                                       `id` INT NOT NULL AUTO_INCREMENT,
+                                                       `name` VARCHAR(256) NOT NULL,
+                                                       `path` VARCHAR(256) NOT NULL,
+                                                       `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                                       `update_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                                       UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+                                                       PRIMARY KEY (`id`))
     ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `final_project`.`person`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`person`;
+DROP TABLE IF EXISTS `final_project`.`person` ;
 
-CREATE TABLE IF NOT EXISTS `final_project`.`person`
-(
-    `id`          INT          NOT NULL AUTO_INCREMENT,
-    `email`       VARCHAR(36)  NOT NULL,
-    `create_date` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `update_date` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `password`    VARCHAR(256) NOT NULL,
-    `role_id`     INT          NOT NULL DEFAULT 1,
-    `status_id`   INT          NOT NULL DEFAULT 1,
-    `username`    VARCHAR(45)  NOT NULL,
-    `funds`       DOUBLE       NULL     DEFAULT 0.0,
-    `image_id`    INT          NULL     DEFAULT 15,
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX (`email` ASC) VISIBLE,
-    FULLTEXT INDEX `idx_customer_email` (`email`) VISIBLE,
-    INDEX `fk_person_role1_idx` (`role_id` ASC) VISIBLE,
-    INDEX `fk_person_status1_idx` (`status_id` ASC) VISIBLE,
-    CONSTRAINT `fk_person_role1`
-        FOREIGN KEY (`role_id`)
-            REFERENCES `final_project`.`role` (`id`)
-            ON DELETE RESTRICT
-            ON UPDATE CASCADE,
-    CONSTRAINT `fk_person_status1`
-        FOREIGN KEY (`status_id`)
-            REFERENCES `final_project`.`person_status` (`id`)
-            ON DELETE RESTRICT
-            ON UPDATE CASCADE
-)
+CREATE TABLE IF NOT EXISTS `final_project`.`person` (
+                                                        `id` INT NOT NULL AUTO_INCREMENT,
+                                                        `email` VARCHAR(36) NOT NULL,
+                                                        `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                                        `update_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                                        `password` VARCHAR(256) NOT NULL,
+                                                        `role_id` INT NOT NULL DEFAULT 1,
+                                                        `status_id` INT NOT NULL DEFAULT 1,
+                                                        `username` VARCHAR(45) NOT NULL,
+                                                        `funds` DOUBLE NULL DEFAULT 0.0,
+                                                        `image_id` INT NOT NULL DEFAULT 15,
+                                                        PRIMARY KEY (`id`, `image_id`),
+                                                        UNIQUE INDEX (`email` ASC) VISIBLE,
+                                                        FULLTEXT INDEX `idx_customer_email` (`email`) VISIBLE,
+                                                        INDEX `fk_person_role1_idx` (`role_id` ASC) VISIBLE,
+                                                        INDEX `fk_person_status1_idx` (`status_id` ASC) VISIBLE,
+                                                        INDEX `fk_person_image1_idx` (`image_id` ASC) VISIBLE,
+                                                        CONSTRAINT `fk_person_role1`
+                                                            FOREIGN KEY (`role_id`)
+                                                                REFERENCES `final_project`.`role` (`id`)
+                                                                ON DELETE RESTRICT
+                                                                ON UPDATE CASCADE,
+                                                        CONSTRAINT `fk_person_status1`
+                                                            FOREIGN KEY (`status_id`)
+                                                                REFERENCES `final_project`.`person_status` (`id`)
+                                                                ON DELETE RESTRICT
+                                                                ON UPDATE CASCADE,
+                                                        CONSTRAINT `fk_person_image1`
+                                                            FOREIGN KEY (`image_id`)
+                                                                REFERENCES `final_project`.`image` (`id`)
+                                                                ON DELETE NO ACTION
+                                                                ON UPDATE NO ACTION)
     ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `final_project`.`publication`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`publication`;
+DROP TABLE IF EXISTS `final_project`.`publication` ;
 
-CREATE TABLE IF NOT EXISTS `final_project`.`publication`
-(
-    `id`          INT                    NOT NULL AUTO_INCREMENT,
-    `title`       VARCHAR(2048)          NOT NULL,
-    `create_date` TIMESTAMP              NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `update_date` TIMESTAMP              NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `description` VARCHAR(4096)          NULL     DEFAULT NULL,
-    `price`       DECIMAL(9, 2) UNSIGNED NOT NULL,
-    `image_id`    INT                    NULL     DEFAULT NULL,
-    PRIMARY KEY (`id`)
-)
+CREATE TABLE IF NOT EXISTS `final_project`.`publication` (
+                                                             `id` INT NOT NULL AUTO_INCREMENT,
+                                                             `title` VARCHAR(2048) NOT NULL,
+                                                             `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                                             `update_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                                             `description` VARCHAR(4096) NULL DEFAULT NULL,
+                                                             `price` DECIMAL(9,2) UNSIGNED NOT NULL,
+                                                             `image_id` INT NOT NULL,
+                                                             PRIMARY KEY (`id`, `image_id`),
+                                                             INDEX `fk_publication_image1_idx` (`image_id` ASC) VISIBLE,
+                                                             CONSTRAINT `fk_publication_image1`
+                                                                 FOREIGN KEY (`image_id`)
+                                                                     REFERENCES `final_project`.`image` (`id`)
+                                                                     ON DELETE NO ACTION
+                                                                     ON UPDATE NO ACTION)
     ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `final_project`.`topic`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`topic`;
+DROP TABLE IF EXISTS `final_project`.`topic` ;
 
-CREATE TABLE IF NOT EXISTS `final_project`.`topic`
-(
-    `id`    INT          NOT NULL AUTO_INCREMENT,
-    `title` VARCHAR(128) NOT NULL,
-    PRIMARY KEY (`id`)
-);
+CREATE TABLE IF NOT EXISTS `final_project`.`topic` (
+                                                       `id` INT NOT NULL AUTO_INCREMENT,
+                                                       `title` VARCHAR(128) NOT NULL,
+                                                       PRIMARY KEY (`id`));
 
 
 -- -----------------------------------------------------
 -- Table `final_project`.`publication_has_topic`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`publication_has_topic`;
+DROP TABLE IF EXISTS `final_project`.`publication_has_topic` ;
 
-CREATE TABLE IF NOT EXISTS `final_project`.`publication_has_topic`
-(
-    `publication_id` INT NOT NULL,
-    `topic_id`       INT NOT NULL,
-    PRIMARY KEY (`publication_id`, `topic_id`),
-    INDEX `fk_publication_has_topic_topic1_idx` (`topic_id` ASC) VISIBLE,
-    INDEX `fk_publication_has_topic_publication_idx` (`publication_id` ASC) VISIBLE,
-    CONSTRAINT `fk_publication_has_topic_publication`
-        FOREIGN KEY (`publication_id`)
-            REFERENCES `final_project`.`publication` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE CASCADE,
-    CONSTRAINT `fk_publication_has_topic_topic1`
-        FOREIGN KEY (`topic_id`)
-            REFERENCES `final_project`.`topic` (`id`)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE
-);
+CREATE TABLE IF NOT EXISTS `final_project`.`publication_has_topic` (
+                                                                       `publication_id` INT NOT NULL,
+                                                                       `topic_id` INT NOT NULL,
+                                                                       PRIMARY KEY (`publication_id`, `topic_id`),
+                                                                       INDEX `fk_publication_has_topic_topic1_idx` (`topic_id` ASC) VISIBLE,
+                                                                       INDEX `fk_publication_has_topic_publication_idx` (`publication_id` ASC) VISIBLE,
+                                                                       CONSTRAINT `fk_publication_has_topic_publication`
+                                                                           FOREIGN KEY (`publication_id`)
+                                                                               REFERENCES `final_project`.`publication` (`id`)
+                                                                               ON DELETE NO ACTION
+                                                                               ON UPDATE CASCADE,
+                                                                       CONSTRAINT `fk_publication_has_topic_topic1`
+                                                                           FOREIGN KEY (`topic_id`)
+                                                                               REFERENCES `final_project`.`topic` (`id`)
+                                                                               ON DELETE CASCADE
+                                                                               ON UPDATE CASCADE);
 
 
 -- -----------------------------------------------------
 -- Table `final_project`.`person_has_publication`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`person_has_publication`;
+DROP TABLE IF EXISTS `final_project`.`person_has_publication` ;
 
-CREATE TABLE IF NOT EXISTS `final_project`.`person_has_publication`
-(
-    `person_id`      INT NOT NULL,
-    `publication_id` INT NOT NULL,
-    PRIMARY KEY (`person_id`, `publication_id`),
-    INDEX `fk_person_has_publication_publication1_idx` (`publication_id` ASC) VISIBLE,
-    INDEX `fk_person_has_publication_person1_idx` (`person_id` ASC) VISIBLE,
-    CONSTRAINT `fk_person_has_publication_person1`
-        FOREIGN KEY (`person_id`)
-            REFERENCES `final_project`.`person` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
-    CONSTRAINT `fk_person_has_publication_publication1`
-        FOREIGN KEY (`publication_id`)
-            REFERENCES `final_project`.`publication` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
-);
-
-
--- -----------------------------------------------------
--- Table `final_project`.`image`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`image`;
-
-CREATE TABLE IF NOT EXISTS `final_project`.`image`
-(
-    `id`          INT          NOT NULL AUTO_INCREMENT,
-    `name`        VARCHAR(256) NOT NULL,
-    `path`        VARCHAR(256) NOT NULL,
-    `create_date` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `update_date` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-    PRIMARY KEY (`id`)
-)
-    ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `final_project`.`person_has_publication` (
+                                                                        `person_id` INT NOT NULL,
+                                                                        `publication_id` INT NOT NULL,
+                                                                        PRIMARY KEY (`person_id`, `publication_id`),
+                                                                        INDEX `fk_person_has_publication_publication1_idx` (`publication_id` ASC) VISIBLE,
+                                                                        INDEX `fk_person_has_publication_person1_idx` (`person_id` ASC) VISIBLE,
+                                                                        CONSTRAINT `fk_person_has_publication_person1`
+                                                                            FOREIGN KEY (`person_id`)
+                                                                                REFERENCES `final_project`.`person` (`id`)
+                                                                                ON DELETE NO ACTION
+                                                                                ON UPDATE NO ACTION,
+                                                                        CONSTRAINT `fk_person_has_publication_publication1`
+                                                                            FOREIGN KEY (`publication_id`)
+                                                                                REFERENCES `final_project`.`publication` (`id`)
+                                                                                ON DELETE NO ACTION
+                                                                                ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
 -- Table `final_project`.`publication_comment`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`publication_comment`;
+DROP TABLE IF EXISTS `final_project`.`publication_comment` ;
 
-CREATE TABLE IF NOT EXISTS `final_project`.`publication_comment`
-(
-    `update_date`    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `text`           VARCHAR(1024) NULL,
-    `publication_id` INT           NOT NULL,
-    `person_id`      INT           NOT NULL,
-    INDEX `fk_publication_comment_publication1_idx` (`publication_id` ASC) VISIBLE,
-    INDEX `fk_publication_comment_person1_idx` (`person_id` ASC) VISIBLE,
-    CONSTRAINT `fk_publication_comment_publication1`
-        FOREIGN KEY (`publication_id`)
-            REFERENCES `final_project`.`publication` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
-    CONSTRAINT `fk_publication_comment_person1`
-        FOREIGN KEY (`person_id`)
-            REFERENCES `final_project`.`person` (`id`)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
-)
+CREATE TABLE IF NOT EXISTS `final_project`.`publication_comment` (
+                                                                     `id` INT NOT NULL AUTO_INCREMENT,
+                                                                     `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                                                     `update_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                                                     `text` VARCHAR(1024) NULL DEFAULT NULL,
+                                                                     `publication_id` INT NOT NULL,
+                                                                     `person_id` INT NOT NULL,
+                                                                     INDEX `fk_publication_comment_publication1_idx` (`publication_id` ASC) VISIBLE,
+                                                                     INDEX `fk_publication_comment_person1_idx` (`person_id` ASC) VISIBLE,
+                                                                     PRIMARY KEY (`id`),
+                                                                     CONSTRAINT `fk_publication_comment_publication1`
+                                                                         FOREIGN KEY (`publication_id`)
+                                                                             REFERENCES `final_project`.`publication` (`id`)
+                                                                             ON DELETE NO ACTION
+                                                                             ON UPDATE NO ACTION,
+                                                                     CONSTRAINT `fk_publication_comment_person1`
+                                                                         FOREIGN KEY (`person_id`)
+                                                                             REFERENCES `final_project`.`person` (`id`)
+                                                                             ON DELETE NO ACTION
+                                                                             ON UPDATE NO ACTION)
     ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `final_project`.`address`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `final_project`.`address` ;
+
+CREATE TABLE IF NOT EXISTS `final_project`.`address` (
+                                                         `id` VARCHAR(45) NOT NULL,
+                                                         `first_name` VARCHAR(45) NULL DEFAULT NULL,
+                                                         `last_name` VARCHAR(45) NULL DEFAULT NULL,
+                                                         `address` VARCHAR(1024) NULL DEFAULT NULL,
+                                                         `city` VARCHAR(45) NULL DEFAULT NULL,
+                                                         `country` VARCHAR(45) NULL DEFAULT NULL,
+                                                         `phone` INT NULL DEFAULT NULL,
+                                                         `postal_code` INT NULL DEFAULT NULL,
+                                                         `create_date` TIMESTAMP NULL DEFAULT NULL,
+                                                         `update_date` TIMESTAMP NULL DEFAULT NULL,
+                                                         `person_id` INT NOT NULL,
+                                                         PRIMARY KEY (`id`),
+                                                         INDEX `fk_address_person1_idx` (`person_id` ASC) VISIBLE,
+                                                         CONSTRAINT `fk_address_person1`
+                                                             FOREIGN KEY (`person_id`)
+                                                                 REFERENCES `final_project`.`person` (`id`)
+                                                                 ON DELETE NO ACTION
+                                                                 ON UPDATE NO ACTION)
+    ENGINE = InnoDB;
+
+
 INSERT INTO person_status
 VALUES (1, 'ENABLED'),
        (2, 'DISABLED');
@@ -219,7 +247,7 @@ VALUES (1, 'nefor89@gmail.com', now(), now(), '65535:ee2371f001922a7be621d1f1598
         1, 1, 'd9i', 999.999, 15);
 INSERT INTO person
 VALUES (2, 'bshevyrov@gmail.com', '2022-10-05 16:36:13', '2022-10-05 16:36:13',
-        '65535:ee2371f001922a7be621d1f1598465f6:dd8ee816129b683221aeeac1ffa67682', 2, 1, 'BOSS', DEFAULT, null);
+        '65535:ee2371f001922a7be621d1f1598465f6:dd8ee816129b683221aeeac1ffa67682', 2, 1, 'BOSS', DEFAULT, 15);
 
 
 INSERT INTO `publication`
@@ -339,8 +367,8 @@ VALUES (1, 1),
        (1, 2);
 
 INSERT INTO `publication_comment`
-VALUES ('2022-12-09 20:17:11', 'GTO TOP!!!', 4, 1),
-       ('2022-12-14 18:50:16', 'Сам ще не читав, але сестра каже що їй сподобалось.', 2, 1);
+VALUES (1,'2022-12-09 20:17:11','2022-12-09 20:17:11', 'GTO TOP!!!', 4, 1),
+       (2,'2022-12-14 18:50:16','2022-12-14 18:50:16', 'Сам ще не читав, але сестра каже що їй сподобалось.', 2, 1);
 
 
 

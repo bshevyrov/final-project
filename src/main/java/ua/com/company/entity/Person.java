@@ -3,7 +3,7 @@ package ua.com.company.entity;
 import ua.com.company.type.RoleType;
 import ua.com.company.type.StatusType;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class Person extends BaseEntity {
 
@@ -16,8 +16,6 @@ public class Person extends BaseEntity {
     private String username;
     private double funds;
     private Image avatar;
-    private String firstName;
-    private String lastName;
 
     public Image getAvatar() {
         return avatar;
@@ -36,7 +34,7 @@ public class Person extends BaseEntity {
     }
 
     private int[] publicationsId;
-    private PersonDetails personDetails;
+    private PersonAddress personAddress;
 
 
     public String getUsername() {
@@ -47,13 +45,13 @@ public class Person extends BaseEntity {
         this.username = username;
     }
 
-    public PersonDetails getPersonDetails() {
-        return personDetails;
+    public PersonAddress getPersonDetails() {
+        return personAddress;
     }
 
 
-    public void setPersonDetails(PersonDetails personDetails) {
-        this.personDetails = personDetails;
+    public void setPersonDetails(PersonAddress personAddress) {
+        this.personAddress = personAddress;
     }
 
     public String getEmail() {
@@ -126,14 +124,14 @@ public class Person extends BaseEntity {
     public String toString() {
         return "Person{" +
                 "email='" + email + '\'' +
-                "username= " + username +
                 ", password='" + password + '\'' +
                 ", status=" + status +
                 ", role=" + role +
+                ", username='" + username + '\'' +
                 ", funds=" + funds +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", publications=" + publicationsId +
+                ", avatar=" + avatar +
+                ", publicationsId=" + Arrays.toString(publicationsId) +
+                ", personDetails=" + personAddress +
                 '}';
     }
 }

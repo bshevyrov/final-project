@@ -3,10 +3,10 @@ package ua.com.company.service.impl;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.company.dao.DAOFactory;
-import ua.com.company.dao.PersonDAO;
-import ua.com.company.dao.PublicationDAO;
+import ua.com.company.dao.*;
+import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
+import ua.com.company.entity.PersonAddress;
 import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.UserNotFoundException;
@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 public class PersonServiceImpl implements PersonService {
     private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
     private final PersonDAO personDAO = DAOFactory.getInstance().getPersonDAO();
+    private final PersonAddressDAO personAddressDAOAO = DAOFactory.getInstance().getPersonDetailsDAO();
+    private final ImageDAO imageDAO = DAOFactory.getInstance().getImageDAO();
     private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
     private final PublicationService publicationService = PublicationServiceImpl.getInstance();
     private static PersonService instance;
@@ -94,6 +96,9 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = getConnection()) {
             person = personDAO.findById(con, id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
+            Image image = imageDAO.findById(con, person.getAvatar().getId()).get();
+            PersonAddress personAddress = personDetailsDAO.findPersonDetailsByPersonId(con, id);
+            person.setAvatar(image);
         } catch (DBException | SQLException e) {
             log.error("Person not found " + id, e);
             e.printStackTrace();
