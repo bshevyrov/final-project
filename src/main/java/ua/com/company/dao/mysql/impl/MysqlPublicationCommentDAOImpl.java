@@ -45,9 +45,9 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
         return null;
     }
     @Override
-    public List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException {
+    public List<PublicationComment> findAllByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException {
         List<PublicationComment> commentList = new ArrayList<>();
-        String query = "SELECT p.username, i.path, pc.text,pc.update_date " +
+        String query = "SELECT p.username, i.path, pc.* " +
                 "FROM publication_comment pc LEFT JOIN person p on p.id = pc.person_id " +
                 "LEFT JOIN image i on p.image_id = i.id " +
                 " WHERE publication_id = " + publicationId + " ORDER BY " + sorting.getSortingField() +
@@ -67,8 +67,9 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
 
     private PublicationComment mapPublicationComment(ResultSet rs) throws SQLException {
         PublicationComment publicationComment = new PublicationComment();
-        publicationComment.setUserName(rs.getString(DBConstants.F_PERSON_USERNAME));
+        publicationComment.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
         publicationComment.setUpdateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_COMMENT_UPDATE_DATE));
+        publicationComment.setCreateDate(rs.getTimestamp(DBConstants.F_PUBLICATION_COMMENT_CREATE_DATE));
         publicationComment.setAvatarPath(rs.getString(DBConstants.F_IMAGE_PATH));
         publicationComment.setText(rs.getString(DBConstants.F_PUBLICATION_COMMENT_TEXT));
         return publicationComment;

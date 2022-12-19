@@ -81,6 +81,7 @@ public abstract class DBConstants {
     public static final String F_PERSON_ADDRESS_PERSON_ID = "person_id";
     public static final String FIND_PERSON_ADDRESS_BY_PERSON_ID = "SELECT * FROM person_address WHERE person_id=?";
     public static final String FIND_PERSON_ADDRESS_BY_ID = "SELECT * FROM person_address WHERE id=?";
+    public static final String F_PUBLICATION_COMMENT_CREATE_DATE = "create_date";
 
     private DBConstants() {
     }

@@ -14,6 +14,8 @@ import ua.com.company.utils.PasswordUtil;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -49,6 +51,10 @@ public class LoginController extends HttpServlet {
                     session.setAttribute("loggedPerson", person);
                     ArrayList<HttpSession> currentSessions = (ArrayList<HttpSession>) getServletContext().getAttribute("openSessions");
                     currentSessions.forEach(session1 -> {
+                        if(session1.getMaxInactiveInterval()<= ((Timestamp.from(Instant.now()).getTime()-session1.getLastAccessedTime()))){
+                            ((ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).remove(session1);
+//TODO login and wait
+                        }
                         if (session1.getAttribute("loggedPerson").equals(person)) {
                             ((ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).remove(session1);
                             session1.invalidate();

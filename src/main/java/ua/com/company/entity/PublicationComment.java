@@ -2,7 +2,7 @@ package ua.com.company.entity;
 
 public class PublicationComment extends BaseEntity {
 
-    private String userName;
+    private String username;
     private String avatarPath;
     private String text;
 
@@ -27,12 +27,12 @@ public class PublicationComment extends BaseEntity {
         this.personId = personId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getAvatarPath() {
@@ -57,11 +57,11 @@ public class PublicationComment extends BaseEntity {
     @Override
     public String toString() {
         return "PublicationComment{" +
-                "userName='" + userName + '\'' +
+                "username='" + username + '\'' +
                 ", avatarPath='" + avatarPath + '\'' +
                 ", text='" + text + '\'' +
                 ", publicationId=" + publicationId +
                 ", personId=" + personId +
-                '}';
+                "} " + super.toString();
     }
 }

@@ -45,7 +45,7 @@ public class PublicationDetailsController extends HttpServlet {
 
         request.setAttribute("publication", publication);
         Sorting sorting = new Sorting();
-        sorting.setSortingField("update_date");
+        sorting.setSortingField("create_date");
         sorting.setPageSize(6);
         sorting.setSortingType("ASC");
 //        if(request.getParameter("startRecord")== null){
@@ -55,6 +55,7 @@ public class PublicationDetailsController extends HttpServlet {
 //        }
         //coment section
         List<PublicationCommentDTO> commentList = publicationCommentFacade.findAllByPublicationId(sorting, publicationId);
+
         request.setAttribute("comments", commentList);
         //
         processRequest(request, response);

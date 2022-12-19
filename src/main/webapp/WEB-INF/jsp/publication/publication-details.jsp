@@ -121,6 +121,48 @@
                             </c:forEach>
                         </c:if>
                     </div>
+
+
+                    <div class="product__pagination__button">
+                        <div class="row">
+                            <div class="column">
+                                <c:choose>
+                                    <c:when test="${currentPage==1}">
+                                        <button type="submit" class="button_prev" disabled style="color: grey"><fmt:message key="category.btn.prev"/></button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <form action="${url}" method="POST">
+
+
+                                            <input type="hidden" name="currentPage" value="${currentPage-1}">
+
+                                            <button type="submit" class="button_prev"><fmt:message key="category.btn.prev"/></button>
+                                        </form>
+
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div class="column">
+
+                                <c:choose>
+                                    <c:when test="${currentPage==lastPage}">
+                                        <button type="submit" class="button_next" disabled style="color: grey"><fmt:message key="category.btn.next"/></button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <form action="${url}" method="POST">
+                                            <input type="hidden" name="currentPage" value="${currentPage+1}">
+
+
+                                            <button type="submit" class="button_next"><fmt:message key="category.btn.next"/></button>
+                                        </form>
+
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <c:if test="${not empty sessionScope.loggedPerson}">
 
                         <div class="anime__details__form">

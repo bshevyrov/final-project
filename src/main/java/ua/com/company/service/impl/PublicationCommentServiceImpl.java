@@ -16,7 +16,6 @@ import java.util.List;
 
 public class PublicationCommentServiceImpl implements PublicationCommentService {
     private final Logger log = LogManager.getLogger(PublicationCommentServiceImpl.class);
-
     private final PublicationCommentDAO publicationCommentDAO = DAOFactory.getInstance().getPublicationCommentDAO();
     private static PublicationCommentServiceImpl instance;
 
@@ -29,7 +28,11 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
 
     @Override
     public void create(PublicationComment publicationComment) {
-
+        try (Connection con = getConnection()) {
+            publicationCommentDAO.create(con, publicationComment);
+        } catch (SQLException | DBException e) {
+            log.error("Create publicationComment error " + publicationComment, e);
+        }
     }
 
     @Override
@@ -56,7 +59,7 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
     public List<PublicationComment> findAllByPublicationId(Sorting sorting, int publicationId) {
         List<PublicationComment> publicationComments = new ArrayList<>();
         try (Connection con = getConnection()) {
-            publicationComments = publicationCommentDAO.findAllCommentsByPublicationId(con, sorting, publicationId);
+            publicationComments = publicationCommentDAO.findAllByPublicationId(con, sorting, publicationId);
         } catch (SQLException | DBException e) {
             log.error("Find all comments by publication id error. Sorting= " + sorting + " publicationId= " + publicationId, e);
         }

@@ -8,5 +8,5 @@ import java.sql.Connection;
 import java.util.List;
 
 public interface PublicationCommentDAO extends BaseDAO<PublicationComment>{
-     List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException;
+     List<PublicationComment> findAllByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException;
 }

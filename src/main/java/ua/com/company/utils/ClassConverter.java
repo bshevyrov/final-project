@@ -115,8 +115,11 @@ public final class ClassConverter {
         PublicationCommentDTO publicationCommentDTO = new PublicationCommentDTO();
         publicationCommentDTO.setAvatarPath(comment.getAvatarPath());
         publicationCommentDTO.setText(comment.getText());
-        publicationCommentDTO.setUserName(comment.getUserName());
+        publicationCommentDTO.setUserName(comment.getUsername());
         publicationCommentDTO.setCreateDate(comment.getCreateDate());
+        publicationCommentDTO.setUpdateDate(comment.getUpdateDate());
+        publicationCommentDTO.setPublicationId(comment.getPublicationId());
+        publicationCommentDTO.setPersonId(comment.getPersonId());
         return publicationCommentDTO;
 
 
@@ -129,6 +132,8 @@ public final class ClassConverter {
         publicationComment.setText(publicationCommentDTO.getText());
         publicationComment.setPersonId(publicationCommentDTO.getPersonId());
         publicationComment.setAvatarPath(publicationCommentDTO.getAvatarPath());
+        publicationComment.setPublicationId(publicationCommentDTO.getPublicationId());
+        publicationComment.setPersonId(publicationCommentDTO.getPersonId());
         return publicationComment;
     }
 }

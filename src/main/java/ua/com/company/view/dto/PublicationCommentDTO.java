@@ -1,8 +1,6 @@
 package ua.com.company.view.dto;
 
-import java.sql.Timestamp;
-
-public class PublicationCommentDTO extends BaseDTO{
+public class PublicationCommentDTO extends BaseDTO {
 
     private String userName;
     private String avatarPath;
@@ -64,6 +62,7 @@ public class PublicationCommentDTO extends BaseDTO{
                 ", text='" + text + '\'' +
                 ", publicationId=" + publicationId +
                 ", personId=" + personId +
+                super.toString() +
                 '}';
     }
 }
