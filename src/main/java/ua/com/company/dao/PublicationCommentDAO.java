@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface PublicationCommentDAO extends BaseDAO<PublicationComment>{
      List<PublicationComment> findAllByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException;
+
+    int countAllByPublicationId(Connection con, int publicationId) throws DBException;
 }

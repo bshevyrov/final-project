@@ -17,10 +17,9 @@ public class PersonDTO extends BaseDTO {
     private String username;
     private double funds;
     private ImageDTO avatar;
-    private String firstName;
-    private String lastName;
+
     private List<PublicationDTO> publications;
-    private PersonDetailsDTO personDetails;
+    private PersonAddressDTO personAddressDTO;
 
     public ImageDTO getAvatar() {
         return avatar;
@@ -42,16 +41,16 @@ public class PersonDTO extends BaseDTO {
         this.publications = publications;
     }
 
-    public PersonDetailsDTO getPersonDetails() {
-        return personDetails;
+    public PersonAddressDTO getPersonAddressDTO() {
+        return personAddressDTO;
     }
 
     public List<PublicationDTO> getPublications() {
         return publications;
     }
 
-    public void setPersonDetails(PersonDetailsDTO personDetails) {
-        this.personDetails = personDetails;
+    public void setPersonAddressDTO(PersonAddressDTO personAddressDTO) {
+        this.personAddressDTO = personAddressDTO;
     }
 
     public String getEmail() {
@@ -122,17 +121,17 @@ public class PersonDTO extends BaseDTO {
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "PersonDTO{" +
                 "email='" + email + '\'' +
-                "username= " + username +
                 ", password='" + password + '\'' +
                 ", status=" + status +
                 ", role=" + role +
+                ", username='" + username + '\'' +
                 ", funds=" + funds +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", avatar=" + avatar +
                 ", publications=" + publications +
-                '}';
+                ", personAddressDTO=" + personAddressDTO +
+                "} " + super.toString();
     }
 
     @Override

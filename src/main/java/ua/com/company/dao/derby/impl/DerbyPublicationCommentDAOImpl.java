@@ -39,4 +39,9 @@ public class DerbyPublicationCommentDAOImpl implements PublicationCommentDAO {
     public List<PublicationComment> findAllByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException {
         return null;
     }
+
+    @Override
+    public int countAllByPublicationId(Connection con, int publicationId) throws DBException {
+        return 0;
+    }
 }

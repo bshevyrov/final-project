@@ -25,6 +25,11 @@ public class PublicationCommentFacadeImpl implements PublicationCommentFacade {
     }
 
     @Override
+    public int countAllByPublicationId(int publicationId) {
+        return publicationCommentService.countAllByPublicationId(publicationId);
+    }
+
+    @Override
     public void create(PublicationCommentDTO publicationCommentDTO) {
         publicationCommentService.create(ClassConverter.publicationCommentDTOToPublicationComment(publicationCommentDTO));
     }

@@ -16,13 +16,11 @@ import ua.com.company.utils.ClassConverter;
 import ua.com.company.utils.CurrentSessionsThreadLocal;
 import ua.com.company.utils.LoggedPersonThreadLocal;
 import ua.com.company.view.dto.PersonDTO;
-import ua.com.company.view.dto.PublicationDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class PersonServiceImpl implements PersonService {
     private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
@@ -35,7 +33,7 @@ public class PersonServiceImpl implements PersonService {
 
     public static synchronized PersonService getInstance() {
         if (instance == null) {
-                instance = new PersonServiceImpl();
+            instance = new PersonServiceImpl();
         }
         return instance;
     }
@@ -78,6 +76,10 @@ public class PersonServiceImpl implements PersonService {
         List<Person> personList = null;
         try (Connection con = getConnection()) {
             personList = personDAO.findAll(con);
+            for (Person person : personList) {
+                List<Publication> publications = publicationDAO.findAllByPersonId(con, person.getId());
+                person.setPublications(publications);
+            }
         } catch (DBException | SQLException e) {
             log.error("findAll ex ", e);
             e.printStackTrace();
@@ -92,9 +94,32 @@ public class PersonServiceImpl implements PersonService {
             person = personDAO.findById(con, id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
             Image image = imageDAO.findById(con, person.getAvatar().getId()).get();
-            PersonAddress personAddress = personAddressDAO.findByPersonId(con, id).get();
+           Optional< PersonAddress> personAddress = personAddressDAO.findByPersonId(con, id);
+           if(personAddress.isPresent()){
+               person.setPersonAddress(personAddress.get());
+           }
+          List<Publication> publicationList = publicationDAO.findAllByPersonId(con, id);
+           person.setPublications(publicationList);
             person.setAvatar(image);
         } catch (DBException | SQLException e) {
+            log.error("Person not found " + id, e);
+            e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            log.warn("Person not found " + id, e);
+            e.printStackTrace();
+        }
+        return person;
+    }
+
+    private Person findById(Connection con,int id) {
+        Person person = null;
+        try  {
+            person = personDAO.findById(con, id)
+                    .orElseThrow(() -> new UserNotFoundException("" + id));
+            Image image = imageDAO.findById(con, person.getAvatar().getId()).get();
+            PersonAddress personAddress = personAddressDAO.findByPersonId(con, id).get();
+            person.setAvatar(image);
+        } catch (DBException e) {
             log.error("Person not found " + id, e);
             e.printStackTrace();
         } catch (UserNotFoundException e) {
@@ -204,17 +229,9 @@ public class PersonServiceImpl implements PersonService {
             personDAO.decreaseFunds(con, personId, person.getFunds() - publication.getPrice());
             personDAO.subscribe(con, pubId, personId);
 
+
+            PersonDTO currentPersonDTO = ClassConverter.personToPersonDTO(personDAO.findById(con, personId).get());
             HttpSession httpSession = LoggedPersonThreadLocal.get();
-            Person currentPerson = personDAO.findById(con, personId).get();
-
-            PersonDTO currentPersonDTO = ClassConverter.personToPersonDTO(currentPerson);
-            List<PublicationDTO> publicationList = Arrays.stream(currentPerson.getPublicationsId())
-                    .boxed()
-                    .map(publicationService::findById)
-                    .map(ClassConverter::publicationToPublicationDTO)
-                    .collect(Collectors.toList());
-            currentPersonDTO.setPublications(publicationList);
-
             httpSession.setAttribute("loggedPerson", currentPersonDTO);
         } catch (DBException | SQLException e) {
             log.error("Subscribe exception, publication id = " + pubId + " person id = " + personId, e);

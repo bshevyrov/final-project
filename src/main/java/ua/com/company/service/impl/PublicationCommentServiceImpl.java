@@ -65,4 +65,15 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         }
         return publicationComments;
     }
+
+    @Override
+    public int countAllByPublicationId(int publicationId) {
+        int count = -1;
+        try (Connection con = getConnection()) {
+            count = publicationCommentDAO.countAllByPublicationId(con, publicationId);
+        } catch (DBException | SQLException e) {
+            log.error("countAllByPublicationId exception. PublicationId=  "+publicationId, e);
+        }
+        return count;
+    }
 }

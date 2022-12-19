@@ -46,7 +46,10 @@ public class PublicationDetailsController extends HttpServlet {
         request.setAttribute("publication", publication);
         Sorting sorting = new Sorting();
         sorting.setSortingField("create_date");
-        sorting.setPageSize(6);
+        int pageSize = 6;
+        int currentPage =1;
+
+        sorting.setPageSize(pageSize);
         sorting.setSortingType("ASC");
 //        if(request.getParameter("startRecord")== null){
             sorting.setStarRecord(0);
@@ -55,6 +58,17 @@ public class PublicationDetailsController extends HttpServlet {
 //        }
         //coment section
         List<PublicationCommentDTO> commentList = publicationCommentFacade.findAllByPublicationId(sorting, publicationId);
+
+        final String url = "/publication/details?id="+ publicationId;
+        int countAllByPublicationId = publicationCommentFacade.countAllByPublicationId(publicationId);
+        int lastPage = countAllByPublicationId % pageSize == 0 ? countAllByPublicationId / pageSize : countAllByPublicationId / pageSize + 1;
+        request.setAttribute("url", url);
+        request.setAttribute("lastPage", lastPage);
+        request.setAttribute("currentPage", currentPage);
+
+
+
+
 
         request.setAttribute("comments", commentList);
         //
@@ -86,13 +100,23 @@ public class PublicationDetailsController extends HttpServlet {
 //            System.out.println("NOT redirected");
         }
         Sorting sorting = new Sorting();
-        sorting.setSortingField("update_date");
+        sorting.setSortingField("create_date");
+        int pageSize =6;
         sorting.setPageSize(6);
         sorting.setSortingType("ASC");
 //        if(request.getParameter("startRecord")== null){
 //        sorting.setStarRecord(0);
 //        } else{
-            sorting.setStarRecord(Integer.parseInt(request.getParameter("startRecord")));
+//            sorting.setStarRecord(Integer.parseInt(request.getParameter("startRecord")));
+        int currentPage = Integer.parseInt(request.getParameter("currentPage"));
+        sorting.setStarRecord(currentPage == 1 ? 0 : (currentPage - 1) * pageSize);
+        request.setAttribute("currentPage", currentPage);
+        final String url = "/publication/details?id="+ publicationId;
+
+        request.setAttribute("url", url);
+        int countAllByPublicationId = publicationCommentFacade.countAllByPublicationId(publicationId);
+        int lastPage = countAllByPublicationId % pageSize == 0 ? countAllByPublicationId / pageSize : countAllByPublicationId / pageSize + 1;
+        request.setAttribute("lastPage", lastPage);
 //        }
 
         PublicationDTO publication;

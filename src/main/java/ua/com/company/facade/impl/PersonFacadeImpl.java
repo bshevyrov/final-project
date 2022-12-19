@@ -43,14 +43,7 @@ public class PersonFacadeImpl implements PersonFacade {
         List<PersonDTO> personDTOList = new ArrayList<>();
         List<Person> personList = personService.findAll();
         for (Person person : personList) {
-            PersonDTO personDTO = ClassConverter.personToPersonDTO(person);
-            List<PublicationDTO> publicationList = Arrays.stream(person.getPublicationsId())
-                    .boxed()
-                    .map(publicationService::findById)
-                    .map(ClassConverter::publicationToPublicationDTO)
-                    .collect(Collectors.toList());
-            personDTO.setPublications(publicationList);
-            personDTOList.add(personDTO);
+            personDTOList.add(ClassConverter.personToPersonDTO(person));
         }
         return personDTOList;
     }
@@ -63,21 +56,17 @@ public class PersonFacadeImpl implements PersonFacade {
     @Override
     public PersonDTO findByEmail(String email) {
         //TODO WHEN SUBSCRIBE THEN CHANGE SUBSCRIBE ICON  BY TAKE FROM LOGGED PERSON
-        //ALOT of connection
-        Person person = personService.findByEmail(email);
-        return getPersonDTOFromPerson(person);
-    }
+        return ClassConverter.personToPersonDTO(personService.findByEmail(email));    }
+
 
     @Override
     public PersonDTO findById(int id) {
-        Person person = personService.findById(id);
-        return getPersonDTOFromPerson(person);
-    }
+       return ClassConverter.personToPersonDTO(personService.findById(id));    }
 
-    private PersonDTO getPersonDTOFromPerson(Person person) {
+   /* private PersonDTO getPersonDTOFromPerson(Person person) {
         PersonDTO personDTO;
         List<PublicationDTO> publicationList = null;
-        if (person.getPublicationsId()!=null) {
+        if (person.getPublicationList()!=null) {
             publicationList = Arrays.stream(person.getPublicationsId())
                     .boxed()
                     .map(publicationService::findById)
@@ -87,7 +76,7 @@ public class PersonFacadeImpl implements PersonFacade {
         personDTO = ClassConverter.personToPersonDTO(person);
         personDTO.setPublications(publicationList);
         return personDTO;
-    }
+    }*/
 
 
     @Override

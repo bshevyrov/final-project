@@ -212,9 +212,9 @@ CREATE TABLE IF NOT EXISTS `final_project`.`publication_comment` (
 -- -----------------------------------------------------
 -- Table `final_project`.`address`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `final_project`.`address` ;
+DROP TABLE IF EXISTS `final_project`.`person_address` ;
 
-CREATE TABLE IF NOT EXISTS `final_project`.`address` (
+CREATE TABLE IF NOT EXISTS `final_project`.`person_address` (
                                                          `id` VARCHAR(45) NOT NULL,
                                                          `first_name` VARCHAR(45) NULL DEFAULT NULL,
                                                          `last_name` VARCHAR(45) NULL DEFAULT NULL,

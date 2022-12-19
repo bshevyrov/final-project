@@ -244,9 +244,9 @@ public class DerbyPersonDAOImpl implements PersonDAO {
         person.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
         person.setPassword(rs.getString(DBConstants.F_PERSON_PASSWORD));
         person.setFunds(rs.getDouble(DBConstants.F_PERSON_FUNDS));
-        if (rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION) != null) {
-            person.setPublicationsId(getPublicationsId(rs));
-        }
+//        if (rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION) != null) {
+//            person.setPublicationsId(getPublicationsId(rs));
+//        }
         Image image = new Image();
         image.setId(rs.getInt(DBConstants.F_PERSON_IMAGE_ID));
         person.setAvatar(image);

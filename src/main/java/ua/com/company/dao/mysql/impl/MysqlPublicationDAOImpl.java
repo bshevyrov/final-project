@@ -85,6 +85,23 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         return count;
     }
 
+    @Override
+    public List<Publication> findAllByPersonId(Connection con, int personId) throws DBException {
+        List<Publication> publications = new ArrayList<>();
+
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_PERSON_ID)) {
+           stmt.setInt(1,personId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                publications.add(mapPublication(rs));
+            }
+
+        } catch (SQLException e) {
+            throw new DBException(con + " personId= " + personId, e);
+        }
+        return publications;
+    }
+
 
     @Override
     public void update(Connection con, Publication publication) throws DBException {
@@ -214,7 +231,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
 
     @Override
-    public List<Publication> findAllByUserId(Connection con, Sorting obj, int userId) throws DBException {
+    public List<Publication> findAllByPersonId(Connection con, Sorting obj, int userId) throws DBException {
         List<Publication> publications = new ArrayList<>();
         String query = "SELECT * " +
                 "FROM publication p LEFT JOIN person_has_publication php on p.id = php.publication_id" +

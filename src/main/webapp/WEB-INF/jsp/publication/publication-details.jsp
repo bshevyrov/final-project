@@ -135,6 +135,7 @@
 
 
                                             <input type="hidden" name="currentPage" value="${currentPage-1}">
+                                            <input type="hidden" name="pubId" value="${publication.id}">
 
                                             <button type="submit" class="button_prev"><fmt:message key="category.btn.prev"/></button>
                                         </form>
@@ -142,6 +143,7 @@
                                     </c:otherwise>
                                 </c:choose>
                             </div>
+
                             <div class="column">
 
                                 <c:choose>
@@ -151,8 +153,7 @@
                                     <c:otherwise>
                                         <form action="${url}" method="POST">
                                             <input type="hidden" name="currentPage" value="${currentPage+1}">
-
-
+                                            <input type="hidden" name="pubId" value="${publication.id}">
                                             <button type="submit" class="button_next"><fmt:message key="category.btn.next"/></button>
                                         </form>
 

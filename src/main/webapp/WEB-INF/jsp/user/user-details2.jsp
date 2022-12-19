@@ -41,37 +41,37 @@
         <div class="section-title">
             <h5><fmt:message key="user.details.name.first"/></h5>
             <br/>
-            <p>${person.details.firstName}"</p>
+            <p>${person.personAddressDTO.firstName}"</p>
         </div>
         <div class="section-title">
             <h5><fmt:message key="user.details.name.last"/></h5>
             <br/>
-            <p>${person.details.lastName}"</p>
+            <p>${person.personAddressDTO.lastName}"</p>
         </div>
         <div class="section-title">
             <h5><fmt:message key="user.details.address"/></h5>
             <br/>
-            <p>${person.details.address}"</p>
+            <p>${person.personAddressDTO.address}"</p>
         </div>
          <div class="section-title">
             <h5><fmt:message key="user.details.city"/></h5>
             <br/>
-            <p>${person.details.city}"</p>
+            <p>${person.personAddressDTO.city}"</p>
         </div>
          <div class="section-title">
             <h5><fmt:message key="user.details.country"/></h5>
             <br/>
-            <p>${person.details.country}"</p>
+            <p>${person.personAddressDTO.country}"</p>
         </div>
          <div class="section-title">
             <h5><fmt:message key="user.details.phone"/></h5>
             <br/>
-            <p>${person.details.phone}"</p>
+            <p>${person.personAddressDTO.phone}"</p>
         </div>
          <div class="section-title">
             <h5><fmt:message key="user.details.postal.code"/></h5>
             <br/>
-            <p>${person.details.postalCode}"</p>
+            <p>${person.personAddressDTO.postalCode}"</p>
         </div>
 
     </div>

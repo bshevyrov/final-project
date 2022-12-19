@@ -39,7 +39,6 @@ public class AdminUserDashboardController extends HttpServlet {
         String id = request.getParameter("changeStatusId");
         PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
 
-        System.out.println(((List<HttpSession>)getServletContext().getAttribute("openSessions")).size());
         CurrentSessionsThreadLocal.set((List<HttpSession>) getServletContext().getAttribute("openSessions"));
         personFacade.changeStatusById(Integer.parseInt(id));
         CurrentSessionsThreadLocal.unset();

@@ -65,6 +65,21 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
         return commentList;
     }
 
+    @Override
+    public int countAllByPublicationId(Connection con, int publicationId) throws DBException {
+        int count = -1;
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_COMMENT_BY_PUBLICATION_ID)) {
+            stmt.setInt(1,publicationId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new DBException(con + "publicationId = " + publicationId, e);
+        }
+        return count;
+    }
+
     private PublicationComment mapPublicationComment(ResultSet rs) throws SQLException {
         PublicationComment publicationComment = new PublicationComment();
         publicationComment.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));

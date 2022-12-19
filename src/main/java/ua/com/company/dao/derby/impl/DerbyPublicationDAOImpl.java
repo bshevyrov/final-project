@@ -85,6 +85,11 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
         return count;
     }
 
+    @Override
+    public List<Publication> findAllByPersonId(Connection con, int id) throws DBException {
+        return null;
+    }
+
 
     @Override
     public void update(Connection con, Publication publication) throws DBException {
@@ -212,7 +217,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
 
 
     @Override
-    public List<Publication> findAllByUserId(Connection con, Sorting obj, int userId) throws DBException {
+    public List<Publication> findAllByPersonId(Connection con, Sorting obj, int userId) throws DBException {
         List<Publication> publications = new ArrayList<>();
         String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
                 "FROM publication p LEFT JOIN person_has_publication php on p.id = php.publication_id" +

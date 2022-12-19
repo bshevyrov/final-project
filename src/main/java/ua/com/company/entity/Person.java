@@ -3,7 +3,7 @@ package ua.com.company.entity;
 import ua.com.company.type.RoleType;
 import ua.com.company.type.StatusType;
 
-import java.util.Arrays;
+import java.util.List;
 
 public class Person extends BaseEntity {
 
@@ -17,6 +17,9 @@ public class Person extends BaseEntity {
     private double funds;
     private Image avatar;
 
+    private List<Publication> publicationList;
+    private PersonAddress personAddress;
+
     public Image getAvatar() {
         return avatar;
     }
@@ -25,17 +28,22 @@ public class Person extends BaseEntity {
         this.avatar = avatar;
     }
 
-    public int[] getPublicationsId() {
-        return publicationsId;
+
+    public List<Publication> getPublications() {
+        return publicationList;
     }
 
-    public void setPublicationsId(int[] publicationsId) {
-        this.publicationsId = publicationsId;
+    public void setPublications(List<Publication> publicationList) {
+        this.publicationList = publicationList;
     }
 
-    private int[] publicationsId;
-    private PersonAddress personAddress;
+    public PersonAddress getPersonAddress() {
+        return personAddress;
+    }
 
+    public void setPersonAddress(PersonAddress personAddress) {
+        this.personAddress = personAddress;
+    }
 
     public String getUsername() {
         return username;
@@ -45,14 +53,7 @@ public class Person extends BaseEntity {
         this.username = username;
     }
 
-    public PersonAddress getPersonDetails() {
-        return personAddress;
-    }
 
-
-    public void setPersonDetails(PersonAddress personAddress) {
-        this.personAddress = personAddress;
-    }
 
     public String getEmail() {
         return email;
@@ -130,8 +131,8 @@ public class Person extends BaseEntity {
                 ", username='" + username + '\'' +
                 ", funds=" + funds +
                 ", avatar=" + avatar +
-                ", publicationsId=" + Arrays.toString(publicationsId) +
-                ", personDetails=" + personAddress +
-                '}';
+                ", publicationList=" + publicationList +
+                ", personAddress=" + personAddress +
+                "} " + super.toString();
     }
 }

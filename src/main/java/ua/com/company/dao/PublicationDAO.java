@@ -2,12 +2,11 @@ package ua.com.company.dao;
 
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
-import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 public interface PublicationDAO extends BaseDAO<Publication> {
@@ -21,7 +20,7 @@ public interface PublicationDAO extends BaseDAO<Publication> {
 
     Publication findByTitle(Connection con, String title) throws DBException;
 
-    List<Publication> findAllByUserId(Connection con, Sorting obj, int userId) throws DBException;
+    List<Publication> findAllByPersonId(Connection con, Sorting obj, int userId) throws DBException;
 
     void addTopicForPublication(Connection con, int pubId, int topicId) throws DBException;
 
@@ -36,6 +35,8 @@ public interface PublicationDAO extends BaseDAO<Publication> {
     int countAllByUserId(Connection con, int userId) throws DBException;
 
     int countAllByTitle(Connection con, String searchReq) throws DBException;
+
+    List<Publication> findAllByPersonId(Connection con, int id) throws DBException;
 
 //    List<PublicationComment> findAllCommentsByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException;
 ////    List<Publication> findAllLikeTitle(String searchReq);

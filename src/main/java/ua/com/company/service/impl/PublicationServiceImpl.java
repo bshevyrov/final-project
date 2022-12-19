@@ -3,9 +3,7 @@ package ua.com.company.service.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.*;
-import ua.com.company.dao.mysql.impl.MysqlPublicationCommentDAOImpl;
 import ua.com.company.entity.Publication;
-import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
@@ -147,7 +145,7 @@ public class PublicationServiceImpl implements PublicationService {
     public List<Publication> findAllByUserId(Sorting obj, int userId) {
         List<Publication> publicationList = null;
         try (Connection con = getConnection()) {
-            publicationList = publicationDAO.findAllByUserId(con, obj, userId);
+            publicationList = publicationDAO.findAllByPersonId(con, obj, userId);
             for (Publication publication : publicationList) {
                 publication.setCover(imageDAO.findById(con,publication.getCover().getId()).get());
                 publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));

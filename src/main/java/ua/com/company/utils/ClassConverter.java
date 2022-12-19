@@ -3,6 +3,7 @@ package ua.com.company.utils;
 import ua.com.company.entity.*;
 import ua.com.company.view.dto.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public final class ClassConverter {
@@ -20,10 +21,33 @@ public final class ClassConverter {
         personDTO.setFunds(person.getFunds());
         personDTO.setCreateDate(person.getCreateDate());
         personDTO.setUpdateDate(person.getUpdateDate());
-        if(person.getAvatar()!=null){
+        if (person.getAvatar() != null) {
             personDTO.setAvatar(imageToImageDTO(person.getAvatar()));
         }
+        if (person.getPublications() != null) {
+            List<PublicationDTO> publicationDTOList = person.getPublications().stream()
+                    .map(ClassConverter::publicationToPublicationDTO)
+                    .collect(Collectors.toList());
+            personDTO.setPublications(publicationDTOList);
+        }
+        if (person.getPersonAddress() != null) {
+            personDTO.setPersonAddressDTO(ClassConverter.personAddressToPersonAddressDTO(person.getPersonAddress()));
+        }
         return personDTO;
+    }
+
+    public static PersonAddressDTO personAddressToPersonAddressDTO(PersonAddress personAddress) {
+        PersonAddressDTO personAddressDTO = new PersonAddressDTO();
+        personAddressDTO.setAddress(personAddress.getAddress());
+        personAddressDTO.setPersonId(personAddress.getPersonId());
+        personAddressDTO.setCity(personAddress.getCity());
+        personAddressDTO.setCountry(personAddress.getCountry());
+        personAddressDTO.setFirstName(personAddress.getFirstName());
+        personAddressDTO.setLastName(personAddress.getLastName());
+        personAddressDTO.setPhone(personAddress.getPhone());
+        personAddressDTO.setPostalCode(personAddress.getPostalCode());
+        personAddressDTO.setId(personAddress.getId());
+        return personAddressDTO;
     }
 
     public static Publication publicationDTOToPublication(PublicationDTO publicationDTO) {
@@ -48,9 +72,11 @@ public final class ClassConverter {
         publicationDTO.setPrice(publication.getPrice());
         publicationDTO.setCreateDate(publication.getCreateDate());
         publicationDTO.setUpdateDate(publication.getUpdateDate());
-        publicationDTO.setTopics(publication.getTopics().stream()
-                .map(ClassConverter::topicToTopicDTO)
-                .collect(Collectors.toList()));
+        if (publication.getTopics() != null) {
+            publicationDTO.setTopics(publication.getTopics().stream()
+                    .map(ClassConverter::topicToTopicDTO)
+                    .collect(Collectors.toList()));
+        }
         return publicationDTO;
     }
 
@@ -88,17 +114,37 @@ public final class ClassConverter {
             person.setPassword(personDTO.getPassword());
         }
         if (personDTO.getPublications() != null) {
-            person.setPublicationsId(personDTO.getPublications().stream()
-                    .mapToInt(BaseDTO::getId)
-                    .toArray());
+            List<Publication> publicationList = personDTO.getPublications().stream()
+                    .map(ClassConverter::publicationDTOToPublication)
+                    .collect(Collectors.toList());
+
+            person.setPublications(publicationList);
+        }
 //        } else {
 //            person.setPublicationsId(new int[0]);
-            if(personDTO.getAvatar()!=null){
-                person.setAvatar(imageDTOToImage(personDTO.getAvatar()));
-            }
+        if (personDTO.getAvatar() != null) {
+            person.setAvatar(imageDTOToImage(personDTO.getAvatar()));
+        }
+        if (personDTO.getPersonAddressDTO() != null) {
+            person.setPersonAddress(ClassConverter.personAddressDTOToPersonAddress(personDTO.getPersonAddressDTO()));
         }
 
+
         return person;
+    }
+
+    public static PersonAddress personAddressDTOToPersonAddress(PersonAddressDTO personAddressDTO) {
+        PersonAddress personAddress = new PersonAddress();
+        personAddress.setAddress(personAddressDTO.getAddress());
+        personAddress.setPersonId(personAddressDTO.getPersonId());
+        personAddress.setCity(personAddressDTO.getCity());
+        personAddress.setCountry(personAddressDTO.getCountry());
+        personAddress.setFirstName(personAddressDTO.getFirstName());
+        personAddress.setLastName(personAddressDTO.getLastName());
+        personAddress.setPhone(personAddressDTO.getPhone());
+        personAddress.setPostalCode(personAddressDTO.getPostalCode());
+        personAddress.setId(personAddressDTO.getId());
+        return personAddress;
     }
 
     private static Image imageDTOToImage(ImageDTO cover) {
@@ -111,7 +157,7 @@ public final class ClassConverter {
         return image;
     }
 
-    public static PublicationCommentDTO publicationCommentToPublicationCommentDTO(PublicationComment comment){
+    public static PublicationCommentDTO publicationCommentToPublicationCommentDTO(PublicationComment comment) {
         PublicationCommentDTO publicationCommentDTO = new PublicationCommentDTO();
         publicationCommentDTO.setAvatarPath(comment.getAvatarPath());
         publicationCommentDTO.setText(comment.getText());
@@ -121,7 +167,6 @@ public final class ClassConverter {
         publicationCommentDTO.setPublicationId(comment.getPublicationId());
         publicationCommentDTO.setPersonId(comment.getPersonId());
         return publicationCommentDTO;
-
 
 
     }
