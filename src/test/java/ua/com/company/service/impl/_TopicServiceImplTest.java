@@ -1,22 +1,9 @@
 package ua.com.company.service.impl;
 
 import org.junit.jupiter.api.*;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.TopicDAO;
-import ua.com.company.dao.derby.impl.DerbyTopicDAOImpl;
-import ua.com.company.dao.mysql.impl.MysqlTopicDAOImpl;
 import ua.com.company.entity.Topic;
-import ua.com.company.exception.DBException;
 import ua.com.company.service.TopicService;
-import ua.com.company.type.DBType;
-
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

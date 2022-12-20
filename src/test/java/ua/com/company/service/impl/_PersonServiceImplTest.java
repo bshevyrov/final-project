@@ -2,9 +2,7 @@ package ua.com.company.service.impl;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class PublicationServiceImplTest {
+class _PersonServiceImplTest {
 
     @Test
     void create() {
@@ -27,26 +25,26 @@ class PublicationServiceImplTest {
     }
 
     @Test
-    void findAllByTopicId() {
+    void findByEmail() {
     }
 
     @Test
-    void findAllByUserId() {
+    void findByUsername() {
     }
 
     @Test
-    void findAllByTitle() {
+    void isExistByEmail() {
     }
 
     @Test
-    void countAllByTopicId() {
+    void isExistByUsername() {
     }
 
     @Test
-    void countAllByUserId() {
+    void changeStatusById() {
     }
 
     @Test
-    void countAllByTitle() {
+    void subscribe() {
     }
 }

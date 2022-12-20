@@ -2,9 +2,7 @@ package ua.com.company.service.impl;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ImageServiceImplTest {
+class _ImageServiceImplTest {
 
     @Test
     void create() {

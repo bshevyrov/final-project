@@ -12,7 +12,7 @@ import ua.com.company.view.dto.PersonDTO;
 import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class PersonFacadeImplTest {
+class _PersonFacadeImplTest {
 
     private PersonFacade personFacade;
     private PersonService personService;

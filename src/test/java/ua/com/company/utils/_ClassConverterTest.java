@@ -1,26 +1,18 @@
 package ua.com.company.utils;
 
-import org.apache.logging.log4j.core.config.plugins.convert.TypeConverters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
 import ua.com.company.entity.Publication;
 import ua.com.company.entity.Topic;
-import ua.com.company.type.RoleType;
-import ua.com.company.type.StatusType;
 import ua.com.company.view.dto.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ClassConverterTest {
+class _ClassConverterTest {
 
     @Test
     void personToPersonDTO() {

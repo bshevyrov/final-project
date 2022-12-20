@@ -13,7 +13,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TopicFacadeImplTest {
+class _TopicFacadeImplTest {
     private TopicService topicService;
     private TopicFacade topicFacade;
 

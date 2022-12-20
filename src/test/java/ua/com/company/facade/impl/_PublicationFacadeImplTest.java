@@ -18,7 +18,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class PublicationFacadeImplTest {
+class _PublicationFacadeImplTest {
 
     private PublicationFacade publicationFacade;
     private PublicationService publicationService;

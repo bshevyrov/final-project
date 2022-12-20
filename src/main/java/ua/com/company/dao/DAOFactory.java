@@ -30,15 +30,7 @@ public abstract class DAOFactory {
 
     public static void setDaoFactoryFQN(DBType dbType) {
         instance = null;
-//        switch (dbType.name()) {
-//            case ("MYSQL"):
-//                DAOFactory.daoFactoryFQN = dbType.getClassName();
-//                break;
-//            case ("DERBY"):
         DAOFactory.daoFactoryFQN = dbType.getClassName();
-//            default:
-//                break;
-//        }
     }
 
     public static String getDaoFactoryFQN() {
