@@ -20,7 +20,7 @@ public class UserPageFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
-//        String userDetailUrl = req.getContextPath() + "/user/user-details.jsp";
+//        String userDetailUrl = req.getContextPath() + "/user/user-details-update.jsp";
 //        System.out.println("userDetailUrl = " + userDetailUrl);
 //        String userSubscriptionsUrl = req.getContextPath() + "/user/user-subscriptions.jsp";
 //        System.out.println("userSubscriptionsUrl = " + userSubscriptionsUrl);

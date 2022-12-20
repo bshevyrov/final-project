@@ -34,7 +34,7 @@ public class UserDetailsController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/user/user-details2.jsp");
+                "/WEB-INF/jsp/user/user-details.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
@@ -49,7 +49,7 @@ public class UserDetailsController extends HttpServlet {
         PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
         person = personFacade.findById(personId);
 
-        System.out.println(person.getAvatar().getPath());
+        
         request.setAttribute("person", person);
         processRequest(request, response);
     }

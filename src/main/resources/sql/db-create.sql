@@ -215,7 +215,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`publication_comment` (
 DROP TABLE IF EXISTS `final_project`.`person_address` ;
 
 CREATE TABLE IF NOT EXISTS `final_project`.`person_address` (
-                                                         `id` VARCHAR(45) NOT NULL,
+                                                         `id` INT NOT NULL AUTO_INCREMENT,
                                                          `first_name` VARCHAR(45) NULL DEFAULT NULL,
                                                          `last_name` VARCHAR(45) NULL DEFAULT NULL,
                                                          `address` VARCHAR(1024) NULL DEFAULT NULL,
@@ -223,9 +223,9 @@ CREATE TABLE IF NOT EXISTS `final_project`.`person_address` (
                                                          `country` VARCHAR(45) NULL DEFAULT NULL,
                                                          `phone` INT NULL DEFAULT NULL,
                                                          `postal_code` INT NULL DEFAULT NULL,
-                                                         `create_date` TIMESTAMP NULL DEFAULT NULL,
-                                                         `update_date` TIMESTAMP NULL DEFAULT NULL,
-                                                         `person_id` INT NOT NULL,
+                                                         `create_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
+                                                         `update_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                                         `person_id` INT NOT NULL UNIQUE ,
                                                          PRIMARY KEY (`id`),
                                                          INDEX `fk_address_person1_idx` (`person_id` ASC) VISIBLE,
                                                          CONSTRAINT `fk_address_person1`

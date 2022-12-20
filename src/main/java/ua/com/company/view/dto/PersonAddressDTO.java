@@ -1,6 +1,7 @@
 package ua.com.company.view.dto;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class PersonAddressDTO  extends BaseDTO implements Serializable {
 
@@ -92,6 +93,19 @@ public class PersonAddressDTO  extends BaseDTO implements Serializable {
                 ", postalCode=" + postalCode +
                 ", personId=" + personId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonAddressDTO that = (PersonAddressDTO) o;
+        return phone == that.phone && postalCode == that.postalCode && personId == that.personId && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(city, that.city) && Objects.equals(country, that.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, address, city, country, phone, postalCode, personId);
     }
 }
 

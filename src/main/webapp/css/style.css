@@ -31,6 +31,26 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+#left {
+
+    float: left;
+}
+
+#right {
+    margin-left: 47%;
+}
+
+#right2 {
+    margin-left: 76%;
+    margin-top: -43.8%;
+}
+
+.user-dashboard {
+    padding-top: 100px;
+     /*padding-bottom: 100px;*/
+    height: 700px;
+ }
+
 .header__search .btn {
     color: #ffffff;
     position: relative;
@@ -260,8 +280,9 @@ ol {
 }
 
 .img-container {
-    width: 400px;
-    height: 400px;
+    width: 280px;
+    height: 280px;
+    padding-bottom: 40px;
 }
 
 .set-bg {
@@ -272,7 +293,7 @@ ol {
 
 .spad {
     padding-top: 100px;
-    padding-bottom: 100px;
+    padding-bottom: 244px;
 }
 
 .text-white h1,
@@ -1072,9 +1093,12 @@ ol {
   Anime Details
 -----------------------*/
 
+
+
 .anime-details {
     padding-top: 60px;
 }
+
 
 .anime__details__content {
     margin-bottom: 65px;

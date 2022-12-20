@@ -259,6 +259,14 @@
         <url-pattern>/user/details</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>UserDetailsUpdateServlet</servlet-name>
+        <servlet-class>ua.com.company.view.controller.user.UserDetailsUpdateController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserDetailsUpdateServlet</servlet-name>
+        <url-pattern>/user/details/update</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>UserSubscriptionsServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.user.UserSubscriptionsController</servlet-class>
     </servlet>

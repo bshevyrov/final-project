@@ -21,17 +21,13 @@ public class ImageServiceImpl implements ImageService {
 
     public static synchronized ImageService getInstance() {
         if (instance == null) {
-            try {
                 instance = new ImageServiceImpl();
-            } catch (Exception e) {
-                //TODO LOG
-                e.printStackTrace();
-            }
+
         }
         return instance;
     }
 
-    private ImageServiceImpl() throws Exception {
+    private ImageServiceImpl()  {
     }
 
     @Override
@@ -40,7 +36,6 @@ public class ImageServiceImpl implements ImageService {
              imageDAO.create(con, image);
         } catch (DBException | SQLException e) {
             log.error("Can`t create image " + image, e);
-            e.printStackTrace();
         }
     }
 
