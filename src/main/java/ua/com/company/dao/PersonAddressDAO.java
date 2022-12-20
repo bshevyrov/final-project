@@ -7,6 +7,5 @@ import java.sql.Connection;
 import java.util.Optional;
 
 public interface PersonAddressDAO extends BaseDAO<PersonAddress> {
-
     Optional<PersonAddress> findByPersonId(Connection con, int userId) throws DBException;
 }

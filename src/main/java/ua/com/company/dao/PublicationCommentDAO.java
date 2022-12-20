@@ -7,8 +7,8 @@ import ua.com.company.exception.DBException;
 import java.sql.Connection;
 import java.util.List;
 
-public interface PublicationCommentDAO extends BaseDAO<PublicationComment>{
-     List<PublicationComment> findAllByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException;
+public interface PublicationCommentDAO extends BaseDAO<PublicationComment> {
+    List<PublicationComment> findAllByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException;
 
     int countAllByPublicationId(Connection con, int publicationId) throws DBException;
 }

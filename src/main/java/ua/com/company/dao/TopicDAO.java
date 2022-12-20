@@ -9,7 +9,8 @@ import java.util.Optional;
 
 public interface TopicDAO extends BaseDAO<Topic> {
     boolean IsExistByTitle(Connection con, String title) throws DBException;
-    List<Topic> findAllByPublicationId(Connection con,int pubId) throws DBException;
+
+    List<Topic> findAllByPublicationId(Connection con, int pubId) throws DBException;
 
     Optional<Topic> findByTitle(Connection con, String title) throws DBException;
 }
