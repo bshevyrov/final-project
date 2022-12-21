@@ -30,7 +30,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             throw new DBException(con + person.toString(), e);
         }
     }
-
+//todo               defaultTransactionIsolation="READ_COMMITTED"
     private int[] getPublicationsId(ResultSet rs) throws SQLException {
         String rsPublicationsId = rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION);
         String[] tempPublicationsId = rsPublicationsId.split(",");
@@ -115,17 +115,17 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return person;
     }
 
-    @Override
-    public void addPublicationForPerson(Connection con, Person person, Publication publication) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
-            int index = 0;
-            stmt.setInt(++index, person.getId());
-            stmt.setInt(++index, publication.getId());
-            stmt.execute();
-        } catch (SQLException e) {
-            throw new DBException(con + person.toString() + publication.toString(), e);
-        }
-    }
+//    @Override
+//    public void addPublicationForPerson(Connection con, Person person, Publication publication) throws DBException {
+//        try (PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
+//            int index = 0;
+//            stmt.setInt(++index, person.getId());
+//            stmt.setInt(++index, publication.getId());
+//            stmt.execute();
+//        } catch (SQLException e) {
+//            throw new DBException(con + person.toString() + publication.toString(), e);
+//        }
+//    }
 
     @Override
     public List<Person> findAll(Connection con) throws DBException {

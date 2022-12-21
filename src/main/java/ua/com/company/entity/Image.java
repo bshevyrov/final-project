@@ -2,7 +2,7 @@ package ua.com.company.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
+//todo seriazible
 public class Image extends BaseEntity  {
     private String name;
     private String path;

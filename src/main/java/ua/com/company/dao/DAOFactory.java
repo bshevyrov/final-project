@@ -18,6 +18,7 @@ public abstract class DAOFactory {
                      IllegalAccessException | NoSuchMethodException e) {
                 e.printStackTrace();
                 //TODO LOG
+                //exit db not valid
             }
         }
         return instance;

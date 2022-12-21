@@ -115,7 +115,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
         return person;
     }
 
-    @Override
+  /*  @Override
     public void addPublicationForPerson(Connection con, Person person, Publication publication) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
             int index = 0;
@@ -125,7 +125,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
         } catch (SQLException e) {
             throw new DBException(con + person.toString() + publication.toString(), e);
         }
-    }
+    }*/
 
     @Override
     public List<Person> findAll(Connection con) throws DBException {

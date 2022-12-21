@@ -3,15 +3,15 @@ package ua.com.company.dao.mysql;
 import ua.com.company.dao.*;
 import ua.com.company.dao.mysql.impl.*;
 
-//package?
-public class MysqlDAOFactory extends DAOFactory {
 
+public class MysqlDAOFactory extends DAOFactory {
     private PersonDAO personDAO;
     private PersonAddressDAO personAddressDAO;
     private PublicationDAO publicationDAO;
     private PublicationCommentDAO publicationCommentDAO;
     private TopicDAO topicDAO;
-    private ImageDAO imageDAO;;
+    private ImageDAO imageDAO;
+
 
     @Override
     public PersonDAO getPersonDAO() {
@@ -52,6 +52,7 @@ public class MysqlDAOFactory extends DAOFactory {
         }
         return personAddressDAO;
     }
+
     public PublicationCommentDAO getPublicationCommentDAO() {
         if (publicationCommentDAO == null) {
             publicationCommentDAO = new MysqlPublicationCommentDAOImpl();

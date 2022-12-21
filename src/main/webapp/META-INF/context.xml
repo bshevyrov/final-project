@@ -10,6 +10,10 @@
               url="jdbc:mysql://192.168.122.161:3306/final_project"
               maxTotal="15"
               maxIdle="3"
-              maxWaitMillis="10000"/>
-
+              maxWaitMillis="10000"
+              removeAbandonedOnBorrow="true"
+              removeAbandonedOnMaintenance="true"
+              removeAbandonedTimeout="60"
+              logAbandoned="true"
+    />
 </Context>

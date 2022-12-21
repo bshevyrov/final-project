@@ -35,7 +35,7 @@ public class ImageServiceImpl implements ImageService {
         try (Connection con = getConnection()) {
              imageDAO.create(con, image);
         } catch (DBException | SQLException e) {
-            log.error("Can`t create image " + image, e);
+            log.error("Can`t create image ", e);
         }
     }
 

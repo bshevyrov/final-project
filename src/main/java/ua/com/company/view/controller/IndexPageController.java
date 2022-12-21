@@ -5,9 +5,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
 import ua.com.company.facade.PublicationFacade;
+import ua.com.company.service.ImageService;
 import ua.com.company.service.PublicationService;
+import ua.com.company.service.impl.ImageServiceImpl;
 import ua.com.company.view.dto.PublicationDTO;
 
 import java.io.IOException;
@@ -35,6 +38,7 @@ public class IndexPageController extends HttpServlet {
         List<PublicationDTO> publications;
         publications = publicationFacade.findAll();
         request.setAttribute("publications", publications);
+
         processRequest(request, response);
     }
 

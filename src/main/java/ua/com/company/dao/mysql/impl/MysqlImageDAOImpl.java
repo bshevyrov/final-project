@@ -19,7 +19,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
             stmt.setString(++index, image.getPath());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException("Error create with " + con + " and " + image, e);
+            throw new DBException("Connection: " + con + " and " + image, e);
         }
     }
 
@@ -32,7 +32,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
             stmt.setInt(++index, image.getId());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException("Error update with " + con + " and " + image, e);
+            throw new DBException("Connection: " + con + " and " + image, e);
         }
     }
 
@@ -42,7 +42,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException("Error delete with " + con + " and " + id, e);
+            throw new DBException("Connection: " + con + " and id= " + id, e);
         }
     }
 
@@ -57,7 +57,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
                 image = Optional.of(mapImage(rs));
             }
         } catch (SQLException e) {
-            throw new DBException("Error findById with " + con + " and " + id, e);
+            throw new DBException("Connection: " + con + " and id= " + id, e);
         }
         return image;
     }
@@ -72,7 +72,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
                 imageList.add(mapImage(rs));
             }
         } catch (SQLException e) {
-            throw new DBException("Error findAll with " + con, e);
+            throw new DBException("Connection: " + con, e);
         }
         return imageList;
     }
@@ -88,7 +88,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
                 image = Optional.of(mapImage(rs));
             }
         } catch (SQLException e) {
-            throw new DBException("Error findByPublicationId  with " + con + " and " + id, e);
+            throw new DBException("Connection: " + con + " and id= " + id, e);
         }
         return image;
     }
