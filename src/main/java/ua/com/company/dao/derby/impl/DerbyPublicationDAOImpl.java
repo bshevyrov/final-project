@@ -4,7 +4,6 @@ import ua.com.company.DBConstants;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
-import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
 
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class DerbyPublicationDAOImpl implements PublicationDAO {
+
     @Override
     public void create(Connection con, Publication publication) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION)) {
@@ -24,19 +24,19 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, publication.getCover().getId());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + publication.toString(), e);
+            throw new DBException("Connection: " + con + " and " + publication, e);
         }
     }
 
 
-    public void updateCoverForPublication(Connection con, int pubId, Image image) throws DBException {
+    public void updateCoverForPublication(Connection con, int pubId, Image image) throws DBException {//TODO
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE_TO_PUBLICATION)) {
             int index = 0;
             stmt.setString(++index, image.getPath());
             stmt.setInt(++index, pubId);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "pubId= " + pubId + image.toString(), e);
+            throw new DBException("Connection: " + con + " and pubId= " + pubId + " and " + image, e);
         }
     }
 
@@ -50,7 +50,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "topicId= " + topicId, e);
+            throw new DBException("Connection: " + con + "topicId= " + topicId, e);
         }
         return count;
     }
@@ -65,7 +65,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "userId= " + userId, e);
+            throw new DBException("Connection: " + con + "userId= " + userId, e);
         }
         return count;
     }
@@ -80,14 +80,24 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "searchReq= " + searchReq, e);
+            throw new DBException("Connection: " + con + "searchReq= " + searchReq, e);
         }
         return count;
     }
 
     @Override
-    public List<Publication> findAllByPersonId(Connection con, int id) throws DBException {
-        return null;
+    public List<Publication> findAllByPersonId(Connection con, int personId) throws DBException {
+        List<Publication> publications = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_PERSON_ID)) {
+            stmt.setInt(1, personId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                publications.add(mapPublication(rs));
+            }
+        } catch (SQLException e) {
+            throw new DBException("Connection: " + con + " personId= " + personId, e);
+        }
+        return publications;
     }
 
 
@@ -101,7 +111,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, publication.getId());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "publication= " + publication, e);
+            throw new DBException("Connection: " + con + "publication= " + publication, e);
         }
     }
 
@@ -111,7 +121,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, pubId);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "pubId= " + pubId, e);
+            throw new DBException("Connection: " + con + "pubId= " + pubId, e);
         }
     }
 
@@ -119,7 +129,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
         try (Statement stmt = con.createStatement()) {
             stmt.execute(DBConstants.DELETE_ORPHAN_TOPIC);
         } catch (SQLException e) {
-            throw new DBException(con.toString(), e);
+            throw new DBException("Connection: " + con, e);
         }
     }
 
@@ -130,7 +140,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "id= " + id, e);
+            throw new DBException("Connection: " + con + "id= " + id, e);
         }
     }
 
@@ -144,7 +154,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
                 publication = Optional.of(mapPublication(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + "id= " + id, e);
+            throw new DBException("Connection: " + con + "id= " + id, e);
         }
         return publication;
 
@@ -159,7 +169,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
                 publications.add(mapPublication(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con.toString(), e);
+            throw new DBException("Connection: " + con, e);
         }
         return publications;
     }
@@ -168,8 +178,8 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
     public List<Publication> findAllByTitle(Connection con, Sorting obj, String pattern) throws DBException {//TODO GENERIC FINDALL
         List<Publication> publications = new ArrayList<>();
         String search = "'" + "%" + escapeForLike(pattern) + "%" + "'";
-        String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
-                "FROM publication p INNER JOIN image i on p.image_id = i.id WHERE p.title LIKE " + search + " ORDER BY " + obj.getSortingField() +
+        String query = "SELECT * " +
+                "FROM publication p WHERE p.title LIKE " + search + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
         return getPublications(con, publications, query);
@@ -178,12 +188,14 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAllByTopicId(Connection con, Sorting obj, int id) throws DBException {
         List<Publication> publications = new ArrayList<>();
-        String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path,t.title " +
+
+        String query = "SELECT * " +
                 "FROM publication p LEFT JOIN publication_has_topic pht on p.id = pht.publication_id" +
                 " INNER JOIN topic t on pht.topic_id = t.id " +
-                "INNER JOIN image i on p.image_id = i.id WHERE pht.topic_id =" + id + " ORDER BY " + obj.getSortingField() +
+                " WHERE pht.topic_id =" + id + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
+
         return getPublications(con, publications, query);
     }
 
@@ -195,7 +207,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, topicId);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + " pubId=" + pubId + " topicId=" + topicId, e);
+            throw new DBException("Connection: " + con + " and pubId=" + pubId + " and topicId=" + topicId, e);
         }
     }
 
@@ -210,7 +222,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DBException(con + " title=" + title, e);
+            throw new DBException("Connection: " + con + " and title=" + title, e);
         }
         return publication;
     }
@@ -219,10 +231,10 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAllByPersonId(Connection con, Sorting obj, int userId) throws DBException {
         List<Publication> publications = new ArrayList<>();
-        String query = "SELECT p.id,p.description,p.title,p.price,p.create_date,i.name,i.path " +
+        String query = "SELECT * " +
                 "FROM publication p LEFT JOIN person_has_publication php on p.id = php.publication_id" +
                 " INNER JOIN person pers on php.person_id = pers.id " +
-                "INNER JOIN image i on p.image_id = i.id WHERE pers.id =" + userId + " ORDER BY " + obj.getSortingField() +
+                " WHERE pers.id =" + userId + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";
         return getPublications(con, publications, query);
@@ -236,7 +248,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DBException(con + query, e);
+            throw new DBException("Connection: " + con + " and query= " + query, e);
         }
         return publications;
     }
@@ -254,18 +266,10 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
         publication.setTitle(rs.getString(DBConstants.F_PUBLICATION_TITLE));
         publication.setDescription(rs.getString(DBConstants.F_PUBLICATION_DESCRIPTION));
         publication.setPrice(rs.getDouble(DBConstants.F_PUBLICATION_PRICE));
-        publication.setCover(mapImage(rs));
+        Image image = new Image();
+        image.setId(rs.getInt(DBConstants.F_PUBLICATION_IMAGE_ID));
+        publication.setCover(image);
         return publication;
     }
-
-    private Image mapImage(ResultSet rs) throws SQLException {
-        Image image = new Image();
-        image.setId(rs.getInt(DBConstants.F_IMAGE_ID));
-        image.setName(rs.getString(DBConstants.F_IMAGE_NAME));
-        image.setPath(rs.getString(DBConstants.F_IMAGE_PATH));
-        return image;
-    }
-
-
 }
 

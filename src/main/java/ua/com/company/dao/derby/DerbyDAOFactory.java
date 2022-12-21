@@ -3,15 +3,15 @@ package ua.com.company.dao.derby;
 import ua.com.company.dao.*;
 import ua.com.company.dao.derby.impl.*;
 
-//package?
-public class DerbyDAOFactory extends DAOFactory {
 
+public class DerbyDAOFactory extends DAOFactory {
     private PersonDAO personDAO;
     private PersonAddressDAO personAddressDAO;
     private PublicationDAO publicationDAO;
     private PublicationCommentDAO publicationCommentDAO;
     private TopicDAO topicDAO;
     private ImageDAO imageDAO;
+
 
     @Override
     public PersonDAO getPersonDAO() {
@@ -53,7 +53,6 @@ public class DerbyDAOFactory extends DAOFactory {
         return personAddressDAO;
     }
 
-    @Override
     public PublicationCommentDAO getPublicationCommentDAO() {
         if (publicationCommentDAO == null) {
             publicationCommentDAO = new DerbyPublicationCommentDAOImpl();

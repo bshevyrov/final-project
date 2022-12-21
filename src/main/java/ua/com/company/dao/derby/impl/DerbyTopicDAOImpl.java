@@ -19,7 +19,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
             stmt.setString(++index, topic.getTitle());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + topic.toString(), e);
+            throw new DBException("Connection: " + con + " and " + topic, e);
         }
     }
 
@@ -31,7 +31,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
             stmt.setInt(++index, topic.getId());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + topic.toString(), e);
+            throw new DBException("Connection: " + con + " and " + topic, e);
         }
     }
 
@@ -41,7 +41,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + " id= " + id, e);
+            throw new DBException("Connection: " + con + " id= " + id, e);
         }
     }
 
@@ -56,7 +56,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
                 topic = Optional.of(mapTopic(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + " id= " + id, e);
+            throw new DBException("Connection: " + con + " id= " + id, e);
         }
         return topic;
     }
@@ -71,7 +71,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
                 topics.add(mapTopic(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con.toString(), e);
+            throw new DBException("Connection: " + con, e);
         }
         return topics;
     }
@@ -86,7 +86,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + " title= " + title, e);
+            throw new DBException("Connection: " + con + " and title= " + title, e);
         }
         return count == 1;
     }
@@ -102,7 +102,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
                 topicList.add(mapTopic(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + " pubId= " + pubId, e);
+            throw new DBException("Connection: " + con + " and pubId= " + pubId, e);
         }
         return topicList;
     }
@@ -118,7 +118,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
                 topic = Optional.of(mapTopic(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + " title= " + title, e);
+            throw new DBException("Connection: " + con + " and title= " + title, e);
         }
         return topic;
     }

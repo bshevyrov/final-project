@@ -26,10 +26,9 @@ public class DerbyPersonAddressDAOImpl implements PersonAddressDAO {
             stmt.setInt(++index, personAddress.getPhone());
             stmt.setInt(++index, personAddress.getPostalCode());
             stmt.setInt(++index, personAddress.getPersonId());
-
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + personAddress.toString(), e);
+            throw new DBException("Connection: " + con + " and " + personAddress, e);
         }
     }
 
@@ -47,7 +46,7 @@ public class DerbyPersonAddressDAOImpl implements PersonAddressDAO {
             stmt.setInt(++index, personAddress.getId());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + personAddress.toString(), e);
+            throw new DBException("Connection: " + con + " and " + personAddress, e);
         }
     }
 
@@ -59,7 +58,7 @@ public class DerbyPersonAddressDAOImpl implements PersonAddressDAO {
 
     @Override
     public Optional<PersonAddress> findById(Connection con, int id) throws DBException {
-        Optional <PersonAddress> personAddress = Optional.empty();
+        Optional<PersonAddress> personAddress = Optional.empty();
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_ADDRESS_BY_ID);) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -67,7 +66,7 @@ public class DerbyPersonAddressDAOImpl implements PersonAddressDAO {
                 personAddress = Optional.of(mapPersonAddress(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + "id " + id, e);
+            throw new DBException("Connection: " + con + " and id= " + id, e);
         }
         return personAddress;
     }
@@ -87,9 +86,10 @@ public class DerbyPersonAddressDAOImpl implements PersonAddressDAO {
                 personAddress = Optional.of(mapPersonAddress(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + "userId " + userId, e);
+            throw new DBException("Connection: " + con + "userId= " + userId, e);
         }
-        return personAddress;       }
+        return personAddress;
+    }
 
     private PersonAddress mapPersonAddress(ResultSet rs) throws SQLException {
         PersonAddress personAddress = new PersonAddress();

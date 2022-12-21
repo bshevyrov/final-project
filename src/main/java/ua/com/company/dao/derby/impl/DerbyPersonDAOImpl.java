@@ -4,7 +4,6 @@ import ua.com.company.DBConstants;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
-import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.type.RoleType;
 import ua.com.company.type.StatusType;
@@ -27,21 +26,11 @@ public class DerbyPersonDAOImpl implements PersonDAO {
             stmt.setString(++index, encryptedPass);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + person.toString(), e);
+            throw new DBException("Connection: " + con + " and " + person, e);
         }
     }
 
-    private int[] getPublicationsId(ResultSet rs) throws SQLException {
-        String rsPublicationsId = rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION);
-        String[] tempPublicationsId = rsPublicationsId.split(",");
-        int[] publicationsId = new int[tempPublicationsId.length];
-        int index = 0;
-        for (String s : tempPublicationsId) {
-            publicationsId[index++] = Integer.parseInt(s);
-        }
-        return publicationsId;
-    }
-
+    //todo               defaultTransactionIsolation="READ_COMMITTED"
     @Override
     public void update(Connection con, Person person) throws DBException {//TODO
         if (isExist(con, person.getId())) {
@@ -53,9 +42,10 @@ public class DerbyPersonDAOImpl implements PersonDAO {
                 stmt.setInt(++index, person.getId());
                 stmt.execute();
             } catch (SQLException e) {
-                throw new DBException(con + person.toString(), e);
+                throw new DBException("Connection: " + con + " and " + person, e);
             }
         } else {
+            //TODO not find eror filter
             throw new DBException("Cant find person with id " + person.getId());
         }
     }
@@ -66,7 +56,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "id " + id, e);
+            throw new DBException("Connection: " + con + " and id= " + id, e);
         }
     }
 
@@ -80,7 +70,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
                 person = Optional.of(mapPerson(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + "email " + email, e);
+            throw new DBException("Connection: " + con + " and email= " + email, e);
         }
         return person;
     }
@@ -95,7 +85,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
                 person = Optional.of(mapPerson(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + " id " + id, e);
+            throw new DBException("Connection: " + con + " and id= " + id, e);
         }
         return person;
     }
@@ -110,22 +100,10 @@ public class DerbyPersonDAOImpl implements PersonDAO {
                 person = Optional.of(mapPerson(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + "username " + username, e);
+            throw new DBException("Connection: " + con + " and username= " + username, e);
         }
         return person;
     }
-
-  /*  @Override
-    public void addPublicationForPerson(Connection con, Person person, Publication publication) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_PUBLICATION_TO_PERSON)) {
-            int index = 0;
-            stmt.setInt(++index, person.getId());
-            stmt.setInt(++index, publication.getId());
-            stmt.execute();
-        } catch (SQLException e) {
-            throw new DBException(con + person.toString() + publication.toString(), e);
-        }
-    }*/
 
     @Override
     public List<Person> findAll(Connection con) throws DBException {
@@ -136,7 +114,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
                 persons.add(mapPerson(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con.toString(), e);
+            throw new DBException("Connection: " + con, e);
         }
         return persons;
     }
@@ -150,7 +128,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "email " + email, e);
+            throw new DBException("Connection: " + con + " and email= " + email, e);
         }
         return count == 1;
     }
@@ -165,7 +143,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "username " + username, e);
+            throw new DBException("Connection: " + con + " and username= " + username, e);
         }
         return count == 1;
     }
@@ -179,7 +157,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
             stmt.setInt(++index, id);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "id " + id, e);
+            throw new DBException("Connection: " + con + "and id= " + id, e);
         }
     }
 
@@ -203,7 +181,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
             stmt.setInt(++index, pubId);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "pubId= " + personId + " pubId= " + pubId, e);
+            throw new DBException("Connection: " + con + " and pubId= " + personId + " and pubId= " + pubId, e);
         }
     }
 
@@ -217,7 +195,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
             }
             return statusCode;
         } catch (SQLException e) {
-            throw new DBException(con + "id= " + id, e);
+            throw new DBException("Connection: " + con + " and id= " + id, e);
         }
     }
 
@@ -230,7 +208,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "id= " + id, e);
+            throw new DBException("Connection: " + con + " and id= " + id, e);
         }
         return count == 1;
     }
@@ -244,9 +222,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
         person.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
         person.setPassword(rs.getString(DBConstants.F_PERSON_PASSWORD));
         person.setFunds(rs.getDouble(DBConstants.F_PERSON_FUNDS));
-//        if (rs.getString(DBConstants.F_PERSON_HAS_PUBLICATION_PUBLICATION) != null) {
-//            person.setPublicationsId(getPublicationsId(rs));
-//        }
+
         Image image = new Image();
         image.setId(rs.getInt(DBConstants.F_PERSON_IMAGE_ID));
         person.setAvatar(image);
