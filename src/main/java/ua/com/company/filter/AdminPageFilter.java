@@ -8,13 +8,8 @@ import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
-//@WebFilter(filterName = "AdminPageFilter")
-public class AdminPageFilter implements Filter {
-    public void init(FilterConfig config) throws ServletException {
-    }
 
-    public void destroy() {
-    }
+public class AdminPageFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -25,7 +20,7 @@ public class AdminPageFilter implements Filter {
         boolean loggedIn = (session != null)
                 && (session.getAttribute("loggedPerson") != null)
                 && "ROLE_ADMIN".equals(((PersonDTO) session.getAttribute("loggedPerson")).getRole().name());
-        if (loggedIn) {//&&requestId==curentuserId)|| ROLE_ADMIN
+        if (loggedIn) {
             chain.doFilter(request, response);
         } else {
             resp.sendRedirect(loginURL);

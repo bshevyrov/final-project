@@ -50,7 +50,7 @@ public class AppContextListener implements ServletContextListener {
 //        TopicService topicService = new TopicServiceImpl(topicDAO);
 //        servletContext.setAttribute("topicService",topicService);
         servletContext.setAttribute("topicFacade", new TopicFacadeImpl(TopicServiceImpl.getInstance()));
-        servletContext.setAttribute("personFacade", new PersonFacadeImpl(PersonServiceImpl.getInstance(), PublicationServiceImpl.getInstance()));
+        servletContext.setAttribute("personFacade", new PersonFacadeImpl(PersonServiceImpl.getInstance()));
         servletContext.setAttribute("personAddressFacade", new PersonAddressFacadeImpl(PersonAddressServiceImpl.getInstance()));
         servletContext.setAttribute("publicationFacade", new PublicationFacadeImpl(PublicationServiceImpl.getInstance()));
         servletContext.setAttribute("publicationCommentFacade", new PublicationCommentFacadeImpl(PublicationCommentServiceImpl.getInstance()));

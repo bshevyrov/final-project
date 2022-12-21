@@ -21,7 +21,7 @@ class _PersonFacadeImplTest {
     void init() {
         PublicationService publicationService = mock(PublicationService.class);
         personService = mock(PersonService.class);
-        personFacade = new PersonFacadeImpl(personService, publicationService);
+        personFacade = new PersonFacadeImpl(personService);
     }
 
     @Test
