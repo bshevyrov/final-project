@@ -1,15 +1,11 @@
 package ua.com.company.entity;
 
 public class PublicationComment extends BaseEntity {
-
     private String username;
     private String avatarPath;
     private String text;
-
     private int publicationId;
-
     private int personId;
-
 
     public int getPublicationId() {
         return publicationId;

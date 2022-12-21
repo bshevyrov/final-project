@@ -1,7 +1,6 @@
 package ua.com.company.entity;
 
-import ua.com.company.DBConstants;
-
+//TODO THIS IS OK PACKAGE???
 public class Sorting {
     private String sortingField = "p.title";
     private String sortingType = "ASC";

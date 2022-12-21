@@ -23,9 +23,8 @@ public class Topic extends BaseEntity {
     @Override
     public String toString() {
         return "Topic{" +
-//                super.toString()+
                 "title='" + title + '\'' +
-                '}';
+                "} " + super.toString();
     }
 
     @Override

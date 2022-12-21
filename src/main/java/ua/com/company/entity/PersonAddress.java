@@ -1,8 +1,6 @@
 package ua.com.company.entity;
 
-import java.io.Serializable;
-
-public class PersonAddress extends BaseEntity implements Serializable {
+public class PersonAddress extends BaseEntity {
 
     private String firstName;
     private String lastName;

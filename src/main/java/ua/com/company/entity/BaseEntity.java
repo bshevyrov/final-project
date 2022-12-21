@@ -1,7 +1,6 @@
 package ua.com.company.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public abstract class BaseEntity implements Serializable {

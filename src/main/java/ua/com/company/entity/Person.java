@@ -7,12 +7,10 @@ import java.util.List;
 
 public class Person extends BaseEntity {
 
-
     private String email;
     private String password;
     private StatusType status;
     private RoleType role;
-
     private String username;
     private double funds;
     private Image avatar;
@@ -54,7 +52,6 @@ public class Person extends BaseEntity {
     }
 
 
-
     public String getEmail() {
         return email;
     }
@@ -94,22 +91,6 @@ public class Person extends BaseEntity {
     public void setFunds(double funds) {
         this.funds = funds;
     }
-
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-//
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
 
 
     public Person(String email, String password, RoleType role) {
