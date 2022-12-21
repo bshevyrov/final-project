@@ -21,29 +21,30 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
             stmt.setString(++index, publicationComment.getText());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + " PublicationComment= " +publicationComment, e);
+            throw new DBException("Connection: " + con + " PublicationComment= " + publicationComment, e);
         }
     }
 
     @Override
     public void update(Connection con, PublicationComment entity) throws DBException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void delete(Connection con, int id) throws DBException {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<PublicationComment> findById(Connection con, int id) throws DBException {
-        return Optional.empty();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<PublicationComment> findAll(Connection con) throws DBException {
-        return null;
+        throw new UnsupportedOperationException();
     }
+
     @Override
     public List<PublicationComment> findAllByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException {
         List<PublicationComment> commentList = new ArrayList<>();
@@ -53,14 +54,13 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
                 " WHERE publication_id = " + publicationId + " ORDER BY " + sorting.getSortingField() +
                 " " + (sorting.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + sorting.getStarRecord() + "," + sorting.getPageSize() + "";
-        try (Statement stmt = con.createStatement()) {
-            try (ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    commentList.add(mapPublicationComment(rs));
-                }
+        try (Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                commentList.add(mapPublicationComment(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + query, e);
+            throw new DBException("Connection: " + con + " and query= " + query, e);
         }
         return commentList;
     }
@@ -69,13 +69,13 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
     public int countAllByPublicationId(Connection con, int publicationId) throws DBException {
         int count = -1;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PUBLICATION_COMMENT_BY_PUBLICATION_ID)) {
-            stmt.setInt(1,publicationId);
+            stmt.setInt(1, publicationId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "publicationId = " + publicationId, e);
+            throw new DBException("Connection: " + con + "publicationId= " + publicationId, e);
         }
         return count;
     }
@@ -89,5 +89,4 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
         publicationComment.setText(rs.getString(DBConstants.F_PUBLICATION_COMMENT_TEXT));
         return publicationComment;
     }
-
 }
