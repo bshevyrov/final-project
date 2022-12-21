@@ -24,19 +24,19 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, publication.getCover().getId());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + publication.toString(), e);
+            throw new DBException("Connection: " + con + " and " + publication, e);
         }
     }
 
 
-    public void updateCoverForPublication(Connection con, int pubId, Image image) throws DBException {
+    public void updateCoverForPublication(Connection con, int pubId, Image image) throws DBException {//TODO
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE_TO_PUBLICATION)) {
             int index = 0;
             stmt.setString(++index, image.getPath());
             stmt.setInt(++index, pubId);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "pubId= " + pubId + image.toString(), e);
+            throw new DBException("Connection: " + con + " and pubId= " + pubId + " and " + image, e);
         }
     }
 
@@ -50,7 +50,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "topicId= " + topicId, e);
+            throw new DBException("Connection: " + con + "topicId= " + topicId, e);
         }
         return count;
     }
@@ -65,7 +65,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "userId= " + userId, e);
+            throw new DBException("Connection: " + con + "userId= " + userId, e);
         }
         return count;
     }
@@ -80,7 +80,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            throw new DBException(con + "searchReq= " + searchReq, e);
+            throw new DBException("Connection: " + con + "searchReq= " + searchReq, e);
         }
         return count;
     }
@@ -88,16 +88,14 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     @Override
     public List<Publication> findAllByPersonId(Connection con, int personId) throws DBException {
         List<Publication> publications = new ArrayList<>();
-
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_ALL_PUBLICATIONS_BY_PERSON_ID)) {
-           stmt.setInt(1,personId);
+            stmt.setInt(1, personId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 publications.add(mapPublication(rs));
             }
-
         } catch (SQLException e) {
-            throw new DBException(con + " personId= " + personId, e);
+            throw new DBException("Connection: " + con + " personId= " + personId, e);
         }
         return publications;
     }
@@ -113,7 +111,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, publication.getId());
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "publication= " + publication, e);
+            throw new DBException("Connection: " + con + "publication= " + publication, e);
         }
     }
 
@@ -123,7 +121,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, pubId);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "pubId= " + pubId, e);
+            throw new DBException("Connection: " + con + "pubId= " + pubId, e);
         }
     }
 
@@ -131,7 +129,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         try (Statement stmt = con.createStatement()) {
             stmt.execute(DBConstants.DELETE_ORPHAN_TOPIC);
         } catch (SQLException e) {
-            throw new DBException(con.toString(), e);
+            throw new DBException("Connection: " + con, e);
         }
     }
 
@@ -142,7 +140,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(1, id);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + "id= " + id, e);
+            throw new DBException("Connection: " + con + "id= " + id, e);
         }
     }
 
@@ -156,7 +154,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 publication = Optional.of(mapPublication(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con + "id= " + id, e);
+            throw new DBException("Connection: " + con + "id= " + id, e);
         }
         return publication;
 
@@ -171,7 +169,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 publications.add(mapPublication(rs));
             }
         } catch (SQLException e) {
-            throw new DBException(con.toString(), e);
+            throw new DBException("Connection: " + con, e);
         }
         return publications;
     }
@@ -209,7 +207,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             stmt.setInt(++index, topicId);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException(con + " pubId=" + pubId + " topicId=" + topicId, e);
+            throw new DBException("Connection: " + con + " and pubId=" + pubId + " and topicId=" + topicId, e);
         }
     }
 
@@ -224,7 +222,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DBException(con + " title=" + title, e);
+            throw new DBException("Connection: " + con + " and title=" + title, e);
         }
         return publication;
     }
@@ -250,7 +248,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DBException(con + query, e);
+            throw new DBException("Connection: " + con + " and query= " + query, e);
         }
         return publications;
     }
@@ -273,7 +271,5 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         publication.setCover(image);
         return publication;
     }
-
-
 }
 
