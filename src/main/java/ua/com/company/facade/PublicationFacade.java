@@ -1,7 +1,6 @@
 package ua.com.company.facade;
 
 import ua.com.company.entity.Sorting;
-import ua.com.company.view.dto.PublicationCommentDTO;
 import ua.com.company.view.dto.PublicationDTO;
 
 import java.util.List;

@@ -17,7 +17,7 @@ public class TopicFacadeImpl implements TopicFacade {
 
     @Override
     public void create(TopicDTO topicDTO) {
-         topicService.create(ClassConverter.topicDTOToTopic(topicDTO));
+        topicService.create(ClassConverter.topicDTOToTopic(topicDTO));
     }
 
     @Override
@@ -44,7 +44,7 @@ public class TopicFacadeImpl implements TopicFacade {
 
     @Override
     public TopicDTO findByTitle(String title) {
-         return ClassConverter.topicToTopicDTO(topicService.findByTitle(title));
+        return ClassConverter.topicToTopicDTO(topicService.findByTitle(title));
     }
-    }
+}
 

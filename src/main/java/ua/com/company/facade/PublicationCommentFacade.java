@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface PublicationCommentFacade extends BaseFacade<PublicationCommentDTO> {
     List<PublicationCommentDTO> findAllByPublicationId(Sorting sorting, int publicationId);
+
     int countAllByPublicationId(int publicationId);
 
 }

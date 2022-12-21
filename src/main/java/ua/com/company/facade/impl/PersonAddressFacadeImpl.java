@@ -6,9 +6,9 @@ import ua.com.company.utils.ClassConverter;
 import ua.com.company.view.dto.PersonAddressDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PersonAddressFacadeImpl implements PersonAddressFacade {
-
     private final PersonAddressService personAddressService;
 
     public PersonAddressFacadeImpl(PersonAddressService personAddressService) {
@@ -28,16 +28,18 @@ public class PersonAddressFacadeImpl implements PersonAddressFacade {
 
     @Override
     public void delete(int id) {
-
+        personAddressService.delete(id);
     }
 
     @Override
     public PersonAddressDTO findById(int id) {
-        return null;
+        return ClassConverter.personAddressToPersonAddressDTO(personAddressService.findById(id));
     }
 
     @Override
     public List<PersonAddressDTO> findAll() {
-        return null;
+        return personAddressService.findAll().stream()
+                .map(ClassConverter::personAddressToPersonAddressDTO)
+                .collect(Collectors.toList());
     }
 }

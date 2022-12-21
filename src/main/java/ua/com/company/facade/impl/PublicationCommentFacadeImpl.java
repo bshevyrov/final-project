@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PublicationCommentFacadeImpl implements PublicationCommentFacade {
-
     private final PublicationCommentService publicationCommentService;
 
     public PublicationCommentFacadeImpl(PublicationCommentService publicationCommentService) {
@@ -34,25 +33,26 @@ public class PublicationCommentFacadeImpl implements PublicationCommentFacade {
         publicationCommentService.create(ClassConverter.publicationCommentDTOToPublicationComment(publicationCommentDTO));
     }
 
-
-
     @Override
     public void update(PublicationCommentDTO publicationCommentDTO) {
+        publicationCommentService.update(ClassConverter.publicationCommentDTOToPublicationComment(publicationCommentDTO));
 
     }
 
     @Override
     public void delete(int id) {
-
+        publicationCommentService.delete(id);
     }
 
     @Override
     public PublicationCommentDTO findById(int id) {
-        return null;
+        return ClassConverter.publicationCommentToPublicationCommentDTO(publicationCommentService.findById(id));
     }
 
     @Override
     public List<PublicationCommentDTO> findAll() {
-        return null;
+        return publicationCommentService.findAll().stream()
+                .map(ClassConverter::publicationCommentToPublicationCommentDTO)
+                .collect(Collectors.toList());
     }
 }
