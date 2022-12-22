@@ -142,15 +142,7 @@
     </servlet-mapping>
 
 
-    <servlet>
-        <servlet-name>AdminPublicationDetailsServlet</servlet-name>
-        <servlet-class>ua.com.company.view.controller.admin.AdminPublicationDetailsController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminPublicationDetailsServlet</servlet-name>
-        <url-pattern>/admin/publication/details</url-pattern>
-    </servlet-mapping>
-    <servlet>
+        <servlet>
         <servlet-name>AdminUserDetailsServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.admin.AdminUserDetailsController</servlet-class>
     </servlet>

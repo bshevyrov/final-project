@@ -1,46 +1,47 @@
 package ua.com.company.view.controller.admin;
 
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.com.company.entity.Person;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.facade.PersonFacade;
-import ua.com.company.service.PersonService;
-import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
 public class AdminUserDetailsController extends HttpServlet {
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+    PersonFacade personFacade;
+    Logger log = LogManager.getLogger(AdminUserDetailsController.class);
 
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
+    }
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher(
                 "/WEB-INF/jsp/admin/admin-user-details.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            log.error("AdminUserDetailsController error", e);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
         //TODO validation
-        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
-        PersonDTO personDTO = (personFacade.findById(Integer.parseInt(id)));
-        request.setAttribute("person", personDTO);
+        request.setAttribute("person", personFacade.findById(Integer.parseInt(request.getParameter("id"))));
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("changeStatusId");
-        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
-
         personFacade.changeStatusById(Integer.parseInt(id));
         response.sendRedirect("/admin/user/details?id=" + id);
-
     }
 }

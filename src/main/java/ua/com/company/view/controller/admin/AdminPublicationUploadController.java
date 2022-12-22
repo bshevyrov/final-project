@@ -1,10 +1,13 @@
 package ua.com.company.view.controller.admin;
 
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.facade.TopicFacade;
 import ua.com.company.view.dto.ImageDTO;
@@ -18,14 +21,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AdminPublicationUploadController extends HttpServlet {
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+    TopicFacade topicFacade;
+    PublicationFacade publicationFacade;
+    Logger log = LogManager.getLogger(AdminPublicationUploadController.class);
 
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
+         publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
+
+    }
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher(
                 "/WEB-INF/jsp/admin/admin-publication-upload.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            log.error("AdminPublicationUploadController error", e);
         }
     }
 
@@ -34,10 +48,8 @@ public class AdminPublicationUploadController extends HttpServlet {
         if (request.getParameter("id") != null) {
             int id = Integer.parseInt(request.getParameter("id"));
             //TODO NOT NUMBER
-
             request.setAttribute("publication", ((PublicationFacade) getServletContext().getAttribute("publicationFacade")).findById(id));
         }
-        TopicFacade topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
         request.setAttribute("topics", topicFacade.findAll());
         processRequest(request, response);
     }
@@ -46,23 +58,22 @@ public class AdminPublicationUploadController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PublicationDTO publication = new PublicationDTO();
         ImageDTO image = new ImageDTO();
-        TopicFacade topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
-        PublicationFacade publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
 
-        //VALIDATION
+        // todo VALIDATION
         image.setPath(request.getParameter("coverPath"));
         image.setName(request.getParameter("title") + " cover");
         publication.setCover(image);
         List<TopicDTO> topicList = new ArrayList<>();
 
         if (request.getParameterValues("topics") != null) {
-            String[] topics = request.getParameterValues("topics");
-            topicList = Arrays.stream(topics).map(Integer::parseInt)
-                    .map(topicFacade::findById).collect(Collectors.toList());
+            topicList = Arrays.stream(request.getParameterValues("topics"))
+                    .map(Integer::parseInt)
+                    .map(topicFacade::findById)
+                    .collect(Collectors.toList());
+
         }
         if (request.getParameter("newTopics") != null && !request.getParameter("newTopics").equals("")) {
-            String[] newTopic = request.getParameter("newTopics").split(",");
-            for (String s : newTopic) {
+            for (String s : request.getParameter("newTopics").split(",")) {
                 TopicDTO currentTopic = new TopicDTO(s.trim());
                 topicFacade.create(currentTopic);
                 topicList.add(topicFacade.findByTitle(currentTopic.getTitle()));
@@ -73,7 +84,7 @@ public class AdminPublicationUploadController extends HttpServlet {
         publication.setTitle(request.getParameter("title"));
         publication.setDescription(request.getParameter("description"));
 
-        if(request.getParameter("id")==null||request.getParameter("id").equals("")){
+        if (request.getParameter("id") == null || request.getParameter("id").equals("")) {
             publicationFacade.create(publication);
         } else {
             publication.setId(Integer.parseInt(request.getParameter("id")));
