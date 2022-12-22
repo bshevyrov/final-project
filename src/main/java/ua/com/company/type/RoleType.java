@@ -1,7 +1,5 @@
 package ua.com.company.type;
 
-import java.io.Serializable;
-
-public enum RoleType/* implements Serializable*/ {
+public enum RoleType {
     ROLE_CUSTOMER, ROLE_ADMIN
 }

@@ -120,8 +120,6 @@ public final class ClassConverter {
 
             person.setPublications(publicationList);
         }
-//        } else {
-//            person.setPublicationsId(new int[0]);
         if (personDTO.getAvatar() != null) {
             person.setAvatar(imageDTOToImage(personDTO.getAvatar()));
         }
