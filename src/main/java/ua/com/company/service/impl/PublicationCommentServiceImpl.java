@@ -7,6 +7,7 @@ import ua.com.company.dao.PublicationCommentDAO;
 import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
+import ua.com.company.exception.PublicationCommentNotFoundException;
 import ua.com.company.service.PublicationCommentService;
 
 import java.sql.Connection;
@@ -31,28 +32,50 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         try (Connection con = getConnection()) {
             publicationCommentDAO.create(con, publicationComment);
         } catch (SQLException | DBException e) {
-            log.error("Create publicationComment error " + publicationComment, e);
+            log.error("Create publicationComment error ", e);
         }
     }
 
     @Override
     public void update(PublicationComment publicationComment) {
-
+        try (Connection con = getConnection()) {
+            publicationCommentDAO.update(con, publicationComment);
+        } catch (SQLException | DBException e) {
+            log.error("Update publicationComment error ", e);
+        }
     }
 
     @Override
     public void delete(int id) {
-
+        try (Connection con = getConnection()) {
+            publicationCommentDAO.delete(con, id);
+        } catch (SQLException | DBException e) {
+            log.error("Delete publicationComment error ", e);
+        }
     }
 
     @Override
     public PublicationComment findById(int id) {
-        return null;
+        PublicationComment publicationComment = null;
+        try (Connection con = getConnection()) {
+            publicationComment = publicationCommentDAO.findById(con, id).orElseThrow(() -> new PublicationCommentNotFoundException("" + id));
+        } catch (SQLException | DBException e) {
+            log.error("Find by id  publicationComment error ", e);
+        } catch (PublicationCommentNotFoundException e) {
+            log.warn("Publication comment not found. id= " + id, e);
+        }
+        return publicationComment;
     }
 
     @Override
     public List<PublicationComment> findAll() {
-        return null;
+        List<PublicationComment> publicationComments = new ArrayList<>();
+        try (Connection con = getConnection()) {
+            publicationComments = publicationCommentDAO.findAll(con);
+        } catch (SQLException | DBException e) {
+            log.error("Delete publicationComment error ", e);
+        }
+        return publicationComments;
     }
 
     @Override
@@ -61,7 +84,7 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         try (Connection con = getConnection()) {
             publicationComments = publicationCommentDAO.findAllByPublicationId(con, sorting, publicationId);
         } catch (SQLException | DBException e) {
-            log.error("Find all comments by publication id error. Sorting= " + sorting + " publicationId= " + publicationId, e);
+            log.error("Find all comments by publication id error. ", e);
         }
         return publicationComments;
     }
@@ -72,7 +95,7 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         try (Connection con = getConnection()) {
             count = publicationCommentDAO.countAllByPublicationId(con, publicationId);
         } catch (DBException | SQLException e) {
-            log.error("countAllByPublicationId exception. PublicationId=  "+publicationId, e);
+            log.error("countAllByPublicationId exception. ", e);
         }
         return count;
     }

@@ -50,7 +50,7 @@ public interface BaseService<E extends BaseEntity> {
     }
 
     default Connection getConnection() {
-        if(DAOFactory.getDaoFactoryFQN().equals(DBType.MYSQL.getClassName())) {
+        if (DAOFactory.getDaoFactoryFQN().equals(DBType.MYSQL.getClassName())) {
             try {
                 Context envCtx = (Context) new InitialContext().lookup("java:comp/env");
                 DataSource ds = (DataSource) envCtx.lookup("jdbc/MySQL");
@@ -60,15 +60,15 @@ public interface BaseService<E extends BaseEntity> {
                 System.exit(1);
             }
         }
-        if(DAOFactory.getDaoFactoryFQN().equals(DBType.DERBY.getClassName())){
+        if (DAOFactory.getDaoFactoryFQN().equals(DBType.DERBY.getClassName())) {
             Driver derbyEmbeddedDriver = new EmbeddedDriver();
             try {
                 DriverManager.registerDriver(derbyEmbeddedDriver);
 
-            return   DriverManager.getConnection
-                    ("jdbc:derby:final_project;create=true");
+                return DriverManager.getConnection
+                        ("jdbc:derby:final_project;create=true");
             } catch (SQLException e) {
-                log.error("NO CONNECTION TO MYSQL DB. APP SHUTDOWN", e);
+                log.error("NO CONNECTION TO DERBY DB. APP SHUTDOWN", e);
                 System.exit(1);
             }
         }

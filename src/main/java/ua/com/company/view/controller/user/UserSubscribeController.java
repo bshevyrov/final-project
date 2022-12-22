@@ -36,7 +36,6 @@ public class UserSubscribeController extends HttpServlet {
     personFacade.subscribe(publicationId, ((PersonDTO) request.getSession(false).getAttribute("loggedPerson")).getId());
     LoggedPersonThreadLocal.unset();
 
-        System.out.println(((PersonDTO) request.getSession(false).getAttribute("loggedPerson")).getPublications().size());
     response.sendRedirect("/publication/details?id="+publicationId);
 
 

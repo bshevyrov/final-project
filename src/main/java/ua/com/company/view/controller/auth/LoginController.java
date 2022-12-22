@@ -44,18 +44,18 @@ public class LoginController extends HttpServlet {
         String pass = request.getParameter("pass");
         PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
         if (personFacade.isExistByEmail(email)) {
-            PersonDTO person = personFacade.findByEmail(email);
-            if (PasswordUtil.validatePassword(pass, person.getPassword())) {
-                if (person.getStatus() == StatusType.ENABLED) {
+            PersonDTO personDTO = personFacade.findByEmail(email);
+            if (PasswordUtil.validatePassword(pass, personDTO.getPassword())) {
+                if (personDTO.getStatus() == StatusType.ENABLED) {
                     HttpSession session = request.getSession(false);
-                    session.setAttribute("loggedPerson", person);
+                    session.setAttribute("loggedPerson", personDTO);
                     ArrayList<HttpSession> currentSessions = (ArrayList<HttpSession>) getServletContext().getAttribute("openSessions");
                     currentSessions.forEach(session1 -> {
                         if(session1.getMaxInactiveInterval()<= ((Timestamp.from(Instant.now()).getTime()-session1.getLastAccessedTime()))){
                             ((ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).remove(session1);
 //TODO login and wait
                         }
-                        if (session1.getAttribute("loggedPerson").equals(person)) {
+                        if (session1.getAttribute("loggedPerson").equals(personDTO)) {
                             ((ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).remove(session1);
                             session1.invalidate();
                         }

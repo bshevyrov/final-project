@@ -90,20 +90,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return person;
     }
 
-    @Override
-    public Optional<Person> findPersonByUsername(Connection con, String username) throws DBException {
-        Optional<Person> person = Optional.empty();
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PERSON_BY_USERNAME)) {
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                person = Optional.of(mapPerson(rs));
-            }
-        } catch (SQLException e) {
-            throw new DBException("Connection: " + con + " and username= " + username, e);
-        }
-        return person;
-    }
+
 
     @Override
     public List<Person> findAll(Connection con) throws DBException {
@@ -181,7 +168,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             stmt.setInt(++index, pubId);
             stmt.execute();
         } catch (SQLException e) {
-            throw new DBException("Connection: " + con + " and pubId= " + personId + " and pubId= " + pubId, e);
+            throw new DBException("Connection: " + con + " and personId= " + personId + " and pubId= " + pubId, e);
         }
     }
 

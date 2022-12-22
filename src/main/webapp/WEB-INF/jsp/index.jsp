@@ -480,7 +480,7 @@
                                                 <li>${topic.title}</li>
                                             </c:forEach>
                                         </ul>
-                                        <h5><a href="/details?id=${publication.id}">${publication.title}</a></h5>
+                                        <h5><a href="/publication/details?id=${publication.id}">${publication.title}</a></h5>
                                     </div>
                                 </div>
                             </div>

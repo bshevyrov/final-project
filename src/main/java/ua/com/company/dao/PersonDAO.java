@@ -9,8 +9,6 @@ import java.util.Optional;
 public interface PersonDAO extends BaseDAO<Person> {
     Optional<Person> findPersonByEmail(Connection con, String email) throws DBException;
 
-    Optional<Person> findPersonByUsername(Connection con, String username) throws DBException;
-
     boolean isExistByEmail(Connection con, String email) throws DBException;
 
     boolean isExistByUsername(Connection con, String username) throws DBException;

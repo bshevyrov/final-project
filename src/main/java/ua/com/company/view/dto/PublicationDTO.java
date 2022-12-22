@@ -8,7 +8,6 @@ public class PublicationDTO extends BaseDTO {
     private String description;
     private double price;
 
-    private List<ImageDTO> images;
     private ImageDTO cover;
 
     private List<TopicDTO> topics;
@@ -29,13 +28,7 @@ public class PublicationDTO extends BaseDTO {
         this.cover = cover;
     }
 
-    public List<ImageDTO> getImages() {
-        return images;
-    }
 
-    public void setImages(List<ImageDTO> images) {
-        this.images = images;
-    }
 
     public String getTitle() {
         return title;
@@ -67,7 +60,6 @@ public class PublicationDTO extends BaseDTO {
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", images=" + images +
                 ", cover=" + cover +
                 ", topics=" + topics +
                 '}';
@@ -86,11 +78,11 @@ public class PublicationDTO extends BaseDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PublicationDTO that = (PublicationDTO) o;
-        return Double.compare(that.price, price) == 0 && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(images, that.images) && Objects.equals(cover, that.cover) && Objects.equals(topics, that.topics);
+        return Double.compare(that.getId(), getId()) == 0 && Objects.equals(title, that.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, price, images, cover, topics);
+        return Objects.hash(title, price);
     }
 }

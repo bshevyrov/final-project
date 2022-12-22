@@ -76,20 +76,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
         return topics;
     }
 
-    @Override
-    public boolean IsExistByTitle(Connection con, String title) throws DBException {
-        int count = 0;
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_TOPIC_BY_TITLE)) {
-            stmt.setString(1, title);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                count = rs.getInt("count");
-            }
-        } catch (SQLException e) {
-            throw new DBException("Connection: " + con + " and title= " + title, e);
-        }
-        return count == 1;
-    }
+   
 
     @Override
     public List<Topic> findAllByPublicationId(Connection con, int pubId) throws DBException {

@@ -11,6 +11,7 @@ import ua.com.company.service.PersonAddressService;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class PersonAddressServiceImpl implements PersonAddressService {
     private final PersonAddressDAO personAddressDAO = DAOFactory.getInstance().getPersonAddressDAO();
@@ -32,7 +33,7 @@ public class PersonAddressServiceImpl implements PersonAddressService {
         try (Connection con = getConnection()) {
             personAddressDAO.create(con, personAddress);
         } catch (SQLException | DBException e) {
-            log.error("Can`t create personAddress " + personAddress, e);
+            log.error("Can`t create personAddress ", e);
         }
 
     }
@@ -42,27 +43,39 @@ public class PersonAddressServiceImpl implements PersonAddressService {
         try (Connection con = getConnection()) {
             personAddressDAO.update(con, personAddress);
         } catch (SQLException | DBException e) {
-            log.error("Can`t update personAddress " + personAddress, e);
+            log.error("Can`t update personAddress ", e);
         }
     }
 
     @Override
     public void delete(int id) {
-
+        try (Connection con = getConnection()) {
+            personAddressDAO.delete(con, id);
+        } catch (SQLException | DBException e) {
+            log.error("Delete error ", e);
+        }
     }
 
     @Override
     public PersonAddress findById(int id) {
-        return null;
+        Optional<PersonAddress> personAddress = Optional.empty();
+        try (Connection con = getConnection()) {
+            personAddressDAO.findById(con, id);
+        } catch (SQLException | DBException e) {
+            log.error("Find by id error ", e);
+        }
+        return personAddress.get();
     }
 
     @Override
     public List<PersonAddress> findAll() {
-        return null;
-    }
-
-    @Override
-    public void updateByPersonId(int personId) {
-
+        List<PersonAddress> personAddresses = null;
+        try (Connection con = getConnection()) {
+            personAddressDAO.findAll(con);
+        } catch (SQLException | DBException e) {
+            log.error("Find all error ", e);
+        }
+        return personAddresses;
     }
 }
+

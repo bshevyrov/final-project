@@ -11,6 +11,7 @@ import ua.com.company.service.TopicService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TopicServiceImpl implements TopicService {
@@ -20,17 +21,12 @@ public class TopicServiceImpl implements TopicService {
 
     public static synchronized TopicService getInstance() {
         if (instance == null) {
-            try {
-                instance = new TopicServiceImpl();
-            } catch (Exception e) {
-                //TODO LOG
-                e.printStackTrace();
-            }
+            instance = new TopicServiceImpl();
         }
         return instance;
     }
 
-    private TopicServiceImpl() throws Exception {
+    private TopicServiceImpl() {
     }
 
 
@@ -39,8 +35,7 @@ public class TopicServiceImpl implements TopicService {
         try (Connection con = getConnection()) {
             topicDao.create(con, topic);
         } catch (DBException | SQLException e) {
-            log.error("Can`t create topic " + topic, e);
-//            e.printStackTrace();
+            log.error("Can`t create topic ", e);
         }
     }
 
@@ -49,8 +44,7 @@ public class TopicServiceImpl implements TopicService {
         try (Connection con = getConnection()) {
             topicDao.update(con, topic);
         } catch (DBException | SQLException e) {
-            log.error("Can`t update topic " + topic, e);
-            e.printStackTrace();
+            log.error("Can`t update topic ", e);
         }
     }
 
@@ -59,72 +53,57 @@ public class TopicServiceImpl implements TopicService {
         try (Connection con = getConnection()) {
             topicDao.delete(con, id);
         } catch (DBException | SQLException e) {
-            log.error("Delete Error" + id, e);
-            e.printStackTrace();
+            log.error("Delete Error", e);
         }
     }
 
     @Override
     public Topic findById(int id) {
+        Topic topic = null;
         try (Connection con = getConnection()) {
-            return topicDao.findById(con, id)
+            topic = topicDao.findById(con, id)
                     .orElseThrow(() -> new TopicNotFoundException("" + id));
         } catch (DBException | SQLException e) {
-            log.error("Topic not found " + id, e);
-            e.printStackTrace();
+            log.error("Find by id error", e);
         } catch (TopicNotFoundException e) {
             log.warn("Topic not found " + id, e);
-
         }
-        return null;
+        return topic;
     }
 
     @Override
     public List<Topic> findAll() {
+        List<Topic> topics = new ArrayList<>();
         try (Connection con = getConnection()) {
-            return topicDao.findAll(con);
+            topics = topicDao.findAll(con);
         } catch (DBException | SQLException e) {
             log.error("findAll ex ", e);
-            e.printStackTrace();
         }
-        return null;
-    }
-
-    @Override
-    public boolean isExistByTitle(String title) {
-        boolean existByTitle = false;
-        try (Connection con = getConnection()) {
-            existByTitle = topicDao.IsExistByTitle(con, title);
-        } catch (DBException | SQLException e) {
-            log.error("isExist ex " + title, e);
-            e.printStackTrace();
-        }
-        return existByTitle;
+        return topics;
     }
 
     @Override
     public List<Topic> findAllByPublicationId(int id) {
+        List<Topic> topics = new ArrayList<>();
         try (Connection con = getConnection()) {
-            return topicDao.findAllByPublicationId(con, id);
+            topics = topicDao.findAllByPublicationId(con, id);
         } catch (DBException | SQLException e) {
-            log.error("Find publication by id error with id= " + id, e);
-            e.printStackTrace();
+            log.error("Find publication by id error. ", e);
         }
-        return null;
+        return topics;
     }
 
     @Override
     public Topic findByTitle(String title) {
+        Topic topic = null;
         try (Connection con = getConnection()) {
-            return topicDao.findByTitle(con, title)
+            topic = topicDao.findByTitle(con, title)
                     .orElseThrow(() -> new TopicNotFoundException("" + title));
         } catch (DBException | SQLException e) {
-            log.error("Topic not found " + title, e);
-            e.printStackTrace();
+            log.error("Topic find by title error ", e);
         } catch (TopicNotFoundException e) {
             log.warn("Topic not found " + title, e);
-            e.printStackTrace();
         }
-        return null;
+        return topic;
     }
 }

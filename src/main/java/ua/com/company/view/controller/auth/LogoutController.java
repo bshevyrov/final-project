@@ -21,7 +21,7 @@ public class LogoutController extends HttpServlet {
             e.printStackTrace();
         }
     }
-
+    //TODO logout redirect
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     ((ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).remove(request.getSession(false));
