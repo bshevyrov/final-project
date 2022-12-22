@@ -5,12 +5,8 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.http.HttpSession;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.DAOFactory;
 import ua.com.company.facade.impl.*;
-import ua.com.company.service.PersonAddressService;
-import ua.com.company.service.PublicationCommentService;
 import ua.com.company.service.impl.*;
 import ua.com.company.type.DBType;
 
@@ -19,36 +15,14 @@ import java.util.ArrayList;
 
 @WebListener
 public class AppContextListener implements ServletContextListener {
-    private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        //config app
 
         DAOFactory.setDaoFactoryFQN(DBType.MYSQL);
-//        PersonDAO personDAO = null;
-//        PublicationDAO publicationDAO = null;
-//        TopicDAO topicDAO = null;
 
-
- /*       try {
-            publicationDAO = DAOFactory.getInstance().getPublicationDAO();
-            personDAO = DAOFactory.getInstance().getPersonDAO();
-            topicDAO =DAOFactory.getInstance().getTopicDAO();
-        } catch (Exception e) {
-            log.error(String.valueOf(e));
-            e.printStackTrace();
-        }*/
         ServletContext servletContext = sce.getServletContext();
-//
-//        PersonService personService = new PersonServiceImpl(personDAO);
-//        servletContext.setAttribute("personService", personService);
-//
-//        PublicationService publicationService = new PublicationServiceImpl(publicationDAO);
-//        servletContext.setAttribute("publicationService", publicationService);
-//
-//        TopicService topicService = new TopicServiceImpl(topicDAO);
-//        servletContext.setAttribute("topicService",topicService);
+
         servletContext.setAttribute("topicFacade", new TopicFacadeImpl(TopicServiceImpl.getInstance()));
         servletContext.setAttribute("personFacade", new PersonFacadeImpl(PersonServiceImpl.getInstance()));
         servletContext.setAttribute("personAddressFacade", new PersonAddressFacadeImpl(PersonAddressServiceImpl.getInstance()));
@@ -56,12 +30,4 @@ public class AppContextListener implements ServletContextListener {
         servletContext.setAttribute("publicationCommentFacade", new PublicationCommentFacadeImpl(PublicationCommentServiceImpl.getInstance()));
         servletContext.setAttribute("openSessions", new ArrayList<HttpSession>());
     }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        ServletContextListener.super.contextDestroyed(sce);
-        //destroy resources
-    }
-
-
 }
