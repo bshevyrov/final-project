@@ -191,7 +191,6 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
 
         String query = "SELECT * " +
                 "FROM publication p LEFT JOIN publication_has_topic pht on p.id = pht.publication_id" +
-                " INNER JOIN topic t on pht.topic_id = t.id " +
                 " WHERE pht.topic_id =" + id + " ORDER BY " + obj.getSortingField() +
                 " " + (obj.getSortingType().equals("DESC") ? "DESC" : "") +
                 " LIMIT " + obj.getStarRecord() + "," + obj.getPageSize() + "";

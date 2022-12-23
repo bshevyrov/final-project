@@ -15,6 +15,12 @@ import java.io.IOException;
 
 public class SignUpController extends HttpServlet {
     private final Logger log = LogManager.getLogger(LoginController.class);
+    PersonFacade personFacade;
+
+    @Override
+    public void init() throws ServletException {
+        personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
+    }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher(
@@ -40,7 +46,6 @@ public class SignUpController extends HttpServlet {
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
         if (isValid(request, email, username, personFacade)) {
             PersonDTO person = new PersonDTO();
             person.setEmail(email);

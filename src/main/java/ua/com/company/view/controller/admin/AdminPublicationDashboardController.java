@@ -22,7 +22,6 @@ public class AdminPublicationDashboardController extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-
         RequestDispatcher dispatcher = request.getRequestDispatcher(
                 "/WEB-INF/jsp/admin/admin-publication-dashboard.jsp");
         try {

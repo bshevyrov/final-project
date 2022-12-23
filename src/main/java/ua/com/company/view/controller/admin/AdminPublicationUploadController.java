@@ -1,7 +1,7 @@
 package ua.com.company.view.controller.admin;
 
+import com.mysql.cj.util.StringUtils;
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,10 +27,9 @@ public class AdminPublicationUploadController extends HttpServlet {
 
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init() throws ServletException {
         topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
         publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
-
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -45,7 +44,7 @@ public class AdminPublicationUploadController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("id") != null) {
+        if (!StringUtils.isNullOrEmpty(request.getParameter("id"))) {
             int id = Integer.parseInt(request.getParameter("id"));
             //TODO NOT NUMBER
             request.setAttribute("publication", ((PublicationFacade) getServletContext().getAttribute("publicationFacade")).findById(id));
@@ -72,7 +71,7 @@ public class AdminPublicationUploadController extends HttpServlet {
                     .collect(Collectors.toList());
 
         }
-        if (request.getParameter("newTopics") != null && !request.getParameter("newTopics").equals("")) {
+        if (!StringUtils.isNullOrEmpty(request.getParameter("newTopics"))) {
             for (String s : request.getParameter("newTopics").split(",")) {
                 TopicDTO currentTopic = new TopicDTO(s.trim());
                 topicFacade.create(currentTopic);
@@ -84,7 +83,7 @@ public class AdminPublicationUploadController extends HttpServlet {
         publication.setTitle(request.getParameter("title"));
         publication.setDescription(request.getParameter("description"));
 
-        if (request.getParameter("id") == null || request.getParameter("id").equals("")) {
+        if (!StringUtils.isNullOrEmpty(request.getParameter("id"))) {
             publicationFacade.create(publication);
         } else {
             publication.setId(Integer.parseInt(request.getParameter("id")));

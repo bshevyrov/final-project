@@ -16,8 +16,9 @@ public class AdminUserDetailsController extends HttpServlet {
     private PersonFacade personFacade;
     private final Logger log = LogManager.getLogger(AdminUserDetailsController.class);
 
+
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init() throws ServletException {
         personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
     }
 

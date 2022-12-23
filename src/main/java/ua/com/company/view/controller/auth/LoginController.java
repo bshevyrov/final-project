@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import ua.com.company.facade.PersonFacade;
 import ua.com.company.type.StatusType;
 import ua.com.company.utils.PasswordUtil;
-import ua.com.company.view.controller.admin.AdminUserDetailsController;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
@@ -21,6 +20,12 @@ import java.util.ArrayList;
 
 public class LoginController extends HttpServlet {
     private final Logger log = LogManager.getLogger(LoginController.class);
+    PersonFacade personFacade;
+
+    @Override
+    public void init() throws ServletException {
+        personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
+    }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher(
@@ -44,7 +49,6 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String pass = request.getParameter("pass");
-        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
         if (personFacade.isExistByEmail(email)) {
             PersonDTO personDTO = personFacade.findByEmail(email);
             if (PasswordUtil.validatePassword(pass, personDTO.getPassword())) {

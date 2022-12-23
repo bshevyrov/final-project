@@ -5,10 +5,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 public class NPEController extends HttpServlet {
+    private final Logger log = LogManager.getLogger(NPEController.class);
+
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
@@ -16,7 +20,7 @@ public class NPEController extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            log.error("NPEController error", e);
         }
     }
 
