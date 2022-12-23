@@ -13,8 +13,8 @@ import ua.com.company.facade.PersonFacade;
 import java.io.IOException;
 
 public class AdminUserDetailsController extends HttpServlet {
-    PersonFacade personFacade;
-    Logger log = LogManager.getLogger(AdminUserDetailsController.class);
+    private PersonFacade personFacade;
+    private final Logger log = LogManager.getLogger(AdminUserDetailsController.class);
 
     @Override
     public void init(ServletConfig config) throws ServletException {

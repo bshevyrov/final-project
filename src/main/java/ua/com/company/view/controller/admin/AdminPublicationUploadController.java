@@ -21,15 +21,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AdminPublicationUploadController extends HttpServlet {
-    TopicFacade topicFacade;
-    PublicationFacade publicationFacade;
-    Logger log = LogManager.getLogger(AdminPublicationUploadController.class);
+    private TopicFacade topicFacade;
+    private PublicationFacade publicationFacade;
+    private final Logger log = LogManager.getLogger(AdminPublicationUploadController.class);
 
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
-         publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
+        publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
 
     }
 

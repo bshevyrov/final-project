@@ -16,14 +16,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class AdminUserDashboardController extends HttpServlet {
-
-    PersonFacade personFacade;
-    Logger log = LogManager.getLogger(AdminUserDashboardController.class);
+    private PersonFacade personFacade;
+    private final Logger log = LogManager.getLogger(AdminUserDashboardController.class);
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
-
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {

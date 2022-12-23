@@ -6,28 +6,29 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ua.com.company.entity.Person;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.facade.PersonFacade;
-import ua.com.company.service.PersonService;
 import ua.com.company.type.StatusType;
 import ua.com.company.utils.PasswordUtil;
+import ua.com.company.view.controller.admin.AdminUserDetailsController;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 public class LoginController extends HttpServlet {
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
+    private final Logger log = LogManager.getLogger(LoginController.class);
 
+    private void processRequest(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher(
                 "/WEB-INF/jsp/auth/login.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            log.error("LoginController error", e);
         }
     }
 
@@ -37,6 +38,7 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,29 +52,28 @@ public class LoginController extends HttpServlet {
                     HttpSession session = request.getSession(false);
                     session.setAttribute("loggedPerson", personDTO);
                     ArrayList<HttpSession> currentSessions = (ArrayList<HttpSession>) getServletContext().getAttribute("openSessions");
-                    currentSessions.forEach(session1 -> {
-                        if(session1.getMaxInactiveInterval()<= ((Timestamp.from(Instant.now()).getTime()-session1.getLastAccessedTime()))){
-                            ((ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).remove(session1);
-//TODO login and wait
+                    for (int i = 0; i < currentSessions.size(); i++) {
+                        if ((currentSessions.get(i).getMaxInactiveInterval() * 1000L) <= ((Timestamp.from(Instant.now()).getTime() - currentSessions.get(i).getLastAccessedTime()))) {
+                            currentSessions.remove(i);
+                            break;
                         }
-                        if (session1.getAttribute("loggedPerson").equals(personDTO)) {
-                            ((ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).remove(session1);
-                            session1.invalidate();
+                        if (currentSessions.get(i).getAttribute("loggedPerson").equals(personDTO)) {
+                            currentSessions.get(i).invalidate();
+                            currentSessions.remove(i);
+                            break;
                         }
-                    });
-                    ( (ArrayList<HttpSession>) getServletContext().getAttribute("openSessions")).add(session);
+                    }
+                    currentSessions.add(session);
                     response.sendRedirect("/");
                     return;
                 } else {
-                    request.setAttribute("ban",true);
+                    request.setAttribute("ban", true);
                 }
-
             }
             request.setAttribute("passWrong", true);
         } else {
             request.setAttribute("emailWrong", true);
         }
         processRequest(request, response);
-
     }
 }

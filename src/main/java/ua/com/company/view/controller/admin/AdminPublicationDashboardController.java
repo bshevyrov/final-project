@@ -13,8 +13,8 @@ import ua.com.company.facade.PublicationFacade;
 import java.io.IOException;
 
 public class AdminPublicationDashboardController extends HttpServlet {
-    PublicationFacade publicationFacade;
-    Logger log = LogManager.getLogger(AdminPublicationDashboardController.class);
+    private PublicationFacade publicationFacade;
+    private final Logger log = LogManager.getLogger(AdminPublicationDashboardController.class);
 
     @Override
     public void init(ServletConfig config) throws ServletException {

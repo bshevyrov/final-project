@@ -6,21 +6,23 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.facade.PersonFacade;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
 public class SignUpController extends HttpServlet {
+    private final Logger log = LogManager.getLogger(LoginController.class);
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
-
         RequestDispatcher dispatcher = request.getRequestDispatcher(
                 "/WEB-INF/jsp/auth/signup.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            log.error("SignUpController error", e);
         }
     }
 
@@ -45,9 +47,9 @@ public class SignUpController extends HttpServlet {
             person.setUsername(username);
             person.setPassword(password);
             personFacade.create(person);
-            person = personFacade.findByEmail(email);
+
             HttpSession session = request.getSession(false);
-            session.setAttribute("loggedPerson", person);
+            session.setAttribute("loggedPerson", personFacade.findByEmail(email));
             response.sendRedirect("/");
             return;
         }

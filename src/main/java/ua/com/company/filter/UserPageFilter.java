@@ -16,7 +16,7 @@ public class UserPageFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
         String loginURL = req.getContextPath() + "/login";
-        boolean loggedIn = (session.getAttribute("loggedPerson") != null)
+        boolean loggedIn = (session != null && session.getAttribute("loggedPerson") != null)
                 && ("ROLE_CUSTOMER".equals(((PersonDTO) session.getAttribute("loggedPerson")).getRole().name())
                 || "ROLE_ADMIN".equals(((PersonDTO) session.getAttribute("loggedPerson")).getRole().name()));
 
