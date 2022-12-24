@@ -1,35 +1,27 @@
 package ua.com.company.view.controller.user;
 
 import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ua.com.company.facade.PersonFacade;
-import ua.com.company.facade.impl.PersonFacadeImpl;
-import ua.com.company.service.PersonService;
-import ua.com.company.service.PublicationService;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 
 public class UserDetailsController extends HttpServlet {
 
-//    private PersonService personService;
-//    private PublicationService publicationService;
-    private ServletContext sc;
+    private PersonFacade personFacade;
+    private final Logger log = LogManager.getLogger(UserDetailsController.class);
 
-/*    @Override
-    public void init(ServletConfig config) throws ServletException {
-        sc = config.getServletContext();
-        personService = (PersonService) sc.getAttribute("personService");
-        try {
-            sc.setAttribute("person",personService.findById(1));
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
-    }*/
+
+    @Override
+    public void init() throws ServletException {
+        personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
+    }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
@@ -38,27 +30,20 @@ public class UserDetailsController extends HttpServlet {
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            e.printStackTrace();
+            log.error("UserDetailsController error", e);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int personId = ((PersonDTO) request.getSession().getAttribute("loggedPerson")).getId();
-        PersonDTO person;
-        PersonFacade personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
-        person = personFacade.findById(personId);
-
-        
-        request.setAttribute("person", person);
+        request.setAttribute("person", personFacade.findById(personId));
         processRequest(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         //todo update
         processRequest(request, response);
-
     }
 }

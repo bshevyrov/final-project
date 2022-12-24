@@ -80,7 +80,6 @@ public class CategoryDetailsController extends HttpServlet {
         } else {
             sort = request.getParameter("currentSort");
         }
-
         sorting.setSortingField(sort.substring(0, 5));
         sorting.setSortingType(sort.substring(5).toUpperCase());
         String pageSize;

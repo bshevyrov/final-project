@@ -17,104 +17,118 @@
 <!-- Product Section Begin -->
 <section class="anime-details spad">
     <div class="container">
-                <form class="form" id="upload" method="post">
-        <div class="anime__details__form" id="left">
-            <div class="section-cover">
-                <h5><fmt:message key="user.span.avatar"/></h5>
-            </div>
+        <form class="form" id="upload" method="post">
+            <div class="anime__details__form" id="left">
+                <div class="section-cover">
+                    <h5><fmt:message key="user.span.avatar"/></h5>
+                </div>
 
 
-            <div class="img-container">
-                <img src="${person.avatar.path} alt="">
-            </div>
-            <%--                <input name="id" value="${publication.id} hidden>--%>
-            <div class="section-title">
-                <h5><fmt:message key="user.span.email"/></h5>
-                <br/>
-                <input placeholder="<fmt:message key="user.span.email"/>" name="email" value="${person.email}" required>
+                <div class="img-container">
+                    <img src="${person.avatar.path} alt="">
+                </div>
+                <%--                <input name="id" value="${publication.id} hidden>--%>
+                <div class="section-title">
+                    <h5><fmt:message key="user.span.email"/></h5>
 
-            </div>
-            <div class="section-username">
-                <h5><fmt:message key="user.span.username"/></h5>
-                <br/>
-                <input placeholder="<fmt:message key="user.span.username"/>" name="username" value="${person.username}" required>
-            </div>
-            <div class="section-price">
-                <h5><fmt:message key="user.span.deposit.funds"/></h5>
-                <br/>
-                <label for="addFunds"></label>
-                <input type=number step="0.01" name="addFunds" id="addFunds">
-            </div>
-<%--            <div class="section-topic">--%>
-<%--                <h5><fmt:message key="user.span.funds"/></h5>--%>
-<%--                <br/>--%>
-<%--                <input placeholder="<fmt:message key="user.span.funds"/>" name="funds" value="${person.username}" required>--%>
+                    <input placeholder="<fmt:message key="user.span.email"/>" name="email" value="${person.email}"
+                           required>
+                    <c:if test="${true.equals(emailExist)}">
+                        <small><fmt:message key="user.details.email.exist"/></small>
+                    </c:if>
 
-<%--                <p>${person.funds}</p>--%>
-<%--            </div>--%>
+                </div>
+                <div class="section-username">
+                    <h5><fmt:message key="user.span.username"/></h5>
 
+                    <input placeholder="<fmt:message key="user.span.username"/>" name="username"
+                           value="${person.username}" required>
+                    <c:if test="${true.equals(usernameExist)}">
+                        <small><fmt:message key="user.details.username.exist"/></small>
+                    </c:if>
+                </div>
+                <div class="section-price">
+                    <h5><fmt:message key="user.span.deposit.funds"/></h5>
+                    <br/>
+                    <label for="addFunds"></label>
+                    <input type=number step="0.01" name="addFunds" id="addFunds">
+                </div>
+                <%--            <div class="section-topic">--%>
+                <%--                <h5><fmt:message key="user.span.funds"/></h5>--%>
+                <%--                <br/>--%>
+                <%--                <input placeholder="<fmt:message key="user.span.funds"/>" name="funds" value="${person.username}" required>--%>
 
-        </div>
-        <div class="anime__details__form" id="right">
-            <div class="section-title">
-                <h5><fmt:message key="user.details.name.first"/></h5>
-                <br/>
-                <input placeholder="<fmt:message key="user.details.name.first"/>" name="firstName" value="${person.personAddressDTO.firstName}" required>
-
-            </div>
-            <div class="section-title">
-                <h5><fmt:message key="user.details.name.last"/></h5>
-                <br/>
-                <input placeholder="<fmt:message key="user.details.name.last"/>" name="lastName" value="${person.personAddressDTO.lastName}" required>
+                <%--                <p>${person.funds}</p>--%>
+                <%--            </div>--%>
 
 
             </div>
-            <div class="section-title">
-                <h5><fmt:message key="user.details.address"/></h5>
-                <br/>
-                <input placeholder="<fmt:message key="user.details.address"/>" name="address" value="${person.personAddressDTO.address}" required>
+            <div class="anime__details__form" id="right">
+                <div class="section-title">
+                    <h5><fmt:message key="user.details.name.first"/></h5>
+                    <br/>
+                    <input placeholder="<fmt:message key="user.details.name.first"/>" name="firstName"
+                           value="${person.personAddressDTO.firstName}" required>
 
+                </div>
+                <div class="section-title">
+                    <h5><fmt:message key="user.details.name.last"/></h5>
+                    <br/>
+                    <input placeholder="<fmt:message key="user.details.name.last"/>" name="lastName"
+                           value="${person.personAddressDTO.lastName}" required>
+
+
+                </div>
+                <div class="section-title">
+                    <h5><fmt:message key="user.details.address"/></h5>
+                    <br/>
+                    <input placeholder="<fmt:message key="user.details.address"/>" name="address"
+                           value="${person.personAddressDTO.address}" required>
+
+
+                </div>
+                <div class="section-title">
+                    <h5><fmt:message key="user.details.city"/></h5>
+                    <br/>
+                    <input placeholder="<fmt:message key="user.details.city"/>" name="city"
+                           value="${person.personAddressDTO.city}" required>
+
+                </div>
+                <div class="section-title">
+                    <h5><fmt:message key="user.details.country"/></h5>
+                    <br/>
+                    <input placeholder="<fmt:message key="user.details.country"/>" name="country"
+                           value="${person.personAddressDTO.country}" required>
+
+                </div>
+                <div class="section-title">
+                    <h5><fmt:message key="user.details.phone"/></h5>
+                    <br/>
+                    <input placeholder="<fmt:message key="user.details.phone"/>" name="phone" type="number"
+                           value="${person.personAddressDTO.phone}" required>
+
+                </div>
+                <div class="section-title">
+                    <h5><fmt:message key="user.details.postal.code"/></h5>
+                    <br/>
+                    <input placeholder="<fmt:message key="user.details.postal.code"/>" name="postalCode" type="number"
+                           value="${person.personAddressDTO.postalCode}" required>
+
+                </div>
+                <div>
+
+
+                    <button type="submit" <%--onclick="return validateForm();"--%> class="site-btn" id="check-btn">
+                        <fmt:message
+                                key="user.button.update"/></button>
+
+
+                    <%--      <form >
+                              <button type="submit" formaction= "/user/details/update" ><fmt:message key="user.button.update.details"/></button>
+                          </form>--%>
+                </div>
 
             </div>
-            <div class="section-title">
-                <h5><fmt:message key="user.details.city"/></h5>
-                <br/>
-                <input placeholder="<fmt:message key="user.details.city"/>" name="city" value="${person.personAddressDTO.city}" required>
-
-            </div>
-            <div class="section-title">
-                <h5><fmt:message key="user.details.country"/></h5>
-                <br/>
-                <input placeholder="<fmt:message key="user.details.country"/>" name="country" value="${person.personAddressDTO.country}" required>
-
-            </div>
-            <div class="section-title">
-                <h5><fmt:message key="user.details.phone"/></h5>
-                <br/>
-                <input placeholder="<fmt:message key="user.details.phone"/>" name="phone" type="number" value="${person.personAddressDTO.phone}" required>
-
-            </div>
-            <div class="section-title">
-                <h5><fmt:message key="user.details.postal.code"/></h5>
-                <br/>
-                <input placeholder="<fmt:message key="user.details.postal.code"/>" name="postalCode" type="number" value="${person.personAddressDTO.postalCode}" required>
-
-            </div>
-            <div>
-
-
-                <button type="submit" <%--onclick="return validateForm();"--%> class="site-btn" id="check-btn"><fmt:message
-                    key="user.button.update"/></button>
-
-
-
-
-          <%--      <form >
-                    <button type="submit" formaction= "/user/details/update" ><fmt:message key="user.button.update.details"/></button>
-                </form>--%>
-            </div>
-
-        </div>
 
 
     </div>
