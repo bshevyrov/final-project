@@ -3,7 +3,7 @@ package ua.com.company.view.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class PersonAddressDTO  extends BaseDTO implements Serializable {
+public class PersonAddressDTO  extends BaseDTO  {
 
     private String firstName;
     private String lastName;

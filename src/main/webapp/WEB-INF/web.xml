@@ -7,57 +7,6 @@
 
     <display-name>A Simple Application</display-name>
 
-    <!--
-
-        <context-param>
-            <param-name>Webmaster</param-name>
-            <param-value>webmaster@example.com</param-value>
-        </context-param>
-
-        <servlet>
-            <servlet-name>catalog</servlet-name>
-            <servlet-class>com.example.CatalogServlet</servlet-class>
-            <init-param>
-                <param-name>catalog</param-name>
-                <param-value>Spring</param-value>
-            </init-param>
-        </servlet>
-
-        <servlet-mapping>
-            <servlet-name>catalog</servlet-name>
-            <url-pattern>/catalog/*</url-pattern>
-        </servlet-mapping>
-
-        <session-config>
-            <session-timeout>30</session-timeout>
-        </session-config>
-
-        <mime-mapping>
-            <extension>pdf</extension>
-            <mime-type>application/pdf</mime-type>
-        </mime-mapping>
-
-        <welcome-file-list>
-            <welcome-file>index.jsp</welcome-file>
-            <welcome-file>index.html</welcome-file>
-            <welcome-file>index.html</welcome-file>
-        </welcome-file-list>
-
-        <error-page>
-            <error-code>404</error-code>
-            <location>/404.html</location>
-        </error-page>
-
-    </web-app>
-
-
-    <web-app>
-
-
-
-
-
-    -->
     <resource-ref>
         <description>DataSource</description>
         <res-ref-name>jdbc/MySQL</res-ref-name>
@@ -71,24 +20,6 @@
         <listener-class>ua.com.company.listener.AppContextListener</listener-class>
     </listener>
 
-    <!--    FILTER-->
- <!--   <filter>
-        <filter-name>BanFilter</filter-name>
-        <filter-class>ua.com.company.filter.BanFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>BanFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
--->
-<!--    <filter>
-        <filter-name>SessionLocaleFilter</filter-name>
-        <filter-class>ua.com.company.filter.SessionLocaleFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>SessionLocaleFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
     <filter>
      <filter-name>RequestLocaleFilter</filter-name>
      <filter-class>ua.com.company.filter.RequestLocaleFilter</filter-class>
@@ -140,8 +71,6 @@
         <servlet-name>AdminPublicationDashboardServlet</servlet-name>
         <url-pattern>/admin/publication/dashboard</url-pattern>
     </servlet-mapping>
-
-
         <servlet>
         <servlet-name>AdminUserDetailsServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.admin.AdminUserDetailsController</servlet-class>
@@ -158,14 +87,6 @@
         <servlet-name>AdminUserDashboardServlet</servlet-name>
         <url-pattern>/admin/user/dashboard</url-pattern>
     </servlet-mapping>
-    <!--    <servlet>
-            <servlet-name>AdminUserStatusServlet</servlet-name>
-            <servlet-class>ua.com.company.view.controller.admin.AdminUserStatusController</servlet-class>
-        </servlet>
-        <servlet-mapping>
-            <servlet-name>AdminUserStatusServlet</servlet-name>
-            <url-pattern>/admin/user/status</url-pattern>
-        </servlet-mapping>-->
     <servlet>
         <servlet-name>AdminPublicationUploadServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.admin.AdminPublicationUploadController</servlet-class>
@@ -174,12 +95,8 @@
         <servlet-name>AdminPublicationUploadServlet</servlet-name>
         <url-pattern>/admin/publication/upload</url-pattern>
     </servlet-mapping>
-
     <!--    admin-->
-
-
     <!--    auth-->
-
     <servlet>
         <servlet-name>LoginPageServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.auth.LoginController</servlet-class>
@@ -188,7 +105,6 @@
         <servlet-name>LoginPageServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>LogoutPageServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.auth.LogoutController</servlet-class>
@@ -208,22 +124,6 @@
     </servlet-mapping>
     <!--    auth-->
     <!--    index page-->
-<!--    <servlet>
-        <servlet-name>LanguageServlet</servlet-name>
-        <servlet-class>ua.com.company.view.controller.LanguageController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LanguageServlet</servlet-name>
-        <url-pattern>/*language</url-pattern>
-    </servlet-mapping>-->
-    <servlet>
-        <servlet-name>SubscribeServlet</servlet-name>
-        <servlet-class>ua.com.company.view.controller.user.UserSubscribeController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SubscribeServlet</servlet-name>
-        <url-pattern>/user/subscribe</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.SearchController</servlet-class>
@@ -242,6 +142,14 @@
     </servlet-mapping>
     <!--    index page-->
     <!--    user-->
+    <servlet>
+        <servlet-name>SubscribeServlet</servlet-name>
+        <servlet-class>ua.com.company.view.controller.user.UserSubscribeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubscribeServlet</servlet-name>
+        <url-pattern>/user/subscribe</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>UserDetailsServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.user.UserDetailsController</servlet-class>
@@ -277,6 +185,19 @@
         <url-pattern>/category</url-pattern>
     </servlet-mapping>
     <!--    category-->
+
+    <!--    publication-->
+    <servlet>
+        <servlet-name>PublicationDetailsServlet</servlet-name>
+        <servlet-class>ua.com.company.view.controller.publication.PublicationDetailsController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PublicationDetailsServlet</servlet-name>
+        <url-pattern>/publication/details</url-pattern>
+    </servlet-mapping>
+    <!--    publication-->
+    <!--    SERVLET-->
+    <!--error-->
     <!--    error-->
     <servlet>
         <servlet-name>NPEServlet</servlet-name>
@@ -295,18 +216,6 @@
         <url-pattern>/dbe</url-pattern>
     </servlet-mapping>
     <!--    error-->
-    <!--    publication-->
-    <servlet>
-        <servlet-name>PublicationDetailsServlet</servlet-name>
-        <servlet-class>ua.com.company.view.controller.publication.PublicationDetailsController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PublicationDetailsServlet</servlet-name>
-        <url-pattern>/publication/details</url-pattern>
-    </servlet-mapping>
-    <!--    publication-->
-    <!--    SERVLET-->
-    <!--error-->
     <error-page>
         <error-code>500</error-code>
         <location>/npe</location>

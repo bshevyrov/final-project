@@ -1,12 +1,10 @@
 package ua.com.company.view.dto;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 public class ImageDTO extends BaseDTO {
     private String name;
     private String path;
-
 
     public String getName() {
         return name;

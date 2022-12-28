@@ -1,13 +1,10 @@
 package ua.com.company.view.dto;
 
 public class PublicationCommentDTO extends BaseDTO {
-
     private String userName;
     private String avatarPath;
     private String text;
-
     private int publicationId;
-
     private int personId;
 
 

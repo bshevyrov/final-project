@@ -8,16 +8,13 @@ import java.util.Objects;
 
 public class PersonDTO extends BaseDTO {
 
-
     private String email;
     private String password;
     private StatusType status;
     private RoleType role;
-
     private String username;
     private double funds;
     private ImageDTO avatar;
-
     private List<PublicationDTO> publications;
     private PersonAddressDTO personAddressDTO;
 
@@ -92,23 +89,6 @@ public class PersonDTO extends BaseDTO {
     public void setFunds(double funds) {
         this.funds = funds;
     }
-
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-//
-//    public String getLastName() {
-//        return lastName;
-//    }
-//
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
-
 
     public PersonDTO(String email, String password, RoleType role) {
         this.email = email;

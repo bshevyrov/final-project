@@ -7,7 +7,6 @@ public class PublicationDTO extends BaseDTO {
     private String title;
     private String description;
     private double price;
-
     private ImageDTO cover;
 
     private List<TopicDTO> topics;
@@ -27,8 +26,6 @@ public class PublicationDTO extends BaseDTO {
     public void setCover(ImageDTO cover) {
         this.cover = cover;
     }
-
-
 
     public String getTitle() {
         return title;
@@ -68,10 +65,6 @@ public class PublicationDTO extends BaseDTO {
     public PublicationDTO() {
     }
 
-    //TODO del
-    public PublicationDTO(String title) {
-        this.title = title;
-    }
 
     @Override
     public boolean equals(Object o) {
