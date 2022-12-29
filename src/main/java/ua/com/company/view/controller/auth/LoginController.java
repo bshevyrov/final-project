@@ -57,10 +57,15 @@ public class LoginController extends HttpServlet {
                     session.setAttribute("loggedPerson", personDTO);
                     ArrayList<HttpSession> currentSessions = (ArrayList<HttpSession>) getServletContext().getAttribute("openSessions");
                     for (int i = 0; i < currentSessions.size(); i++) {
-                        if ((currentSessions.get(i).getMaxInactiveInterval() * 1000L) <= ((Timestamp.from(Instant.now()).getTime() - currentSessions.get(i).getLastAccessedTime()))) {
-                            currentSessions.remove(i);
-                            break;
-                        }
+                       try {
+                           if ((currentSessions.get(i).getMaxInactiveInterval() * 1000L) <= ((Timestamp.from(Instant.now()).getTime() - currentSessions.get(i).getLastAccessedTime()))) {
+                               currentSessions.remove(i);
+//                               break;
+                               //todo remove
+                           }
+                       }catch (IllegalStateException e){
+                           currentSessions.remove(i);
+                       }
                         if (currentSessions.get(i).getAttribute("loggedPerson").equals(personDTO)) {
                             currentSessions.get(i).invalidate();
                             currentSessions.remove(i);

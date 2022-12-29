@@ -64,11 +64,11 @@
     <!--    admin-->
 
     <servlet>
-        <servlet-name>AdminPublicationDashboardServlet</servlet-name>
-        <servlet-class>ua.com.company.view.controller.admin.AdminPublicationDashboardController</servlet-class>
+        <servlet-name>AdminPublicationsDashboardServlet</servlet-name>
+        <servlet-class>ua.com.company.view.controller.admin.AdminPublicationsDashboardController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AdminPublicationDashboardServlet</servlet-name>
+        <servlet-name>AdminPublicationsDashboardServlet</servlet-name>
         <url-pattern>/admin/publication/dashboard</url-pattern>
     </servlet-mapping>
         <servlet>

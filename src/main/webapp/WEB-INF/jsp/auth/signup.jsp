@@ -40,8 +40,8 @@
             <div class="col-lg-6">
                 <div class="login__form">
                     <h3><fmt:message key="signup.page.name"/></h3>
-                    <form class="form" <%--action="#"--%>
-                          method="post" id="signup" <%--onsubmit="return validateForm()--%>>
+                    <form class="form"
+                          method="post" id="signup" >
                         <div class="input__item">
                             <span class="icon_profile"></span>
                             <input type="text" placeholder="Username" name="username" id="username">
@@ -74,24 +74,11 @@
 
                         </div>
                         <button type="submit" class="site-btn"><fmt:message key="signup.button.signup"/></button>
-                        <%--                        https://www.javascripttutorial.net/javascript-dom/javascript-form-validation/--%>
                     </form>
                     <h5><fmt:message key="signup.message.signup"/> <a href="/login"><fmt:message key="signup.button.login"/></a></h5>
                 </div>
             </div>
-            <%--
-                        <div class="col-lg-6">
-                            <div class="login__social__links">
-                                <h3>Login With:</h3>
-                                <ul>
-                                    <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With Facebook</a>
-                                    </li>
-                                    <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
-                                    <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a></li>
-                                </ul>
-                            </div>
-                        </div>
-            --%>
+
         </div>
     </div>
 </section>
@@ -107,4 +94,3 @@
 
 </body>
 
-</html>

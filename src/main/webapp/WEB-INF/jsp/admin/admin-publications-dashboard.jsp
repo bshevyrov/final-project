@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="zxx">
 
 <head>
-    <%--    <title>Anime | Template</title>--%>
+        <title>Mangazine | Admin publications dashboard</title>
 
     <%@include file="/WEB-INF/jspf/head.jspf" %>
 </head>
@@ -69,4 +67,3 @@
 
 </body>
 
-</html>

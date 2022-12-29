@@ -38,7 +38,6 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <%--                                <div class="product__page__filter">--%>
                                 <div class="product__sort__filter">
                                     <p><fmt:message key="category.order"/>:</p>
                                     <form action="${url}" id="sortForm" method="POST">
@@ -74,7 +73,6 @@
                     <div class="row">
 
                         <div class="row">
-                            <%--https://www.codejava.net/java-ee/jstl/jstl-core-tag-foreach--%>
                             <c:forEach var="publication" items="${publications}">
                                 <c:set var="cover_img" value="${publication.cover}"/>
                                 <div class="col-lg-4 col-md-6 col-sm-6">

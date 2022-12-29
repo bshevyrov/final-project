@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="zxx">
 
 <head>
     <title>Anime | Template</title>
@@ -16,22 +14,6 @@
 <!-- Header Section Begin -->
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 <!-- Header End -->
-<%--
-<!-- Breadcrumb Begin -->
-<div class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__links">
-                    <a href="../../../anime/index.html"><i class="fa fa-home"></i> Home</a>
-                    <a href="./categories.html">Categories</a>
-                    <span>${topicName}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Breadcrumb End -->--%>
 
 <!-- Product Section Begin -->
 <section class="user-dashboard">
@@ -55,22 +37,7 @@
                 <p>${person.createDate}</p>
             </div>
 
-            <%--            <table>--%>
-            <%--                <tr>--%>
-            <%--                    <td>Email</td>--%>
-            <%--                    <td>${person.email}</td>--%>
-            <%--                </tr>--%>
 
-            <%--                <tr>--%>
-            <%--                    <td>Username</td>--%>
-            <%--                    <td>${person.username}</td>--%>
-            <%--                </tr>--%>
-
-            <%--                <tr>--%>
-            <%--                    <td>Status</td>--%>
-            <%--                    <td>${person.status}</td>--%>
-            <%--                </tr>--%>
-            <%--            </table>--%>
         </div>
         <div class="anime__details__form" id="right">
             <div class="section-topic">
@@ -102,8 +69,7 @@
         <div class="anime__details__form" id="right2">
             <table>
                 <tr>
-                    <%--                    <td>subscriptions</td>--%>
-                    <%--                    <td>--%>
+
                     <table>
                         <div class="section-topic">
 
@@ -117,41 +83,8 @@
                             </tr>
                         </c:forEach>
                     </table>
-                    </td>
                 </tr>
 
-
-                <%--</tr>
-
-                <th>Num of Subscriptions</th>
-
-                <th>Change status</th>
-
-
-                <tr>
-                    <td>
-
-                    <td>
-                        ${person.username}
-                    </td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${person.publications!=null}">
-                                ${fn:length(person.publications)}
-                            </c:when>
-                            <c:otherwise>
-                                No subscriptions
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                        <form>
-                            <button type="submit" formmethod="post" name="changeStatusId" value="${person.id}">Ban</button>
-                        </form>
-                    </td>
-                </tr>--%>
 
             </table>
         </div>
@@ -168,4 +101,3 @@
 
 </body>
 
-</html>

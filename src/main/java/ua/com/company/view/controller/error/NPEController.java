@@ -16,7 +16,7 @@ public class NPEController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/error/something-went-wrong.jsp");
+                "/WEB-INF/jsp/error/null-page.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {

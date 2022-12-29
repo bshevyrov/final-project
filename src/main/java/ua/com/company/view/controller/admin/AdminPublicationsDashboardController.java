@@ -12,22 +12,23 @@ import ua.com.company.facade.PublicationFacade;
 
 import java.io.IOException;
 
-public class AdminPublicationDashboardController extends HttpServlet {
+public class AdminPublicationsDashboardController extends HttpServlet {
     private PublicationFacade publicationFacade;
-    private final Logger log = LogManager.getLogger(AdminPublicationDashboardController.class);
+    private final Logger log = LogManager.getLogger(AdminPublicationsDashboardController.class);
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init() throws ServletException {
         publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
+
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
         RequestDispatcher dispatcher = request.getRequestDispatcher(
-                "/WEB-INF/jsp/admin/admin-publication-dashboard.jsp");
+                "/WEB-INF/jsp/admin/admin-publications-dashboard.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException | IOException e) {
-            log.error("AdminPublicationDashboardController error", e);
+            log.error("AdminPublicationsDashboardController error", e);
         }
     }
 

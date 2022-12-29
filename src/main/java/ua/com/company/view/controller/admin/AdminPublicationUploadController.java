@@ -82,8 +82,8 @@ public class AdminPublicationUploadController extends HttpServlet {
         publication.setPrice(Double.parseDouble(request.getParameter("price")));
         publication.setTitle(request.getParameter("title"));
         publication.setDescription(request.getParameter("description"));
-
-        if (!StringUtils.isNullOrEmpty(request.getParameter("id"))) {
+        //todo search all not null or empty
+        if (StringUtils.isEmptyOrWhitespaceOnly(request.getParameter("id"))) {
             publicationFacade.create(publication);
         } else {
             publication.setId(Integer.parseInt(request.getParameter("id")));

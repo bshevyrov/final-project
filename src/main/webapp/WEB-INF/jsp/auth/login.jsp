@@ -61,7 +61,6 @@
             </div>
             <button type="submit" class="site-btn"><fmt:message key="auth.button.submit"/></button>
           </form>
-<%--          <a href="#" class="forget_pass">Forgot Your Password?</a>--%>
         </div>
       </div>
       <div class="col-lg-6">
@@ -71,24 +70,6 @@
         </div>
       </div>
     </div>
-<%--
-    <div class="login__social">
-      <div class="row d-flex justify-content-center">
-        <div class="col-lg-6">
-          <div class="login__social__links">
-            <span>or</span>
-            <ul>
-              <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With
-                Facebook</a></li>
-              <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
-              <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
---%>
   </div>
 </section>
 <!-- Login Section End -->
@@ -111,8 +92,6 @@
 
 <!-- Js Plugins -->
 <%@include file="/WEB-INF/jspf/scripts.jspf" %>
-
-
 
 </body>
 
