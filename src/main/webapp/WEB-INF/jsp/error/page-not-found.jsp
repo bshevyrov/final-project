@@ -17,6 +17,7 @@
     <a href='/'>Go main page</a>
 </div>
 <!-- partial -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script><script  src="/js/null-page.js"></script>
+<!-- Js Plugins -->
+<%@include file="/WEB-INF/jspf/scripts.jspf" %>
 
 </body>

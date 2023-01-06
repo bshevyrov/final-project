@@ -32,8 +32,6 @@
                     <div class="anime__details__text">
                         <div class="anime__details__title">
                             <h3>${publication.title}</h3>
-                            <%--                            <h3>Fate Stay Night: Unlimited Blade</h3>--%>
-                            <%--                            <span>フェイト／ステイナイト, Feito／sutei naito</span>--%>
                         </div>
                         <div class="anime__details__rating">
                             <div class="rating">
@@ -50,10 +48,6 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <ul>
-                                        <%--                                        <li><span>Type:</span> TV Series</li>--%>
-                                        <%--                                        <li><span>Studios:</span> Lerche</li>--%>
-                                        <%--                                        <li><span>Date aired:</span> Oct 02, 2019 to ?</li>--%>
-                                        <%--                                        <li><span>Status:</span> Airing</li>--%>
                                         <li><span><fmt:message key="publication.span.categories"/>:</span>
                                             <c:forEach var="topic" items="${publication.topics}">
                                                 ${topic.title}
@@ -63,19 +57,9 @@
                                                 key="publication.span.price"/>:</span>${publication.price}</li>
                                     </ul>
                                 </div>
-                                <%--                                <div class="col-lg-6 col-md-6">--%>
-                                <%--                                    <ul>--%>
-                                <%--                                        <li><span>Scores:</span> 7.31 / 1,515</li>--%>
-                                <%--                                        <li><span>Rating:</span> 8.5 / 161 times</li>--%>
-                                <%--                                        <li><span>Duration:</span> 24 min/ep</li>--%>
-                                <%--                                        <li><span>Quality:</span> HD</li>--%>
-                                <%--                                        <li><span>Views:</span> 131,541</li>--%>
-                                <%--                                    </ul>--%>
-                                <%--                                </div>--%>
                             </div>
                         </div>
                         <div>
-
                             <c:choose>
                                 <c:when test="${not empty sessionScope.loggedPerson
                                     && not empty sessionScope.loggedPerson.publications
@@ -132,11 +116,8 @@
                                     </c:when>
                                     <c:otherwise>
                                         <form action="${url}" method="POST">
-
-
                                             <input type="hidden" name="currentPage" value="${currentPage-1}">
                                             <input type="hidden" name="pubId" value="${publication.id}">
-
                                             <button type="submit" class="button_prev"><fmt:message key="category.btn.prev"/></button>
                                         </form>
 
@@ -162,17 +143,13 @@
                             </div>
                         </div>
                     </div>
-
-
                     <c:if test="${not empty sessionScope.loggedPerson}">
-
                         <div class="anime__details__form">
                             <div class="section-title">
                                 <h5><fmt:message key="publication.text.comment.new"/></h5>
                             </div>
                             <form class="form" method="post">
                                 <input hidden name="pubId" value="${publication.id}"/>
-
                                 <textarea name="comment" placeholder="Your Comment"></textarea>
                                 <button type="submit"><i class="fa fa-location-arrow"></i> <fmt:message key="publication.button.comment.send"/></button>
                             </form>

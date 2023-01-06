@@ -17,13 +17,10 @@
 <!-- Product Section Begin -->
 <section class="anime-details spad">
     <div class="container">
-        <%--        <form class="form" id="upload" method="post">--%>
         <div class="anime__details__form" id="left">
             <div class="section-cover">
                 <h5><fmt:message key="user.span.avatar"/></h5>
             </div>
-
-
             <div class="img-container">
                 <img src="${person.avatar.path} alt="">
             </div>
@@ -43,7 +40,6 @@
                 <br/>
                 <p>${person.funds}</p>
             </div>
-
 
         </div>
         <div class="anime__details__form" id="right">
@@ -82,17 +78,14 @@
                 <br/>
                 <p>${person.personAddressDTO.postalCode}</p>
             </div>
-<div>
-    <form >
-        <button type="submit" formaction= "/user/details/update" ><fmt:message key="user.button.update.details"/></button>
-    </form>
-</div>
-
+            <div>
+                <form>
+                    <button type="submit" formaction="/user/details/update"><fmt:message
+                            key="user.button.update.details"/></button>
+                </form>
+            </div>
         </div>
-
-
     </div>
-
 </section>
 <!-- Product Section End -->
 

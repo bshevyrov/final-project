@@ -47,14 +47,19 @@
 
 .user-dashboard {
     padding-top: 100px;
-     /*padding-bottom: 100px;*/
+    /*padding-bottom: 100px;*/
     height: 700px;
- }
+}
 
 .header__search .btn {
     color: #ffffff;
     position: relative;
-    top: -15%;
+    top: -5px;
+}
+
+#lang {
+    position: relative;
+    top: 10px;
 }
 
 .modal-body .btn {
@@ -69,6 +74,7 @@
     border-radius: 4px;
     margin-right: 11px;
 }
+
 .product__pagination__button .button_prev, .product__pagination__button .button_next {
     font-size: 13px;
     color: #ffffff;
@@ -1092,7 +1098,6 @@ ol {
 /*---------------------
   Anime Details
 -----------------------*/
-
 
 
 .anime-details {
