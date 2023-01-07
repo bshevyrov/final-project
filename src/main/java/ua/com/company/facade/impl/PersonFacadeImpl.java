@@ -45,7 +45,6 @@ public class PersonFacadeImpl implements PersonFacade {
 
     @Override
     public PersonDTO findByEmail(String email) {
-        //TODO WHEN SUBSCRIBE THEN CHANGE SUBSCRIBE ICON  BY TAKE FROM LOGGED PERSON
         return ClassConverter.personToPersonDTO(personService.findByEmail(email));
     }
 

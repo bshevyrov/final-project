@@ -103,11 +103,13 @@
                 <div class="column">
                     <c:choose>
                         <c:when test="${sessionScope.loggedPerson != null}">
-                            <div class="header__username">
-                                <p>${sessionScope.loggedPerson.username}</p>
-                            </div>
+<%--                            <div class="header__username">--%>
+<%--                                <p>${sessionScope.loggedPerson.username}</p>--%>
+<%--                            </div>--%>
                             <div class="header__icon">
-                                <a href="/logout"><span class="icon_profile"></span></a>
+                                <a href="/logout">
+                                    <img id= "mini-ava" src="${sessionScope.loggedPerson.avatar.path}">
+                                    </a>
                             </div>
                         </c:when>
 

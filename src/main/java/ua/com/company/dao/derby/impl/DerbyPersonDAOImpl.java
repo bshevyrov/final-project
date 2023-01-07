@@ -45,7 +45,6 @@ public class DerbyPersonDAOImpl implements PersonDAO {
                 throw new DBException("Connection: " + con + " and " + person, e);
             }
         } else {
-            //TODO not find eror filter
             throw new DBException("Cant find person with id " + person.getId());
         }
     }

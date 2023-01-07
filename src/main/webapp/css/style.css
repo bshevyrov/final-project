@@ -115,7 +115,6 @@ small {
     top: 2.1%
 }
 
-
 .user__dashboard, .publication__dashboard {
     /*padding-bottom: 80px;*/
     /*padding-top: 80px;*/
@@ -2576,4 +2575,19 @@ ol {
         padding: 18px 20px 20px;
     }
 
+}
+
+#mini-ava {
+    width: 16px;
+    height: 17px;
+}
+
+.header__username {
+    position: absolute;
+    right: 6%;
+    top: 2.2%;
+}
+
+.header__username p {
+    color: #ffffff;
 }

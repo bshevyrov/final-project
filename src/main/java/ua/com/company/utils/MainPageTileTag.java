@@ -6,7 +6,6 @@ import ua.com.company.service.impl.TopicServiceImpl;
 
 public class MainPageTileTag extends SimpleTagSupport {
     public void doTag() {
-        //TODO remove these tag
         getJspContext().setAttribute("headerTopics", new TopicFacadeImpl(TopicServiceImpl.getInstance()).findAll());
     }
 }
