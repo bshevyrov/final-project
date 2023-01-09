@@ -38,7 +38,7 @@ public abstract class DBConstants {
     public static final String UPDATE_IMAGE = "UPDATE image SET name = ?, path = ? WHERE id = ?";
     public static final String DELETE_IMAGE = "DELETE FROM image WHERE id =?";
     public static final String FIND_IMAGE_BY_ID = "SELECT * FROM image WHERE id =?";
-    public static final String FIND_ALL_IMAGES = "SELECT name, path FROM image";
+    public static final String FIND_ALL_IMAGES = "SELECT id, name, path, create_date, update_date FROM image";
     public static final String FIND_IMAGE_BY_PUBLICATION_ID = "SELECT i.name, i.path FROM image i LEFT JOIN publication_has_image phi on i.id = phi.image_id WHERE phi.publication_id = ?";
     public static final String F_IMAGE_ID = "id";
     public static final String F_PUBLICATION_IMAGE_ID = "image_id";

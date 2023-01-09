@@ -66,7 +66,8 @@ public interface BaseService<E extends BaseEntity> {
                 DriverManager.registerDriver(derbyEmbeddedDriver);
 
                 return DriverManager.getConnection
-                        ("jdbc:derby:final_project;create=true");
+                        ("jdbc:derby:memory:jdbc:derby:final_project;create=true");
+//                        ("jdbc:derby:final_project;create=true");
             } catch (SQLException e) {
                 log.error("NO CONNECTION TO DERBY DB. APP SHUTDOWN", e);
                 System.exit(1);

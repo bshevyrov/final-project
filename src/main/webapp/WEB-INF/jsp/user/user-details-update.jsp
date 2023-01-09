@@ -27,8 +27,8 @@
                 </div>
 
                 <div class="input__item">
-                    <label for="avatarPath">
-                    </label><input type="text" name="coverPath" id="avatarPath" value="${person.avatar.path}" hidden>
+                    <label for="coverPath">
+                    </label><input type="text" name="avatarPath" id="coverPath" value="${person.avatar.path}" hidden>
                 </div>
                 <div>
 
