@@ -92,4 +92,3 @@ public class SearchController extends HttpServlet {
         processRequest(request, response);
     }
 }
-//todo make code smaller

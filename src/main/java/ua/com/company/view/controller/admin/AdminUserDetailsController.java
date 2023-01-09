@@ -34,7 +34,6 @@ public class AdminUserDetailsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO validation
         request.setAttribute("person", personFacade.findById(Integer.parseInt(request.getParameter("id"))));
         processRequest(request, response);
     }

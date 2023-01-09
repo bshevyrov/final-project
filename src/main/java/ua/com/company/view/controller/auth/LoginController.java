@@ -60,8 +60,6 @@ public class LoginController extends HttpServlet {
                        try {
                            if ((currentSessions.get(i).getMaxInactiveInterval() * 1000L) <= ((Timestamp.from(Instant.now()).getTime() - currentSessions.get(i).getLastAccessedTime()))) {
                                currentSessions.remove(i);
-//                               break;
-                               //todo remove
                            }
                        }catch (IllegalStateException e){
                            currentSessions.remove(i);

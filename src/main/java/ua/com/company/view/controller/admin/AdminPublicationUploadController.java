@@ -50,7 +50,6 @@ public class AdminPublicationUploadController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!StringUtils.isNullOrEmpty(request.getParameter("id"))) {
             int id = Integer.parseInt(request.getParameter("id"));
-            //TODO NOT NUMBER
             request.setAttribute("publication", ((PublicationFacade) getServletContext().getAttribute("publicationFacade")).findById(id));
         }
         request.setAttribute("topics", topicFacade.findAll());
@@ -97,7 +96,6 @@ public class AdminPublicationUploadController extends HttpServlet {
         newPublicationDTO.setPrice(Double.parseDouble(request.getParameter("price")));
         newPublicationDTO.setTitle(request.getParameter("title"));
         newPublicationDTO.setDescription(request.getParameter("description"));
-        //todo search all not null or empty
         if (updatable) {
             newPublicationDTO.setId(id);
             publicationFacade.update(newPublicationDTO);

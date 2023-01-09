@@ -30,9 +30,8 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
     }
 
-    //todo               defaultTransactionIsolation="READ_COMMITTED"
     @Override
-    public void update(Connection con, Person person) throws DBException {//TODO
+    public void update(Connection con, Person person) throws DBException {
         if (isExist(con, person.getId())) {
             try (PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PERSON)) {
                 int index = 0;
@@ -46,7 +45,6 @@ public class MysqlPersonDAOImpl implements PersonDAO {
                 throw new DBException("Connection: " + con + " and " + person, e);
             }
         } else {
-            //TODO not find eror filter
             throw new DBException("Cant find person with id " + person.getId());
         }
     }

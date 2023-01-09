@@ -58,8 +58,8 @@ public class UserDetailsUpdateController extends HttpServlet {
         String newEmail = request.getParameter("email");
         String avatarPath = request.getParameter("avatarPath");
         boolean updatable = false;
-        if(!avatarPath.equals(personDTO.getAvatar().getPath())){
-            imageFacade.create(new ImageDTO("User "+currentPersonDTO.getId()+" avatar",avatarPath));
+        if (!avatarPath.equals(personDTO.getAvatar().getPath())) {
+            imageFacade.create(new ImageDTO("User " + currentPersonDTO.getId() + " avatar", avatarPath));
             currentPersonDTO.setAvatar(imageFacade.findByPath(avatarPath));
             updatable = true;
         } else {
@@ -104,7 +104,7 @@ public class UserDetailsUpdateController extends HttpServlet {
         } else {
             personAddressFacade.create(personAddressDTO);
         }
-//TODO        personDTO.setAvatar();
+
         response.sendRedirect("/user/details");
     }
 

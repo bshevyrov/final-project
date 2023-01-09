@@ -44,7 +44,6 @@ public class CategoryDetailsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String reqParam = request.getParameter("id");
 
-        //todo request get param integer filter
         int topicId = Integer.parseInt(reqParam);
         String topicName = topicFacade.findById(topicId).getTitle();
 

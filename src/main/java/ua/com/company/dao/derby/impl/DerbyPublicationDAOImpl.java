@@ -29,17 +29,6 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
     }
 
 
-    public void updateCoverForPublication(Connection con, int pubId, Image image) throws DBException {//TODO
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE_TO_PUBLICATION)) {
-            int index = 0;
-            stmt.setString(++index, image.getPath());
-            stmt.setInt(++index, pubId);
-            stmt.execute();
-        } catch (SQLException e) {
-            throw new DBException("Connection: " + con + " and pubId= " + pubId + " and " + image, e);
-        }
-    }
-
     @Override
     public int countAllByTopicId(Connection con, int topicId) throws DBException {
         int count = -1;
@@ -174,7 +163,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public List<Publication> findAllByTitle(Connection con, Sorting obj, String pattern) throws DBException {//TODO GENERIC FINDALL
+    public List<Publication> findAllByTitle(Connection con, Sorting obj, String pattern) throws DBException {
         List<Publication> publications = new ArrayList<>();
         String search = "'" + "%" + escapeForLike(pattern) + "%" + "'";
         String query = "SELECT * " +

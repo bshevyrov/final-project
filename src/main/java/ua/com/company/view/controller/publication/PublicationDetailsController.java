@@ -77,7 +77,7 @@ public class PublicationDetailsController extends HttpServlet {
         if (request.getParameter("comment") != null) {
             PersonDTO personDTO = ((PersonDTO) request.getSession(false).getAttribute("loggedPerson"));
             String comment = request.getParameter("comment");
-            //TODO static fill
+
             PublicationCommentDTO publicationCommentDTO = new PublicationCommentDTO();
             publicationCommentDTO.setPublicationId(publicationId);
         //    publicationCommentDTO.setAvatarPath(personDTO.getAvatar().getPath());
