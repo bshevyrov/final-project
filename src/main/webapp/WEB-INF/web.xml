@@ -21,9 +21,9 @@
     </listener>
 
     <filter>
-     <filter-name>RequestLocaleFilter</filter-name>
-     <filter-class>ua.com.company.filter.RequestLocaleFilter</filter-class>
- </filter>
+        <filter-name>RequestLocaleFilter</filter-name>
+        <filter-class>ua.com.company.filter.RequestLocaleFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>RequestLocaleFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -55,7 +55,15 @@
         </init-param>
     </filter>
     <filter-mapping>
-        <filter-name>EncodingFilter</filter-name>
+        <filter-name>RequestParameterFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>RequestParameterFilter</filter-name>
+        <filter-class>ua.com.company.filter.RequestParameterFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RequestParameterFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <!--    FILTER-->
@@ -71,7 +79,7 @@
         <servlet-name>AdminPublicationsDashboardServlet</servlet-name>
         <url-pattern>/admin/publication/dashboard</url-pattern>
     </servlet-mapping>
-        <servlet>
+    <servlet>
         <servlet-name>AdminUserDetailsServlet</servlet-name>
         <servlet-class>ua.com.company.view.controller.admin.AdminUserDetailsController</servlet-class>
     </servlet>

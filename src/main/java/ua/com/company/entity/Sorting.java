@@ -1,6 +1,5 @@
 package ua.com.company.entity;
 
-//TODO THIS IS OK PACKAGE???
 public class Sorting {
     private String sortingField = "title";
     private String sortingType = "ASC";

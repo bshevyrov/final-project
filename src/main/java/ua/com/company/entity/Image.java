@@ -2,8 +2,6 @@ package ua.com.company.entity;
 
 import java.util.Objects;
 
-//todo seriazible
-//todo request character error
 public class Image extends BaseEntity {
     private String name;
     private String path;

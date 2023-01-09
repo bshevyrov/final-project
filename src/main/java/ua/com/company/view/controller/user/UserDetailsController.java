@@ -41,9 +41,4 @@ public class UserDetailsController extends HttpServlet {
         processRequest(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //todo update
-        processRequest(request, response);
-    }
 }
