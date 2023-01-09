@@ -80,16 +80,6 @@ public final class ClassConverter {
         return publicationDTO;
     }
 
-    public static ImageDTO imageToImageDTO(Image image) {
-        ImageDTO imageDTO = new ImageDTO();
-        imageDTO.setId(image.getId());
-        imageDTO.setName(image.getName());
-        imageDTO.setPath(image.getPath());
-        imageDTO.setCreateDate(image.getCreateDate());
-        imageDTO.setUpdateDate(image.getUpdateDate());
-        return imageDTO;
-    }
-
     public static Topic topicDTOToTopic(TopicDTO topicDTO) {
         Topic topic = new Topic();
         topic.setId(topicDTO.getId());
@@ -145,7 +135,17 @@ public final class ClassConverter {
         return personAddress;
     }
 
-    private static Image imageDTOToImage(ImageDTO cover) {
+    public static ImageDTO imageToImageDTO(Image image) {
+        ImageDTO imageDTO = new ImageDTO();
+        imageDTO.setId(image.getId());
+        imageDTO.setName(image.getName());
+        imageDTO.setPath(image.getPath());
+        imageDTO.setCreateDate(image.getCreateDate());
+        imageDTO.setUpdateDate(image.getUpdateDate());
+        return imageDTO;
+    }
+
+    public static Image imageDTOToImage(ImageDTO cover) {
         Image image = new Image();
         image.setId(cover.getId());
         image.setName(cover.getName());

@@ -39,7 +39,6 @@ public class PublicationServiceImpl implements PublicationService {
         Connection con = getConnection();
         try {
             con.setAutoCommit(false);
-            //TODO samr to person avatar
             imageDAO.create(con, publication.getCover());
             publicationDAO.create(con, publication);
             publication = publicationDAO.findByTitle(con, publication.getTitle());
@@ -61,7 +60,6 @@ public class PublicationServiceImpl implements PublicationService {
         try {
             con.setAutoCommit(false);
             publicationDAO.update(con, publication);
-            publicationDAO.updateCoverForPublication(con, publication.getId(), publication.getCover());
             publicationDAO.deleteFromPublicationHasTopicByPublicationId(con, publication.getId());
             for (Topic topic : publication.getTopics()) {
                 publicationDAO.addTopicForPublication(con, publication.getId(), topic.getId());
@@ -193,5 +191,14 @@ public class PublicationServiceImpl implements PublicationService {
             log.error("countAllByTitle ex ", e);
         }
         return count;
+    }
+
+    @Override
+    public void updateCover(int pubId, int coverId) {
+        try (Connection con = getConnection()) {
+            publicationDAO.updateCover(con, pubId, coverId);
+        } catch (DBException | SQLException e) {
+            log.error("Update cover ex ", e);
+        }
     }
 }

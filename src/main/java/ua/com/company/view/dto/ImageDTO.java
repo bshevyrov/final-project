@@ -6,6 +6,14 @@ public class ImageDTO extends BaseDTO {
     private String name;
     private String path;
 
+    public ImageDTO(String name, String avatarPath) {
+        this.setName(name);
+        this.setPath(path);
+    }
+
+    public ImageDTO() {
+    }
+
     public String getName() {
         return name;
     }

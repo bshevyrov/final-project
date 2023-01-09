@@ -23,8 +23,43 @@
                     <h5><fmt:message key="user.span.avatar"/></h5>
                 </div>
                 <div class="img-container">
-                    <img src="${person.avatar.path} alt="">
+                    <img src="${person.avatar.path}" id="avatar" />
                 </div>
+
+                <div class="input__item">
+                    <label for="avatarPath">
+                    </label><input type="text" name="coverPath" id="avatarPath" value="${person.avatar.path}" hidden>
+                </div>
+                <div>
+
+                            <input
+                                    class="form-control form-control-lg"
+                                    id="selectAvatar"
+                                    type="file" accept="image/png, image/jpeg"
+                            />
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="section-title">
                     <h5><fmt:message key="user.span.email"/></h5>
 

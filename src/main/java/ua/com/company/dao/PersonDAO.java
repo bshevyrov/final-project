@@ -18,4 +18,6 @@ public interface PersonDAO extends BaseDAO<Person> {
     void decreaseFunds(Connection con, int personId, double newFunds) throws DBException;
 
     void subscribe(Connection con, int pubId, int personId) throws DBException;
+
+    void updateAvatar(Connection con, int personId, int avatarId) throws DBException;
 }

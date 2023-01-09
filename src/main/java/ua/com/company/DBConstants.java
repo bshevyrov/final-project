@@ -12,7 +12,7 @@ public abstract class DBConstants {
     public static final String COUNT_PERSON_BY_EMAIL = "SELECT COUNT(id) AS count FROM person WHERE email=?";
     public static final String COUNT_PERSON_BY_ID = "SELECT COUNT(id) AS count FROM person WHERE id=?";
     public static final String DELETE_ORPHAN_TOPIC = "DELETE topic FROM topic  LEFT JOIN publication_has_topic pht ON topic.id = pht.topic_id WHERE pht.topic_id IS NULL";
-    public static final String UPDATE_PERSON = "UPDATE person SET email = ?,role_id = (SELECT id FROM role WHERE name=?),status_id = (SELECT id FROM person_status WHERE description=?)WHERE id = ?";
+    public static final String UPDATE_PERSON = "UPDATE person SET email = ?,role_id = (SELECT id FROM role WHERE name=?),status_id = (SELECT id FROM person_status WHERE description=?), image_id =? WHERE id = ?";
 
 
     public static final String FIND_PUBLICATION_BY_ID = "SELECT * FROM publication WHERE id=?";
@@ -20,7 +20,7 @@ public abstract class DBConstants {
     public static final String FIND_ALL_PUBLICATIONS = "SELECT *  FROM publication p ";
     public static final String CREATE_PUBLICATION = "INSERT INTO publication (title,description,price,image_id) VALUES (?,?,?,?)";
     public static final String DELETE_PUBLICATION = "DELETE FROM publication WHERE id=?";
-    public static final String UPDATE_PUBLICATION = "UPDATE publication SET update_date = now(), title=?, description=?, price=? WHERE id=?";
+    public static final String UPDATE_PUBLICATION = "UPDATE publication SET update_date = now(), title=?, description=?, price=?, image_id=? WHERE id=?";
     public static final String CREATE_TOPIC = "INSERT INTO topic (title) VALUES (?)";
     public static final String FIND_ALL_TOPICS = "SELECT * FROM topic ORDER BY title";
     public static final String DELETE_TOPIC = "DELETE FROM topic WHERE id=?";
@@ -71,6 +71,9 @@ public abstract class DBConstants {
     public static final String F_PUBLICATION_COMMENT_CREATE_DATE = "create_date";
     public static final String COUNT_PUBLICATION_COMMENT_BY_PUBLICATION_ID = "SELECT COUNT(id) AS count FROM publication_comment WHERE publication_id=?";
     public static final String FIND_ALL_PUBLICATIONS_BY_PERSON_ID = "SELECT * FROM publication p LEFT JOIN person_has_publication php on p.id = php.publication_id INNER JOIN person pers on php.person_id = pers.id WHERE pers.id = ?";
+    public static final String FIND_IMAGE_BY_PATH = "SELECT * FROM image WHERE path=?";
+    public static final String UPDATE_PERSON_AVATAR = "UPDATE person SET image_id=? WHERE id=?";
+    public static final String UPDATE_PUBLICATION_IMAGE = "UPDATE publication SET image_id=? WHERE  id=?";
 
     private DBConstants() {
     }

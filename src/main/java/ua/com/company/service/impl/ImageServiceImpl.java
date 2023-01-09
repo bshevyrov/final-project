@@ -79,4 +79,18 @@ public class ImageServiceImpl implements ImageService {
         }
         return imageList;
     }
+
+    @Override
+    public Image findByPath(String imagePath) {
+        Image image = null;
+        try (Connection con = getConnection()) {
+            image = imageDAO.findByPath(con, imagePath)
+                    .orElseThrow(() -> new ImageNotFoundException("" + imagePath));
+        } catch (DBException | SQLException e) {
+            log.error("Find by imagePath error ", e);
+        } catch (ImageNotFoundException e) {
+            log.warn("Image not found " + imagePath, e);
+        }
+        return image;
+    }
 }

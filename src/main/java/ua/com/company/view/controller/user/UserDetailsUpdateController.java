@@ -7,8 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.com.company.facade.ImageFacade;
 import ua.com.company.facade.PersonAddressFacade;
 import ua.com.company.facade.PersonFacade;
+import ua.com.company.view.dto.ImageDTO;
 import ua.com.company.view.dto.PersonAddressDTO;
 import ua.com.company.view.dto.PersonDTO;
 
@@ -17,6 +19,7 @@ import java.io.IOException;
 public class UserDetailsUpdateController extends HttpServlet {
     private PersonFacade personFacade;
     private PersonAddressFacade personAddressFacade;
+    private ImageFacade imageFacade;
     private PersonDTO personDTO;
 
     private final Logger log = LogManager.getLogger(UserDetailsUpdateController.class);
@@ -25,6 +28,7 @@ public class UserDetailsUpdateController extends HttpServlet {
     public void init() throws ServletException {
         personFacade = (PersonFacade) getServletContext().getAttribute("personFacade");
         personAddressFacade = (PersonAddressFacade) getServletContext().getAttribute("personAddressFacade");
+        imageFacade = (ImageFacade) getServletContext().getAttribute("imageFacade");
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -52,9 +56,17 @@ public class UserDetailsUpdateController extends HttpServlet {
         currentPersonDTO.setId(personDTO.getId());
         String newUsername = request.getParameter("username");
         String newEmail = request.getParameter("email");
-        boolean isNew = false;
+        String avatarPath = request.getParameter("avatarPath");
+        boolean updatable = false;
+        if(!avatarPath.equals(personDTO.getAvatar().getPath())){
+            imageFacade.create(new ImageDTO("User "+currentPersonDTO.getId()+" avatar",avatarPath));
+            currentPersonDTO.setAvatar(imageFacade.findByPath(avatarPath));
+            updatable = true;
+        } else {
+            currentPersonDTO.setAvatar(personDTO.getAvatar());
+        }
         if (!personDTO.getUsername().equals(newUsername)) {
-            isNew = true;
+            updatable = true;
             if (!personFacade.isExistByUsername(newUsername)) {
                 currentPersonDTO.setUsername(newUsername);
             } else {
@@ -66,7 +78,7 @@ public class UserDetailsUpdateController extends HttpServlet {
             currentPersonDTO.setUsername(personDTO.getUsername());
         }
         if (!personDTO.getEmail().equals(newEmail)) {
-            isNew = true;
+            updatable = true;
             if (!personFacade.isExistByEmail(newEmail)) {
                 currentPersonDTO.setEmail(newEmail);
             } else {
@@ -77,9 +89,10 @@ public class UserDetailsUpdateController extends HttpServlet {
         } else {
             currentPersonDTO.setEmail(personDTO.getEmail());
         }
-        if (isNew) {
+        if (updatable) {
             personFacade.update(currentPersonDTO);
         }
+
 
         PersonAddressDTO personAddressDTO = getPersonAddressDTO(request);
 

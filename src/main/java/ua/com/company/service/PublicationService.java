@@ -18,4 +18,6 @@ public interface PublicationService extends BaseService<Publication> {
 
     int countAllByTitle(String searchReq);
 
+    void updateCover(int pubId, int coverId);
+
 }

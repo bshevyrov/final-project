@@ -213,4 +213,15 @@ public class DerbyPersonDAOImpl implements PersonDAO {
         person.setAvatar(image);
         return person;
     }
+    @Override
+    public void updateAvatar(Connection con, int personId, int avatarId) throws DBException {
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PERSON_AVATAR)) {
+            int index = 0;
+            ps.setInt(++index, avatarId);
+            ps.setInt(++index, personId);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new DBException("Connection: " + con + " and personId= " + personId + " and avatarId= " + avatarId, e);
+        }
+    }
 }

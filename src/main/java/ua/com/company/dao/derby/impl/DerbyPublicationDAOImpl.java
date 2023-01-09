@@ -101,20 +101,19 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
     }
 
 
-    @Override
     public void update(Connection con, Publication publication) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PUBLICATION)) {
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PUBLICATION)) {
             int index = 0;
-            stmt.setString(++index, publication.getTitle());
-            stmt.setString(++index, publication.getDescription());
-            stmt.setDouble(++index, publication.getPrice());
-            stmt.setInt(++index, publication.getId());
-            stmt.execute();
+            ps.setString(++index, publication.getTitle());
+            ps.setString(++index, publication.getDescription());
+            ps.setDouble(++index, publication.getPrice());
+            ps.setInt(++index,publication.getCover().getId());
+            ps.setInt(++index, publication.getId());
+            ps.execute();
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + "publication= " + publication, e);
         }
     }
-
     public void deleteFromPublicationHasTopicByPublicationId(Connection con, int pubId) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PUBLICATION_HAS_TOPIC_BY_PUBLICATION_ID)) {
             int index = 0;
@@ -258,6 +257,18 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
                 .replace("%", "!%")
                 .replace("_", "!_")
                 .replace("[", "![");
+    }
+
+    @Override
+    public void updateCover(Connection con, int pubId, int coverId) throws DBException {
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PUBLICATION_IMAGE)) {
+            int index = 0;
+            ps.setInt(++index, coverId);
+            ps.setInt(++index, pubId);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new DBException("Connection: " + con + " pubId= " + pubId + " coverId= " + coverId, e);
+        }
     }
 
     private Publication mapPublication(ResultSet rs) throws SQLException {

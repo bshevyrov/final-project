@@ -34,13 +34,14 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     @Override
     public void update(Connection con, Person person) throws DBException {//TODO
         if (isExist(con, person.getId())) {
-            try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PERSON)) {
+            try (PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PERSON)) {
                 int index = 0;
-                stmt.setString(++index, person.getEmail());
-                stmt.setString(++index, person.getRole().toString());
-                stmt.setString(++index, person.getStatus().toString());
-                stmt.setInt(++index, person.getId());
-                stmt.execute();
+                ps.setString(++index, person.getEmail());
+                ps.setString(++index, person.getRole().toString());
+                ps.setString(++index, person.getStatus().toString());
+                ps.setInt(++index, person.getAvatar().getId());
+                ps.setInt(++index, person.getId());
+                ps.execute();
             } catch (SQLException e) {
                 throw new DBException("Connection: " + con + " and " + person, e);
             }
@@ -89,7 +90,6 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
         return person;
     }
-
 
 
     @Override
@@ -169,6 +169,18 @@ public class MysqlPersonDAOImpl implements PersonDAO {
             stmt.execute();
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and personId= " + personId + " and pubId= " + pubId, e);
+        }
+    }
+
+    @Override
+    public void updateAvatar(Connection con, int personId, int avatarId) throws DBException {
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PERSON_AVATAR)) {
+            int index = 0;
+            ps.setInt(++index, avatarId);
+            ps.setInt(++index, personId);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new DBException("Connection: " + con + " and personId= " + personId + " and avatarId= " + avatarId, e);
         }
     }
 

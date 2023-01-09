@@ -93,6 +93,22 @@ public class DerbyImageDAOImpl implements ImageDAO {
         return image;
     }
 
+    @Override
+    public Optional<Image> findByPath(Connection con, String path) throws DBException {
+        Optional<Image> image = Optional.empty();
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_IMAGE_BY_PATH)) {
+            stmt.setString(1, path);
+            stmt.executeQuery();
+            ResultSet rs = stmt.getResultSet();
+            if (rs.next()) {
+                image = Optional.of(mapImage(rs));
+            }
+        } catch (SQLException e) {
+            throw new DBException("Connection: " + con + " and path= " + path, e);
+        }
+        return image;
+    }
+
     private Image mapImage(ResultSet rs) throws SQLException {
         Image image = new Image();
         image.setId(rs.getInt(DBConstants.F_IMAGE_ID));

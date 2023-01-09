@@ -12,4 +12,5 @@ public interface PersonService extends BaseService<Person> {
     void changeStatusById(int parseInt);
 
     void subscribe(int pubId, int personId);
+    void updateAvatar(int personId, int avatarId);
 }

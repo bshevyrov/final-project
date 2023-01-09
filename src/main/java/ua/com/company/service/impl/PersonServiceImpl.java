@@ -141,7 +141,7 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = getConnection()) {
             existByUEmail = personDAO.isExistByEmail(con, email);
         } catch (DBException | SQLException e) {
-            log.error("Is exist by email error " , e);
+            log.error("Is exist by email error ", e);
         }
         return existByUEmail;
     }
@@ -190,7 +190,15 @@ public class PersonServiceImpl implements PersonService {
             httpSession.setAttribute("loggedPerson", currentPersonDTO);
         } catch (DBException | SQLException e) {
             log.error("Subscribe exception ", e);
-            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateAvatar(int personId, int avatarId) {
+        try (Connection con = getConnection()) {
+            personDAO.updateAvatar(con, personId, avatarId);
+        } catch (DBException | SQLException e) {
+            log.error("Update avatar exception ", e);
         }
     }
 }

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ua.com.company.facade.ImageFacade;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.facade.TopicFacade;
 import ua.com.company.view.dto.ImageDTO;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 public class AdminPublicationUploadController extends HttpServlet {
     private TopicFacade topicFacade;
     private PublicationFacade publicationFacade;
+
+    private ImageFacade imageFacade;
     private final Logger log = LogManager.getLogger(AdminPublicationUploadController.class);
 
 
@@ -30,6 +33,7 @@ public class AdminPublicationUploadController extends HttpServlet {
     public void init() throws ServletException {
         topicFacade = (TopicFacade) getServletContext().getAttribute("topicFacade");
         publicationFacade = (PublicationFacade) getServletContext().getAttribute("publicationFacade");
+        imageFacade = (ImageFacade) getServletContext().getAttribute("imageFacade");
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -55,22 +59,32 @@ public class AdminPublicationUploadController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PublicationDTO publication = new PublicationDTO();
-        ImageDTO image = new ImageDTO();
+        PublicationDTO newPublicationDTO = new PublicationDTO();
+        boolean updatable = !StringUtils.isEmptyOrWhitespaceOnly(request.getParameter("id"));
+        String coverPath = request.getParameter("coverPath");
+        int id = Integer.parseInt(request.getParameter("id"));
 
-        // todo VALIDATION
-        image.setPath(request.getParameter("coverPath"));
-        image.setName(request.getParameter("title") + " cover");
-        publication.setCover(image);
+        if (!updatable) {
+            PublicationDTO currentPublicationDTO = publicationFacade.findById(id);
+            ImageDTO cover;
+            if (!coverPath.equals(currentPublicationDTO.getCover().getPath())) {
+                imageFacade.create(new ImageDTO(request.getParameter("title") + " cover",coverPath));
+                cover = imageFacade.findByPath(coverPath);
+            }else {
+                cover= currentPublicationDTO.getCover();
+            }
+            newPublicationDTO.setCover(cover);
+
+        }
+
         List<TopicDTO> topicList = new ArrayList<>();
-
         if (request.getParameterValues("topics") != null) {
             topicList = Arrays.stream(request.getParameterValues("topics"))
                     .map(Integer::parseInt)
                     .map(topicFacade::findById)
                     .collect(Collectors.toList());
-
         }
+
         if (!StringUtils.isNullOrEmpty(request.getParameter("newTopics"))) {
             for (String s : request.getParameter("newTopics").split(",")) {
                 TopicDTO currentTopic = new TopicDTO(s.trim());
@@ -78,17 +92,18 @@ public class AdminPublicationUploadController extends HttpServlet {
                 topicList.add(topicFacade.findByTitle(currentTopic.getTitle()));
             }
         }
-        publication.setTopics(topicList);
-        publication.setPrice(Double.parseDouble(request.getParameter("price")));
-        publication.setTitle(request.getParameter("title"));
-        publication.setDescription(request.getParameter("description"));
+
+        newPublicationDTO.setTopics(topicList);
+        newPublicationDTO.setPrice(Double.parseDouble(request.getParameter("price")));
+        newPublicationDTO.setTitle(request.getParameter("title"));
+        newPublicationDTO.setDescription(request.getParameter("description"));
         //todo search all not null or empty
-        if (StringUtils.isEmptyOrWhitespaceOnly(request.getParameter("id"))) {
-            publicationFacade.create(publication);
+        if (updatable) {
+            newPublicationDTO.setId(id);
+            publicationFacade.update(newPublicationDTO);
         } else {
-            publication.setId(Integer.parseInt(request.getParameter("id")));
-            publicationFacade.update(publication);
+            publicationFacade.create(newPublicationDTO);
         }
-        response.sendRedirect("/admin/publication/dashboard");
+        response.sendRedirect("/admin/newPublicationDTO/dashboard");
     }
 }
