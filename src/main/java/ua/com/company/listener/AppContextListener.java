@@ -23,12 +23,21 @@ public class AppContextListener implements ServletContextListener {
 
         ServletContext servletContext = sce.getServletContext();
 
-        servletContext.setAttribute("topicFacade", new TopicFacadeImpl(TopicServiceImpl.getInstance()));
-        servletContext.setAttribute("imageFacade", new ImageFacadeImpl(new ImageServiceImpl(DAOFactory.getInstance().getImageDAO())));
-        servletContext.setAttribute("personFacade", new PersonFacadeImpl(PersonServiceImpl.getInstance()));
-        servletContext.setAttribute("personAddressFacade", new PersonAddressFacadeImpl(PersonAddressServiceImpl.getInstance()));
-        servletContext.setAttribute("publicationFacade", new PublicationFacadeImpl(PublicationServiceImpl.getInstance()));
-        servletContext.setAttribute("publicationCommentFacade", new PublicationCommentFacadeImpl(PublicationCommentServiceImpl.getInstance()));
         servletContext.setAttribute("openSessions", new ArrayList<HttpSession>());
+        servletContext.setAttribute("topicFacade", new TopicFacadeImpl(new TopicServiceImpl(DAOFactory.getInstance().getTopicDAO())));
+        servletContext.setAttribute("imageFacade", new ImageFacadeImpl(new ImageServiceImpl(DAOFactory.getInstance().getImageDAO())));
+        servletContext.setAttribute("publicationCommentFacade", new PublicationCommentFacadeImpl(new PublicationCommentServiceImpl(
+                DAOFactory.getInstance().getPublicationCommentDAO())));
+        servletContext.setAttribute("personAddressFacade", new PersonAddressFacadeImpl(new PersonAddressServiceImpl(
+                DAOFactory.getInstance().getPersonAddressDAO())));
+        servletContext.setAttribute("personFacade", new PersonFacadeImpl(new PersonServiceImpl(
+                DAOFactory.getInstance().getPersonDAO(),
+                DAOFactory.getInstance().getPersonAddressDAO(),
+                DAOFactory.getInstance().getImageDAO(),
+                DAOFactory.getInstance().getPublicationDAO())));
+        servletContext.setAttribute("publicationFacade", new PublicationServiceImpl(
+                DAOFactory.getInstance().getPublicationDAO(),
+                DAOFactory.getInstance().getImageDAO(),
+                DAOFactory.getInstance().getTopicDAO()));
     }
 }

@@ -3,7 +3,10 @@ package ua.com.company.service.impl;
 import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.company.dao.*;
+import ua.com.company.dao.ImageDAO;
+import ua.com.company.dao.PersonAddressDAO;
+import ua.com.company.dao.PersonDAO;
+import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
 import ua.com.company.entity.PersonAddress;
@@ -24,21 +27,18 @@ import java.util.Optional;
 
 public class PersonServiceImpl implements PersonService {
     private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
-    private final PersonDAO personDAO = DAOFactory.getInstance().getPersonDAO();
-    private final PersonAddressDAO personAddressDAO = DAOFactory.getInstance().getPersonAddressDAO();
-    private final ImageDAO imageDAO = DAOFactory.getInstance().getImageDAO();
-    private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
-    private static PersonService instance;
+    private final PersonDAO personDAO;
+    private final PersonAddressDAO personAddressDAO;
+    private final ImageDAO imageDAO;
+    private final PublicationDAO publicationDAO;
 
-    public static synchronized PersonService getInstance() {
-        if (instance == null) {
-            instance = new PersonServiceImpl();
-        }
-        return instance;
+    public PersonServiceImpl(PersonDAO personDAO, PersonAddressDAO personAddressDAO, ImageDAO imageDAO, PublicationDAO publicationDAO) {
+        this.personDAO = personDAO;
+        this.personAddressDAO = personAddressDAO;
+        this.imageDAO = imageDAO;
+        this.publicationDAO = publicationDAO;
     }
 
-    private PersonServiceImpl() {
-    }
 
     @Override
     public void create(Person person) {

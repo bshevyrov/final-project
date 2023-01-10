@@ -2,7 +2,6 @@ package ua.com.company.service.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.PublicationCommentDAO;
 import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
@@ -18,15 +17,12 @@ import java.util.List;
 
 public class PublicationCommentServiceImpl implements PublicationCommentService {
     private final Logger log = LogManager.getLogger(PublicationCommentServiceImpl.class);
-    private final PublicationCommentDAO publicationCommentDAO = DAOFactory.getInstance().getPublicationCommentDAO();
-    private static PublicationCommentServiceImpl instance;
+    private final PublicationCommentDAO publicationCommentDAO;
 
-    public static PublicationCommentService getInstance() {
-        if (instance == null) {
-            instance = new PublicationCommentServiceImpl();
-        }
-        return instance;
+    public PublicationCommentServiceImpl(PublicationCommentDAO publicationCommentDAO) {
+        this.publicationCommentDAO = publicationCommentDAO;
     }
+
 
     @Override
     public void create(PublicationComment publicationComment) {

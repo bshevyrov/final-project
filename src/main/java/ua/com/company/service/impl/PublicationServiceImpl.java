@@ -2,7 +2,6 @@ package ua.com.company.service.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.company.dao.DAOFactory;
 import ua.com.company.dao.ImageDAO;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.dao.TopicDAO;
@@ -20,19 +19,14 @@ import java.util.List;
 
 public class PublicationServiceImpl implements PublicationService {
     private final Logger log = LogManager.getLogger(PublicationServiceImpl.class);
-    private final PublicationDAO publicationDAO = DAOFactory.getInstance().getPublicationDAO();
-    private final ImageDAO imageDAO = DAOFactory.getInstance().getImageDAO();
-    private final TopicDAO topicDAO = DAOFactory.getInstance().getTopicDAO();
-    private static PublicationService instance;
+    private final PublicationDAO publicationDAO;
+    private final ImageDAO imageDAO;
+    private final TopicDAO topicDAO;
 
-    public static synchronized PublicationService getInstance() {
-        if (instance == null) {
-            instance = new PublicationServiceImpl();
-        }
-        return instance;
-    }
-
-    private PublicationServiceImpl() {
+    public PublicationServiceImpl(PublicationDAO publicationDAO, ImageDAO imageDAO, TopicDAO topicDAO) {
+        this.publicationDAO = publicationDAO;
+        this.imageDAO = imageDAO;
+        this.topicDAO = topicDAO;
     }
 
     @Override
