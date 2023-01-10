@@ -1,4 +1,4 @@
-package ua.com.company;
+package ua.com.company.utils;
 
 public abstract class DBConstants {
 

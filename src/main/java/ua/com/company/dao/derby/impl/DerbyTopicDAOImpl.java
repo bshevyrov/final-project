@@ -1,6 +1,6 @@
 package ua.com.company.dao.derby.impl;
 
-import ua.com.company.DBConstants;
+import ua.com.company.utils.DBConstants;
 import ua.com.company.dao.TopicDAO;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;

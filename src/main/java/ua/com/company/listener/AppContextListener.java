@@ -24,7 +24,7 @@ public class AppContextListener implements ServletContextListener {
         ServletContext servletContext = sce.getServletContext();
 
         servletContext.setAttribute("topicFacade", new TopicFacadeImpl(TopicServiceImpl.getInstance()));
-        servletContext.setAttribute("imageFacade", new ImageFacadeImpl(ImageServiceImpl.getInstance()));
+        servletContext.setAttribute("imageFacade", new ImageFacadeImpl(new ImageServiceImpl(DAOFactory.getInstance().getImageDAO())));
         servletContext.setAttribute("personFacade", new PersonFacadeImpl(PersonServiceImpl.getInstance()));
         servletContext.setAttribute("personAddressFacade", new PersonAddressFacadeImpl(PersonAddressServiceImpl.getInstance()));
         servletContext.setAttribute("publicationFacade", new PublicationFacadeImpl(PublicationServiceImpl.getInstance()));

@@ -1,6 +1,6 @@
 package ua.com.company.dao.mysql.impl;
 
-import ua.com.company.DBConstants;
+import ua.com.company.utils.DBConstants;
 import ua.com.company.dao.ImageDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.exception.DBException;

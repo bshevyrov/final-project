@@ -13,6 +13,7 @@ import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.PersonService;
 import ua.com.company.utils.ClassConverter;
 import ua.com.company.utils.CurrentSessionsThreadLocal;
+import ua.com.company.utils.DBConnection;
 import ua.com.company.utils.LoggedPersonThreadLocal;
 import ua.com.company.view.dto.PersonDTO;
 
@@ -41,7 +42,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void create(Person person) {
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             personDAO.create(con, person);
         } catch (DBException | SQLException e) {
             log.error("Can`t create person ", e);
@@ -50,7 +51,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void update(Person person) {
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             personDAO.update(con, person);
         } catch (DBException | SQLException e) {
             log.error("Can`t update person ", e);
@@ -59,7 +60,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void delete(int id) {
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             personDAO.delete(con, id);
         } catch (DBException | SQLException e) {
             log.error("Delete Error ", e);
@@ -69,7 +70,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<Person> findAll() {
         List<Person> personList = null;
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             personList = personDAO.findAll(con);
             for (Person person : personList) {
                 List<Publication> publications = publicationDAO.findAllByPersonId(con, person.getId());
@@ -84,7 +85,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findById(int id) {
         Person person = null;
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             person = findById(con, id);
         } catch (SQLException e) {
             log.error("Find by id error ", e);
@@ -110,7 +111,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findByEmail(String email) {
         Person person = null;
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             person = personDAO.findPersonByEmail(con, email)
                     .orElseThrow(() -> new UserNotFoundException(email));
             getImageAndPublicationsFromTables(con, person, personAddressDAO.findByPersonId(con, person.getId()), publicationDAO.findAllByPersonId(con, person.getId()));
@@ -138,7 +139,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean isExistByEmail(String email) {
         boolean existByUEmail = false;
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             existByUEmail = personDAO.isExistByEmail(con, email);
         } catch (DBException | SQLException e) {
             log.error("Is exist by email error ", e);
@@ -150,7 +151,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean isExistByUsername(String username) {
         boolean existByUsername = false;
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             existByUsername = personDAO.isExistByUsername(con, username);
         } catch (DBException | SQLException e) {
             log.error("Is exist by username error ", e);
@@ -160,7 +161,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void changeStatusById(int id) {
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             personDAO.changeStatusById(con, id);
             List<HttpSession> currentSessions = CurrentSessionsThreadLocal.get();
             for (int i = 0; i < currentSessions.size(); i++) {
@@ -178,7 +179,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void subscribe(int pubId, int personId) {
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             Person person = personDAO.findById(con, personId).get();
             Publication publication = publicationDAO.findById(con, pubId).get();
 //TODO method parametr oublc an peson
@@ -195,7 +196,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void updateAvatar(int personId, int avatarId) {
-        try (Connection con = getConnection()) {
+        try (Connection con = DBConnection.getConnection()) {
             personDAO.updateAvatar(con, personId, avatarId);
         } catch (DBException | SQLException e) {
             log.error("Update avatar exception ", e);

@@ -1,6 +1,6 @@
 package ua.com.company.dao.mysql.impl;
 
-import ua.com.company.DBConstants;
+import ua.com.company.utils.DBConstants;
 import ua.com.company.dao.PersonAddressDAO;
 import ua.com.company.entity.PersonAddress;
 import ua.com.company.exception.DBException;
