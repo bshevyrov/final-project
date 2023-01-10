@@ -4,6 +4,7 @@ import ua.com.company.type.RoleType;
 import ua.com.company.type.StatusType;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Person extends BaseEntity {
 
@@ -115,5 +116,18 @@ public class Person extends BaseEntity {
                 ", publicationList=" + publicationList +
                 ", personAddress=" + personAddress +
                 "} " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Double.compare(person.funds, funds) == 0 && Objects.equals(email, person.email) && Objects.equals(password, person.password) && status == person.status && role == person.role && Objects.equals(username, person.username) && Objects.equals(avatar, person.avatar) && Objects.equals(publicationList, person.publicationList) && Objects.equals(personAddress, person.personAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password, status, role, username, funds, avatar, publicationList, personAddress);
     }
 }

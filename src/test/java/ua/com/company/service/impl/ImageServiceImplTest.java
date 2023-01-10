@@ -45,8 +45,8 @@ class ImageServiceImplTest {
         try (MockedStatic<DBConnection> utilities = Mockito.mockStatic(DBConnection.class)) {
             utilities.when(DBConnection::getConnection).thenReturn(con);
             doNothing().when(imageDAO).create(any(), any());
-            imageService.create(new Image());
-            verify(imageDAO, times(1)).create(any(), eq(new Image()));
+            imageService.create(image);
+            verify(imageDAO, times(1)).create(any(), eq(image));
         }
     }
 
@@ -55,8 +55,8 @@ class ImageServiceImplTest {
         try (MockedStatic<DBConnection> utilities = Mockito.mockStatic(DBConnection.class)) {
             utilities.when(DBConnection::getConnection).thenReturn(con);
             doNothing().when(imageDAO).update(any(), any());
-            imageService.update(new Image());
-            verify(imageDAO, times(1)).update(any(), eq(new Image()));
+            imageService.update(image);
+            verify(imageDAO, times(1)).update(any(), eq(image));
         }
     }
 

@@ -2,6 +2,7 @@ package ua.com.company.utils;
 
 import org.apache.derby.jdbc.EmbeddedDriver;
 import ua.com.company.dao.DAOFactory;
+import ua.com.company.service.impl.PersonServiceImpl;
 import ua.com.company.type.DBType;
 
 import javax.naming.Context;

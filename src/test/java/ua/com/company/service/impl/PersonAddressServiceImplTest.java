@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.*;
 import ua.com.company.dao.PersonAddressDAO;
+import ua.com.company.entity.Person;
 import ua.com.company.entity.PersonAddress;
+import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.utils.DBConnection;
 
@@ -13,11 +15,8 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PersonAddressServiceImplTest {
@@ -34,6 +33,7 @@ class PersonAddressServiceImplTest {
     private PersonAddress personAddress;
     private List<PersonAddress> personAddresses;
 
+
     @BeforeAll
     public void init() {
         MockitoAnnotations.openMocks(this);
@@ -45,8 +45,8 @@ class PersonAddressServiceImplTest {
         try (MockedStatic<DBConnection> utilities = Mockito.mockStatic(DBConnection.class)) {
             utilities.when(DBConnection::getConnection).thenReturn(con);
             doNothing().when(personAddressDAO).create(any(), any());
-            personAddressService.create(new PersonAddress());
-            verify(personAddressDAO, times(1)).create(any(), eq(new PersonAddress()));
+            personAddressService.create(personAddress);
+            verify(personAddressDAO, times(1)).create(any(), eq(personAddress));
         }
     }
 
@@ -55,8 +55,8 @@ class PersonAddressServiceImplTest {
         try (MockedStatic<DBConnection> utilities = Mockito.mockStatic(DBConnection.class)) {
             utilities.when(DBConnection::getConnection).thenReturn(con);
             doNothing().when(personAddressDAO).update(any(), any());
-            personAddressService.update(new PersonAddress());
-            verify(personAddressDAO, times(1)).update(any(), eq(new PersonAddress()));
+            personAddressService.update(personAddress);
+            verify(personAddressDAO, times(1)).update(any(), eq(personAddress));
         }
     }
 
@@ -84,7 +84,7 @@ class PersonAddressServiceImplTest {
     void findAll() throws DBException {
         try (MockedStatic<DBConnection> utilities = Mockito.mockStatic(DBConnection.class)) {
             utilities.when(DBConnection::getConnection).thenReturn(con);
-           when(personAddressDAO.findAll(any())).thenReturn(personAddresses);
+            when(personAddressDAO.findAll(any())).thenReturn(personAddresses);
             personAddressService.findAll();
             verify(personAddressDAO, times(1)).findAll(any());
         }

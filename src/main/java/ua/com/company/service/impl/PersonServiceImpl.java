@@ -14,10 +14,8 @@ import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.PersonService;
-import ua.com.company.utils.ClassConverter;
 import ua.com.company.utils.CurrentSessionsThreadLocal;
 import ua.com.company.utils.DBConnection;
-import ua.com.company.utils.LoggedPersonThreadLocal;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.sql.Connection;
@@ -186,9 +184,7 @@ public class PersonServiceImpl implements PersonService {
             personDAO.decreaseFunds(con, personId, person.getFunds() - publication.getPrice());
             personDAO.subscribe(con, pubId, personId);
 
-            PersonDTO currentPersonDTO = ClassConverter.personToPersonDTO(findById(con, personId));
-            HttpSession httpSession = LoggedPersonThreadLocal.get();
-            httpSession.setAttribute("loggedPerson", currentPersonDTO);
+
         } catch (DBException | SQLException e) {
             log.error("Subscribe exception ", e);
         }

@@ -5,10 +5,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.facade.PersonFacade;
-import ua.com.company.utils.LoggedPersonThreadLocal;
+import ua.com.company.utils.ClassConverter;
 import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
@@ -35,9 +36,9 @@ public class UserSubscribeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int publicationId = Integer.parseInt(request.getParameter("id"));
-        LoggedPersonThreadLocal.set(request.getSession(false));
-        personFacade.subscribe(publicationId, ((PersonDTO) request.getSession(false).getAttribute("loggedPerson")).getId());
-        LoggedPersonThreadLocal.unset();
+        int currentPersonId = ((PersonDTO) request.getSession(false).getAttribute("loggedPerson")).getId();
+        personFacade. subscribe(publicationId, currentPersonId);
+        request.getSession(false).setAttribute("loggedPerson", personFacade.findById(currentPersonId));
         response.sendRedirect("/publication/details?id=" + publicationId);
     }
 }
