@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.facade.PersonFacade;
-import ua.com.company.utils.CurrentSessionsThreadLocal;
+import ua.com.company.view.dto.PersonDTO;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,9 +42,16 @@ public class AdminUserDashboardController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CurrentSessionsThreadLocal.set((List<HttpSession>) getServletContext().getAttribute("openSessions"));
-        personFacade.changeStatusById(Integer.parseInt(request.getParameter("changeStatusId")));
-        CurrentSessionsThreadLocal.unset();
+        List<HttpSession> currentSessions = (List<HttpSession>) getServletContext().getAttribute("openSessions");
+        int personId = Integer.parseInt(request.getParameter("changeStatusId"));
+        personFacade.changeStatusById(personId);
+        for (int i = 0; i < currentSessions.size(); i++) {
+            if (((PersonDTO) currentSessions.get(i).getAttribute("loggedPerson")).getId() == personId) {
+                currentSessions.get(i).invalidate();
+                currentSessions.remove(i);
+                break;
+            }
+        }
         response.sendRedirect("/admin/user/dashboard");
     }
 }

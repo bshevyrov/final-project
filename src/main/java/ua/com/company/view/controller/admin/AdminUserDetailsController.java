@@ -40,8 +40,8 @@ public class AdminUserDetailsController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("changeStatusId");
-        personFacade.changeStatusById(Integer.parseInt(id));
-        response.sendRedirect("/admin/user/details?id=" + id);
+        /*String id = request.getParameter("changeStatusId");
+        personFacade.changeStatusById(Integer.parseInt(id));*/
+//        response.sendRedirect("/admin/user/details?id=" + id);
     }
 }

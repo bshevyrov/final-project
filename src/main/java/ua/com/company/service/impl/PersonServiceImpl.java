@@ -1,6 +1,5 @@
 package ua.com.company.service.impl;
 
-import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.ImageDAO;
@@ -14,9 +13,7 @@ import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.PersonService;
-import ua.com.company.utils.CurrentSessionsThreadLocal;
 import ua.com.company.utils.DBConnection;
-import ua.com.company.view.dto.PersonDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -84,27 +81,16 @@ public class PersonServiceImpl implements PersonService {
     public Person findById(int id) {
         Person person = null;
         try (Connection con = DBConnection.getConnection()) {
-            person = findById(con, id);
-        } catch (SQLException e) {
-            log.error("Find by id error ", e);
-        }
-        return person;
-    }
-
-    private Person findById(Connection con, int id) {
-        Person person = null;
-        try {
             person = personDAO.findById(con, id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
             getImageAndPublicationsFromTables(con, person, personAddressDAO.findByPersonId(con, id), publicationDAO.findAllByPersonId(con, id));
-        } catch (DBException e) {
+        } catch (DBException | SQLException e) {
             log.error("Find by id error ", e);
         } catch (UserNotFoundException e) {
             log.warn("Person not found " + id, e);
         }
         return person;
     }
-
 
     @Override
     public Person findByEmail(String email) {
@@ -161,14 +147,6 @@ public class PersonServiceImpl implements PersonService {
     public void changeStatusById(int id) {
         try (Connection con = DBConnection.getConnection()) {
             personDAO.changeStatusById(con, id);
-            List<HttpSession> currentSessions = CurrentSessionsThreadLocal.get();
-            for (int i = 0; i < currentSessions.size(); i++) {
-                if (((PersonDTO) currentSessions.get(i).getAttribute("loggedPerson")).getId() == id) {
-                    currentSessions.get(i).invalidate();
-                    currentSessions.remove(i);
-                    break;
-                }
-            }
         } catch (DBException | SQLException e) {
             log.error("Change status by id error.", e);
         }

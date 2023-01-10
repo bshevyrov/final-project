@@ -4,8 +4,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.*;
+import ua.com.company.dao.ImageDAO;
+import ua.com.company.dao.PersonAddressDAO;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.dao.PublicationDAO;
+import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
 import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
@@ -28,6 +31,11 @@ class PersonServiceImplTest {
     @Mock
     PersonDAO personDAO;
     @Mock
+    PersonAddressDAO personAddressDAO;
+    @Mock
+    ImageDAO imageDAO;
+
+    @Mock
     PublicationDAO publicationDAO;
     @Mock
     Connection con;
@@ -40,6 +48,7 @@ class PersonServiceImplTest {
     private int idSecond;
     private List<Person> persons;
     private Person person;
+    private Image image;
     private Publication publication;
     private String email;
     private String username;
@@ -52,7 +61,9 @@ class PersonServiceImplTest {
         email = "email";
         username = "username";
         persons = new ArrayList<>();
+        image = new Image();
         person = new Person();
+        person.setAvatar(image);
         publication = new Publication();
     }
 
@@ -101,6 +112,7 @@ class PersonServiceImplTest {
         try (MockedStatic<DBConnection> utilities = Mockito.mockStatic(DBConnection.class)) {
             utilities.when(DBConnection::getConnection).thenReturn(con);
             when(personDAO.findById(any(), anyInt())).thenReturn(Optional.ofNullable(person));
+            when(imageDAO.findById(any(),anyInt())).thenReturn(Optional.ofNullable(image));
             personService.findById(id);
             verify(personDAO, times(1)).findById(any(), eq(id));
         }
@@ -140,7 +152,7 @@ class PersonServiceImplTest {
     void changeStatusById() throws DBException {
         try (MockedStatic<DBConnection> utilities = Mockito.mockStatic(DBConnection.class)) {
             utilities.when(DBConnection::getConnection).thenReturn(con);
-            doNothing().when(personDAO).changeStatusById(any(), id);
+            doNothing().when(personDAO).changeStatusById(any(), anyInt());
             personService.changeStatusById(id);
             verify(personDAO, times(1)).changeStatusById(any(), eq(id));
         }
