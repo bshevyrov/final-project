@@ -1,4 +1,4 @@
-package ua.com.company.utils;
+package ua.com.company.utils.tag;
 
 
 import java.util.Collection;

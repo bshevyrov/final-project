@@ -35,9 +35,9 @@ public class AppContextListener implements ServletContextListener {
                 DAOFactory.getInstance().getPersonAddressDAO(),
                 DAOFactory.getInstance().getImageDAO(),
                 DAOFactory.getInstance().getPublicationDAO())));
-        servletContext.setAttribute("publicationFacade", new PublicationServiceImpl(
+        servletContext.setAttribute("publicationFacade", new PublicationFacadeImpl(new PublicationServiceImpl(
                 DAOFactory.getInstance().getPublicationDAO(),
                 DAOFactory.getInstance().getImageDAO(),
-                DAOFactory.getInstance().getTopicDAO()));
+                DAOFactory.getInstance().getTopicDAO())));
     }
 }

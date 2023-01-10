@@ -16,10 +16,10 @@ public class RequestParameterFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        if (req.getQueryString() != null && req.getQueryString().contains("=")) {
+        if (req.getQueryString() != null  && req.getQueryString().contains("=")) {            System.out.println(req.getQueryString());
             String query = req.getQueryString().substring(req.getQueryString().indexOf("=") + 1);
-            System.out.println(req.getQueryString());
             if (req.getMethod().equalsIgnoreCase("GET")
+                    && !req.getHeader("Referer").contains("css")
                     && (StringUtils.isEmptyOrWhitespaceOnly(query)
                     || !StringUtils.isStrictlyNumeric(query)
                     || Integer.parseInt(query) <= 0)) {
