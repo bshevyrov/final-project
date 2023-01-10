@@ -158,11 +158,8 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = DBConnection.getConnection()) {
             Person person = personDAO.findById(con, personId).get();
             Publication publication = publicationDAO.findById(con, pubId).get();
-//TODO method parametr oublc an peson
             personDAO.decreaseFunds(con, personId, person.getFunds() - publication.getPrice());
             personDAO.subscribe(con, pubId, personId);
-
-
         } catch (DBException | SQLException e) {
             log.error("Subscribe exception ", e);
         }
