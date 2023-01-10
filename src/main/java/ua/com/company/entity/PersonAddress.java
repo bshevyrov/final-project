@@ -1,5 +1,7 @@
 package ua.com.company.entity;
 
+import java.util.Objects;
+
 public class PersonAddress extends BaseEntity {
 
     private String firstName;
@@ -90,5 +92,18 @@ public class PersonAddress extends BaseEntity {
                 ", postalCode=" + postalCode +
                 ", personId=" + personId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonAddress that = (PersonAddress) o;
+        return phone == that.phone && postalCode == that.postalCode && personId == that.personId && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(city, that.city) && Objects.equals(country, that.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, address, city, country, phone, postalCode, personId);
     }
 }

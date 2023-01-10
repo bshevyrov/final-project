@@ -5,13 +5,13 @@ import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.PersonAddressDAO;
 import ua.com.company.entity.PersonAddress;
 import ua.com.company.exception.DBException;
+import ua.com.company.exception.PersonAddressNotFoundException;
 import ua.com.company.service.PersonAddressService;
 import ua.com.company.utils.DBConnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class PersonAddressServiceImpl implements PersonAddressService {
     private final PersonAddressDAO personAddressDAO;
@@ -52,13 +52,15 @@ public class PersonAddressServiceImpl implements PersonAddressService {
 
     @Override
     public PersonAddress findById(int id) {
-        Optional<PersonAddress> personAddress = Optional.empty();
+        PersonAddress personAddress = null;
         try (Connection con = DBConnection.getConnection()) {
-            personAddressDAO.findById(con, id);
+            personAddress = personAddressDAO.findById(con, id).orElseThrow(() -> new PersonAddressNotFoundException("" + id));
         } catch (SQLException | DBException e) {
             log.error("Find by id error ", e);
+        } catch (PersonAddressNotFoundException e) {
+            log.warn("PersonAddress not found " + id, e);
         }
-        return personAddress.get();
+        return personAddress;
     }
 
     @Override
