@@ -1,11 +1,11 @@
 package ua.com.company.dao.mysql.impl;
 
-import ua.com.company.utils.DBConstants;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Publication;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
+import ua.com.company.utils.DBConstants;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -27,6 +27,23 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             throw new DBException("Connection: " + con + " and " + publication, e);
         }
     }
+
+    @Override
+    public int createAndReturnId(Connection con, Publication publication) throws DBException {
+        int id;
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int index = 0;
+            stmt.setString(++index, publication.getTitle());
+            stmt.setString(++index, publication.getDescription());
+            stmt.setDouble(++index, publication.getPrice());
+            stmt.setInt(++index, publication.getCover().getId());
+           id= stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DBException("Connection: " + con + " and " + publication, e);
+        }
+        return id;
+    }
+
 
     @Override
     public int countAllByTopicId(Connection con, int topicId) throws DBException {
@@ -107,7 +124,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
             ps.setString(++index, publication.getTitle());
             ps.setString(++index, publication.getDescription());
             ps.setDouble(++index, publication.getPrice());
-            ps.setInt(++index,publication.getCover().getId());
+            ps.setInt(++index, publication.getCover().getId());
             ps.setInt(++index, publication.getId());
             ps.execute();
         } catch (SQLException e) {
@@ -174,6 +191,7 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
         return publications;
     }
 
+
     @Override
     public List<Publication> findAllByTitle(Connection con, Sorting obj, String pattern) throws DBException {
         List<Publication> publications = new ArrayList<>();
@@ -211,13 +229,13 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public Publication findByTitle(Connection con, String title) throws DBException {
-        Publication publication = new Publication();
+    public Optional<Publication> findByTitle(Connection con, String title) throws DBException {
+        Optional<Publication> publication = Optional.empty();
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PUBLICATION_BY_TITLE)) {
             stmt.setString(1, title);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    publication = mapPublication(rs);
+                    publication = Optional.of(mapPublication(rs));
                 }
             }
         } catch (SQLException e) {

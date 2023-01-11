@@ -28,6 +28,21 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
         }
     }
 
+    @Override
+    public int createAndReturnId(Connection con, Publication publication) throws DBException {
+        int id;
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            int index = 0;
+            stmt.setString(++index, publication.getTitle());
+            stmt.setString(++index, publication.getDescription());
+            stmt.setDouble(++index, publication.getPrice());
+            stmt.setInt(++index, publication.getCover().getId());
+            id= stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DBException("Connection: " + con + " and " + publication, e);
+        }
+        return id;
+    }
 
     @Override
     public int countAllByTopicId(Connection con, int topicId) throws DBException {
@@ -200,13 +215,13 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
     }
 
     @Override
-    public Publication findByTitle(Connection con, String title) throws DBException {
-        Publication publication = new Publication();
+    public Optional<Publication> findByTitle(Connection con, String title) throws DBException {
+        Optional<Publication> publication = Optional.empty();
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.FIND_PUBLICATION_BY_TITLE)) {
             stmt.setString(1, title);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    publication = mapPublication(rs);
+                    publication = Optional.of(mapPublication(rs));
                 }
             }
         } catch (SQLException e) {

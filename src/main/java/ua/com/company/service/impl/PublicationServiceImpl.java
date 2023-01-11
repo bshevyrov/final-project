@@ -36,7 +36,7 @@ public class PublicationServiceImpl implements PublicationService {
             con.setAutoCommit(false);
             imageDAO.create(con, publication.getCover());
             publicationDAO.create(con, publication);
-            publication = publicationDAO.findByTitle(con, publication.getTitle());
+            publication.setId(publicationDAO.createAndReturnId(con,publication));
             for (Topic topic : publication.getTopics()) {
                 publicationDAO.addTopicForPublication(con, publication.getId(), topic.getId());
             }
@@ -94,6 +94,7 @@ public class PublicationServiceImpl implements PublicationService {
         }
         return publication;
     }
+
 
     @Override
     public List<Publication> findAll() {

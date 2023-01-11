@@ -4,10 +4,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.*;
+import ua.com.company.dao.ImageDAO;
 import ua.com.company.dao.PersonAddressDAO;
-import ua.com.company.entity.Person;
 import ua.com.company.entity.PersonAddress;
-import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.utils.DBConnection;
 
@@ -22,7 +21,7 @@ import static org.mockito.Mockito.*;
 class PersonAddressServiceImplTest {
 
     @Mock
-    Connection con;
+    private Connection con;
 
     @Mock
     private PersonAddressDAO personAddressDAO;
