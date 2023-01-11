@@ -1,5 +1,7 @@
 package ua.com.company.entity;
 
+import java.util.Objects;
+
 public class PublicationComment extends BaseEntity {
     private String username;
     private String avatarPath;
@@ -59,5 +61,18 @@ public class PublicationComment extends BaseEntity {
                 ", publicationId=" + publicationId +
                 ", personId=" + personId +
                 "} " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PublicationComment that = (PublicationComment) o;
+        return publicationId == that.publicationId && personId == that.personId && Objects.equals(username, that.username) && Objects.equals(avatarPath, that.avatarPath) && Objects.equals(text, that.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, avatarPath, text, publicationId, personId);
     }
 }

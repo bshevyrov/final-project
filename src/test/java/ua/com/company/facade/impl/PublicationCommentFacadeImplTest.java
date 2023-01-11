@@ -28,6 +28,7 @@ class PublicationCommentFacadeImplTest {
     private PublicationCommentDTO publicationCommentDTO;
     private List<PublicationComment> publicationComments;
     private Sorting sorting;
+    private int id;
 
     @BeforeAll
     void init() {
@@ -36,20 +37,22 @@ class PublicationCommentFacadeImplTest {
         publicationCommentDTO = new PublicationCommentDTO();
         publicationComments = new ArrayList<>();
         sorting = new Sorting();
+        id = 1;
     }
 
     @Test
     void findAllByPublicationId() {
-        when(publicationCommentService.findAllByPublicationId(sorting, anyInt())).thenReturn(publicationComments);
-        publicationCommentFacade.findAllByPublicationId(sorting, anyInt());
-        verify(publicationCommentService, times(1)).findAllByPublicationId(sorting, anyInt());
+        when(publicationCommentService.findAllByPublicationId(sorting, id)).thenReturn(publicationComments);
+        publicationCommentFacade.findAllByPublicationId(sorting, id);
+        verify(publicationCommentService, times(1)).findAllByPublicationId(sorting, id);
     }
 
     @Test
     void countAllByPublicationId() {
-        when(publicationCommentService.findAllByPublicationId(sorting, anyInt())).thenReturn(publicationComments);
-        publicationCommentFacade.findAllByPublicationId(sorting, anyInt());
-        verify(publicationCommentService, times(1)).findAllByPublicationId(sorting, anyInt());
+        when(publicationCommentService.countAllByPublicationId(id)).thenReturn(anyInt());
+        publicationCommentFacade.countAllByPublicationId(id);
+        System.out.println(publicationCommentService);
+        verify(publicationCommentService, times(1)).countAllByPublicationId(id);
     }
 
     @Test
