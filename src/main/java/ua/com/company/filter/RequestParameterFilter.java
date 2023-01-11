@@ -16,7 +16,7 @@ public class RequestParameterFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        if (req.getQueryString() != null  && req.getQueryString().contains("=")) {            System.out.println(req.getQueryString());
+        if (req.getQueryString() != null  && req.getQueryString().contains("=")) {
             String query = req.getQueryString().substring(req.getQueryString().indexOf("=") + 1);
             if (req.getMethod().equalsIgnoreCase("GET")
                     && !req.getHeader("Referer").contains("css")
