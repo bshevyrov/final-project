@@ -51,7 +51,6 @@ class PublicationCommentFacadeImplTest {
     void countAllByPublicationId() {
         when(publicationCommentService.countAllByPublicationId(id)).thenReturn(anyInt());
         publicationCommentFacade.countAllByPublicationId(id);
-        System.out.println(publicationCommentService);
         verify(publicationCommentService, times(1)).countAllByPublicationId(id);
     }
 
