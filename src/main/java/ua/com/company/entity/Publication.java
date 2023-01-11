@@ -1,6 +1,7 @@
 package ua.com.company.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Publication extends BaseEntity {
     private String title;
@@ -65,5 +66,18 @@ public class Publication extends BaseEntity {
 
     public Publication(String title) {
         this.title = title;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Publication that = (Publication) o;
+        return Double.compare(that.price, price) == 0 && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(cover, that.cover) && Objects.equals(topics, that.topics);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description, price, cover, topics);
     }
 }
