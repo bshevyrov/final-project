@@ -22,7 +22,6 @@ class ImageFacadeImplTest {
 
     @Mock
     ImageServiceImpl imageService;
-    @Mock
 
     ImageDTO imageDTO;
     Image image;
