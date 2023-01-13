@@ -23,7 +23,7 @@ public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
             stmt.setString(++index, personAddress.getAddress());
             stmt.setString(++index, personAddress.getCity());
             stmt.setString(++index, personAddress.getCountry());
-            stmt.setInt(++index, personAddress.getPhone());
+            stmt.setString(++index, personAddress.getPhone());
             stmt.setInt(++index, personAddress.getPostalCode());
             stmt.setInt(++index, personAddress.getPersonId());
             stmt.execute();
@@ -41,7 +41,7 @@ public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
             stmt.setString(++index, personAddress.getAddress());
             stmt.setString(++index, personAddress.getCity());
             stmt.setString(++index, personAddress.getCountry());
-            stmt.setInt(++index, personAddress.getPhone());
+            stmt.setString(++index, personAddress.getPhone());
             stmt.setInt(++index, personAddress.getPostalCode());
             stmt.setInt(++index, personAddress.getId());
             stmt.execute();
@@ -99,7 +99,7 @@ public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
         personAddress.setAddress(rs.getString(DBConstants.F_PERSON_ADDRESS_ADDRESS));
         personAddress.setCity(rs.getString(DBConstants.F_PERSON_ADDRESS_CITY));
         personAddress.setCountry(rs.getString(DBConstants.F_PERSON_ADDRESS_COUNTRY));
-        personAddress.setPhone(rs.getInt(DBConstants.F_PERSON_ADDRESS_PHONE));
+        personAddress.setPhone(rs.getString(DBConstants.F_PERSON_ADDRESS_PHONE));
         personAddress.setPostalCode(rs.getInt(DBConstants.F_PERSON_ADDRESS_POSTAL_CODE));
         personAddress.setCreateDate(rs.getTimestamp(DBConstants.F_PERSON_ADDRESS_CREATE_DATE));
         personAddress.setUpdateDate(rs.getTimestamp(DBConstants.F_PERSON_ADDRESS_UPDATE_DATE));

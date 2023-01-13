@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`person_address` (
                                                          `address` VARCHAR(1024) NULL DEFAULT NULL,
                                                          `city` VARCHAR(45) NULL DEFAULT NULL,
                                                          `country` VARCHAR(45) NULL DEFAULT NULL,
-                                                         `phone` INT NULL DEFAULT NULL,
+                                                         `phone` VARCHAR(45) NULL DEFAULT NULL,
                                                          `postal_code` INT NULL DEFAULT NULL,
                                                          `create_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
                                                          `update_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

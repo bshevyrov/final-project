@@ -32,10 +32,10 @@ public class ImageDTO extends BaseDTO {
 
     @Override
     public String toString() {
-        return "Image{" +
+        return "ImageDTO{" +
                 "name='" + name + '\'' +
                 ", path='" + path + '\'' +
-                '}';
+                "} " + super.toString();
     }
 
     @Override

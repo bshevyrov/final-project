@@ -25,7 +25,7 @@ public class TopicDTO extends BaseDTO {
     public String toString() {
         return "TopicDTO{" +
                 "title='" + title + '\'' +
-                '}';
+                "} " + super.toString();
     }
 
     @Override

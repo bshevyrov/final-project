@@ -28,8 +28,7 @@ public class Image extends BaseEntity {
         return "Image{" +
                 "name='" + name + '\'' +
                 ", path='" + path + '\'' +
-                super.toString() +
-                '}';
+                "} " + super.toString();
     }
 
     @Override

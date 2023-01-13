@@ -60,6 +60,7 @@ public final class ClassConverter {
                 .map(ClassConverter::topicDTOToTopic)
                 .collect(Collectors.toList()));
         publication.setCover(ClassConverter.imageDTOToImage(publicationDTO.getCover()));
+
         return publication;
     }
 
@@ -84,6 +85,7 @@ public final class ClassConverter {
         Topic topic = new Topic();
         topic.setId(topicDTO.getId());
         topic.setTitle(topicDTO.getTitle());
+
         return topic;
     }
 
@@ -91,6 +93,8 @@ public final class ClassConverter {
         TopicDTO topicDTO = new TopicDTO();
         topicDTO.setId(topic.getId());
         topicDTO.setTitle(topic.getTitle());
+        topicDTO.setCreateDate(topic.getCreateDate());
+        topicDTO.setUpdateDate(topic.getUpdateDate());
         return topicDTO;
     }
 
@@ -100,6 +104,8 @@ public final class ClassConverter {
         person.setUsername(personDTO.getUsername());
         person.setEmail(personDTO.getEmail());
         person.setFunds(personDTO.getFunds());
+        person.setRole(personDTO.getRole());
+        person.setStatus(personDTO.getStatus());
         if (personDTO.getPassword() != null) {
             person.setPassword(personDTO.getPassword());
         }
@@ -150,20 +156,21 @@ public final class ClassConverter {
         image.setId(cover.getId());
         image.setName(cover.getName());
         image.setPath(cover.getPath());
-        image.setCreateDate(cover.getCreateDate());
-        image.setUpdateDate(cover.getUpdateDate());
+
         return image;
     }
 
     public static PublicationCommentDTO publicationCommentToPublicationCommentDTO(PublicationComment comment) {
         PublicationCommentDTO publicationCommentDTO = new PublicationCommentDTO();
+        publicationCommentDTO.setId(comment.getId());
         publicationCommentDTO.setAvatarPath(comment.getAvatarPath());
         publicationCommentDTO.setText(comment.getText());
-        publicationCommentDTO.setUserName(comment.getUsername());
+        publicationCommentDTO.setUsername(comment.getUsername());
         publicationCommentDTO.setCreateDate(comment.getCreateDate());
         publicationCommentDTO.setUpdateDate(comment.getUpdateDate());
         publicationCommentDTO.setPublicationId(comment.getPublicationId());
         publicationCommentDTO.setPersonId(comment.getPersonId());
+       publicationCommentDTO.setUsername(comment.getUsername());
         return publicationCommentDTO;
 
 
@@ -171,12 +178,14 @@ public final class ClassConverter {
 
     public static PublicationComment publicationCommentDTOToPublicationComment(PublicationCommentDTO publicationCommentDTO) {
         PublicationComment publicationComment = new PublicationComment();
-        publicationComment.setPublicationId(publicationCommentDTO.getId());
+        publicationComment.setId(publicationCommentDTO.getId());
+        publicationComment.setUsername(publicationCommentDTO.getUsername());
+        publicationComment.setPublicationId(publicationCommentDTO.getPublicationId());
         publicationComment.setText(publicationCommentDTO.getText());
         publicationComment.setPersonId(publicationCommentDTO.getPersonId());
         publicationComment.setAvatarPath(publicationCommentDTO.getAvatarPath());
         publicationComment.setPublicationId(publicationCommentDTO.getPublicationId());
-        publicationComment.setPersonId(publicationCommentDTO.getPersonId());
+
         return publicationComment;
     }
 }

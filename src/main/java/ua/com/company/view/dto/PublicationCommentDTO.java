@@ -1,7 +1,7 @@
 package ua.com.company.view.dto;
 
 public class PublicationCommentDTO extends BaseDTO {
-    private String userName;
+    private String username;
     private String avatarPath;
     private String text;
     private int publicationId;
@@ -24,12 +24,12 @@ public class PublicationCommentDTO extends BaseDTO {
         this.personId = personId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getAvatarPath() {
@@ -54,7 +54,7 @@ public class PublicationCommentDTO extends BaseDTO {
     @Override
     public String toString() {
         return "PublicationComment{" +
-                "userName='" + userName + '\'' +
+                "userName='" + username + '\'' +
                 ", avatarPath='" + avatarPath + '\'' +
                 ", text='" + text + '\'' +
                 ", publicationId=" + publicationId +

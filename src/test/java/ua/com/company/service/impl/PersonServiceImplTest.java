@@ -15,7 +15,6 @@ import ua.com.company.exception.DBException;
 import ua.com.company.utils.DBConnection;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +24,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-
 class PersonServiceImplTest {
 
     @Mock
     PersonDAO personDAO;
+
     @Mock
     PersonAddressDAO personAddressDAO;
     @Mock
@@ -73,7 +72,7 @@ class PersonServiceImplTest {
             utilities.when(DBConnection::getConnection).thenReturn(con);
             doNothing().when(personDAO).create(any(), any());
             personService.create(person);
-            verify(personDAO, times(1)).create(any(), eq(person));
+            verify(personDAO, times(1)).create(con, person);
         }
     }
 
@@ -112,7 +111,7 @@ class PersonServiceImplTest {
         try (MockedStatic<DBConnection> utilities = Mockito.mockStatic(DBConnection.class)) {
             utilities.when(DBConnection::getConnection).thenReturn(con);
             when(personDAO.findById(any(), anyInt())).thenReturn(Optional.ofNullable(person));
-            when(imageDAO.findById(any(),anyInt())).thenReturn(Optional.ofNullable(image));
+            when(imageDAO.findById(any(), anyInt())).thenReturn(Optional.ofNullable(image));
             personService.findById(id);
             verify(personDAO, times(1)).findById(any(), eq(id));
         }
@@ -165,7 +164,7 @@ class PersonServiceImplTest {
             doNothing().when(personDAO).subscribe(any(), anyInt(), anyInt());
             when(personDAO.findById(any(), anyInt())).thenReturn(Optional.ofNullable(person));
             when(publicationDAO.findById(any(), anyInt())).thenReturn(Optional.ofNullable(publication));
-            personService.subscribe(id,idSecond);
+            personService.subscribe(id, idSecond);
             verify(personDAO, times(1)).subscribe(any(), eq(id), eq(idSecond));
         }
     }

@@ -115,7 +115,7 @@ public class UserDetailsUpdateController extends HttpServlet {
         personAddressDTO.setAddress(request.getParameter("address"));
         personAddressDTO.setCity(request.getParameter("city"));
         personAddressDTO.setCountry(request.getParameter("country"));
-        personAddressDTO.setPhone(Integer.parseInt(request.getParameter("phone")));
+        personAddressDTO.setPhone(request.getParameter("phone"));
         personAddressDTO.setPostalCode(Integer.parseInt(request.getParameter("postalCode")));
         personAddressDTO.setPersonId(personDTO.getId());
         return personAddressDTO;

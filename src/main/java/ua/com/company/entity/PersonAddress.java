@@ -9,7 +9,7 @@ public class PersonAddress extends BaseEntity {
     private String address;
     private String city;
     private String country;
-    private int phone;
+    private String phone;
     private int postalCode;
     private int personId;
 
@@ -61,11 +61,11 @@ public class PersonAddress extends BaseEntity {
         this.country = country;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -81,17 +81,18 @@ public class PersonAddress extends BaseEntity {
     }
 
     @Override
-    public String toString() {
+    public String
+    toString() {
         return "PersonAddress{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
                 ", city='" + city + '\'' +
                 ", country='" + country + '\'' +
-                ", phone=" + phone +
+                ", phone='" + phone + '\'' +
                 ", postalCode=" + postalCode +
                 ", personId=" + personId +
-                '}';
+                "} " + super.toString();
     }
 
     @Override
@@ -99,7 +100,7 @@ public class PersonAddress extends BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonAddress that = (PersonAddress) o;
-        return phone == that.phone && postalCode == that.postalCode && personId == that.personId && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(city, that.city) && Objects.equals(country, that.country);
+        return postalCode == that.postalCode && personId == that.personId && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(city, that.city) && Objects.equals(country, that.country) && Objects.equals(phone, that.phone);
     }
 
     @Override
