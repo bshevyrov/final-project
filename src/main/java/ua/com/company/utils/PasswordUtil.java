@@ -12,7 +12,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
 public class PasswordUtil {
-   private final Logger log = LogManager.getLogger(PasswordUtil.class);
     public static final int SALT_SIZE = 16;
     public static final String HASH_ALGORITHM = "PBKDF2WithHmacSHA1";
     public static final int NUMBER_OF_ITERATIONS = 65535;
