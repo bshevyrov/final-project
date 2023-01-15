@@ -21,7 +21,9 @@ public class PersonAddressServiceImpl implements PersonAddressService {
         this.personAddressDAO = personAddressDAO;
     }
 
-
+    /**
+     * @param personAddress entity to put in Database
+     */
     @Override
     public void create(PersonAddress personAddress) {
         try (Connection con = DBConnection.getConnection()) {
@@ -32,6 +34,9 @@ public class PersonAddressServiceImpl implements PersonAddressService {
 
     }
 
+    /**
+     * @param personAddress entity to update in Database
+     */
     @Override
     public void update(PersonAddress personAddress) {
         try (Connection con = DBConnection.getConnection()) {
@@ -41,6 +46,9 @@ public class PersonAddressServiceImpl implements PersonAddressService {
         }
     }
 
+    /**
+     * @param id id of entity  that need to delete
+     */
     @Override
     public void delete(int id) {
         try (Connection con = DBConnection.getConnection()) {
@@ -50,6 +58,10 @@ public class PersonAddressServiceImpl implements PersonAddressService {
         }
     }
 
+    /**
+     * @param id id of entity that need to find
+     * @return entity or throw {@link PersonAddressNotFoundException}
+     */
     @Override
     public PersonAddress findById(int id) {
         PersonAddress personAddress = null;
@@ -57,12 +69,13 @@ public class PersonAddressServiceImpl implements PersonAddressService {
             personAddress = personAddressDAO.findById(con, id).orElseThrow(() -> new PersonAddressNotFoundException("" + id));
         } catch (SQLException | DBException e) {
             log.error("Find by id error ", e);
-        } catch (PersonAddressNotFoundException e) {
-            log.warn("PersonAddress not found " + id, e);
         }
         return personAddress;
     }
 
+    /**
+     * @return List of entities
+     */
     @Override
     public List<PersonAddress> findAll() {
         List<PersonAddress> personAddresses = null;

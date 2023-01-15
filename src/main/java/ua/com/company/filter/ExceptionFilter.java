@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.exception.ImageNotFoundException;
+import ua.com.company.exception.PersonAddressNotFoundException;
 import ua.com.company.exception.UserNotFoundException;
 
 import java.io.IOException;
@@ -21,7 +22,9 @@ public class ExceptionFilter implements Filter {
         } catch (UserNotFoundException e) {
             log.warn("Person not found ", e);
         } catch (ImageNotFoundException e) {
-                log.warn("Image not found " , e);
+            log.warn("Image not found ", e);
+        }catch (PersonAddressNotFoundException e) {
+                log.warn("PersonAddress not found " , e);
 
 
         }finally {
