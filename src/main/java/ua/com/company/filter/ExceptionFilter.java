@@ -4,10 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ua.com.company.exception.ImageNotFoundException;
-import ua.com.company.exception.PersonAddressNotFoundException;
-import ua.com.company.exception.PublicationCommentNotFoundException;
-import ua.com.company.exception.UserNotFoundException;
+import ua.com.company.exception.*;
 
 import java.io.IOException;
 
@@ -28,7 +25,8 @@ public class ExceptionFilter implements Filter {
             log.warn("PersonAddress not found ", e);
         } catch (PublicationCommentNotFoundException e) {
             log.warn("Publication comment not found ", e);
-
+        } catch (PublicationNotFoundException e) {
+            log.warn("Publication not found " , e);
 
         } finally {
             res.sendRedirect("/");

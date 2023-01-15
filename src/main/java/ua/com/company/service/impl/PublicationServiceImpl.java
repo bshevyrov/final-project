@@ -5,9 +5,7 @@ import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.ImageDAO;
 import ua.com.company.dao.PublicationDAO;
 import ua.com.company.dao.TopicDAO;
-import ua.com.company.entity.Publication;
-import ua.com.company.entity.Sorting;
-import ua.com.company.entity.Topic;
+import ua.com.company.entity.*;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.PublicationNotFoundException;
 import ua.com.company.service.PublicationService;
@@ -29,6 +27,9 @@ public class PublicationServiceImpl implements PublicationService {
         this.topicDAO = topicDAO;
     }
 
+    /**
+     * @param publication entity to put in Database
+     */
     @Override
     public void create(Publication publication) {
         Connection con = DBConnection.getConnection();
@@ -49,6 +50,9 @@ public class PublicationServiceImpl implements PublicationService {
         }
     }
 
+    /**
+     * @param publication entity to update in Database
+     */
     @Override
     public void update(Publication publication) {
         Connection con = DBConnection.getConnection();
@@ -58,9 +62,7 @@ public class PublicationServiceImpl implements PublicationService {
             publicationDAO.deleteFromPublicationHasTopicByPublicationId(con, publication.getId());
             for (Topic topic : publication.getTopics()) {
                 if (topic.getId() == 0) {
-//                    int currentTopicId =  topicDAO.create(con,topic);
                     topic.setId(topicDAO.create(con, topic));
-//                    publicationDAO.addTopicForPublication(con, publication.getId(), currentTopicId);
                 }
                 publicationDAO.addTopicToPublication(con, publication.getId(), topic.getId());
             }
@@ -75,6 +77,9 @@ public class PublicationServiceImpl implements PublicationService {
 
     }
 
+    /**
+     * @param id id of entity  that need to delete
+     */
     @Override
     public void delete(int id) {
         try (Connection con = DBConnection.getConnection()) {
@@ -84,6 +89,10 @@ public class PublicationServiceImpl implements PublicationService {
         }
     }
 
+    /**
+     * @param id id of entity that need to find
+     * @return entity or throw {@link PublicationNotFoundException}
+     */
     @Override
     public Publication findById(int id) {
         Publication publication = null;
@@ -94,13 +103,13 @@ public class PublicationServiceImpl implements PublicationService {
             publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
         } catch (DBException | SQLException e) {
             log.error("Find by id error", e);
-        } catch (PublicationNotFoundException e) {
-            log.warn("Publication not found " + id, e);
         }
         return publication;
     }
 
-
+    /**
+     * @return List of entities
+     */
     @Override
     public List<Publication> findAll() {
         List<Publication> publicationList = null;
@@ -116,11 +125,16 @@ public class PublicationServiceImpl implements PublicationService {
         return publicationList;
     }
 
+    /**
+     * @param sorting {@link Sorting} object with attributes
+     * @param topicId id of {@link Topic}
+     * @return List of entities
+     */
     @Override
-    public List<Publication> findAllByTopicId(Sorting obj, int topicId) {
+    public List<Publication> findAllByTopicId(Sorting sorting, int topicId) {
         List<Publication> publicationList = null;
         try (Connection con = DBConnection.getConnection()) {
-            publicationList = publicationDAO.findAllByTopicId(con, obj, topicId);
+            publicationList = publicationDAO.findAllByTopicId(con, sorting, topicId);
             for (Publication currentPub : publicationList) {
                 currentPub.setCover(imageDAO.findById(con, currentPub.getCover().getId()).get());
                 currentPub.setTopics(topicDAO.findAllByPublicationId(con, currentPub.getId()));
@@ -131,11 +145,16 @@ public class PublicationServiceImpl implements PublicationService {
         return publicationList;
     }
 
+    /**
+     * @param sorting {@link Sorting} object with attributes
+     * @param userId  id of {@link Person}
+     * @return List of entities
+     */
     @Override
-    public List<Publication> findAllByUserId(Sorting obj, int userId) {
+    public List<Publication> findAllByUserId(Sorting sorting, int userId) {
         List<Publication> publicationList = null;
         try (Connection con = DBConnection.getConnection()) {
-            publicationList = publicationDAO.findAllByPersonId(con, obj, userId);
+            publicationList = publicationDAO.findAllByPersonId(con, sorting, userId);
             for (Publication publication : publicationList) {
                 publication.setCover(imageDAO.findById(con, publication.getCover().getId()).get());
                 publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
@@ -146,6 +165,11 @@ public class PublicationServiceImpl implements PublicationService {
         return publicationList;
     }
 
+    /**
+     * @param sorting   {@link Sorting} object with attributes
+     * @param searchReq part of search request
+     * @return List of entities
+     */
     @Override
     public List<Publication> findAllByTitle(Sorting sorting, String searchReq) {
         List<Publication> publicationList = null;
@@ -161,6 +185,10 @@ public class PublicationServiceImpl implements PublicationService {
         return publicationList;
     }
 
+    /**
+     * @param topicId id of {@link Topic}
+     * @return count of publication with topicId
+     */
     @Override
     public int countAllByTopicId(int topicId) {
         int count = -1;
@@ -172,6 +200,10 @@ public class PublicationServiceImpl implements PublicationService {
         return count;
     }
 
+    /**
+     * @param userId id of {@link Person}
+     * @return count of publication associated with userId
+     */
     @Override
     public int countAllByUserId(int userId) {
         int count = -1;
@@ -183,6 +215,10 @@ public class PublicationServiceImpl implements PublicationService {
         return count;
     }
 
+    /**
+     * @param searchReq part of search request
+     * @return count of publication that have sea rchReq in title
+     */
     @Override
     public int countAllByTitle(String searchReq) {
         int count = -1;
@@ -194,6 +230,10 @@ public class PublicationServiceImpl implements PublicationService {
         return count;
     }
 
+    /**
+     * @param pubId   id of{@link Publication}
+     * @param coverId id of{@link Image}
+     */
     @Override
     public void updateCover(int pubId, int coverId) {
         try (Connection con = DBConnection.getConnection()) {
