@@ -1,6 +1,7 @@
 package ua.com.company.dao.mysql.impl;
 
 import ua.com.company.dao.PublicationCommentDAO;
+import ua.com.company.entity.Publication;
 import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
@@ -12,6 +13,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
+    /**
+     * @param con                connection to DataBase
+     * @param publicationComment entity to put in Database
+     * @return id of created entity in DataBase
+     * @throws DBException if catch SQLException
+     */
     @Override
     public int create(Connection con, PublicationComment publicationComment) throws DBException {
         int id = 0;
@@ -31,26 +38,58 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
         return id;
     }
 
+    /**
+     * @param con                connection to DataBase
+     * @param publicationComment entity to update in Database
+     * @throws DBException if catch SQLException
+     * @deprecated
+     */
     @Override
-    public void update(Connection con, PublicationComment entity) throws DBException {
+    public void update(Connection con, PublicationComment publicationComment) throws DBException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id  id of entity that need to delete
+     * @throws DBException if catch SQLException
+     * @deprecated
+     */
     @Override
     public void delete(Connection con, int id) throws DBException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id  of entity that want to get
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch SQLException
+     * @deprecated
+     */
     @Override
     public Optional<PublicationComment> findById(Connection con, int id) throws DBException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @param con connection to DataBase
+     * @return List of all entity
+     * @throws DBException if catch SQLException
+     * @deprecated
+     */
     @Override
     public List<PublicationComment> findAll(Connection con) throws DBException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @param con           connection to DataBase
+     * @param sorting       {@link Sorting} object that contain sorting attributes
+     * @param publicationId id of {@link Publication}
+     * @return List of all comments of specific {@link Publication}
+     * @throws DBException if catch SQLException
+     */
     @Override
     public List<PublicationComment> findAllByPublicationId(Connection con, Sorting sorting, int publicationId) throws DBException {
         List<PublicationComment> commentList = new ArrayList<>();
@@ -71,6 +110,12 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
         return commentList;
     }
 
+    /**
+     * @param con           connection to DataBase
+     * @param publicationId id of {@link Publication}
+     * @return count of commentary
+     * @throws DBException if catch SQLException
+     */
     @Override
     public int countAllByPublicationId(Connection con, int publicationId) throws DBException {
         int count = -1;
@@ -86,6 +131,11 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
         return count;
     }
 
+    /**
+     * @param rs
+     * @return entity with values from result set
+     * @throws SQLException
+     */
     private PublicationComment mapPublicationComment(ResultSet rs) throws SQLException {
         PublicationComment publicationComment = new PublicationComment();
         publicationComment.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
