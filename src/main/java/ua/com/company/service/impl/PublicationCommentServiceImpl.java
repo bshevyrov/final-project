@@ -3,6 +3,7 @@ package ua.com.company.service.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.PublicationCommentDAO;
+import ua.com.company.entity.Publication;
 import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
@@ -23,7 +24,9 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         this.publicationCommentDAO = publicationCommentDAO;
     }
 
-
+    /**
+     * @param publicationComment entity to put in Database
+     */
     @Override
     public void create(PublicationComment publicationComment) {
         try (Connection con = DBConnection.getConnection()) {
@@ -33,6 +36,9 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         }
     }
 
+    /**
+     * @param publicationComment entity to update in Database
+     */
     @Override
     public void update(PublicationComment publicationComment) {
         try (Connection con = DBConnection.getConnection()) {
@@ -42,6 +48,9 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         }
     }
 
+    /**
+     * @param id id of entity  that need to delete
+     */
     @Override
     public void delete(int id) {
         try (Connection con = DBConnection.getConnection()) {
@@ -51,6 +60,10 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         }
     }
 
+    /**
+     * @param id id of entity that need to find
+     * @return entity or throw {@link PublicationCommentNotFoundException}
+     */
     @Override
     public PublicationComment findById(int id) {
         PublicationComment publicationComment = null;
@@ -58,12 +71,13 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
             publicationComment = publicationCommentDAO.findById(con, id).orElseThrow(() -> new PublicationCommentNotFoundException("" + id));
         } catch (SQLException | DBException e) {
             log.error("Find by id  publicationComment error ", e);
-        } catch (PublicationCommentNotFoundException e) {
-            log.warn("Publication comment not found. id= " + id, e);
         }
         return publicationComment;
     }
 
+    /**
+     * @return List of entities
+     */
     @Override
     public List<PublicationComment> findAll() {
         List<PublicationComment> publicationComments = new ArrayList<>();
@@ -75,6 +89,11 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         return publicationComments;
     }
 
+    /**
+     * @param sorting       {@link Sorting} object with attributes
+     * @param publicationId id of {@link Publication}
+     * @return List of entities
+     */
     @Override
     public List<PublicationComment> findAllByPublicationId(Sorting sorting, int publicationId) {
         List<PublicationComment> publicationComments = new ArrayList<>();
@@ -86,6 +105,10 @@ public class PublicationCommentServiceImpl implements PublicationCommentService 
         return publicationComments;
     }
 
+    /**
+     * @param publicationId id of {@link Publication}
+     * @return count of commentaries associated with publicationId
+     */
     @Override
     public int countAllByPublicationId(int publicationId) {
         int count = -1;

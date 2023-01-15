@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.exception.ImageNotFoundException;
 import ua.com.company.exception.PersonAddressNotFoundException;
+import ua.com.company.exception.PublicationCommentNotFoundException;
 import ua.com.company.exception.UserNotFoundException;
 
 import java.io.IOException;
@@ -23,11 +24,13 @@ public class ExceptionFilter implements Filter {
             log.warn("Person not found ", e);
         } catch (ImageNotFoundException e) {
             log.warn("Image not found ", e);
-        }catch (PersonAddressNotFoundException e) {
-                log.warn("PersonAddress not found " , e);
+        } catch (PersonAddressNotFoundException e) {
+            log.warn("PersonAddress not found ", e);
+        } catch (PublicationCommentNotFoundException e) {
+            log.warn("Publication comment not found ", e);
 
 
-        }finally {
+        } finally {
             res.sendRedirect("/");
         }
     }
