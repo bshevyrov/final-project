@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class MysqlImageDAOImpl implements ImageDAO {
     /**
-     * @param con connection to DataBase
+     * @param con   connection to DataBase
      * @param image entity to put in Database
      * @return id of created entity in DataBase
      * @throws DBException if catch SQLException
@@ -37,9 +37,9 @@ public class MysqlImageDAOImpl implements ImageDAO {
     }
 
     /**
-     * @param con connection to DataBase
-     * @param image entity to put in Database
-     * @throws DBException if catch {@link SQLException}
+     * @param con   connection to DataBase
+     * @param image entity to update in Database
+     * @throws DBException if catch SQLException
      */
     @Override
     public void update(Connection con, Image image) throws DBException {
@@ -56,8 +56,8 @@ public class MysqlImageDAOImpl implements ImageDAO {
 
     /**
      * @param con connection to DataBase
-     * @param id id of entity that need to delete
-     * @throws DBException if catch {@link SQLException}
+     * @param id  id of entity that need to delete
+     * @throws DBException if catch SQLException
      */
     @Override
     public void delete(Connection con, int id) throws DBException {
@@ -71,9 +71,9 @@ public class MysqlImageDAOImpl implements ImageDAO {
 
     /**
      * @param con connection to DataBase
-     * @param id of entity that want to get
+     * @param id  of entity that want to get
      * @return found entity or Optional.empty() of entity
-     * @throws DBException if catch {@link SQLException}
+     * @throws DBException if catch SQLException
      */
     @Override
     public Optional<Image> findById(Connection con, int id) throws DBException {
@@ -94,7 +94,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
     /**
      * @param con connection to DataBase
      * @return List of all entity
-     * @throws DBException if catch {@link SQLException}
+     * @throws DBException if catch SQLException
      */
     @Override
     public List<Image> findAll(Connection con) throws DBException {
@@ -112,10 +112,10 @@ public class MysqlImageDAOImpl implements ImageDAO {
     }
 
     /**
-     * @param con connection to DataBase
+     * @param con  connection to DataBase
      * @param path path to image
      * @return found entity or Optional.empty() of entity
-     * @throws DBException if catch {@link SQLException}
+     * @throws DBException if catch SQLException
      */
     @Override
     public Optional<Image> findByPath(Connection con, String path) throws DBException {
@@ -135,9 +135,9 @@ public class MysqlImageDAOImpl implements ImageDAO {
 
     /**
      * @param con connection to DataBase
-     * @param id of {@link Publication} that store image id
+     * @param id  of {@link Publication} that store image id
      * @return found entity or Optional.empty() of entity
-     * @throws DBException if catch {@link SQLException}
+     * @throws DBException if catch SQLException
      */
     @Override
     public Optional<Image> findByPublicationId(Connection con, int id) throws DBException {
@@ -156,10 +156,9 @@ public class MysqlImageDAOImpl implements ImageDAO {
     }
 
     /**
-     * 
      * @param rs result set
      * @return entity with values from result set
-     * @throws DBException if catch {@link SQLException}
+     * @throws DBException if catch SQLException
      */
     private Image mapImage(ResultSet rs) throws SQLException {
         Image image = new Image();

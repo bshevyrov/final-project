@@ -1,6 +1,7 @@
 package ua.com.company.dao.mysql.impl;
 
 import ua.com.company.dao.PersonAddressDAO;
+import ua.com.company.entity.Person;
 import ua.com.company.entity.PersonAddress;
 import ua.com.company.exception.DBException;
 import ua.com.company.utils.DBConstants;
@@ -13,11 +14,16 @@ import java.util.List;
 import java.util.Optional;
 
 public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
-
+    /**
+     * @param con           connection to DataBase
+     * @param personAddress entity to put in Database
+     * @return id of created entity in DataBase
+     * @throws DBException if catch SQLException
+     */
     @Override
     public int create(Connection con, PersonAddress personAddress) throws DBException {
         int id = 0;
-        try (PreparedStatement ps = con.prepareStatement(DBConstants.CREATE_PERSON_ADDRESS,PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.CREATE_PERSON_ADDRESS, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int index = 0;
             ps.setString(++index, personAddress.getFirstName());
             ps.setString(++index, personAddress.getLastName());
@@ -38,6 +44,11 @@ public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
         return id;
     }
 
+    /**
+     * @param con           connection to DataBase
+     * @param personAddress entity to update in Database
+     * @throws DBException if catch SQLException
+     */
     @Override
     public void update(Connection con, PersonAddress personAddress) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PERSON_ADDRESS)) {
@@ -56,12 +67,24 @@ public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
         }
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id  id of entity that need to delete
+     * @throws DBException if catch SQLException
+     * @deprecated
+     */
     @Override
     public void delete(Connection con, int id) throws DBException {
         throw new UnsupportedOperationException();
 
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id  of entity that want to get
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch SQLException
+     */
     @Override
     public Optional<PersonAddress> findById(Connection con, int id) throws DBException {
         Optional<PersonAddress> personAddress = Optional.empty();
@@ -77,11 +100,23 @@ public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
         return personAddress;
     }
 
+    /**
+     * @param con connection to DataBase
+     * @return List of all entity
+     * @throws DBException if catch SQLException
+     * @deprecated
+     */
     @Override
     public List<PersonAddress> findAll(Connection con) throws DBException {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @param con    connection to DataBase
+     * @param userId id of {@link Person}
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch SQLException
+     */
     @Override
     public Optional<PersonAddress> findByPersonId(Connection con, int userId) throws DBException {
         Optional<PersonAddress> personAddress = Optional.empty();
@@ -97,6 +132,11 @@ public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
         return personAddress;
     }
 
+    /**
+     * @param rs result set
+     * @return entity with values from result set
+     * @throws SQLException
+     */
     private PersonAddress mapPersonAddress(ResultSet rs) throws SQLException {
         PersonAddress personAddress = new PersonAddress();
         personAddress.setId(rs.getInt(DBConstants.F_PERSON_ADDRESS_ID));
