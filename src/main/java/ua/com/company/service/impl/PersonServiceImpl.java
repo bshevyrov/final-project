@@ -6,9 +6,11 @@ import ua.com.company.dao.ImageDAO;
 import ua.com.company.dao.PersonAddressDAO;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.dao.PublicationDAO;
+import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
 import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
+import ua.com.company.exception.ImageNotFoundException;
 import ua.com.company.exception.UserNotFoundException;
 import ua.com.company.service.PersonService;
 import ua.com.company.utils.DBConnection;
@@ -31,7 +33,9 @@ public class PersonServiceImpl implements PersonService {
         this.publicationDAO = publicationDAO;
     }
 
-
+    /**
+     * @param person entity to put in Database
+     */
     @Override
     public void create(Person person) {
         try (Connection con = DBConnection.getConnection()) {
@@ -41,6 +45,9 @@ public class PersonServiceImpl implements PersonService {
         }
     }
 
+    /**
+     * @param person entity to update in Database
+     */
     @Override
     public void update(Person person) {
         try (Connection con = DBConnection.getConnection()) {
@@ -50,6 +57,9 @@ public class PersonServiceImpl implements PersonService {
         }
     }
 
+    /**
+     * @param id id of entity  that need to delete
+     */
     @Override
     public void delete(int id) {
         try (Connection con = DBConnection.getConnection()) {
@@ -59,6 +69,9 @@ public class PersonServiceImpl implements PersonService {
         }
     }
 
+    /**
+     * @return List of entities
+     */
     @Override
     public List<Person> findAll() {
         List<Person> personList = null;
@@ -74,25 +87,30 @@ public class PersonServiceImpl implements PersonService {
         return personList;
     }
 
+    /**
+     * @param id id of entity that need to find
+     * @return entity or throw {@link UserNotFoundException}
+     */
     @Override
     public Person findById(int id) {
         Person person = new Person();
         try (Connection con = DBConnection.getConnection()) {
             person = personDAO.findById(con, id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
-
             person.setPersonAddress(personAddressDAO.findByPersonId(con, id).get());
             person.setPublications(publicationDAO.findAllByPersonId(con, id));
             person.setAvatar(imageDAO.findById(con, person.getAvatar().getId()).get());
-
         } catch (DBException | SQLException e) {
             log.error("Find by id error ", e);
-//        } catch (UserNotFoundException e) {
-//            log.warn("Person not found " + id, e);
+
         }
         return person;
     }
 
+    /**
+     * @param email of {@link Person} that need to find
+     * @return entity or throw {@link ImageNotFoundException}
+     */
     @Override
     public Person findByEmail(String email) {
         Person person = null;
@@ -104,13 +122,14 @@ public class PersonServiceImpl implements PersonService {
             person.setAvatar(imageDAO.findById(con, person.getAvatar().getId()).get());
         } catch (DBException | SQLException e) {
             log.error("Find by email exception ", e);
-        } catch (UserNotFoundException e) {
-            log.warn("Person not found " + email, e);
         }
         return person;
     }
 
-
+    /**
+     * @param email email of {@link Person} that need to check
+     * @return true if {@link Person} exist
+     */
     @Override
     public boolean isExistByEmail(String email) {
         boolean existByUEmail = false;
@@ -122,7 +141,10 @@ public class PersonServiceImpl implements PersonService {
         return existByUEmail;
     }
 
-
+    /**
+     * @param username username  of {@link Person} that need to check
+     * @return true if {@link Person} exist
+     */
     @Override
     public boolean isExistByUsername(String username) {
         boolean existByUsername = false;
@@ -134,6 +156,9 @@ public class PersonServiceImpl implements PersonService {
         return existByUsername;
     }
 
+    /**
+     * @param id of {@link Person} that need to change status
+     */
     @Override
     public void changeStatusById(int id) {
         try (Connection con = DBConnection.getConnection()) {
@@ -143,7 +168,10 @@ public class PersonServiceImpl implements PersonService {
         }
     }
 
-
+    /**
+     * @param pubId    id of {@link Publication}
+     * @param personId id of {@link Person}
+     */
     @Override
     public void subscribe(int pubId, int personId) {
         try (Connection con = DBConnection.getConnection()) {
@@ -156,6 +184,10 @@ public class PersonServiceImpl implements PersonService {
         }
     }
 
+    /**
+     * @param personId id of {@link Person}
+     * @param avatarId id of {@link Image}
+     */
     @Override
     public void updateAvatar(int personId, int avatarId) {
         try (Connection con = DBConnection.getConnection()) {
