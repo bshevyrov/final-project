@@ -2,6 +2,7 @@ package ua.com.company.dao.mysql.impl;
 
 import ua.com.company.dao.ImageDAO;
 import ua.com.company.entity.Image;
+import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.utils.DBConstants;
 
@@ -11,6 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class MysqlImageDAOImpl implements ImageDAO {
+    /**
+     * @param con connection to DataBase
+     * @param image entity to put in Database
+     * @return id of created entity in DataBase
+     * @throws DBException if catch SQLException
+     */
     @Override
     public int create(Connection con, Image image) throws DBException {
         int id = 0;
@@ -29,6 +36,11 @@ public class MysqlImageDAOImpl implements ImageDAO {
         return id;
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param image entity to put in Database
+     * @throws DBException if catch {@link SQLException}
+     */
     @Override
     public void update(Connection con, Image image) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_IMAGE)) {
@@ -42,6 +54,11 @@ public class MysqlImageDAOImpl implements ImageDAO {
         }
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id id of entity that need to delete
+     * @throws DBException if catch {@link SQLException}
+     */
     @Override
     public void delete(Connection con, int id) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_IMAGE)) {
@@ -52,6 +69,12 @@ public class MysqlImageDAOImpl implements ImageDAO {
         }
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id of entity that want to get
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch {@link SQLException}
+     */
     @Override
     public Optional<Image> findById(Connection con, int id) throws DBException {
         Optional<Image> image = Optional.empty();
@@ -68,6 +91,11 @@ public class MysqlImageDAOImpl implements ImageDAO {
         return image;
     }
 
+    /**
+     * @param con connection to DataBase
+     * @return List of all entity
+     * @throws DBException if catch {@link SQLException}
+     */
     @Override
     public List<Image> findAll(Connection con) throws DBException {
         List<Image> imageList = new ArrayList<>();
@@ -83,6 +111,12 @@ public class MysqlImageDAOImpl implements ImageDAO {
         return imageList;
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param path path to image
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch {@link SQLException}
+     */
     @Override
     public Optional<Image> findByPath(Connection con, String path) throws DBException {
         Optional<Image> image = Optional.empty();
@@ -99,6 +133,12 @@ public class MysqlImageDAOImpl implements ImageDAO {
         return image;
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id of {@link Publication} that store image id
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch {@link SQLException}
+     */
     @Override
     public Optional<Image> findByPublicationId(Connection con, int id) throws DBException {
         Optional<Image> image = Optional.empty();
@@ -115,6 +155,12 @@ public class MysqlImageDAOImpl implements ImageDAO {
         return image;
     }
 
+    /**
+     * 
+     * @param rs result set
+     * @return entity with values from result set
+     * @throws DBException if catch {@link SQLException}
+     */
     private Image mapImage(ResultSet rs) throws SQLException {
         Image image = new Image();
         image.setId(rs.getInt(DBConstants.F_IMAGE_ID));
