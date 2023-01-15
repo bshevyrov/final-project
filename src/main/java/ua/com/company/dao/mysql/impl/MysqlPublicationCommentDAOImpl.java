@@ -132,7 +132,7 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
     }
 
     /**
-     * @param rs
+     * @param rs result set
      * @return entity with values from result set
      * @throws SQLException  when something goes wrong
      */

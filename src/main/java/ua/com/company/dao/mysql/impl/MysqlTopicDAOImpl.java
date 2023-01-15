@@ -1,6 +1,7 @@
 package ua.com.company.dao.mysql.impl;
 
 import ua.com.company.dao.TopicDAO;
+import ua.com.company.entity.Publication;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
 import ua.com.company.utils.DBConstants;
@@ -11,7 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class MysqlTopicDAOImpl implements TopicDAO {
-
+    /**
+     * 
+     * @param con   connection to DataBase
+     * @param topic entity to update in Database
+     * @return id of created entity in DataBase
+     * @throws DBException if catch SQLException
+     */
     @Override
     public int create(Connection con, Topic topic) throws DBException {
         int id = 0;
@@ -29,6 +36,12 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         return id;
     }
 
+    /**
+     * 
+     * @param con   connection to DataBase
+     * @param topic entity to update in Database
+     * @throws DBException if catch SQLException
+     */
     @Override
     public void update(Connection con, Topic topic) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_TOPIC)) {
@@ -41,6 +54,12 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         }
     }
 
+    /**
+     * 
+     * @param con   connection to DataBase
+     * @param id id of entity that need to delete
+     * @throws DBException if catch SQLException
+     */
     @Override
     public void delete(Connection con, int id) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_TOPIC)) {
@@ -51,6 +70,13 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         }
     }
 
+    /**
+     * 
+     * @param con   connection to DataBase
+     * @param id id  of entity that want to get
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch SQLException
+     */
     @Override
     public Optional<Topic> findById(Connection con, int id) throws DBException {
         Optional<Topic> topic = Optional.empty();
@@ -67,6 +93,12 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         return topic;
     }
 
+    /**
+     * 
+     * @param con   connection to DataBase
+     * @return List of all entity
+     * @throws DBException if catch SQLException
+     */
     @Override
     public List<Topic> findAll(Connection con) throws DBException {
         List<Topic> topics = new ArrayList<>();
@@ -82,7 +114,13 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         return topics;
     }
 
-
+    /**
+     * 
+     * @param con   connection to DataBase
+     * @param pubId id of {@link Publication}
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch SQLException
+     */
     @Override
     public List<Topic> findAllByPublicationId(Connection con, int pubId) throws DBException {
         List<Topic> topicList = new ArrayList<>();
@@ -99,6 +137,13 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         return topicList;
     }
 
+    /**
+     * 
+     * @param con   connection to DataBase
+     * @param title  title of {@link Topic}
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch SQLException
+     */
     @Override
     public Optional<Topic> findByTitle(Connection con, String title) throws DBException {
         Optional<Topic> topic = Optional.empty();
@@ -115,6 +160,12 @@ public class MysqlTopicDAOImpl implements TopicDAO {
         return topic;
     }
 
+    /**
+     *
+     * @param rs result set
+     * @return  entity with values from result set
+     @throws SQLException  when something goes wrong
+     */
     private Topic mapTopic(ResultSet rs) throws SQLException {
         Topic topic = new Topic();
         topic.setId(rs.getInt(DBConstants.F_TOPIC_ID));
