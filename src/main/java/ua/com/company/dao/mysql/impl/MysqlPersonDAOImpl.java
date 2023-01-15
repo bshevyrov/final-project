@@ -1,12 +1,13 @@
 package ua.com.company.dao.mysql.impl;
 
-import ua.com.company.utils.DBConstants;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
+import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.type.RoleType;
 import ua.com.company.type.StatusType;
+import ua.com.company.utils.DBConstants;
 import ua.com.company.utils.PasswordUtil;
 
 import java.sql.*;
@@ -15,7 +16,12 @@ import java.util.List;
 import java.util.Optional;
 
 public class MysqlPersonDAOImpl implements PersonDAO {
-
+    /**
+     * @param con    connection to DataBase
+     * @param person entity to put in Database
+     * @return id of created entity in DataBase
+     * @throws DBException if catch SQLException
+     */
     @Override
     public int create(Connection con, Person person) throws DBException {
         int id = 0;
@@ -36,6 +42,11 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return id;
     }
 
+    /**
+     * @param con    connection to DataBase
+     * @param person entity to update in Database
+     * @throws DBException if catch SQLException
+     */
     @Override
     public void update(Connection con, Person person) throws DBException {
         if (isExist(con, person.getId())) {
@@ -55,6 +66,11 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id  id of entity that need to delete
+     * @throws DBException if catch SQLException
+     */
     @Override
     public void delete(Connection con, int id) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.DELETE_PERSON)) {
@@ -65,6 +81,12 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
     }
 
+    /**
+     * @param con   connection to DataBase
+     * @param email email of {@link Person}
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch SQLException
+     */
     @Override
     public Optional<Person> findPersonByEmail(Connection con, String email) throws DBException {
         Optional<Person> person = Optional.empty();
@@ -80,6 +102,12 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return person;
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id  of entity that want to get
+     * @return found entity or Optional.empty() of entity
+     * @throws DBException if catch SQLException
+     */
     @Override
     public Optional<Person> findById(Connection con, int id) throws DBException {
         Optional<Person> person = Optional.empty();
@@ -95,7 +123,11 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return person;
     }
 
-
+    /**
+     * @param con connection to DataBase
+     * @return List of all entity
+     * @throws DBException if catch SQLException
+     */
     @Override
     public List<Person> findAll(Connection con) throws DBException {
         List<Person> persons = new ArrayList<>();
@@ -110,6 +142,12 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return persons;
     }
 
+    /**
+     * @param con   connection to DataBase
+     * @param email email of {@link Person}
+     * @return true if {@link Person} with this email exist in DataBase
+     * @throws DBException if catch SQLException
+     */
     public boolean isExistByEmail(Connection con, String email) throws DBException {
         int count = 0;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_EMAIL)) {
@@ -124,6 +162,12 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return count == 1;
     }
 
+    /**
+     * @param con      connection to DataBase
+     * @param username username of {@link Person}
+     * @return true if {@link Person} with this email exist in DataBase
+     * @throws DBException if catch SQLException
+     */
     @Override
     public boolean isExistByUsername(Connection con, String username) throws DBException {
         int count = 0;
@@ -139,6 +183,11 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return count == 1;
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id  of {@link Person}
+     * @throws DBException if catch SQLException
+     */
     @Override
     public void changeStatusById(Connection con, int id) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CHANGE_USER_STATUS_BY_ID)) {
@@ -152,9 +201,14 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
     }
 
-    @Override
-    public void decreaseFunds(Connection con, int personId, double newFunds) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.DECREASE_FUNDS)) {
+    /**
+     * @param con      connection to DataBase
+     * @param personId id of {@link Person}
+     * @param newFunds new amount of funds
+     * @throws DBException if catch SQLException
+     */
+    public void updateFunds(Connection con, int personId, double newFunds) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PERSON_FUNDS)) {
             int index = 0;
             stmt.setDouble(++index, newFunds);
             stmt.setInt(++index, personId);
@@ -164,6 +218,12 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
     }
 
+    /**
+     * @param con      connection to DataBase
+     * @param pubId    id of {@link Publication}
+     * @param personId id of {@link Person}
+     * @throws DBException if catch SQLException
+     */
     @Override
     public void subscribe(Connection con, int pubId, int personId) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON_HAS_PUBLICATION)) {
@@ -176,6 +236,12 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
     }
 
+    /**
+     * @param con      connection to DataBase
+     * @param personId id of {@link Person}
+     * @param avatarId id of {@link Image}
+     * @throws DBException if catch SQLException
+     */
     @Override
     public void updateAvatar(Connection con, int personId, int avatarId) throws DBException {
         try (PreparedStatement ps = con.prepareStatement(DBConstants.UPDATE_PERSON_AVATAR)) {
@@ -188,6 +254,12 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id  id of {@link Person}
+     * @return int representation of {@link Person} status
+     * @throws DBException if catch SQLException
+     */
     private int checkStatusById(Connection con, int id) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CHECK_USER_STATUS_BY_ID)) {
             stmt.setInt(1, id);
@@ -202,6 +274,12 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         }
     }
 
+    /**
+     * @param con connection to DataBase
+     * @param id  id of {@link Person}
+     * @return true if {@link Person} with this id already exist in DataBase
+     * @throws DBException if catch SQLException
+     */
     public boolean isExist(Connection con, int id) throws DBException {
         int count = 0;
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.COUNT_PERSON_BY_ID)) {
@@ -216,6 +294,11 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         return count == 1;
     }
 
+    /**
+     * @param rs
+     * @return entity with values from result set
+     * @throws SQLException
+     */
     private Person mapPerson(ResultSet rs) throws SQLException {
         Person person = new Person();
         person.setId(rs.getInt(DBConstants.F_PERSON_ID));

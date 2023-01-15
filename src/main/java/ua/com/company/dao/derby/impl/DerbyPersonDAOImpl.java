@@ -148,8 +148,8 @@ public class DerbyPersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public void decreaseFunds(Connection con, int personId, double newFunds) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.DECREASE_FUNDS)) {
+    public void updateFunds(Connection con, int personId, double newFunds) throws DBException {
+        try (PreparedStatement stmt = con.prepareStatement(DBConstants.UPDATE_PERSON_FUNDS)) {
             int index = 0;
             stmt.setDouble(++index, newFunds);
             stmt.setInt(++index, personId);
