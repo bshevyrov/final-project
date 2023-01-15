@@ -19,31 +19,20 @@ public class ExceptionFilter implements Filter {
             chain.doFilter(request, response);
         } catch (UserNotFoundException e) {
             log.warn("Person not found ", e);
+            res.sendRedirect("/");
         } catch (ImageNotFoundException e) {
             log.warn("Image not found ", e);
+            res.sendRedirect("/");
         } catch (PersonAddressNotFoundException e) {
             log.warn("PersonAddress not found ", e);
+            res.sendRedirect("/");
         } catch (PublicationCommentNotFoundException e) {
             log.warn("Publication comment not found ", e);
+            res.sendRedirect("/");
         } catch (PublicationNotFoundException e) {
             log.warn("Publication not found " , e);
-
-        } finally {
             res.sendRedirect("/");
+
         }
     }
 }
-/*
-}
-    public void init(FilterConfig config) throws ServletException {
-    }
-
-    public void destroy() {
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-        chain.doFilter(request, response);
-    }
-}
-*/

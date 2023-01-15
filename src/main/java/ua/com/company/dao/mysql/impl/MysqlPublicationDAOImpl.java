@@ -372,6 +372,41 @@ public class MysqlPublicationDAOImpl implements PublicationDAO {
     }
 
     /**
+     * @param con     connection to DataBase
+     * @param sorting {@link Sorting} object that contain sorting attributes
+     * @return List of entities
+     * @throws DBException if catch SQLException
+     */
+    @Override
+    public List<Publication> findAllSorted(Connection con, Sorting sorting) throws DBException {
+        List<Publication> publications = new ArrayList<>();
+        String query = "SELECT * " +
+                "FROM publication p ORDER BY " + sorting.getSortingField() +
+                " " + (sorting.getSortingType().equals("DESC") ? "DESC" : "") +
+                " LIMIT " + sorting.getStarRecord() + "," + sorting.getPageSize() + "";
+        return getPublications(con, publications, query);
+    }
+
+    /**
+     * @param con connection to DataBase
+     * @return count of all publications
+     * @throws DBException if catch SQLException
+     */
+    @Override
+    public int countAll(Connection con) throws DBException {
+        int count = -1;
+        try (Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery(DBConstants.COUNT_ALL_PUBLICATIONS)) {
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new DBException("Connection: " + con, e);
+        }
+        return count;
+    }
+
+    /**
      * @param rs result set
      * @return entity with values from result set
      * @throws SQLException when something goes wrong

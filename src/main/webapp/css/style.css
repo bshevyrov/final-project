@@ -74,6 +74,13 @@
     border-radius: 4px;
     margin-right: 11px;
 }
+.product__pagination__button {
+
+    margin-left: 25%;
+    margin-right: -30%;
+    position: absolute;
+    right: 1%;
+}
 
 .product__pagination__button .button_prev, .product__pagination__button .button_next {
     font-size: 13px;
@@ -186,7 +193,7 @@ h3,
 h4,
 h5,
 h6 {
-    margin: 0;
+
     color: #111111;
     font-weight: 400;
     font-family: "Mulish", sans-serif;
@@ -206,6 +213,7 @@ h3 {
 
 h4 {
     font-size: 24px;
+    margin: 20px;
 }
 
 h5 {
@@ -808,6 +816,7 @@ ol {
     height: 325px;
     position: relative;
     border-radius: 5px;
+    width: 240px;
 }
 
 .product__item__pic .ep {
@@ -1021,6 +1030,11 @@ ol {
 
 .product__page__title .section-title {
     margin-bottom: 0;
+}
+
+.product__page__content {
+    margin-left: 25%;
+    margin-right: -30%;
 }
 
 .product__page__title .product__page__filter {

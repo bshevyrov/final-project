@@ -242,4 +242,38 @@ public class PublicationServiceImpl implements PublicationService {
             log.error("Update cover ex ", e);
         }
     }
+
+    /**
+     * @param sorting {@link Sorting} object with attributes
+     * @return List of entities
+     */
+    @Override
+    public List<Publication> findAllSorted(Sorting sorting) {
+        List<Publication> publicationList = null;
+        try (Connection con = DBConnection.getConnection()) {
+            publicationList = publicationDAO.findAllSorted(con, sorting);
+            for (Publication publication : publicationList) {
+                publication.setCover(imageDAO.findById(con, publication.getCover().getId()).get());
+                publication.setTopics(topicDAO.findAllByPublicationId(con, publication.getId()));
+            }
+        } catch (DBException | SQLException e) {
+            log.error("findFirstDozenOfPublication ex ", e);
+        }
+        return publicationList;
+    }
+
+    /**
+     *
+     * @return  count of all publications
+     */
+    @Override
+    public int countAll() {
+        int count=0;
+        try (Connection con = DBConnection.getConnection()) {
+            count = publicationDAO.countAll(con);
+        } catch (DBException | SQLException e) {
+            log.error("countAll ex ", e);
+        }
+        return count;
+    }
 }

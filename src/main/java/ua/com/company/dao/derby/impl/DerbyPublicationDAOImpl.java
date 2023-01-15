@@ -260,6 +260,30 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
         }
     }
 
+    @Override
+    public List<Publication> findAllSorted(Connection con, Sorting sorting) throws DBException {
+        List<Publication> publications = new ArrayList<>();
+        String query = "SELECT * " +
+                "FROM publication p WHERE ORDER BY " + sorting.getSortingField() +
+                " " + (sorting.getSortingType().equals("DESC") ? "DESC" : "") +
+                " LIMIT " + sorting.getStarRecord() + "," + sorting.getPageSize() + "";
+        return getPublications(con, publications, query);
+    }
+
+    @Override
+    public int countAll(Connection con) throws DBException {
+        int count = -1;
+        try (Statement stmt = con.createStatement();
+             ResultSet rs = stmt.executeQuery(DBConstants.COUNT_ALL_PUBLICATIONS)) {
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            throw new DBException("Connection: " + con, e);
+        }
+        return count;
+    }
+
     private Publication mapPublication(ResultSet rs) throws SQLException {
         Publication publication = new Publication();
         publication.setId(rs.getInt(DBConstants.F_PUBLICATION_ID));

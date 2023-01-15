@@ -78,4 +78,16 @@ public class PublicationFacadeImpl implements PublicationFacade {
     public int countAllByTitle(String searchReq) {
         return publicationService.countAllByTitle(searchReq);
     }
+
+    @Override
+    public List<PublicationDTO> findAllSorted(Sorting sorting) {
+        return publicationService.findAllSorted(sorting).stream()
+                .map(ClassConverter::publicationToPublicationDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public int countAll() {
+        return publicationService.countAll();
+    }
 }

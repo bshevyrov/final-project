@@ -33,4 +33,8 @@ public interface PublicationDAO extends BaseDAO<Publication> {
     List<Publication> findAllByPersonId(Connection con, int id) throws DBException;
 
     void updateCover(Connection con, int pubId, int coverId) throws DBException;
+
+    List<Publication> findAllSorted(Connection con, Sorting sorting) throws DBException;
+
+    int countAll(Connection con) throws DBException;
 }

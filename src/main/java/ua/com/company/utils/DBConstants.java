@@ -13,10 +13,7 @@ public abstract class DBConstants {
     public static final String COUNT_PERSON_BY_ID = "SELECT COUNT(id) AS count FROM person WHERE id=?";
     public static final String DELETE_ORPHAN_TOPIC = "DELETE topic FROM topic  LEFT JOIN publication_has_topic pht ON topic.id = pht.topic_id WHERE pht.topic_id IS NULL";
     public static final String UPDATE_PERSON = "UPDATE person SET email = ?,role_id = (SELECT id FROM role WHERE name=?),status_id = (SELECT id FROM person_status WHERE description=?), image_id =? WHERE id = ?";
-
-
     public static final String FIND_PUBLICATION_BY_ID = "SELECT * FROM publication WHERE id=?";
-
     public static final String FIND_ALL_PUBLICATIONS = "SELECT *  FROM publication p ";
     public static final String CREATE_PUBLICATION = "INSERT INTO publication (title,description,price,image_id) VALUES (?,?,?,?)";
     public static final String DELETE_PUBLICATION = "DELETE FROM publication WHERE id=?";
@@ -31,7 +28,6 @@ public abstract class DBConstants {
     public static final String FIND_TOPIC_BY_TITLE = "SELECT * FROM topic WHERE title=?";
     public static final String CHANGE_USER_STATUS_BY_ID = "UPDATE person SET status_id=? WHERE id=?";
     public static final String CHECK_USER_STATUS_BY_ID = "SELECT status_id FROM person WHERE id = ?";
-    public static final String UPDATE_IMAGE_TO_PUBLICATION = "UPDATE image SET path =? WHERE publication_id=?";
     public static final String DELETE_PUBLICATION_HAS_TOPIC_BY_PUBLICATION_ID = "DELETE FROM publication_has_topic WHERE publication_id = ?";
     public static final String FIND_ALL_TOPIC_BY_PUBLICATION_ID = "SELECT t.id , t.title  FROM topic t LEFT JOIN publication_has_topic pht on t.id = pht.topic_id WHERE publication_id = ?";
     public static final String CREATE_IMAGE = "INSERT INTO image (name, path) VALUES (?,?)";
@@ -76,6 +72,7 @@ public abstract class DBConstants {
     public static final String FIND_IMAGE_BY_PATH = "SELECT * FROM image WHERE path=?";
     public static final String UPDATE_PERSON_AVATAR = "UPDATE person SET image_id=? WHERE id=?";
     public static final String UPDATE_PUBLICATION_IMAGE = "UPDATE publication SET image_id=? WHERE  id=?";
+    public static final String COUNT_ALL_PUBLICATIONS = "SELECT COUNT(id) AS count FROM publication";
 
     private DBConstants() {
     }
@@ -84,7 +81,6 @@ public abstract class DBConstants {
     public static final String F_PERSON_STATUS_ID = "status_id";
     public static final String F_IMAGE_NAME = "name";
     public static final String F_IMAGE_PATH = "path";
-
     public static final String F_PERSON_ID = "id";
     public static final String F_PERSON_EMAIL = "email";
     public static final String F_PERSON_USERNAME = "username";

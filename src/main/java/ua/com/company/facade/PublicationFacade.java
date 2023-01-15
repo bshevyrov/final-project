@@ -18,4 +18,7 @@ public interface PublicationFacade extends BaseFacade<PublicationDTO> {
 
     int countAllByTitle(String searchReq);
 
+    List<PublicationDTO> findAllSorted(Sorting sorting);
+
+    int countAll();
 }

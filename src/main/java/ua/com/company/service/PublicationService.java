@@ -2,6 +2,7 @@ package ua.com.company.service;
 
 import ua.com.company.entity.Publication;
 import ua.com.company.entity.Sorting;
+import ua.com.company.view.dto.PublicationDTO;
 
 import java.util.List;
 
@@ -20,4 +21,7 @@ public interface PublicationService extends BaseService<Publication> {
 
     void updateCover(int pubId, int coverId);
 
+    List<Publication> findAllSorted(Sorting sorting);
+
+    int countAll();
 }
