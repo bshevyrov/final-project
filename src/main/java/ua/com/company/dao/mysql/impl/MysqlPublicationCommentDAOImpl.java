@@ -1,10 +1,10 @@
 package ua.com.company.dao.mysql.impl;
 
-import ua.com.company.utils.DBConstants;
 import ua.com.company.dao.PublicationCommentDAO;
 import ua.com.company.entity.PublicationComment;
 import ua.com.company.entity.Sorting;
 import ua.com.company.exception.DBException;
+import ua.com.company.utils.DBConstants;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,16 +13,22 @@ import java.util.Optional;
 
 public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
     @Override
-    public void create(Connection con, PublicationComment publicationComment) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION_COMMENT)) {
+    public int create(Connection con, PublicationComment publicationComment) throws DBException {
+        int id = 0;
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.CREATE_PUBLICATION_COMMENT, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int index = 0;
-            stmt.setInt(++index, publicationComment.getPublicationId());
-            stmt.setInt(++index, publicationComment.getPersonId());
-            stmt.setString(++index, publicationComment.getText());
-            stmt.execute();
+            ps.setInt(++index, publicationComment.getPublicationId());
+            ps.setInt(++index, publicationComment.getPersonId());
+            ps.setString(++index, publicationComment.getText());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " PublicationComment= " + publicationComment, e);
         }
+        return id;
     }
 
     @Override

@@ -1,9 +1,9 @@
 package ua.com.company.dao.mysql.impl;
 
-import ua.com.company.utils.DBConstants;
 import ua.com.company.dao.ImageDAO;
 import ua.com.company.entity.Image;
 import ua.com.company.exception.DBException;
+import ua.com.company.utils.DBConstants;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,15 +12,21 @@ import java.util.Optional;
 
 public class MysqlImageDAOImpl implements ImageDAO {
     @Override
-    public void create(Connection con, Image image) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE)) {
+    public int create(Connection con, Image image) throws DBException {
+        int id = 0;
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.CREATE_IMAGE, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int index = 0;
-            stmt.setString(++index, image.getName());
-            stmt.setString(++index, image.getPath());
-            stmt.execute();
+            ps.setString(++index, image.getName());
+            ps.setString(++index, image.getPath());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + image, e);
         }
+        return id;
     }
 
     @Override
@@ -92,6 +98,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
         }
         return image;
     }
+
     @Override
     public Optional<Image> findByPublicationId(Connection con, int id) throws DBException {
         Optional<Image> image = Optional.empty();

@@ -19,7 +19,14 @@
     <listener>
         <listener-class>ua.com.company.listener.AppContextListener</listener-class>
     </listener>
-
+    <filter>
+        <filter-name>ExceptionFilter</filter-name>
+        <filter-class>ua.com.company.filter.ExceptionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ExceptionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <filter>
         <filter-name>RequestLocaleFilter</filter-name>
         <filter-class>ua.com.company.filter.RequestLocaleFilter</filter-class>
@@ -46,6 +53,8 @@
         <filter-name>UserPageFilter</filter-name>
         <url-pattern>/user/*</url-pattern>
     </filter-mapping>
+
+
     <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>ua.com.company.filter.EncodingFilter</filter-class>
@@ -54,6 +63,10 @@
             <param-value>UTF-8</param-value>
         </init-param>
     </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>RequestParameterFilter</filter-name>
         <url-pattern>/*</url-pattern>

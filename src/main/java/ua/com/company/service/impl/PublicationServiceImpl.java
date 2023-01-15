@@ -34,11 +34,11 @@ public class PublicationServiceImpl implements PublicationService {
         Connection con = DBConnection.getConnection();
         try {
             con.setAutoCommit(false);
-            imageDAO.create(con, publication.getCover());
-            publicationDAO.create(con, publication);
-            publication.setId(publicationDAO.createAndReturnId(con,publication));
+            publication.getCover().setId(imageDAO.create(con, publication.getCover()));
+            publication.setId(publicationDAO.create(con, publication));
             for (Topic topic : publication.getTopics()) {
-                publicationDAO.addTopicForPublication(con, publication.getId(), topic.getId());
+                int topicId = topicDAO.create(con, topic);
+                publicationDAO.addTopicForPublication(con, publication.getId(), topicId);
             }
             con.commit();
         } catch (SQLException | DBException e) {
@@ -57,6 +57,11 @@ public class PublicationServiceImpl implements PublicationService {
             publicationDAO.update(con, publication);
             publicationDAO.deleteFromPublicationHasTopicByPublicationId(con, publication.getId());
             for (Topic topic : publication.getTopics()) {
+                if (topic.getId() == 0) {
+//                    int currentTopicId =  topicDAO.create(con,topic);
+                    topic.setId(topicDAO.create(con, topic));
+//                    publicationDAO.addTopicForPublication(con, publication.getId(), currentTopicId);
+                }
                 publicationDAO.addTopicForPublication(con, publication.getId(), topic.getId());
             }
             publicationDAO.deleteOrphanTopic(con);

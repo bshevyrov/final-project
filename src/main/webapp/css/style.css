@@ -253,9 +253,9 @@ ol {
   Helper CSS
 -----------------------*/
 
-.section-title, .section-username, .section-description, .section-topic, .section-price, .section-cover {
-    margin-bottom: 30px;
-}
+/*.section-title, .section-username, .section-description, .section-topic, .section-price, .section-cover {*/
+/*    margin-bottom: 30px;*/
+/*}*/
 
 .section-topic h3, .section-topic input[type=checkbox] + label {
     color: lightgrey;
@@ -1331,6 +1331,14 @@ ol {
     border: none;
     padding: 10px 15px;
     border-radius: 2px;
+}
+
+.anime__details__form label {
+    padding-top: 10px;
+}
+
+.anime__details__form .error_small {
+    padding-bottom: 10px;
 }
 
 /*---------------------

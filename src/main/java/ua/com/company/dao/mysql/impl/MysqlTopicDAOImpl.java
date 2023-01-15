@@ -1,9 +1,9 @@
 package ua.com.company.dao.mysql.impl;
 
-import ua.com.company.utils.DBConstants;
 import ua.com.company.dao.TopicDAO;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
+import ua.com.company.utils.DBConstants;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,14 +13,20 @@ import java.util.Optional;
 public class MysqlTopicDAOImpl implements TopicDAO {
 
     @Override
-    public void create(Connection con, Topic topic) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC)) {
+    public int create(Connection con, Topic topic) throws DBException {
+        int id = 0;
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.CREATE_TOPIC, PreparedStatement.RETURN_GENERATED_KEYS)) {
             int index = 0;
-            stmt.setString(++index, topic.getTitle());
-            stmt.execute();
+            ps.setString(++index, topic.getTitle());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + topic, e);
         }
+        return id;
     }
 
     @Override

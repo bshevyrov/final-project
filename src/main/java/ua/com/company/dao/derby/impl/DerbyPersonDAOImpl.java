@@ -17,7 +17,7 @@ import java.util.Optional;
 public class DerbyPersonDAOImpl implements PersonDAO {
 
     @Override
-    public void create(Connection con, Person person) throws DBException {
+    public int create(Connection con, Person person) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON)) {
             String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
             int index = 0;
@@ -28,6 +28,7 @@ public class DerbyPersonDAOImpl implements PersonDAO {
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + person, e);
         }
+        return 0;
     }
 
     //todo               defaultTransactionIsolation="READ_COMMITTED"

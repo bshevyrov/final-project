@@ -1,9 +1,9 @@
 package ua.com.company.dao.mysql.impl;
 
-import ua.com.company.utils.DBConstants;
 import ua.com.company.dao.PersonAddressDAO;
 import ua.com.company.entity.PersonAddress;
 import ua.com.company.exception.DBException;
+import ua.com.company.utils.DBConstants;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,21 +15,27 @@ import java.util.Optional;
 public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
 
     @Override
-    public void create(Connection con, PersonAddress personAddress) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON_ADDRESS)) {
+    public int create(Connection con, PersonAddress personAddress) throws DBException {
+        int id = 0;
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.CREATE_PERSON_ADDRESS,PreparedStatement.RETURN_GENERATED_KEYS)) {
             int index = 0;
-            stmt.setString(++index, personAddress.getFirstName());
-            stmt.setString(++index, personAddress.getLastName());
-            stmt.setString(++index, personAddress.getAddress());
-            stmt.setString(++index, personAddress.getCity());
-            stmt.setString(++index, personAddress.getCountry());
-            stmt.setString(++index, personAddress.getPhone());
-            stmt.setInt(++index, personAddress.getPostalCode());
-            stmt.setInt(++index, personAddress.getPersonId());
-            stmt.execute();
+            ps.setString(++index, personAddress.getFirstName());
+            ps.setString(++index, personAddress.getLastName());
+            ps.setString(++index, personAddress.getAddress());
+            ps.setString(++index, personAddress.getCity());
+            ps.setString(++index, personAddress.getCountry());
+            ps.setString(++index, personAddress.getPhone());
+            ps.setInt(++index, personAddress.getPostalCode());
+            ps.setInt(++index, personAddress.getPersonId());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + personAddress, e);
         }
+        return id;
     }
 
     @Override

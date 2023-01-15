@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class DerbyImageDAOImpl implements ImageDAO {
     @Override
-    public void create(Connection con, Image image) throws DBException {
+    public int create(Connection con, Image image) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_IMAGE)) {
             int index = 0;
             stmt.setString(++index, image.getName());
@@ -21,6 +21,7 @@ public class DerbyImageDAOImpl implements ImageDAO {
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + image, e);
         }
+        return 0;
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.Optional;
 public class DerbyPersonAddressDAOImpl implements PersonAddressDAO {
 
     @Override
-    public void create(Connection con, PersonAddress personAddress) throws DBException {
+    public int create(Connection con, PersonAddress personAddress) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON_ADDRESS)) {
             int index = 0;
             stmt.setString(++index, personAddress.getFirstName());
@@ -30,6 +30,7 @@ public class DerbyPersonAddressDAOImpl implements PersonAddressDAO {
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + personAddress, e);
         }
+        return 0;
     }
 
     @Override

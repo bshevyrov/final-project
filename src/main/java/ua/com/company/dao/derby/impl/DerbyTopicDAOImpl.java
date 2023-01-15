@@ -13,7 +13,7 @@ import java.util.Optional;
 public class DerbyTopicDAOImpl implements TopicDAO {
 
     @Override
-    public void create(Connection con, Topic topic) throws DBException {
+    public int create(Connection con, Topic topic) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_TOPIC)) {
             int index = 0;
             stmt.setString(++index, topic.getTitle());
@@ -21,6 +21,7 @@ public class DerbyTopicDAOImpl implements TopicDAO {
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + topic, e);
         }
+        return 0;
     }
 
     @Override

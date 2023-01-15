@@ -17,17 +17,23 @@ import java.util.Optional;
 public class MysqlPersonDAOImpl implements PersonDAO {
 
     @Override
-    public void create(Connection con, Person person) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PERSON)) {
+    public int create(Connection con, Person person) throws DBException {
+        int id = 0;
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.CREATE_PERSON, PreparedStatement.RETURN_GENERATED_KEYS)) {
             String encryptedPass = PasswordUtil.encryptPassword(person.getPassword());
             int index = 0;
-            stmt.setString(++index, person.getUsername());
-            stmt.setString(++index, person.getEmail());
-            stmt.setString(++index, encryptedPass);
-            stmt.execute();
+            ps.setString(++index, person.getUsername());
+            ps.setString(++index, person.getEmail());
+            ps.setString(++index, encryptedPass);
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + person, e);
         }
+        return id;
     }
 
     @Override

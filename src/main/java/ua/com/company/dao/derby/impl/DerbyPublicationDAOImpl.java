@@ -15,7 +15,7 @@ import java.util.Optional;
 public class DerbyPublicationDAOImpl implements PublicationDAO {
 
     @Override
-    public void create(Connection con, Publication publication) throws DBException {
+    public int create(Connection con, Publication publication) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION)) {
             int index = 0;
             stmt.setString(++index, publication.getTitle());
@@ -26,22 +26,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + publication, e);
         }
-    }
-
-    @Override
-    public int createAndReturnId(Connection con, Publication publication) throws DBException {
-        int id;
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            int index = 0;
-            stmt.setString(++index, publication.getTitle());
-            stmt.setString(++index, publication.getDescription());
-            stmt.setDouble(++index, publication.getPrice());
-            stmt.setInt(++index, publication.getCover().getId());
-            id= stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new DBException("Connection: " + con + " and " + publication, e);
-        }
-        return id;
+        return 0;
     }
 
     @Override

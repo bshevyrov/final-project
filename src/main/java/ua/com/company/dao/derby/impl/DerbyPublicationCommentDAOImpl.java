@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class DerbyPublicationCommentDAOImpl implements PublicationCommentDAO {
     @Override
-    public void create(Connection con, PublicationComment publicationComment) throws DBException {
+    public int create(Connection con, PublicationComment publicationComment) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION_COMMENT)) {
             int index = 0;
             stmt.setInt(++index, publicationComment.getPublicationId());
@@ -23,6 +23,7 @@ public class DerbyPublicationCommentDAOImpl implements PublicationCommentDAO {
         } catch (SQLException e) {
             throw new DBException("Connection: " + con + " PublicationComment= " + publicationComment, e);
         }
+        return 0;
     }
 
     @Override

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PublicationDAO extends BaseDAO<Publication> {
-    int createAndReturnId(Connection con, Publication publication) throws DBException;
     List<Publication> findAllByTitle(Connection con, Sorting sorting, String title) throws DBException;
 
     List<Publication> findAllByTopicId(Connection con, Sorting obj, int id) throws DBException;

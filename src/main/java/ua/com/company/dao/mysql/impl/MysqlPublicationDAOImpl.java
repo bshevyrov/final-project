@@ -15,35 +15,23 @@ import java.util.Optional;
 public class MysqlPublicationDAOImpl implements PublicationDAO {
 
     @Override
-    public void create(Connection con, Publication publication) throws DBException {
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION)) {
+    public int create(Connection con, Publication publication) throws DBException {
+        int id = 0;
+        try (PreparedStatement ps = con.prepareStatement(DBConstants.CREATE_PUBLICATION,PreparedStatement.RETURN_GENERATED_KEYS)) {
             int index = 0;
-            stmt.setString(++index, publication.getTitle());
-            stmt.setString(++index, publication.getDescription());
-            stmt.setDouble(++index, publication.getPrice());
-            stmt.setInt(++index, publication.getCover().getId());
-            stmt.execute();
-        } catch (SQLException e) {
-            throw new DBException("Connection: " + con + " and " + publication, e);
-        }
-    }
-
-    @Override
-    public int createAndReturnId(Connection con, Publication publication) throws DBException {
-        int id;
-        try (PreparedStatement stmt = con.prepareStatement(DBConstants.CREATE_PUBLICATION, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            int index = 0;
-            stmt.setString(++index, publication.getTitle());
-            stmt.setString(++index, publication.getDescription());
-            stmt.setDouble(++index, publication.getPrice());
-            stmt.setInt(++index, publication.getCover().getId());
-           id= stmt.executeUpdate();
-        } catch (SQLException e) {
+            ps.setString(++index, publication.getTitle());
+            ps.setString(++index, publication.getDescription());
+            ps.setDouble(++index, publication.getPrice());
+            ps.setInt(++index, publication.getCover().getId());
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }        } catch (SQLException e) {
             throw new DBException("Connection: " + con + " and " + publication, e);
         }
         return id;
     }
-
 
     @Override
     public int countAllByTopicId(Connection con, int topicId) throws DBException {
