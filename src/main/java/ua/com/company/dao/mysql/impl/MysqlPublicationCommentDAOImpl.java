@@ -134,7 +134,7 @@ public class MysqlPublicationCommentDAOImpl implements PublicationCommentDAO {
     /**
      * @param rs
      * @return entity with values from result set
-     * @throws SQLException
+     * @throws SQLException  when something goes wrong
      */
     private PublicationComment mapPublicationComment(ResultSet rs) throws SQLException {
         PublicationComment publicationComment = new PublicationComment();

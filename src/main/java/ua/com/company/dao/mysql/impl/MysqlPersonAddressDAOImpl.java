@@ -135,7 +135,7 @@ public class MysqlPersonAddressDAOImpl implements PersonAddressDAO {
     /**
      * @param rs result set
      * @return entity with values from result set
-     * @throws SQLException
+     * @throws SQLException  when something goes wrong
      */
     private PersonAddress mapPersonAddress(ResultSet rs) throws SQLException {
         PersonAddress personAddress = new PersonAddress();

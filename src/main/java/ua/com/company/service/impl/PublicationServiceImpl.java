@@ -38,7 +38,7 @@ public class PublicationServiceImpl implements PublicationService {
             publication.setId(publicationDAO.create(con, publication));
             for (Topic topic : publication.getTopics()) {
                 int topicId = topicDAO.create(con, topic);
-                publicationDAO.addTopicForPublication(con, publication.getId(), topicId);
+                publicationDAO.addTopicToPublication(con, publication.getId(), topicId);
             }
             con.commit();
         } catch (SQLException | DBException e) {
@@ -62,7 +62,7 @@ public class PublicationServiceImpl implements PublicationService {
                     topic.setId(topicDAO.create(con, topic));
 //                    publicationDAO.addTopicForPublication(con, publication.getId(), currentTopicId);
                 }
-                publicationDAO.addTopicForPublication(con, publication.getId(), topic.getId());
+                publicationDAO.addTopicToPublication(con, publication.getId(), topic.getId());
             }
             publicationDAO.deleteOrphanTopic(con);
             con.commit();

@@ -158,7 +158,7 @@ public class MysqlImageDAOImpl implements ImageDAO {
     /**
      * @param rs result set
      * @return entity with values from result set
-     * @throws DBException if catch SQLException
+     * @throws SQLException  when something goes wrong
      */
     private Image mapImage(ResultSet rs) throws SQLException {
         Image image = new Image();

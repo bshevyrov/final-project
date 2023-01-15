@@ -17,7 +17,7 @@ public interface PublicationDAO extends BaseDAO<Publication> {
 
     List<Publication> findAllByPersonId(Connection con, Sorting obj, int userId) throws DBException;
 
-    void addTopicForPublication(Connection con, int pubId, int topicId) throws DBException;
+    void addTopicToPublication(Connection con, int pubId, int topicId) throws DBException;
 
     void deleteOrphanTopic(Connection con) throws DBException;
 

@@ -188,7 +188,7 @@ public class DerbyPublicationDAOImpl implements PublicationDAO {
     }
 
 
-    public void addTopicForPublication(Connection con, int pubId, int topicId) throws DBException {
+    public void addTopicToPublication(Connection con, int pubId, int topicId) throws DBException {
         try (PreparedStatement stmt = con.prepareStatement(DBConstants.ADD_TOPIC_TO_PUBLICATION)) {
             int index = 0;
             stmt.setInt(++index, pubId);

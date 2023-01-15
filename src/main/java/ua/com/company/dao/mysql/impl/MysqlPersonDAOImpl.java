@@ -297,7 +297,7 @@ public class MysqlPersonDAOImpl implements PersonDAO {
     /**
      * @param rs
      * @return entity with values from result set
-     * @throws SQLException
+     * @throws SQLException  when something goes wrong
      */
     private Person mapPerson(ResultSet rs) throws SQLException {
         Person person = new Person();
