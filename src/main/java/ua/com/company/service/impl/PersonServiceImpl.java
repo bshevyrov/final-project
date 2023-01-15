@@ -6,9 +6,7 @@ import ua.com.company.dao.ImageDAO;
 import ua.com.company.dao.PersonAddressDAO;
 import ua.com.company.dao.PersonDAO;
 import ua.com.company.dao.PublicationDAO;
-import ua.com.company.entity.Image;
 import ua.com.company.entity.Person;
-import ua.com.company.entity.PersonAddress;
 import ua.com.company.entity.Publication;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.UserNotFoundException;
@@ -18,7 +16,6 @@ import ua.com.company.utils.DBConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class PersonServiceImpl implements PersonService {
     private final Logger log = LogManager.getLogger(PersonServiceImpl.class);
@@ -79,15 +76,19 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person findById(int id) {
-        Person person = null;
+        Person person = new Person();
         try (Connection con = DBConnection.getConnection()) {
             person = personDAO.findById(con, id)
                     .orElseThrow(() -> new UserNotFoundException("" + id));
-            getImageAndPublicationsFromTables(con, person, personAddressDAO.findByPersonId(con, id), publicationDAO.findAllByPersonId(con, id));
+
+            person.setPersonAddress(personAddressDAO.findByPersonId(con, id).get());
+            person.setPublications(publicationDAO.findAllByPersonId(con, id));
+            person.setAvatar(imageDAO.findById(con, person.getAvatar().getId()).get());
+
         } catch (DBException | SQLException e) {
             log.error("Find by id error ", e);
-        } catch (UserNotFoundException e) {
-            log.warn("Person not found " + id, e);
+//        } catch (UserNotFoundException e) {
+//            log.warn("Person not found " + id, e);
         }
         return person;
     }
@@ -98,7 +99,9 @@ public class PersonServiceImpl implements PersonService {
         try (Connection con = DBConnection.getConnection()) {
             person = personDAO.findPersonByEmail(con, email)
                     .orElseThrow(() -> new UserNotFoundException(email));
-            getImageAndPublicationsFromTables(con, person, personAddressDAO.findByPersonId(con, person.getId()), publicationDAO.findAllByPersonId(con, person.getId()));
+            person.setPersonAddress(personAddressDAO.findByPersonId(con, person.getId()).get());
+            person.setPublications(publicationDAO.findAllByPersonId(con, person.getId()));
+            person.setAvatar(imageDAO.findById(con, person.getAvatar().getId()).get());
         } catch (DBException | SQLException e) {
             log.error("Find by email exception ", e);
         } catch (UserNotFoundException e) {
@@ -107,18 +110,6 @@ public class PersonServiceImpl implements PersonService {
         return person;
     }
 
-    private void getImageAndPublicationsFromTables(Connection con, Person person,
-                                                   Optional<PersonAddress> personAddressDAO,
-                                                   List<Publication> publicationDAO) throws DBException {
-        Image image = imageDAO.findById(con, person.getAvatar().getId()).get();
-        Optional<PersonAddress> personAddress = personAddressDAO;
-        if (personAddress.isPresent()) {
-            person.setPersonAddress(personAddress.get());
-        }
-        List<Publication> publicationList = publicationDAO;
-        person.setPublications(publicationList);
-        person.setAvatar(image);
-    }
 
     @Override
     public boolean isExistByEmail(String email) {

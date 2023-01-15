@@ -15,7 +15,7 @@ public class MysqlTopicDAOImpl implements TopicDAO {
     /**
      * 
      * @param con   connection to DataBase
-     * @param topic entity to update in Database
+     * @param topic entity to put in Database
      * @return id of created entity in DataBase
      * @throws DBException if catch SQLException
      */

@@ -22,6 +22,9 @@ public class ImageServiceImpl implements ImageService {
         this.imageDAO = imageDAO;
     }
 
+    /**
+     * @param image entity to put in Database
+     */
     @Override
     public void create(Image image) {
         try (Connection con = DBConnection.getConnection()) {
@@ -31,6 +34,9 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    /**
+     * @param image entity to update in Database
+     */
     @Override
     public void update(Image image) {
         try (Connection con = DBConnection.getConnection()) {
@@ -40,6 +46,9 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    /**
+     * @param id id of entity  that need to delete
+     */
     @Override
     public void delete(int id) {
         try (Connection con = DBConnection.getConnection()) {
@@ -49,6 +58,10 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    /**
+     * @param id id of entity that need to find
+     * @return entity or throw {@link ImageNotFoundException}
+     */
     @Override
     public Image findById(int id) {
         Image image = null;
@@ -57,12 +70,13 @@ public class ImageServiceImpl implements ImageService {
                     .orElseThrow(() -> new ImageNotFoundException("" + id));
         } catch (DBException | SQLException e) {
             log.error("Find by id error ", e);
-        } catch (ImageNotFoundException e) {
-            log.warn("Image not found " + id, e);
         }
         return image;
     }
 
+    /**
+     * @return List of entities
+     */
     @Override
     public List<Image> findAll() {
         List<Image> imageList = null;
@@ -74,6 +88,10 @@ public class ImageServiceImpl implements ImageService {
         return imageList;
     }
 
+    /**
+     * @param imagePath path of {@link Image}
+     * @return entity or throw {@link ImageNotFoundException}
+     */
     @Override
     public Image findByPath(String imagePath) {
         Image image = null;
@@ -82,8 +100,6 @@ public class ImageServiceImpl implements ImageService {
                     .orElseThrow(() -> new ImageNotFoundException("" + imagePath));
         } catch (DBException | SQLException e) {
             log.error("Find by imagePath error ", e);
-        } catch (ImageNotFoundException e) {
-            log.warn("Image not found " + imagePath, e);
         }
         return image;
     }

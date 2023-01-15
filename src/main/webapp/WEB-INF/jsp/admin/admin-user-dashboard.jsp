@@ -1,6 +1,5 @@
-
 <head>
-        <title>Anime | Template</title>
+    <title>Anime | Template</title>
 
     <%@include file="/WEB-INF/jspf/head.jspf" %>
 </head>
@@ -30,7 +29,7 @@
             <c:forEach var="person" items="${personList}">
                 <tr>
                     <td>
-                        <a href="${pageContext.request.contextPath}/admin/user/details?id=${person.id}">${person.email}</a>
+                        <a href="/admin/user/details?id=${person.id}">${person.email}</a>
                     </td>
                     <td>
                             ${person.username}
@@ -46,11 +45,12 @@
                         </c:choose>
                     </td>
                     <td>
-                        ${person.status}
+                            ${person.status}
                     </td>
                     <td>
-                        <form >
-                        <button type="submit" formmethod="post" name="changeStatusId" value="${person.id}"><fmt:message key="admin.user.dashboard.button.ban"/></button>
+                        <form>
+                            <button type="submit" formmethod="post" name="changeStatusId" value="${person.id}">
+                                <fmt:message key="admin.user.dashboard.button.ban"/></button>
                         </form>
                     </td>
                 </tr>

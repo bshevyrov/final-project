@@ -1,39 +1,34 @@
 package ua.com.company.filter;
 
 import jakarta.servlet.*;
-import jakarta.servlet.annotation.*;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ua.com.company.exception.ImageNotFoundException;
+import ua.com.company.exception.UserNotFoundException;
 
 import java.io.IOException;
 
-@WebFilter(filterName = "ExceptionFilter")
 public class ExceptionFilter implements Filter {
 
-/*    public class MyFilter extends CustomFilter{
-
-        private static final Map<String, String> exceptionMap = new HashMap<>();
-
-        public void init(FilterConfig config) throws ServletException {
-            super.init(config);
-            exceptionMap.put("/requestURL", "/redirectURL");
-            exceptionMap.put("/someOtherrequestURL", "/someOtherredirectURL");
-        }*/
+    public final Logger log = LogManager.getLogger(this);
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse req = (HttpServletResponse) response;
+        HttpServletResponse res = (HttpServletResponse) response;
 
-        try{
-                chain.doFilter(request, response);
-            }catch(IllegalArgumentException e){
-            //log
-                System.out.println("CATCH");
-//            String errURL = exceptionMap.get(request.getRequestURI());
-//            if(errURL != null){
-                req.sendRedirect("/npe");
-            }
+        try {
+            chain.doFilter(request, response);
+        } catch (UserNotFoundException e) {
+            log.warn("Person not found ", e);
+        } catch (ImageNotFoundException e) {
+                log.warn("Image not found " , e);
+
+
+        }finally {
+            res.sendRedirect("/");
         }
     }
+}
 /*
 }
     public void init(FilterConfig config) throws ServletException {

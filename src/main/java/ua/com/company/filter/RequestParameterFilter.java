@@ -19,7 +19,7 @@ public class RequestParameterFilter implements Filter {
         if (req.getQueryString() != null  && req.getQueryString().contains("=")) {
             String query = req.getQueryString().substring(req.getQueryString().indexOf("=") + 1);
             if (req.getMethod().equalsIgnoreCase("GET")
-                    && !req.getHeader("Referer").contains("css")
+//                    && !req.getHeader("Referer").contains("css")
                     && (StringUtils.isEmptyOrWhitespaceOnly(query)
                     || !StringUtils.isStrictlyNumeric(query)
                     || Integer.parseInt(query) <= 0)) {

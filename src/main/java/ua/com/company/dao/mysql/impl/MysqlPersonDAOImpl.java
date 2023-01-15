@@ -308,6 +308,8 @@ public class MysqlPersonDAOImpl implements PersonDAO {
         person.setUsername(rs.getString(DBConstants.F_PERSON_USERNAME));
         person.setPassword(rs.getString(DBConstants.F_PERSON_PASSWORD));
         person.setFunds(rs.getDouble(DBConstants.F_PERSON_FUNDS));
+        person.setCreateDate(rs.getTimestamp(DBConstants.F_PERSON_CREATE_DATE));
+        person.setUpdateDate(rs.getTimestamp(DBConstants.F_PERSON_UPDATE_DATE));
 
         Image image = new Image();
         image.setId(rs.getInt(DBConstants.F_PERSON_IMAGE_ID));

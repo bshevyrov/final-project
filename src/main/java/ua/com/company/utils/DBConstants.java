@@ -43,7 +43,9 @@ public abstract class DBConstants {
     public static final String F_IMAGE_ID = "id";
     public static final String F_PUBLICATION_IMAGE_ID = "image_id";
     public static final String F_IMAGE_CREATE_DATE = "create_date";
+    public static final String F_PERSON_CREATE_DATE = "create_date";
     public static final String F_IMAGE_UPDATE_DATE = "update_date";
+    public static final String F_PERSON_UPDATE_DATE = "update_date";
     public static final String COUNT_PUBLICATION_BY_TOPIC_ID = "SELECT COUNT(publication_id) AS count FROM publication_has_topic WHERE topic_id=?";
     public static final String UPDATE_PERSON_FUNDS = "UPDATE person SET funds=? WHERE id=?";
     public static final String CREATE_PERSON_HAS_PUBLICATION = "INSERT INTO person_has_publication (person_id, publication_id) VALUES (?,?)";
