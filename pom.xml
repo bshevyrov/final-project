@@ -33,13 +33,13 @@
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
         <jakarta.servlet-jsp.version>3.1.0</jakarta.servlet-jsp.version>
         <jakarta.servlet-jsp-jstl-api.version>3.0.0</jakarta.servlet-jsp-jstl-api.version>
-        <jakarta.servlet-jsp-jstl.version>3.0.0</jakarta.servlet-jsp-jstl.version>
-        <slfj.version>2.0.0</slfj.version>
-        <log4j.version>2.18.0</log4j.version>
         <log4j-sfl4j.version>2.18.0</log4j-sfl4j.version>
         <org.eclipse.jetty.apache-jstl.version>11.0.0</org.eclipse.jetty.apache-jstl.version>
         <org.apache.logging.log4j.core.version>2.19.0</org.apache.logging.log4j.core.version>
         <junit-jupiter-api.version>5.9.1</junit-jupiter-api.version>
+        <mockito-core.version>4.9.0</mockito-core.version>
+        <org.apache.derby.version>10.15.2.0</org.apache.derby.version>
+        <org.ocpsoft.prettytime.version>5.0.6.Final</org.ocpsoft.prettytime.version>
     </properties>
 
     <dependencies>
@@ -71,11 +71,12 @@
             <version>${jakarta.servlet-jsp-jstl-api.version}</version>
         </dependency>
 
+
         <!-- https://mvnrepository.com/artifact/org.glassfish.web/jakarta.servlet.jsp.jstl -->
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
-            <version>3.0.1</version>
+            <version>${jakarta.servlet-jsp-jstl-api.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/apache-jstl -->
@@ -107,61 +108,39 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>4.9.0</version>
+            <version>${mockito-core.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
-            <version>4.9.0</version>
+            <version>${mockito-core.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.derby/derby -->
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>10.15.2.0</version>
+            <version>${org.apache.derby.version}</version>
             <scope>test</scope>
         </dependency>
 
-     <!--   &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.derby/derbyclient &ndash;&gt;
-        <dependency>
-            <groupId>org.apache.derby</groupId>
-            <artifactId>derbyclient</artifactId>
-            <version>10.16.1.1</version>
-        </dependency>
--->
+
         <!-- https://mvnrepository.com/artifact/org.apache.derby/derbytools -->
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbytools</artifactId>
-            <version>10.15.2.0</version>
+            <version>${org.apache.derby.version}</version>
         </dependency>
-<!--Pretty time-->
-       <!-- &lt;!&ndash; https://mvnrepository.com/artifact/org.ocpsoft.prettytime/prettytime-integration-jstl &ndash;&gt;
-        <dependency>
-            <groupId>org.ocpsoft.prettytime</groupId>
-            <artifactId>prettytime-integration-jstl</artifactId>
-            <version>5.0.6.Final</version>
-        </dependency>-->
+        <!--Pretty time-->
 
         <dependency>
             <groupId>org.ocpsoft.prettytime</groupId>
             <artifactId>prettytime</artifactId>
-            <version>5.0.6.Final</version>
+            <version>${org.ocpsoft.prettytime.version}</version>
         </dependency>
         <!---->
 
-  <!--      <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-jsp-2.1</artifactId>
-            <version>7.5.4.v20111024</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jsp-2.1-glassfish</artifactId>
-            <version>2.1.v20100127</version>
-        </dependency>-->
         <dependency>
             <groupId>org.mortbay.jasper</groupId>
             <artifactId>taglibs-standard</artifactId>

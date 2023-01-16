@@ -30,9 +30,13 @@ public class ExceptionFilter implements Filter {
             log.warn("Publication comment not found ", e);
             res.sendRedirect("/");
         } catch (PublicationNotFoundException e) {
-            log.warn("Publication not found " , e);
+            log.warn("Publication not found ", e);
             res.sendRedirect("/");
-
+        } catch (TopicNotFoundException e) {
+            log.warn("Topic not found ", e);
+            res.sendRedirect("/");
         }
+
     }
 }
+

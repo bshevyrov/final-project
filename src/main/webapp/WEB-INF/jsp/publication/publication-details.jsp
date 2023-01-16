@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="anime__review__item__text">
 
-                                        <h6>${comment.userName} - <span><ocpsoft:prettytime
+                                        <h6>${comment.username} - <span><ocpsoft:prettytime
                                                 date="${comment.createDate}" locale="${language}" /> </span></h6>
                                         <p>${comment.text}</p>
                                     </div>

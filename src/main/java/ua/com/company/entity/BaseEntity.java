@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 public abstract class BaseEntity implements Serializable {
+
+    private static final long serialVersionUID = 1234567L;
     private int id;
     private Timestamp createDate;
     private Timestamp updateDate;

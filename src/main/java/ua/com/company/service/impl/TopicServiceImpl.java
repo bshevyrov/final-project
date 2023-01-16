@@ -3,6 +3,7 @@ package ua.com.company.service.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ua.com.company.dao.TopicDAO;
+import ua.com.company.entity.Publication;
 import ua.com.company.entity.Topic;
 import ua.com.company.exception.DBException;
 import ua.com.company.exception.TopicNotFoundException;
@@ -22,7 +23,9 @@ public class TopicServiceImpl implements TopicService {
         this.topicDAO = topicDAO;
     }
 
-
+    /**
+     * @param topic entity to put in Database
+     */
     @Override
     public void create(Topic topic) {
         try (Connection con = DBConnection.getConnection()) {
@@ -32,6 +35,9 @@ public class TopicServiceImpl implements TopicService {
         }
     }
 
+    /**
+     * @param topic entity to update in Database
+     */
     @Override
     public void update(Topic topic) {
         try (Connection con = DBConnection.getConnection()) {
@@ -41,6 +47,9 @@ public class TopicServiceImpl implements TopicService {
         }
     }
 
+    /**
+     * @param id id of entity  that need to delete
+     */
     @Override
     public void delete(int id) {
         try (Connection con = DBConnection.getConnection()) {
@@ -50,6 +59,10 @@ public class TopicServiceImpl implements TopicService {
         }
     }
 
+    /**
+     * @param id id  of entity that need to find
+     * @return entity or throw {@link TopicNotFoundException}
+     */
     @Override
     public Topic findById(int id) {
         Topic topic = null;
@@ -58,12 +71,13 @@ public class TopicServiceImpl implements TopicService {
                     .orElseThrow(() -> new TopicNotFoundException("" + id));
         } catch (DBException | SQLException e) {
             log.error("Find by id error", e);
-        } catch (TopicNotFoundException e) {
-            log.warn("Topic not found " + id, e);
         }
         return topic;
     }
 
+    /**
+     * @return List of entities
+     */
     @Override
     public List<Topic> findAll() {
         List<Topic> topics = new ArrayList<>();
@@ -75,6 +89,10 @@ public class TopicServiceImpl implements TopicService {
         return topics;
     }
 
+    /**
+     * @param id id of {@link Publication}
+     * @return List of entities
+     */
     @Override
     public List<Topic> findAllByPublicationId(int id) {
         List<Topic> topics = new ArrayList<>();
@@ -86,6 +104,10 @@ public class TopicServiceImpl implements TopicService {
         return topics;
     }
 
+    /**
+     * @param title of {@link Publication}
+     * @return List of entities
+     */
     @Override
     public Topic findByTitle(String title) {
         Topic topic = null;
@@ -94,8 +116,6 @@ public class TopicServiceImpl implements TopicService {
                     .orElseThrow(() -> new TopicNotFoundException("" + title));
         } catch (DBException | SQLException e) {
             log.error("Topic find by title error ", e);
-        } catch (TopicNotFoundException e) {
-            log.warn("Topic not found " + title, e);
         }
         return topic;
     }

@@ -10,21 +10,26 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 public class RequestParameterFilter implements Filter {
-   private final static Logger log = LogManager.getLogger(RequestParameterFilter.class);
+    private final static Logger log = LogManager.getLogger(RequestParameterFilter.class);
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        if (req.getQueryString() != null  && req.getQueryString().contains("=")) {
+        if (req.getQueryString() != null && req.getQueryString().contains("=")) {
             String query = req.getQueryString().substring(req.getQueryString().indexOf("=") + 1);
+            if (req.getRequestURL().toString().contains("font")) {
+                chain.doFilter(request, response);
+                return;
+            }
+            System.out.println(query);
             if (req.getMethod().equalsIgnoreCase("GET")
-//                    && !req.getHeader("Referer").contains("css")
+
                     && (StringUtils.isEmptyOrWhitespaceOnly(query)
                     || !StringUtils.isStrictlyNumeric(query)
                     || Integer.parseInt(query) <= 0)) {
                 res.sendRedirect("/");
-                log.warn("Illegal request "+req.getQueryString() );
+                log.warn("Illegal request " + req.getQueryString());
                 return;
             }
         }

@@ -12,7 +12,6 @@ import ua.com.company.facade.PublicationCommentFacade;
 import ua.com.company.facade.PublicationFacade;
 import ua.com.company.view.dto.PersonDTO;
 import ua.com.company.view.dto.PublicationCommentDTO;
-import ua.com.company.view.dto.PublicationDTO;
 
 import java.io.IOException;
 import java.util.List;
@@ -80,7 +79,7 @@ public class PublicationDetailsController extends HttpServlet {
 
             PublicationCommentDTO publicationCommentDTO = new PublicationCommentDTO();
             publicationCommentDTO.setPublicationId(publicationId);
-        //    publicationCommentDTO.setAvatarPath(personDTO.getAvatar().getPath());
+            //    publicationCommentDTO.setAvatarPath(personDTO.getAvatar().getPath());
             publicationCommentDTO.setPersonId(personDTO.getId());
             publicationCommentDTO.setText(comment);
             publicationCommentFacade.create(publicationCommentDTO);
